@@ -1,6 +1,7 @@
 #include "shell.hpp"
 #include "primordial.hpp"
 #include <iostream>
+#include "projectile.hpp"
 
 Shell::Shell()
 : window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{
@@ -11,11 +12,14 @@ Shell::Shell()
 
     font.loadFromFile("BubblerOne-Regular.ttf");
 
-    viewGame.setSize(sf::Vector2f(1920.f, 1080.f));
+    viewGame = sf::View(sf::Vector2f(0.f, 0.f), sf::Vector2f(window.getSize()));
     viewGame.setCenter(sf::Vector2f(960.f, 540.f));
+    viewGame.zoom(1.5f);
 
     viewUI.setSize(sf::Vector2f(1920.f, 1080.f));
     viewUI.setCenter(sf::Vector2f(960.f, 540.f));
+
+    Projectile::loadTexture();
 
     loadNewLevel();
 }
@@ -58,7 +62,7 @@ void Shell::input(){
             case MENU:
                 break;
             case PLAYING:
-                if(!ui.readEvent(event, sf::Vector2f(sf::Mouse::getPosition(window)))){
+                if(!ui.readEvent(event, fMouse())){
                     game.readEvent(event, window.mapPixelToCoords(sf::Mouse::getPosition(window), viewGame));
                 }
                 break;
@@ -70,7 +74,7 @@ void Shell::input(){
 }
 
 void Shell::update(){
-    game.update(viewGame);
+    game.update();
 }
 
 void Shell::draw(){

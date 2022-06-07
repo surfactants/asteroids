@@ -22,6 +22,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <math.h>
 
 #define PI 3.14159265359
 
@@ -60,3 +61,46 @@ sf::Vector2<T> vectorDistance(const sf::Vector2<T> v, const sf::Vector2<T> w){
     return sf::Vector2<T>(w.x - v.x, w.y - v.y);
 }
 
+template<typename T>
+double calculateOrientation(sf::Vector2<T> v){
+    double t = atan((double)v.y / (double)v.x);
+
+    t *= 180.d/PI;
+
+    if(v.x > 0) t += 90;
+    else if(v.y < 0) t += 270;
+
+    return t;
+}
+
+template<typename T>
+double calculateOrientation(sf::Vector2<T> v, sf::Vector2<T> w){
+    return calculateOrientation(w - v);
+}
+
+sf::Vector2f fMouse();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Calculates the angle needed to point an object towards
+    /// another object or point.
+    ///
+    /// \param \b pos1
+    /// \param \b pos2
+    ///
+    /// \return \b theta in degrees
+    ///
+    /// \see calculateDistance(), calculateMovementVector(), calculateVelocity()
+    ///
+    float calculateAngle(sf::Vector2f pos1, sf::Vector2f pos2);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Defines a movement vector based on speed and angle.
+    ///
+    /// \param \b angle in degrees
+    /// \param \b velocity
+    /// \param \b moveVector a reference to an object's movement vector
+    ///
+    /// \see calculateOrientation(), calculateDistance(), calculateVelocity()
+    ///
+    void calculateMoveVector(float angle, float velocity, sf::Vector2f& moveVector);
+    sf::Vector2f calculateMoveVector(sf::Vector2f start, sf::Vector2f end, float speed);

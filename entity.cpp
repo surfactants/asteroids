@@ -66,6 +66,9 @@ Entity::Entity(){
     levelOrigin = hpOrigin + levelFrame.getOrigin();
     levelOrigin.x += levelOffset;
     levelFrame.setOrigin(levelOrigin);
+
+    weapons.push_back(Weapon("test", 8));
+    equippedWeapon = 0;
 }
 
 sf::Vector2f Entity::getPosition(){
@@ -248,4 +251,12 @@ void Entity::setSpriteDirection(){
         else if(velocity.x < 0.f) scale.x = -1.f;
     }
     sprite.setScale(scale);
+}
+
+Weapon Entity::getEquippedWeapon(){
+    return weapons[equippedWeapon];
+}
+
+Projectile Entity::attack(sf::Vector2f target){
+    return Projectile(getPosition(), target, weapons[equippedWeapon].getProjectile());
 }

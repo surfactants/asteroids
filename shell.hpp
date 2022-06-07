@@ -5,6 +5,7 @@
 #include "ui.hpp"
 #include "menu.hpp"
 #include "loading.hpp"
+#include "feedback.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief
@@ -20,7 +21,7 @@ private:
     sf::Font font;
     sf::Event event;
 
-    Game game{ window };
+    Game game{ window, viewGame };
     UI ui;
 
     void input();

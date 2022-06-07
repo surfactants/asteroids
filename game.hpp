@@ -6,11 +6,12 @@
 #include <vector>
 #include "world.hpp"
 #include "enemy_manager.hpp"
+#include "projectile_manager.hpp"
 
 class Game : public sf::Drawable{
 public:
-    Game(sf::RenderWindow& nwindow);
-    void update(sf::View& viewGame);
+    Game(sf::RenderWindow& nwindow, sf::View& nview);
+    void update();
     void enter();
     Player& getPlayer();
     World& getWorld();
@@ -30,9 +31,13 @@ private:
 
     Enemy_Manager enemyManager;
 
+    Projectile_Manager projectileManager;
+
+    sf::View& view;
+
     sf::Clock tickClock;
 
-    sf::View worldView;
-
     sf::RenderWindow& window;
+
+    void playerShoot();
 };

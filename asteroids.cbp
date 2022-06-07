@@ -60,6 +60,8 @@
 		<Unit filename="enemy_manager.hpp" />
 		<Unit filename="entity.cpp" />
 		<Unit filename="entity.hpp" />
+		<Unit filename="feedback.cpp" />
+		<Unit filename="feedback.hpp" />
 		<Unit filename="floor.cpp" />
 		<Unit filename="floor.hpp" />
 		<Unit filename="game.cpp" />
@@ -76,6 +78,10 @@
 		<Unit filename="primordial.cpp" />
 		<Unit filename="primordial.hpp" />
 		<Unit filename="prng.hpp" />
+		<Unit filename="projectile.cpp" />
+		<Unit filename="projectile.hpp" />
+		<Unit filename="projectile_manager.cpp" />
+		<Unit filename="projectile_manager.hpp" />
 		<Unit filename="room.cpp" />
 		<Unit filename="room.hpp" />
 		<Unit filename="shell.cpp" />

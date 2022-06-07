@@ -60,6 +60,8 @@ public:
 
     void setLevel(unsigned int nlevel);
 
+    Projectile attack(sf::Vector2f target);
+
 protected:
     sf::Sprite sprite;
     sf::RectangleShape hpFrame;
@@ -83,6 +85,7 @@ protected:
     unsigned int level;
 
     std::vector<Weapon> weapons;
+        unsigned int equippedWeapon;
 
     void animate();
 
@@ -109,4 +112,6 @@ protected:
     const static float levelOffset;
 
     void setSpriteDirection();
+
+    Weapon getEquippedWeapon();
 };

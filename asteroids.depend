@@ -1,16 +1,18 @@
 # depslib dependency file v1.0
-1651182744 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\main.cpp
+1653552469 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\main.cpp
 	"shell.hpp"
 
-1653547590 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\shell.hpp
+1654589491 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\shell.hpp
 	"primordial.hpp"
 	"game.hpp"
 	"ui.hpp"
 	"menu.hpp"
 	"loading.hpp"
+	"feedback.hpp"
 
-1652349056 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\primordial.hpp
+1654587197 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\primordial.hpp
 	<SFML/Graphics.hpp>
+	<math.h>
 
 1645317442 c:\libraries\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1038,45 +1040,47 @@
 	<SFML/Audio/Export.hpp>
 	<string>
 
-1653379097 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\entity.hpp
+1654586279 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\entity.hpp
 	<SFML/Graphics.hpp>
 	"weapon.hpp"
 
-1653548917 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\entity.cpp
+1654588136 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\entity.cpp
 	"entity.hpp"
 	"prng.hpp"
 	"primordial.hpp"
 	<iostream>
 
-1652383820 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\prng.hpp
+1653551865 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\prng.hpp
 	<random>
 	<type_traits>
 
-1652439839 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\primordial.cpp
+1654586879 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\primordial.cpp
 	"primordial.hpp"
 	"prng.hpp"
 
-1653550289 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\shell.cpp
+1654589405 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\shell.cpp
 	"shell.hpp"
 	"primordial.hpp"
 	<iostream>
+	"projectile.hpp"
 
-1651089708 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\weapon.cpp
+1654586996 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\weapon.cpp
 	"weapon.hpp"
 
-1651132065 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\weapon.hpp
+1654586985 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\weapon.hpp
 	<SFML/Graphics.hpp>
+	"projectile.hpp"
 
-1651133351 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy.cpp
+1653596293 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy.cpp
 	"enemy.hpp"
 
-1651133351 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy.hpp
+1653552416 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy.hpp
 	"entity.hpp"
 
-1653550211 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\player.cpp
+1653552463 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\player.cpp
 	"player.hpp"
 
-1653551398 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\player.hpp
+1653552374 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\player.hpp
 	"entity.hpp"
 	"direction.hpp"
 
@@ -1093,18 +1097,19 @@
 	"tunnel.hpp"
 	"direction.hpp"
 
-1653550400 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\game.cpp
+1654589481 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\game.cpp
 	"game.hpp"
 	<iostream>
 	"primordial.hpp"
 
-1653548518 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\game.hpp
+1654589463 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\game.hpp
 	"floor.hpp"
 	"player.hpp"
 	"enemy.hpp"
 	<vector>
 	"world.hpp"
 	"enemy_manager.hpp"
+	"projectile_manager.hpp"
 
 1651397670 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\perlin.cpp
 	"perlin.hpp"
@@ -1135,7 +1140,7 @@
 	<map>
 	"room.hpp"
 
-1653376312 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\room.hpp
+1653552365 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\room.hpp
 	<map>
 	<SFML/Graphics.hpp>
 	"node.hpp"
@@ -1165,7 +1170,7 @@
 	"tunnel.hpp"
 	"prng.hpp"
 
-1653451733 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\loading.hpp
+1653552382 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\loading.hpp
 	<SFML/Graphics.hpp>
 	<thread>
 	<map>
@@ -1199,7 +1204,7 @@
 	"prng.hpp"
 	<iostream>
 
-1653427923 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy_manager.hpp
+1653552402 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\enemy_manager.hpp
 	"player.hpp"
 	"enemy.hpp"
 	"room.hpp"
@@ -1213,6 +1218,28 @@
 1653547582 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\menu.cpp
 	"menu.hpp"
 
-1653548329 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\ui.cpp
+1654588956 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\ui.cpp
 	"ui.hpp"
+
+1654562902 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\feedback.cpp
+	"feedback.hpp"
+
+1654563472 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\feedback.hpp
+	<SFML/Graphics.hpp>
+
+1654588113 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\projectile.hpp
+	<SFML/Graphics.hpp>
+
+1654587078 c:\users\averill\desktop\dev\c++\codeblocks\asteroids\projectile_manager.hpp
+	"projectile.hpp"
+	"entity.hpp"
+
+1654588371 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\projectile.cpp
+	"projectile.hpp"
+	"primordial.hpp"
+	<iostream>
+
+1654587609 source:c:\users\averill\desktop\dev\c++\codeblocks\asteroids\projectile_manager.cpp
+	"projectile_manager.hpp"
+	<iostream>
 

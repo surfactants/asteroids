@@ -2,25 +2,22 @@
 #include <iostream>
 #include "primordial.hpp"
 
-Game::Game(sf::RenderWindow& nwindow) : window{ nwindow }{
-    worldView = sf::View(sf::Vector2f(0.f, 0.f), sf::Vector2f(window.getSize()));
-    worldView.zoom(1.5f);
-
+Game::Game(sf::RenderWindow& nwindow, sf::View& nview) : window{ nwindow }, view{ nview }{
     //newLevel();
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    target.setView(worldView);
+    //target.setView(worldView);
 
     target.draw(world, states);
 
     target.draw(enemyManager, states);
     target.draw(player, states);
-    //draw projectiles
+    target.draw(projectileManager, states);
 
 }
 
-void Game::update(sf::View& viewGame){
+void Game::update(){
     if(tickClock.getElapsedTime().asSeconds() >= 1){
         player.damage(10);
         if(player.getHPCurrent() <= 0){
@@ -63,7 +60,9 @@ void Game::update(sf::View& viewGame){
         }
     }
 
-    worldView.move(viewMove);
+    view.move(viewMove);
+
+    projectileManager.update();
 }
 
 Player& Game::getPlayer(){
@@ -97,7 +96,7 @@ void Game::newLevel(){
 
     player.setPosition(sf::Vector2f(0.f, 0.f));
 
-    worldView.setCenter(player.getPosition());
+    view.setCenter(player.getPosition());
     std::cout << "\nnew level ready!";
 }
 
@@ -110,8 +109,15 @@ void Game::spawnEnemies(){
 }
 
 bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
-    bool parsed = false;;
+    bool parsed = false;
 
+    if(event.type == sf::Event::MouseButtonPressed){
+        if(event.mouseButton.button == sf::Mouse::Left){
+            std::cout << "\nplayer is shooting from " << player.getPosition().x << ", " << player.getPosition().y
+                      << " at " << mPos.x << ", " << mPos.y;
+            projectileManager.create(player.attack(mPos));
+        }
+    }
     if(event.type == sf::Event::KeyPressed){
         switch(event.key.code){/*
         case sf::Keyboard::Left:
@@ -163,7 +169,6 @@ bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
         }
     }
     else if(event.type == sf::Event::MouseButtonReleased){
-        std::cout << "mouse release!\n";
     }
 
     return parsed;
