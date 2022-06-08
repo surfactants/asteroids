@@ -31,5 +31,9 @@
 *.out
 *.app
 
-src_old/
-doxygen/
+/src_old/
+/doxygen/
+
+*.cbp
+
+_resources
