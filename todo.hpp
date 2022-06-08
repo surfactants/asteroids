@@ -19,5 +19,10 @@
 
 
 
+    //weapon handling and stats are still hardcoded.
+    //melee weapons dont exist yet
+
+
+
 //DONE
     //shooting is now handled with a continuous mouse press rather than discrete clicks
