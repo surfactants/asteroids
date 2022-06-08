@@ -35,5 +35,7 @@
 /doxygen/
 
 *.cbp
+*.depend
+*.layout
 
 _resources
