@@ -79,6 +79,7 @@ double calculateOrientation(sf::Vector2<T> v, sf::Vector2<T> w){
 }
 
 sf::Vector2f fMouse();
+sf::Vector2f fMouse(sf::RenderWindow& window, sf::View& view);
 
     ////////////////////////////////////////////////////////////
     /// \brief Calculates the angle needed to point an object towards

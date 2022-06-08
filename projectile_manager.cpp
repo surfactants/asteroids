@@ -22,10 +22,3 @@ void Projectile_Manager::draw(sf::RenderTarget& target, sf::RenderStates states)
         target.draw(p, states);
     }
 }
-
-//TODO
-    //add 'bool shooting' to Entity for ease of mouse control
-        //weapons need a cooldown
-        //game update checks if entities are attacking, which checks if equippedWeapon is ready, which creates the projectile
-        //mouse press in game() starts shooting
-        //mouse release anywhere stops shooting

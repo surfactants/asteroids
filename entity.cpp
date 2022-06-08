@@ -253,10 +253,18 @@ void Entity::setSpriteDirection(){
     sprite.setScale(scale);
 }
 
-Weapon Entity::getEquippedWeapon(){
+Weapon& Entity::getEquippedWeapon(){
     return weapons[equippedWeapon];
 }
 
 Projectile Entity::attack(sf::Vector2f target){
     return Projectile(getPosition(), target, weapons[equippedWeapon].getProjectile());
+}
+
+bool Entity::isAttacking(){
+    return attacking;
+}
+
+void Entity::setAttacking(bool n){
+    attacking = n;
 }

@@ -30,6 +30,7 @@ void Floor_Generator::reset(){
         unsigned int stepCeil = 13;
 
         unsigned int steps = prng::number(stepBase, stepCeil);
+        steps = 3;
 
         direction = randomDirection();
 

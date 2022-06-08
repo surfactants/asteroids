@@ -63,7 +63,10 @@ void Shell::input(){
                 break;
             case PLAYING:
                 if(!ui.readEvent(event, fMouse())){
-                    game.readEvent(event, window.mapPixelToCoords(sf::Mouse::getPosition(window), viewGame));
+                    game.readEvent(event, fMouse(window, viewGame));
+                }
+                else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
+                    game.readEvent(event, fMouse(window, viewGame));
                 }
                 break;
             case LOADING:

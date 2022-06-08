@@ -62,6 +62,10 @@ void Game::update(){
 
     view.move(viewMove);
 
+    if(player.isAttacking() && player.getEquippedWeapon().shoot()){
+        projectileManager.create(player.attack(fMouse(window, view)));
+    }
+
     projectileManager.update();
 }
 
@@ -113,9 +117,12 @@ bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
 
     if(event.type == sf::Event::MouseButtonPressed){
         if(event.mouseButton.button == sf::Mouse::Left){
-            std::cout << "\nplayer is shooting from " << player.getPosition().x << ", " << player.getPosition().y
-                      << " at " << mPos.x << ", " << mPos.y;
-            projectileManager.create(player.attack(mPos));
+            player.setAttacking(true);
+        }
+    }
+    else if(event.type == sf::Event::MouseButtonReleased){
+        if(event.mouseButton.button == sf::Mouse::Left){
+            player.setAttacking(false);
         }
     }
     if(event.type == sf::Event::KeyPressed){
@@ -167,8 +174,6 @@ bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
         default:
             break;
         }
-    }
-    else if(event.type == sf::Event::MouseButtonReleased){
     }
 
     return parsed;

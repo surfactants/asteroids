@@ -33,11 +33,10 @@ private:
 
     Projectile_Manager projectileManager;
 
+    sf::RenderWindow& window;
     sf::View& view;
 
     sf::Clock tickClock;
-
-    sf::RenderWindow& window;
 
     void playerShoot();
 };

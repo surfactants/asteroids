@@ -62,6 +62,11 @@ public:
 
     Projectile attack(sf::Vector2f target);
 
+    bool isAttacking();
+    void setAttacking(bool n);
+
+    Weapon& getEquippedWeapon();
+
 protected:
     sf::Sprite sprite;
     sf::RectangleShape hpFrame;
@@ -113,5 +118,5 @@ protected:
 
     void setSpriteDirection();
 
-    Weapon getEquippedWeapon();
+    bool attacking = false;
 };

@@ -47,6 +47,10 @@ sf::Vector2f fMouse(){
     return sf::Vector2f(sf::Mouse::getPosition());
 }
 
+sf::Vector2f fMouse(sf::RenderWindow& window, sf::View& view){
+    return window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+}
+
 float calculateAngle(sf::Vector2f pos1, sf::Vector2f pos2){
     float theta;
 

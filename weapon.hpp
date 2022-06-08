@@ -12,6 +12,8 @@ public:
     Projectile_Type getProjectile();
     float getProjectileSpeed();
 
+    bool shoot();
+
 protected:
 private:
     std::string name;
@@ -20,7 +22,6 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     Projectile_Type projectile;
     float projectileSpeed;
-    bool ready;
     float cooldownThreshold; //seconds
     sf::Clock cooldown;
 };
