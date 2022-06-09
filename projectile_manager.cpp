@@ -22,3 +22,7 @@ void Projectile_Manager::draw(sf::RenderTarget& target, sf::RenderStates states)
         target.draw(p, states);
     }
 }
+
+std::vector<Projectile>& Projectile_Manager::getProjectiles(){
+    return projectiles;
+}

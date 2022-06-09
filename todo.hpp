@@ -17,6 +17,11 @@
             //delete projectile when it hits something, and then damage the appropriate enemy if so
             //bool player in Projectile?
 
+        //move Game::getPlayerCollideMap() to World and genericize it for projectile checking
+
+        //there was a segfault once :/
+        //some enemies don't take damage??
+
 
 
     //weapon handling and stats are still hardcoded.

@@ -26,6 +26,11 @@ void Game::update(){
         tickClock.restart();
     }
 
+    collider.checkProjectiles(projectileManager.getProjectiles(),
+                              enemyManager.getEnemies(),
+                              player,
+                              world);
+
     player.update();
 
     //player collision is checked here
@@ -63,7 +68,9 @@ void Game::update(){
     view.move(viewMove);
 
     if(player.isAttacking() && player.getEquippedWeapon().shoot()){
-        projectileManager.create(player.attack(fMouse(window, view)));
+        Projectile p = player.attack(fMouse(window, view));
+        p.setPlayer();
+        projectileManager.create(p);
     }
 
     projectileManager.update();
@@ -177,4 +184,12 @@ bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
     }
 
     return parsed;
+}
+
+std::vector<sf::Vector2f> Game::getEnemyPositions(){
+    std::vector<sf::Vector2f> e;
+    for(auto& enemy : enemyManager.getEnemies()){
+        e.push_back(enemy.getPosition() - player.getPosition());
+    }
+    return e;
 }

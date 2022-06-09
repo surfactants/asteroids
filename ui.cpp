@@ -2,6 +2,10 @@
 
 UI::UI(){}
 
+void UI::update(Game& game){
+    minimap.update(game.getEnemyPositions());
+}
+
 bool UI::readEvent(sf::Event& event, sf::Vector2f mPos){
     bool parsed = false;
 
@@ -9,4 +13,9 @@ bool UI::readEvent(sf::Event& event, sf::Vector2f mPos){
 }
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    target.draw(minimap, states);
+}
+
+void UI::scale(sf::RenderWindow& window){
+    minimap.set(sf::Vector2f(window.getSize()));
 }

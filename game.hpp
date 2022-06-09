@@ -7,6 +7,7 @@
 #include "world.hpp"
 #include "enemy_manager.hpp"
 #include "projectile_manager.hpp"
+#include "collider.hpp"
 
 class Game : public sf::Drawable{
 public:
@@ -19,6 +20,8 @@ public:
     void spawnEnemies();
 
     bool readEvent(sf::Event& event, sf::Vector2f mPos);
+
+    std::vector<sf::Vector2f> getEnemyPositions();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -39,4 +42,6 @@ private:
     sf::Clock tickClock;
 
     void playerShoot();
+
+    Collider collider;
 };

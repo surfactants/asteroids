@@ -105,3 +105,9 @@ sf::Vector2f fMouse(sf::RenderWindow& window, sf::View& view);
     ///
     void calculateMoveVector(float angle, float velocity, sf::Vector2f& moveVector);
     sf::Vector2f calculateMoveVector(sf::Vector2f start, sf::Vector2f end, float speed);
+
+template<typename T>
+T scalarProduct(const sf::Vector2<T>& v, const sf::Vector2<T>& w)
+{
+    return ((v.x * w.x) + (v.y * w.y));
+}

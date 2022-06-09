@@ -19,6 +19,9 @@ public:
 
     void setTarget(sf::Vector2f t);
 
+    bool isPlayer();
+    void setPlayer();
+
 protected:
 
 private:
@@ -31,4 +34,6 @@ private:
     float speed;
 
     Projectile_Type type;
+
+    bool player = false;
 };

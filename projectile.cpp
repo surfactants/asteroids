@@ -45,3 +45,11 @@ Projectile_Type Projectile::getType(){
 
 void Projectile::setTarget(sf::Vector2f t){
 }
+
+bool Projectile::isPlayer(){
+    return player;
+}
+
+void Projectile::setPlayer(){
+    player = true;
+}

@@ -28,10 +28,8 @@ float Weapon::getProjectileSpeed(){
 }
 
 bool Weapon::shoot(){
-    float t = cooldown.getElapsedTime().asSeconds();
-    std::cout << "\n\n\t" << t << " seconds since last shot";
     if(cooldown.getElapsedTime().asSeconds() >= cooldownThreshold){
-        std::cout << "\n\t\tresetting at " << cooldown.restart().asSeconds();
+        cooldown.restart();
         return true;
     }
     else return false;

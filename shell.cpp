@@ -21,6 +21,8 @@ Shell::Shell()
 
     Projectile::loadTexture();
 
+    ui.scale(window);
+
     loadNewLevel();
 }
 
@@ -78,6 +80,7 @@ void Shell::input(){
 
 void Shell::update(){
     game.update();
+    ui.update(game);
 }
 
 void Shell::draw(){
@@ -90,6 +93,7 @@ void Shell::draw(){
             window.draw(game);
             window.setView(viewUI);
             window.draw(fpsText);
+            window.draw(ui);
             break;
         case LOADING:
             window.setView(viewUI);

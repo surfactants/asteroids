@@ -17,12 +17,12 @@ public:
 private:
     sf::RenderWindow window;
         sf::View viewGame;
-        sf::View viewUI;
     sf::Font font;
     sf::Event event;
 
     Game game{ window, viewGame };
     UI ui;
+        sf::View viewUI;
 
     void input();
     void update();

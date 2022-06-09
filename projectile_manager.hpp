@@ -1,3 +1,5 @@
+#pragma once
+
 #include "projectile.hpp"
 #include "entity.hpp"
 
@@ -8,6 +10,8 @@ public:
     void create(Projectile p);
 
     void update();
+
+    std::vector<Projectile>& getProjectiles();
 
 protected:
 
