@@ -31,11 +31,14 @@
 *.out
 *.app
 
+# generated and obsolete directories
 /src_old/
 /doxygen/
 
+# Code::Blocks files
 *.cbp
 *.depend
 *.layout
 
+# what the fuck is this???
 _resources
