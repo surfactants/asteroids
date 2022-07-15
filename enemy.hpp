@@ -12,7 +12,7 @@ enum Faction{
 
 class Enemy : public Entity{
 public:
-    Enemy(){}
+    Enemy(Animated_Sprite nsprite);
 
     virtual void update() override;
 

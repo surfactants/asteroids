@@ -29,6 +29,9 @@ public:
 
     std::vector<Room>& getRooms();
 
+    std::vector<sf::FloatRect> getLocalWalls(sf::Vector2i p);
+    std::vector<sf::FloatRect> getLocalWalls(sf::Vector2f p);
+
 private:
     //std::vector<Tile> floor;
 

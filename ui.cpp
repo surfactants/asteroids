@@ -3,7 +3,7 @@
 UI::UI(){}
 
 void UI::update(Game& game){
-    minimap.update(game.getEnemyPositions());
+    minimap.update(game.getEnemies(), game.getPlayer().getPosition());
 }
 
 bool UI::readEvent(sf::Event& event, sf::Vector2f mPos){

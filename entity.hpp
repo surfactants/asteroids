@@ -2,14 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "weapon.hpp"
-
-enum Animation_State{
-    IDLE,
-    MOVE,
-    SHOOT,
-    MELEE,
-    DEATH
-};
+#include "direction.hpp"
+#include "animated_sprite.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief
@@ -56,7 +50,7 @@ public:
     void unmoveX();
     void unmoveY();
 
-    sf::Sprite& getSprite();
+    Animated_Sprite& getSprite();
 
     void setLevel(unsigned int nlevel);
 
@@ -67,8 +61,13 @@ public:
 
     Weapon& getEquippedWeapon();
 
+    bool isDead();
+
+    void setDirection(Direction ndirect);
+    Direction getDirection();
+
 protected:
-    sf::Sprite sprite;
+    Animated_Sprite sprite;
     sf::RectangleShape hpFrame;
     sf::RectangleShape hpBar;
     sf::Text levelText;
@@ -96,10 +95,6 @@ protected:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    Animation_State animationState;
-        sf::Clock animationTimer;
-        const static int animationFrameTime = 500;
-
     void updateHP();
 
     float speed;
@@ -109,9 +104,8 @@ protected:
     sf::Vector2f velocity;
 
     static sf::Font font;
-    static sf::Texture texture;
 
-    static sf::Vector2f spriteSize;
+    const static sf::Vector2f spriteSize;
 
     const static float hpOffset;
     const static float levelOffset;
@@ -119,4 +113,14 @@ protected:
     void setSpriteDirection();
 
     bool attacking = false;
+
+    bool dead = false;
+
+    const static sf::Vector2f sheetSize;
+
+    Direction direction;
+
+    float animationBase;
+
+    void directCheck();
 };

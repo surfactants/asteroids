@@ -48,10 +48,10 @@ void Floor_Generator::reset(){
                 moveDirection(coordinates, direction, distance);
             }
 
-            if(direction == LEFT || direction == RIGHT){
+            if(direction == WEST || direction == EAST){
                 coordinates.y += prng::number(-rooms.back().size.y / 2, rooms.back().size.y / 2);
             }
-            else if(direction == UP || direction == DOWN){
+            else if(direction == NORTH || direction == SOUTH){
                 coordinates.x += prng::number(-rooms.back().size.x / 2, rooms.back().size.y / 2);
             }
             else{
@@ -69,13 +69,13 @@ void Floor_Generator::reset(){
 
             int offset;
             switch(direction){
-            case LEFT:
-            case RIGHT:
-                offset = roomSize.x / 2;
-                break;
-            case UP:
-            case DOWN:
+            case NORTH:
+            case SOUTH:
                 offset = roomSize.y / 2;
+                break;
+            case EAST:
+            case WEST:
+                offset = roomSize.x / 2;
                 break;
             default:
                 break;
@@ -115,13 +115,13 @@ void Floor_Generator::reset(){
                     sf::Vector2i roomSize(prng::number(28, 56), prng::number(28, 56));
                     int offset;
                     switch(side){
-                    case LEFT:
-                    case RIGHT:
-                        offset = roomSize.x / 2;
-                        break;
-                    case UP:
-                    case DOWN:
+                    case NORTH:
+                    case SOUTH:
                         offset = roomSize.y / 2;
+                        break;
+                    case EAST:
+                    case WEST:
+                        offset = roomSize.x / 2;
                         break;
                     default:
                         break;

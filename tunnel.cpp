@@ -26,13 +26,13 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
             while(nd == sideways){
                 switch(prng::number(-1, 1)){
                 case -1:
-                    sideways = LEFT;
+                    sideways = WEST;
                     break;
                 case 0:
                     sideways = NULLSIDE;
                     break;
                 case 1:
-                    sideways = RIGHT;
+                    sideways = EAST;
                     break;
                 default:
                     break;
@@ -42,8 +42,8 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
 
         if(!forward && sideways == NULLSIDE){
             Direction t;
-            if(prng::boolean()) t= LEFT;
-            else t = RIGHT;
+            if(prng::boolean()) t = WEST;
+            else t = EAST;
             moveDirection(pos, normalizeDirection(direction, t), distance);
         }
 

@@ -22,6 +22,8 @@ public:
     bool isPlayer();
     void setPlayer();
 
+    sf::Vector2f getPosition();
+
 protected:
 
 private:

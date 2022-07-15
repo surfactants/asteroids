@@ -53,3 +53,7 @@ bool Projectile::isPlayer(){
 void Projectile::setPlayer(){
     player = true;
 }
+
+sf::Vector2f Projectile::getPosition(){
+    return sprite.getPosition();
+}

@@ -11,11 +11,12 @@ const float Entity::hpOffset = 14.f;
 const float Entity::levelOffset = 20.f;
 
 sf::Font Entity::font = sf::Font();
-sf::Texture Entity::texture = sf::Texture();
-sf::Vector2f Entity::spriteSize = sf::Vector2f(0.f, 0.f);
 
-Entity::Entity(){
-    animationState = IDLE;
+const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
+const sf::Vector2f Entity::sheetSize = sf::Vector2f(0.f, 0.f);
+
+Entity::Entity()
+{
     hpMax = 100;
     hpCurrent = hpMax;
 
@@ -50,10 +51,7 @@ Entity::Entity(){
     levelFrame.setOutlineColor(sf::Color(225, 225, 225));
     levelFrame.setOutlineThickness(2);
 
-    texture.loadFromFile("texture.png");
-    sprite.setTexture(texture);
-
-    spriteSize = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
+    //spriteSize = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 
     sprite.setOrigin(spriteSize / 2.f);
     sf::Vector2f hpOrigin((hpSize.x / 2.f) - levelOffset, ((hpSize.y / 2.f) + (spriteSize.y / 2.f) + hpOffset));
@@ -93,7 +91,8 @@ void Entity::damage(int val){
 
     if(hpCurrent <= 0){
         hpCurrent = 0;
-        //die...
+        dead = true;
+        sprite.setAnimationState(DYING);
     }
 
     updateHP();
@@ -106,14 +105,6 @@ void Entity::heal(int val){
     updateHP();
 }
 
-void Entity::setAnimationState(Animation_State newState){
-    animationState = newState;
-
-    //set sprite state...
-
-    animationTimer.restart();
-}
-
 void Entity::startAnimation(){
     //sprite.setTextureRect()
         //x = 0, y derived from animation state, size consistent
@@ -121,25 +112,17 @@ void Entity::startAnimation(){
 
 void Entity::update(){
     move();
-    animate();
-}
-
-void Entity::animate(){
-    if(animationTimer.getElapsedTime().asMilliseconds() >= animationFrameTime){
-        //animate...
-            //iterate to next sprite frame, by shifting textureRect to the right
-                //if that places it out of bounds, shift back to the beginning
-
-        animationTimer.restart();
-    }
+    sprite.update();
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(sprite, states);
-    target.draw(hpFrame, states);
-    target.draw(hpBar, states);
-    target.draw(levelFrame, states);
-    target.draw(levelText, states);
+    if(!dead){
+        target.draw(hpFrame, states);
+        target.draw(hpBar, states);
+        target.draw(levelFrame, states);
+        target.draw(levelText, states);
+    }
 }
 
 void Entity::updateHP(){
@@ -179,7 +162,7 @@ void Entity::move(sf::Vector2f v){
     levelText.move(v);
 }
 
-sf::Sprite& Entity::getSprite(){
+Animated_Sprite& Entity::getSprite(){
     return sprite;
 }
 
@@ -189,33 +172,49 @@ void Entity::setLevel(unsigned int nlevel){
 }
 
 void Entity::directLeft(){
+    directCheck();
     velocity.x = -speed;
+    direction = WEST;
     setSpriteDirection();
 }
 
 void Entity::directRight(){
+    directCheck();
     velocity.x = speed;
+    direction = EAST;
     setSpriteDirection();
 }
 
 void Entity::directUp(){
+    directCheck();
     velocity.y = -speed;
+    direction = NORTH;
     setSpriteDirection();
 }
 
 void Entity::directDown(){
+    directCheck();
     velocity.y = speed;
+    direction = SOUTH;
     setSpriteDirection();
+}
+
+void Entity::directCheck(){
+    if(velocity.x == 0 && velocity.y == 0){
+        sprite.setAnimationState(MOVING);
+    }
 }
 
 void Entity::stopHorizontal(){
     velocity.x = 0.f;
     setSpriteDirection();
+    if(velocity.y == 0.f) sprite.setAnimationState(IDLE);
 }
 
 void Entity::stopVertical(){
     velocity.y = 0.f;
     setSpriteDirection();
+    if(velocity.x == 0.f) sprite.setAnimationState(IDLE);
 }
 
 void Entity::stop(){
@@ -239,18 +238,22 @@ sf::Vector2i Entity::getCoordinates(float tileSize){
     return sf::Vector2i(getPosition() / tileSize);
 }
 
+void Entity::setDirection(Direction ndirect){
+    direction = ndirect;
+    setSpriteDirection();
+}
+
 void Entity::setSpriteDirection(){
-    sf::Vector2f scale = sprite.getScale();
+    Direction d = sprite.getDirection();
     if(velocity.x == 0.f){
-        if(velocity.y > 0.f) scale.y = 1.f;
-        else if(velocity.y < 0.f) scale.y = -1.f;
+        if(velocity.y < 0.f) d = NORTH;
+        else if(velocity.y > 0.f) d = SOUTH;
     }
     else{
-        scale.y = 1.f;
-        if(velocity.x > 0.f) scale.x = 1.f;
-        else if(velocity.x < 0.f) scale.x = -1.f;
+        if(velocity.x > 0.f) d = EAST;
+        else if(velocity.x < 0.f) d = WEST;
     }
-    sprite.setScale(scale);
+    sprite.setDirection(d);
 }
 
 Weapon& Entity::getEquippedWeapon(){
@@ -267,4 +270,12 @@ bool Entity::isAttacking(){
 
 void Entity::setAttacking(bool n){
     attacking = n;
+}
+
+bool Entity::isDead(){
+    return dead;
+}
+
+Direction Entity::getDirection(){
+    return direction;
 }

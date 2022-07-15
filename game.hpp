@@ -23,6 +23,8 @@ public:
 
     std::vector<sf::Vector2f> getEnemyPositions();
 
+    std::vector<Enemy>& getEnemies();
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

@@ -225,3 +225,24 @@ void World::erase(){
 std::vector<Room>& World::getRooms(){
     return rooms;
 }
+
+std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2i p){
+    std::vector<sf::FloatRect> cWalls;
+
+    const static int depth = 1;
+
+    for(int x = p.x - depth; x <= p.x + depth; ++x){
+        for(int y = p.y - depth; y <= p.y + depth; ++y){
+            Tile* wall = getWall(x, y);
+            if(wall != nullptr){
+                cWalls.push_back(wall->getGlobalBounds());
+            }
+        }
+    }
+
+    return cWalls;
+}
+
+std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2f p){
+    return getLocalWalls(sf::Vector2i(p / Tile::tileSize));
+}

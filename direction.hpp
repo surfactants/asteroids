@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Direction{ LEFT, RIGHT, UP, DOWN, NULLSIDE };
+enum Direction{ NORTH, SOUTH, EAST, WEST, NULLSIDE };
 
 /////////////////////////////////////////////////////////////
 /// \brief Returns the opposite direction.
@@ -25,17 +25,17 @@ Direction randomPerpendicularDirection(Direction odirect);
 template<typename T>
 void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distance){
     switch(direction){
-    case LEFT:
-        v.x -= distance;
-        break;
-    case RIGHT:
-        v.x += distance;
-        break;
-    case UP:
+    case NORTH:
         v.y -= distance;
         break;
-    case DOWN:
+    case SOUTH:
         v.y += distance;
+        break;
+    case EAST:
+        v.x += distance;
+        break;
+    case WEST:
+        v.x -= distance;
         break;
     default:
         break;

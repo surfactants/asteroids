@@ -17,9 +17,9 @@ public:
 private:
     std::vector<Enemy> enemies;
 
-    Enemy boss;
-
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     unsigned int lowLevel, highLevel;
+
+    sf::Texture texture;
 };

@@ -18,11 +18,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 }
 
 void Game::update(){
-    if(tickClock.getElapsedTime().asSeconds() >= 1){
-        player.damage(10);
-        if(player.getHPCurrent() <= 0){
-            player.heal(player.getHPMax());
-        }
+    if(tickClock.getElapsedTime().asSeconds() >= 1.f){
         tickClock.restart();
     }
 
@@ -30,7 +26,9 @@ void Game::update(){
                               enemyManager.getEnemies(),
                               player,
                               world);
-
+    for(auto& enemy : enemyManager.getEnemies()){
+        enemy.update();
+    }
     player.update();
 
     //player collision is checked here
@@ -40,6 +38,7 @@ void Game::update(){
             //rework inputs to be smoother and more consistent
                 //if player isn't moving in a direction and the corresponding button is pressed, they should start doing so
                     //(this happens when alternating between opposite directions)
+
 
     std::vector<sf::FloatRect> wallColliders = getPlayerCollideMap();
 
@@ -192,4 +191,8 @@ std::vector<sf::Vector2f> Game::getEnemyPositions(){
         e.push_back(enemy.getPosition() - player.getPosition());
     }
     return e;
+}
+
+std::vector<Enemy>& Game::getEnemies(){
+    return enemyManager.getEnemies();
 }

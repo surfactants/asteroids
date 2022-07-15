@@ -3,10 +3,10 @@
 
 /////////////////////////////////////////////////////////////
 Direction invertDirection(const Direction direction){
-    if(direction == LEFT) return RIGHT;
-    else if(direction == RIGHT) return LEFT;
-    else if(direction == UP) return DOWN;
-    else if(direction == DOWN) return UP;
+    if(direction == NORTH) return SOUTH;
+    else if(direction == SOUTH) return NORTH;
+    else if(direction == WEST) return EAST;
+    else if(direction == EAST) return WEST;
     else return NULLSIDE;
 }
 
@@ -18,13 +18,13 @@ Direction randomDirection(){
 /////////////////////////////////////////////////////////////
 Direction randomPerpendicularDirection(Direction odirect){
     switch(odirect){
-    case LEFT:
-    case RIGHT:
-        odirect = UP;
+    case NORTH:
+    case SOUTH:
+        odirect = WEST;
         break;
-    case UP:
-    case DOWN:
-        odirect = LEFT;
+    case EAST:
+    case WEST:
+        odirect = NORTH;
         break;
     default:
         odirect = NULLSIDE;
@@ -42,31 +42,31 @@ Direction randomPerpendicularDirection(Direction odirect){
 Direction normalizeDirection(const Direction ref, const Direction d){
     Direction r;
     switch(ref){
-    case LEFT:
-        if(d == LEFT) r = DOWN;
-        else if(d == RIGHT) r = UP;
-        else if(d == UP) r = LEFT;
-        else if(d == DOWN) r = RIGHT;
+    case WEST:
+        if(d == WEST) r = SOUTH;
+        else if(d == EAST) r = NORTH;
+        else if(d == NORTH) r = WEST;
+        else if(d == SOUTH) r = EAST;
         break;
-    case RIGHT:
-        if(d == LEFT) r = UP;
-        else if(d == RIGHT) r = DOWN;
-        else if(d == UP) r = RIGHT;
-        else if(d == DOWN) r = LEFT;
+    case EAST:
+        if(d == WEST) r = NORTH;
+        else if(d == EAST) r = SOUTH;
+        else if(d == NORTH) r = EAST;
+        else if(d == SOUTH) r = WEST;
         break;
-    case UP:
+    case NORTH:
         r = d;
         break;
-    case DOWN:
-        if(d == LEFT) r = RIGHT;
-        else if(d == RIGHT) r = LEFT;
-        else if(d == UP) r = DOWN;
-        else if(d == DOWN) r = UP;
+    case SOUTH:
+        if(d == WEST) r = EAST;
+        else if(d == EAST) r = WEST;
+        else if(d == NORTH) r = SOUTH;
+        else if(d == SOUTH) r = NORTH;
         break;
     default:
         r = NULLSIDE;
         break;
-    } //case UP is excluded because Direction is already normalized to it
+    } //case NORTH is excluded because Direction is already normalized to it
 
     return r;
 }

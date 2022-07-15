@@ -1,4 +1,5 @@
 #include "shell.hpp"
+#include <iostream>
 
 int main(){
     Shell shell;

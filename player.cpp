@@ -3,11 +3,14 @@
 Player::Player(){
     hMove = NULLSIDE;
     vMove = NULLSIDE;
+
+    texture.loadFromFile("textures/entity.png");
+    sprite = Animated_Sprite(texture, sf::Vector2i(64, 64));
 }
 
 void Player::update(){
     checkWASD();
-    //Entity::update();
+    sprite.update();
 }
 
 void Player::checkWASD(){
@@ -23,37 +26,105 @@ void Player::checkWASD(){
     bool d = (sf::Keyboard::isKeyPressed(sf::Keyboard::D)
            || sf::Keyboard::isKeyPressed(sf::Keyboard::Down));
 
+    bool v = (vMove != NULLSIDE);
+    bool h = (hMove != NULLSIDE);
+
+    bool wasd = (w || a || s || d);
+
+    if((v || h)){
+        if(!wasd){
+            stop();
+            vMove = NULLSIDE;
+            hMove = NULLSIDE;
+            return;
+        }
+        else{
+            if(v && !w && !s){
+                vMove = NULLSIDE;
+                stopVertical();
+                setSpriteDirection();
+            }
+            if(h && !a && !d){
+                hMove = NULLSIDE;
+                stopHorizontal();
+                setSpriteDirection();
+            }
+        }
+    }
+
+    if(v && !(w || s)){
+       vMove = NULLSIDE;
+       setSpriteDirection();
+    }
+    else if(vMove != NORTH && w){
+        vMove = NORTH;
+        directUp();
+    }
+    else if(vMove != SOUTH && s){
+        vMove = SOUTH;
+        directDown();
+    }
+
+    if(h && !(a || d)){
+        hMove = NULLSIDE;
+        setSpriteDirection();
+    }
+    else if(hMove != EAST && d){
+        hMove = EAST;
+        directRight();
+    }
+    else if(hMove != WEST && a){
+        hMove = WEST;
+        directLeft();
+    }
+
+    //IF NOT MOVING:
+        //NO KEYS PRESSED:
+            //RETURN
+        //ANY KEY PRESSED:
+            //SET ANIMATION STATE TO MOVING
+            //SET HMOVE AND VMOVE BASED ON KEYS PRESSED
+
+    //ELSE IF MOVING:
+        //NO KEYS PRESSED:
+            //SET ANIMATION STATE TO IDLE
+        //KEYS PRESSED
+            //IF(!DIRECTION && D_KEY_PRESSED):
+                //DIRECT IN THAT DIRECTION
+
+    ///////////////////////////////////
+/*
     if(vMove == NULLSIDE && w){
-        vMove = UP;
+        vMove = NORTH;
         directUp();
     }
     else if(vMove == NULLSIDE && s){
-        vMove = DOWN;
+        vMove = SOUTH;
         directDown();
     }
-    else if(vMove == UP && !w){
+    else if(vMove == NORTH && !w){
         vMove = NULLSIDE;
         stopVertical();
     }
-    else if(vMove == DOWN && !s){
+    else if(vMove == SOUTH && !s){
         vMove = NULLSIDE;
         stopVertical();
     }
 
     if(hMove == NULLSIDE && a){
-        hMove = LEFT;
+        hMove = WEST;
         directLeft();
     }
     else if(hMove == NULLSIDE && d){
-        hMove = RIGHT;
+        hMove = EAST;
         directRight();
     }
-    else if(hMove == LEFT && !a){
+    else if(hMove == WEST && !a){
         hMove = NULLSIDE;
         stopHorizontal();
     }
-    else if(hMove == RIGHT && !d){
+    else if(hMove == EAST && !d){
         hMove = NULLSIDE;
         stopHorizontal();
-    }
+    }*/
 }

@@ -2,6 +2,9 @@
 #include "prng.hpp"
 #include <iostream>
 #include "collision.hpp"
+#include "sfml-vector2-extension.hpp"
+
+const float Minimap::Blip::timeThreshold = 0.5f;
 
 Minimap::Minimap(){
     backdrop.setPosition(sf::Vector2f(0.f, 0.f));
@@ -32,7 +35,7 @@ Minimap::Blip::Blip(sf::Vector2f pos){
     setRadius(8.f);
     setPosition(pos);
     setPointCount(18);
-    reset();
+    setFillColor(sf::Color::Transparent);
 }
 
 void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
@@ -40,7 +43,8 @@ void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 
     target.draw(backdrop, states);
 
-    for(const auto& blip : blips) target.draw(blip, states);
+    for(const auto& blip : dyingBlips) target.draw(blip, states);
+    for(const auto& blip : blips) target.draw(blip.second, states);
 
     target.draw(line, states);
 
@@ -49,18 +53,42 @@ void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(center, states);
 }
 
-void Minimap::update(std::vector<sf::Vector2f> epos){
-    for(unsigned int b = 0; b < blips.size(); ++b){
-        blips[b].update();
-        if(blips[b].dead) blips.erase(blips.begin() + b--);
+void Minimap::initialize(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
+    blips.clear();
+    for(unsigned int e = 0; e < enemies.size(); ++e){
+        blips[e] = Blip(enemies[e].getPosition());
     }
-    for(auto& blip : blips) blip.update();
+}
+
+void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
+    for(auto& blip : blips){
+        if(!blip.second.dead) blip.second.update();
+    }
+
     line.rotate(.8f);
 
-    for(auto& e : epos){
-        //e /= 4.f;
-        if(collide::pointRect((e), line)){
-            blips.push_back(Blip(e));
+    for(unsigned int e = 0; e < enemies.size(); ++e){
+
+        sf::Vector2f p = (playerPos - enemies[e].getPosition());
+        if(!enemies[e].isDead() && collide::pointRect(p, line)){
+            if(blips[e].ready()){
+                if(!blips[e].dead){
+                    dyingBlips.push_back(blips[e]);
+                }
+                blips[e].setPosition(p);
+                blips[e].reset();
+                std::cout << "\nenemy found at pos " << enemies[e].getPosition();
+                std::cout << "\n\tchecking against player position " << playerPos;
+                std::cout << "\n\tp = " << p;
+                std::cout << "\n\tblip placed at " << blips[e].getPosition();
+            }
+        }
+    }
+
+    for(unsigned int b = 0; b < dyingBlips.size(); ++b){
+        dyingBlips[b].update();
+        if(dyingBlips[b].dead){
+            dyingBlips.erase(dyingBlips.begin() + b--);
         }
     }
 }
@@ -68,13 +96,11 @@ void Minimap::update(std::vector<sf::Vector2f> epos){
 void Minimap::Blip::update(){
     if(decayClock.getElapsedTime().asMilliseconds() >= 50){
         decayClock.restart();
-        if(r == 0 && g == 0 && b == 0){
+        if(a == 0){
             dead = true;
         }
         else{
-            if(r > 0) r--;
-            if(g > 0) g--;
-            if(b > 0) b--;
+            a -= 3;
             refill();
         }
     }
@@ -82,14 +108,21 @@ void Minimap::Blip::update(){
 
 void Minimap::Blip::reset(){
     dead = false;
-    r = 250;
-    g = 75;
-    b = 75;
+    a = 255;
     refill();
+    timer.restart();
+}
+
+bool Minimap::Blip::ready(){
+    bool r = (timer.getElapsedTime().asSeconds() >= timeThreshold);
+    if(r){
+        timer.restart();
+    }
+    return r;
 }
 
 void Minimap::Blip::refill(){
-    setFillColor(sf::Color(r, g, b));
+    setFillColor(sf::Color(r, g, b, a));
 }
 
 void Minimap::set(sf::Vector2f size){
@@ -104,7 +137,9 @@ void Minimap::set(sf::Vector2f size){
     frame.setRadius(r);
     frame.setOrigin(r, r);
 
-    line.setSize(sf::Vector2f(8.f, r));
-    line.setOrigin(sf::Vector2f(4.f, r));
+    const float lineLength = r * 4.f;
+
+    line.setSize(sf::Vector2f(8.f, lineLength));
+    line.setOrigin(sf::Vector2f(4.f, lineLength));
     line.setPosition(0.f, 0.f);
 }
