@@ -8,7 +8,17 @@ void Texture_Manager::populate(){
     std::string key, path;
 
     key = "player";
-    path = "textures/entity.png";
+    path = "textures/player.png";
+
+    textures[key].loadFromFile(path);
+
+    key = "enemy";
+    path = "textures/enemy.png";
+
+    textures[key].loadFromFile(path);
+
+    key = "boss";
+    path = "textures/boss.png";
 
     textures[key].loadFromFile(path);
 }

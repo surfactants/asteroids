@@ -1,6 +1,7 @@
 #include "enemy_manager.hpp"
 #include "prng.hpp"
 #include <iostream>
+#include "texture_manager.hpp"
 
 Enemy_Manager::Enemy_Manager(){
     lowLevel = 8;

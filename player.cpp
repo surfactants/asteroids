@@ -1,11 +1,17 @@
 #include "player.hpp"
+#include "texture_manager.hpp"
+#include <iostream>
 
 Player::Player(){
     hMove = NULLSIDE;
     vMove = NULLSIDE;
 
     texture.loadFromFile("textures/entity.png");
-    sprite = Animated_Sprite(texture, sf::Vector2i(64, 64));
+
+    std::cout << "\nhere";
+    sprite = Animated_Sprite(*Texture_Manager::get("player"), sf::Vector2i(64, 64));
+
+    std::cout << "\nhere";
 }
 
 void Player::update(){

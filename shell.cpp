@@ -2,6 +2,7 @@
 #include "primordial.hpp"
 #include <iostream>
 #include "projectile.hpp"
+#include "texture_manager.hpp"
 
 Shell::Shell()
 : window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{
@@ -18,6 +19,8 @@ Shell::Shell()
 
     viewUI.setSize(sf::Vector2f(1920.f, 1080.f));
     viewUI.setCenter(sf::Vector2f(960.f, 540.f));
+
+    //Texture_Manager::populate();
 
     Projectile::loadTexture();
 
