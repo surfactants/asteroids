@@ -36,8 +36,7 @@
 /doxygen/
 
 # textures
-/textures/utility/
-*.piskel
+/textures/
 
 # Code::Blocks files
 *.cbp
