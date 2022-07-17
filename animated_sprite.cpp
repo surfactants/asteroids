@@ -6,6 +6,7 @@ Animated_Sprite::Animated_Sprite(sf::Texture& texture, sf::Vector2i nsize)
     setTexture(texture);
     setAnimationState(IDLE);
     setDirection(randomDirection());
+    setOrigin(sf::Vector2f(size) / 2.f);
 }
 
 void Animated_Sprite::setAnimationState(Animation_State nstate){
