@@ -6,16 +6,18 @@
 
 class UI : public sf::Drawable{
 public:
-    UI();
+    UI(Game& ngame);
 
     void scale(sf::RenderWindow& window);
 
-    void update(Game& game);
+    void update();
 
     bool readEvent(sf::Event& event, sf::Vector2f mPos);
 
 protected:
 private:
+    Game& game;
+
     Minimap minimap;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -1,8 +1,8 @@
 #include "ui.hpp"
 
-UI::UI(){}
+UI::UI(Game& ngame) : game{ ngame }{}
 
-void UI::update(Game& game){
+void UI::update(){
     minimap.update(game.getEnemies(), game.getPlayer().getPosition());
 }
 

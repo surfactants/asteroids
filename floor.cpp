@@ -83,7 +83,7 @@ void Floor_Generator::reset(){
             moveDirection(coordinates, direction, offset);
 
             rooms.push_back(Room(Node(coordinates), roomSize));
-            if(i < steps) rooms.back().type = MAIN;
+            if(i < steps) rooms.back().type = REGULAR;
         }
 
         endRoom = &rooms.back();

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "node.hpp"
 
-enum Room_Type{ START, END, MAIN, SIDE };
+enum Room_Type{ START, END, REGULAR, SIDE };
 
 /////////////////////////////////////////////////////////////
 /// \brief Defines rectangular room areas for carving and automating.

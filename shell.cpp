@@ -19,8 +19,6 @@ Shell::Shell()
     viewUI.setSize(sf::Vector2f(1920.f, 1080.f));
     viewUI.setCenter(sf::Vector2f(960.f, 540.f));
 
-    //Texture_Manager::populate();
-
     Projectile::loadTexture();
 
     ui.scale(window);
@@ -37,16 +35,16 @@ void Shell::run(){
     sf::Clock fpsClock;
 
     while(window.isOpen()){
-        switch(state){
+        switch(state_main){
         case MENU:
             break;
         case LOADING:
             if(loadingScreen.update()){
                 game.newLevel();
-                state = PLAYING;
+                state_main = GAME;
             }
             break;
-        case PLAYING:
+        case GAME:
             input();
             update();
             fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
@@ -62,10 +60,10 @@ void Shell::input(){
         if(event.type == sf::Event::Closed) window.close();
         else{
             if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape) window.close();
-            switch(state){
+            switch(state_main){
             case MENU:
                 break;
-            case PLAYING:
+            case GAME:
                 if(!ui.readEvent(event, fMouse())){
                     game.readEvent(event, fMouse(window, viewGame));
                 }
@@ -82,15 +80,15 @@ void Shell::input(){
 
 void Shell::update(){
     game.update();
-    ui.update(game);
+    ui.update();
 }
 
 void Shell::draw(){
     window.clear();
-        switch(state){
+        switch(state_main){
         case MENU:
             break;
-        case PLAYING:
+        case GAME:
             window.setView(viewGame);
             window.draw(game);
             window.setView(viewUI);
@@ -106,7 +104,7 @@ void Shell::draw(){
 }
 
 void Shell::loadNewLevel(){
-    state = LOADING;
+    state_main = LOADING;
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 

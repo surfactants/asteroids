@@ -8,8 +8,10 @@
 #include "enemy_manager.hpp"
 #include "projectile_manager.hpp"
 #include "collider.hpp"
+#include "texture_manager.hpp"
+#include "state_hook.hpp"
 
-class Game : public sf::Drawable{
+class Game : public sf::Drawable, public State_Hook{
 public:
     Game(sf::RenderWindow& nwindow, sf::View& nview);
     void update();
@@ -27,6 +29,8 @@ public:
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    Texture_Manager textures;
 
     World world;
     //Level level;

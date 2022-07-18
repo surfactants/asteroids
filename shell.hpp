@@ -6,12 +6,11 @@
 #include "menu.hpp"
 #include "loading.hpp"
 #include "feedback.hpp"
-#include "texture_manager.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief
 ///
-class Shell{
+class Shell : public State_Hook{
 public:
     Shell();
     void run();
@@ -21,10 +20,8 @@ private:
     sf::Font font;
     sf::Event event;
 
-    Texture_Manager textures;
-
     Game game{ window, viewGame };
-    UI ui;
+    UI ui{ game };
         sf::View viewUI;
 
     void input();
@@ -34,10 +31,6 @@ private:
     sf::Text fpsText;
 
     Loading_Screen loadingScreen;
-
-    enum State{ MENU, PLAYING, LOADING };
-
-    State state;
 
     void loadNewLevel();
 };
