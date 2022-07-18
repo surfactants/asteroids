@@ -6,6 +6,7 @@
 #include "menu.hpp"
 #include "loading.hpp"
 #include "feedback.hpp"
+#include "texture_manager.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief
@@ -19,6 +20,8 @@ private:
         sf::View viewGame;
     sf::Font font;
     sf::Event event;
+
+    Texture_Manager textures;
 
     Game game{ window, viewGame };
     UI ui;

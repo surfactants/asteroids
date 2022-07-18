@@ -2,7 +2,6 @@
 #include "primordial.hpp"
 #include <iostream>
 #include "projectile.hpp"
-#include "texture_manager.hpp"
 
 Shell::Shell()
 : window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{

@@ -2,7 +2,7 @@
 
 std::map<std::string, sf::Texture> Texture_Manager::textures = std::map<std::string, sf::Texture>();
 
-void Texture_Manager::populate(){
+ Texture_Manager::Texture_Manager(){
     textures.clear();
 
     std::string key, path;
