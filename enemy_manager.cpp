@@ -6,8 +6,6 @@
 Enemy_Manager::Enemy_Manager(){
     lowLevel = 8;
     highLevel = 13;
-
-    texture.loadFromFile("textures/entity.png");
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
@@ -28,6 +26,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
                     if(c == u) continue;
                 }
             } while(!rooms[r].contains(c));
+            sf::Texture& texture = *Texture_Manager::get("enemy");
             Animated_Sprite sprite(texture, sf::Vector2i(64, 64));
             enemies.push_back(Enemy(sprite));
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
@@ -45,7 +44,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
 
     std::cout << "\n      spawning boss";
     //place boss
-    Animated_Sprite sprite(texture, sf::Vector2i(128, 128));
+    Animated_Sprite sprite(*Texture_Manager::get("boss"), sf::Vector2i(128, 128));
     enemies.push_back(Enemy(sprite));
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
