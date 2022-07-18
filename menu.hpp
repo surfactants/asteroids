@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "menu_elements.hpp"
 #include "state_hook.hpp"
+#include "audio_manager.hpp"
 
 class Menu : public sf::Drawable, public State_Hook{
 public:
@@ -37,4 +38,6 @@ private:
 
     Slider volume_music{ "music" };
     Slider volume_sound{ "sound" };
+
+    Audio_Settings audioSettings;
 };;
