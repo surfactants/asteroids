@@ -2,45 +2,51 @@
 
 #include <SFML/Audio.hpp>
 #include <deque>
+#include <map>
+#include <string>
 
 class Audio_Manager{
 public:
-    void playSound();
-    void playUI();
+    void playSound(sf::Sound sound);
+    void playUI(sf::Sound sound);
     void update();
 protected:
-private:
     static float volume_music;
 
-    static std::vector<sf::Sound> sounds_game;
-        static float volume_sound;
-        sf::SoundBuffer s_whatever; //holds sound data to be passed into sounds
+    static std::deque<sf::Sound> sounds_game;
+    static float volume_game;
 
-    static std::vector<sf::Sound> sounds_ui;
-        static float volume_ui;
+    static float volume_ui;
+    static std::deque<sf::Sound> sounds_ui;
+private:
+
 };
 
 class Audio_Interface{
 public:
+    virtual void play(std::string id);
 protected:
     Audio_Manager player;
-private:
+    std::map<std::string, sf::SoundBuffer> sounds;
 };
 
-class Audio_Game_Interface : public Audio_Interface{
+class Audio_Game : public Audio_Interface{
 public:
+    virtual void play(std::string id) override;
 protected:
 private:
 };
 
-class Audio_UI_Interface : public Audio_Interface{
+class Audio_UI : public Audio_Interface{
 public:
+    virtual void play(std::string id) override;
 protected:
 private:
 };
 
-class Audio_Music_Interface : public Audio_Interface{
+class Audio_Music : public Audio_Interface{
 public:
+    virtual void play(std::string id) override;
 protected:
 private:
 };
