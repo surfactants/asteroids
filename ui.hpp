@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "minimap.hpp"
 #include "game.hpp"
+#include "ui_elements.hpp"
 
 class UI : public sf::Drawable{
 public:
