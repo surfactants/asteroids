@@ -2,7 +2,7 @@
 #include "prng.hpp"
 #include <iostream>
 #include "collision.hpp"
-#include "sfml-vector2-extension.hpp"
+#include "vector2_stream.hpp"
 
 const float Minimap::Blip::timeThreshold = 0.5f;
 
