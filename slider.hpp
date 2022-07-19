@@ -20,6 +20,8 @@ private:
 
     const static float scrollFactor; /**<Rate at which scrolling changes the fill*/
 
+    bool changing = false;
+
     ////////////////////////////////////////////////////////////
     /// \brief Sets the fill.
     /// Internal.
@@ -29,6 +31,8 @@ private:
     void setFill(float f);
 
 public:
+    Slider(){}
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
@@ -75,4 +79,10 @@ public:
     /// \return \b true if mouse is inside container
     ///
     bool checkMouse();
+
+    void update();
+
+    bool unclick();
+
+    bool click();
 };

@@ -1,4 +1,5 @@
 #include "slider.hpp"
+#include "fmouse.hpp"
 
 const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 66.f);
 
@@ -76,6 +77,24 @@ void Slider::scroll(float delta){
 }
 
 bool Slider::checkMouse(){
-    if(container.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition()))) return true;
-    else return false;
+    return container.getGlobalBounds().contains(fMouse());
+}
+
+void Slider::update(){
+    if(changing){
+        findFill(sf::Mouse::getPosition().x);
+    }
+}
+
+bool Slider::unclick(){
+    if(changing){
+        changing = false;
+        return true;
+    }
+    return false;
+}
+
+bool Slider::click(){
+    if(!changing && checkMouse()) changing = true;
+    return changing;
 }

@@ -4,6 +4,7 @@
 #include "minimap.hpp"
 #include "game.hpp"
 #include "ui_elements.hpp"
+#include "audio_manager.hpp"
 
 class UI : public sf::Drawable{
 public:
@@ -20,6 +21,8 @@ private:
     Game& game;
 
     Minimap minimap;
+
+    Audio_UI audio;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -8,18 +8,23 @@
 ///
 class Button : public sf::Drawable{
 public:
-    Button(std::string nlabel);
+    Button(std::string nlabel, sf::Font& font);
 
-    void checkMouse(sf::Vector2i mpos);
+    void update(sf::Vector2f& mpos);
     bool isHighlighted();
     void highlight();
     void unhighlight();
 
-private:
+    void setPosition(sf::Vector2f pos);
+    sf::Vector2f getPosition();
+
+protected:
     sf::RectangleShape container;
     sf::Text label;
 
     bool highlighted = false;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    const static float padding;
 };

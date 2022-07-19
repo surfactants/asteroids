@@ -33,13 +33,25 @@ void Audio_Manager::playUI(sf::Sound sound){
 //END AUDIO MANAGER IMPLEMENTATION
 ///////////////////////////////////////////////////
 
+///////////////////////////////////////////////////
+//BEGIN AUDIO GAME IMPLEMENTATION
+//
 void Audio_Game::play(std::string id){
     if(sounds.count(id)) player.playSound(sf::Sound(sounds[id]));
 }
+//
+//END AUDIO GAME IMPLEMENTATION
+///////////////////////////////////////////////////
 
+///////////////////////////////////////////////////
+//BEGIN AUDIO UI IMPLEMENTATION
+//
 void Audio_UI::play(std::string id){
     if(sounds.count(id)) player.playUI(sf::Sound(sounds[id]));
 }
+//
+//END AUDIO UI IMPLEMENTATION
+///////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////
 //BEGIN AUDIO SETTINGS IMPLEMENTATION

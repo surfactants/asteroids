@@ -1,27 +1,29 @@
 #pragma once
 
 enum Main_State{
-    MENU,
-    GAME,
-    LOADING
+    MAIN_NULL,
+    MAIN_MENU,
+    MAIN_NEWGAME,
+    MAIN_GAME,
+    MAIN_LOADING,
+    MAIN_QUIT
 };
 
 enum Menu_State{
-    MAIN,
-    PAUSE,
-    SETTINGS
+    MENU_NULL,
+    MENU_MAIN,
+    MENU_PAUSE,
+    MENU_SETTINGS
 };
 
 class State_Hook{
-public:
-    State_Hook();
-
 protected:
-    Main_State state_main;
-    Menu_State state_menu;
+    static Main_State state_main;
+    static Menu_State state_menu;
 
-private:
+    static bool change_main;
+    static bool change_menu;
 
-    readMenuStateChange();
-    readMainStateChange();
+    void newMain(Main_State ns);
+    void newMenu(Menu_State ns);
 };

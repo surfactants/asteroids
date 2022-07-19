@@ -16,13 +16,20 @@ public:
     void run();
 private:
     sf::RenderWindow window;
-        sf::View viewGame;
     sf::Font font;
     sf::Event event;
 
     Game game{ window, viewGame };
+        sf::View viewGame;
+
     UI ui{ game };
         sf::View viewUI;
+
+    Menu* menu = nullptr;
+        sf::View viewMenu;
+        Menu_Main menu_main;
+        Menu_Pause menu_pause;
+        Menu_Settings menu_settings;
 
     void input();
     void update();
@@ -33,4 +40,6 @@ private:
     Loading_Screen loadingScreen;
 
     void loadNewLevel();
+
+    void alignState();
 };

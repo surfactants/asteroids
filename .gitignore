@@ -38,6 +38,9 @@
 # textures
 /textures/
 
+# fonts
+*.ttf
+
 # Code::Blocks files
 *.cbp
 *.depend

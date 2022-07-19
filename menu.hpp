@@ -4,13 +4,28 @@
 #include "menu_elements.hpp"
 #include "state_hook.hpp"
 #include "audio_manager.hpp"
+#include <vector>
+
+struct Nav : public Button{
+    Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
+    Main_State target_main;
+    Menu_State target_menu;
+};
 
 class Menu : public sf::Drawable, public State_Hook{
 public:
     Menu();
+    void update(sf::Vector2f mpos);
+    bool click();
+    bool unclick();
 protected:
+    std::map<std::string, Button> options;
+    std::map<std::string, Slider> sliders;
 private:
+    std::vector<Nav> nav;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    static sf::Font font;
 };
 
 class Menu_Main : public Menu{
@@ -18,7 +33,6 @@ public:
     Menu_Main();
 protected:
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Menu_Pause : public Menu{
@@ -26,7 +40,6 @@ public:
     Menu_Pause();
 protected:
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Menu_Settings : public Menu{
@@ -34,10 +47,8 @@ public:
     Menu_Settings();
 protected:
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
     Slider volume_music{ "music" };
     Slider volume_sound{ "sound" };
 
     Audio_Settings audioSettings;
-};;
+};

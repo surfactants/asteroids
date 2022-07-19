@@ -24,7 +24,7 @@ private:
 
 class Audio_Interface{
 public:
-    virtual void play(std::string id);
+    virtual void play(std::string id) = 0;
 protected:
     Audio_Manager player;
     std::map<std::string, sf::SoundBuffer> sounds;

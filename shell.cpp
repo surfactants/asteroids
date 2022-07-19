@@ -2,6 +2,7 @@
 #include "primordial.hpp"
 #include <iostream>
 #include "projectile.hpp"
+#include "fmouse.hpp"
 
 Shell::Shell()
 : window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{
@@ -19,11 +20,16 @@ Shell::Shell()
     viewUI.setSize(sf::Vector2f(1920.f, 1080.f));
     viewUI.setCenter(sf::Vector2f(960.f, 540.f));
 
+    viewMenu.setSize(sf::Vector2f(window.getSize()));
+    viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
+
     Projectile::loadTexture();
 
     ui.scale(window);
 
-    loadNewLevel();
+    alignState();
+
+    std::cout << "\n\n" << state_main << "\t|\t" << state_menu;
 }
 
 void Shell::run(){
@@ -36,21 +42,30 @@ void Shell::run(){
 
     while(window.isOpen()){
         switch(state_main){
-        case MENU:
+        case MAIN_NEWGAME:
+            loadNewLevel();
+            continue;
             break;
-        case LOADING:
+        case MAIN_MENU:
+            menu->update(fMouse(window, viewUI));
+            break;
+        case MAIN_LOADING:
             if(loadingScreen.update()){
                 game.newLevel();
-                state_main = GAME;
+                state_main = MAIN_GAME;
             }
             break;
-        case GAME:
-            input();
-            update();
+        case MAIN_GAME:
+            game.update();
+            ui.update();
             fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
             fpsClock.restart();
             break;
+        default:
+            break;
         }
+        input();
+        alignState();
         draw();
     }
 }
@@ -61,9 +76,20 @@ void Shell::input(){
         else{
             if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape) window.close();
             switch(state_main){
-            case MENU:
+            case MAIN_MENU:
+                if(event.type == sf::Event::MouseButtonPressed){
+                    if(event.mouseButton.button == sf::Mouse::Left){
+                        std::cout << "\nmenu leftclick detected!";
+                        menu->click();
+                    }
+                }
+                else if(event.type == sf::Event::MouseButtonReleased){
+                    if(event.mouseButton.button == sf::Mouse::Left){
+                        menu->unclick();
+                    }
+                }
                 break;
-            case GAME:
+            case MAIN_GAME:
                 if(!ui.readEvent(event, fMouse())){
                     game.readEvent(event, fMouse(window, viewGame));
                 }
@@ -71,7 +97,9 @@ void Shell::input(){
                     game.readEvent(event, fMouse(window, viewGame));
                 }
                 break;
-            case LOADING:
+            case MAIN_LOADING:
+                break;
+            default:
                 break;
             }
         }
@@ -79,32 +107,45 @@ void Shell::input(){
 }
 
 void Shell::update(){
-    game.update();
-    ui.update();
+    switch(state_main){
+    case MAIN_MENU:
+        menu->update(fMouse(window, viewUI));
+        break;
+    case MAIN_GAME:
+        game.update();
+        ui.update();
+        break;
+    default:
+        break;
+    }
 }
 
 void Shell::draw(){
     window.clear();
         switch(state_main){
-        case MENU:
+        case MAIN_MENU:
+            window.setView(viewUI);
+            window.draw(*menu);
             break;
-        case GAME:
+        case MAIN_GAME:
             window.setView(viewGame);
             window.draw(game);
             window.setView(viewUI);
             window.draw(fpsText);
             window.draw(ui);
             break;
-        case LOADING:
+        case MAIN_LOADING:
             window.setView(viewUI);
             window.draw(loadingScreen);
+            break;
+        default:
             break;
         }
     window.display();
 }
 
 void Shell::loadNewLevel(){
-    state_main = LOADING;
+    state_main = MAIN_LOADING;
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 
@@ -123,4 +164,36 @@ void Shell::loadNewLevel(){
         messages.push_back("reticulating splines...");
 
     loadingScreen.prepare(loads, messages);
+}
+
+void Shell::alignState(){
+    if(change_main){
+        change_main = false;
+        switch(state_main){
+        case MAIN_QUIT:
+            window.close();
+            break;
+        case MAIN_NEWGAME:
+            loadNewLevel();
+            break;
+        default:
+            break;
+        }
+    }
+    if(change_menu){
+        change_menu = false;
+        switch(state_menu){
+        case MENU_MAIN:
+            menu = &menu_main;
+            break;
+        case MENU_PAUSE:
+            menu = &menu_pause;
+            break;
+        case MENU_SETTINGS:
+            menu = &menu_settings;
+            break;
+        default:
+            break;
+        }
+    }
 }

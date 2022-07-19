@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <iostream>
 #include "primordial.hpp"
+#include "fmouse.hpp"
 
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview) : window{ nwindow }, view{ nview }{
     //newLevel();
