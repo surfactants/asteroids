@@ -5,9 +5,6 @@
 
 enum Wall_Type{ BLANK, STRAIGHT, CORNER_OUTER, CORNER_INNER, PENINSULA, ISLAND, NULLTYPE };
 
-/////////////////////////////////////////////////////////////
-/// \brief Deprecatable when embedded.
-///
 struct Tile : public sf::Sprite{
     Tile(){}
     const static float tileSize;
@@ -22,8 +19,6 @@ struct Tile : public sf::Sprite{
     void setWall(Wall_Type type);
 
     Wall_Type wallType;
-
-    //void rotate(float r);
 
     Tile* getWall(int x, int y);
 };

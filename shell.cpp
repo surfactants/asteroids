@@ -150,7 +150,6 @@ void Shell::loadNewLevel(){
     std::vector<std::string> messages;
 
     //SKIPPING THE FIRST STEP ALLOWS THE DRAW FUNCTION TO SWAP OVER TO LOADING BEFORE IT BEGINS
-        //(MAYBE UNNECESSARY BUT TAKE A LOOK LATER)
     loads.push_back(std::function<void()>([]{ return; }));
         messages.push_back("pee");
 

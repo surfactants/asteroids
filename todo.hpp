@@ -20,14 +20,6 @@
         //move Game::getPlayerCollideMap() to World and genericize it for projectile checking
 
         //there was a segfault once :/
-        //some enemies don't take damage??
-
-
 
     //weapon handling and stats are still hardcoded.
     //melee weapons dont exist yet
-
-
-
-//DONE
-    //shooting is now handled with a continuous mouse press rather than discrete clicks

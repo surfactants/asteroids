@@ -3,13 +3,10 @@
 #include "primordial.hpp"
 #include "fmouse.hpp"
 
-Game::Game(sf::RenderWindow& nwindow, sf::View& nview) : window{ nwindow }, view{ nview }{
-    //newLevel();
-}
+Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
+: window{ nwindow }, view{ nview }{}
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    //target.setView(worldView);
-
     target.draw(world, states);
 
     target.draw(enemyManager, states);
@@ -133,51 +130,13 @@ bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
         }
     }
     if(event.type == sf::Event::KeyPressed){
-        switch(event.key.code){/*
-        case sf::Keyboard::Left:
-        case sf::Keyboard::A:
-            player.directLeft();
-            std::cout << "\ndirecting left...";
-            break;
-        case sf::Keyboard::Right:
-        case sf::Keyboard::D:
-            player.directRight();
-            std::cout << "\ndirecting right...";
-            break;
-        case sf::Keyboard::Up:
-        case sf::Keyboard::W:
-            player.directUp();
-            std::cout << "\ndirecting up...";
-            break;
-        case sf::Keyboard::Down:
-        case sf::Keyboard::S:
-            player.directDown();
-            std::cout << "\ndirecting down...";
-            break;*/
+        switch(event.key.code){
         default:
             break;
         }
     }
     else if(event.type == sf::Event::KeyReleased){
-        switch(event.key.code){/*
-        case sf::Keyboard::Escape:
-            window.close();
-            break;
-        case sf::Keyboard::Left:
-        case sf::Keyboard::A:
-        case sf::Keyboard::Right:
-        case sf::Keyboard::D:
-            player.stopHorizontal();
-            break;
-        case sf::Keyboard::Up:
-        case sf::Keyboard::W:
-        case sf::Keyboard::Down:
-        case sf::Keyboard::S:
-            player.stopVertical();
-            break;
-        case sf::Keyboard::Enter:
-            enter();
-            break;*/
+        switch(event.key.code){
         default:
             break;
         }

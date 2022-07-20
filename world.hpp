@@ -5,13 +5,6 @@
 #include <map>
 #include "room.hpp"
 
-//world class holds tiles and collision rectangles
-    //TODO
-        //create grid from the bounds of Level::floorMap
-        //generate walls
-        //generate wallmaps (floatrect structures to check collision)
-        //change tiles to use std::map<int, std::map<int, Tile>> for easier lookups
-
 class World : public sf::Drawable{
 public:
     World();
@@ -33,8 +26,6 @@ public:
     std::vector<sf::FloatRect> getLocalWalls(sf::Vector2f p);
 
 private:
-    //std::vector<Tile> floor;
-
     std::map<int, std::map<int, Tile*>> floor;
     std::map<int, std::map<int, Tile*>> walls;
 

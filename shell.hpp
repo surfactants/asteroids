@@ -6,10 +6,8 @@
 #include "menu.hpp"
 #include "loading.hpp"
 #include "feedback.hpp"
+#include "input_manager.hpp"
 
-/////////////////////////////////////////////////////////////
-/// \brief
-///
 class Shell : public State_Hook{
 public:
     Shell();
@@ -30,6 +28,8 @@ private:
         Menu_Main menu_main;
         Menu_Pause menu_pause;
         Menu_Settings menu_settings;
+
+    Input_Manager input{ window, game, ui, menu };
 
     void input();
     void update();
