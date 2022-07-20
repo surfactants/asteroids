@@ -15,7 +15,6 @@ Player::Player(){
 }
 
 void Player::update(){
-    checkWASD();
     sprite.update();
 }
 
@@ -97,40 +96,58 @@ void Player::checkWASD(){
         //KEYS PRESSED
             //IF(!DIRECTION && D_KEY_PRESSED):
                 //DIRECT IN THAT DIRECTION
+}
 
-    ///////////////////////////////////
-/*
-    if(vMove == NULLSIDE && w){
-        vMove = NORTH;
-        directUp();
+void Player::upStart(){
+    if(!up){
+        up = true;
     }
-    else if(vMove == NULLSIDE && s){
-        vMove = SOUTH;
-        directDown();
-    }
-    else if(vMove == NORTH && !w){
-        vMove = NULLSIDE;
-        stopVertical();
-    }
-    else if(vMove == SOUTH && !s){
-        vMove = NULLSIDE;
-        stopVertical();
-    }
+}
 
-    if(hMove == NULLSIDE && a){
-        hMove = WEST;
-        directLeft();
+void Player::upEnd(){
+    if(up){
+        up = false;
     }
-    else if(hMove == NULLSIDE && d){
-        hMove = EAST;
-        directRight();
+}
+
+void Player::downStart(){
+    if(!down){
+        down = true;
+        setVelocity();
     }
-    else if(hMove == WEST && !a){
-        hMove = NULLSIDE;
-        stopHorizontal();
+}
+
+void Player::downEnd(){
+    if(down){
+        down = false;
+        setVelocity();
     }
-    else if(hMove == EAST && !d){
-        hMove = NULLSIDE;
-        stopHorizontal();
-    }*/
+}
+
+void Player::leftStart(){
+    if(!left){
+        left = true;
+        setVelocity();
+    }
+}
+
+void Player::leftEnd(){
+    if(left){
+        left = false;
+        setVelocity();
+    }
+}
+
+void Player::rightStart(){
+    if(!right){
+        right = true;
+        setVelocity();
+    }
+}
+
+void Player::rightEnd(){
+    if(right){
+        right = false;
+        setVelocity();
+    }
 }

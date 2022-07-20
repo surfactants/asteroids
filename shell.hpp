@@ -6,7 +6,7 @@
 #include "menu.hpp"
 #include "loading.hpp"
 #include "feedback.hpp"
-#include "input_manager.hpp"
+#include "input_handler.hpp"
 
 class Shell : public State_Hook{
 public:
@@ -29,9 +29,9 @@ private:
         Menu_Pause menu_pause;
         Menu_Settings menu_settings;
 
-    Input_Manager input{ window, game, ui, menu };
+    Input_Handler input{ window, game, ui, menu };
 
-    void input();
+    void input2();
     void update();
     void draw();
 

@@ -16,11 +16,15 @@ class Menu : public sf::Drawable, public State_Hook{
 public:
     Menu();
     void update(sf::Vector2f mpos);
-    bool click();
-    bool unclick();
+    void clickLeft();
+    void clickRight();
+    void releaseLeft();
+    void releaseRight();
+
 protected:
     std::map<std::string, Button> options;
     std::map<std::string, Slider> sliders;
+
 private:
     std::vector<Nav> nav;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

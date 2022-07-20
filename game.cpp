@@ -28,41 +28,8 @@ void Game::update(){
         enemy.update();
     }
     player.update();
-
-    //player collision is checked here
-        //TODO
-            //make a discrete collision class
-            //figure out how to make this faster ):
-            //rework inputs to be smoother and more consistent
-                //if player isn't moving in a direction and the corresponding button is pressed, they should start doing so
-                    //(this happens when alternating between opposite directions)
-
-
-    std::vector<sf::FloatRect> wallColliders = getPlayerCollideMap();
-
-    sf::Vector2f viewMove = player.getVelocity();
-
-    player.moveX();
-
-    for(unsigned int x = 0; x < wallColliders.size(); ++x){
-        if(wallColliders[x].intersects(player.getSprite().getGlobalBounds())){
-            player.unmoveX();
-            viewMove.x = 0.f;
-            break;
-        }
-    }
-
-    player.moveY();
-
-    for(unsigned int y = 0; y < wallColliders.size(); ++y){
-        if(wallColliders[y].intersects(player.getSprite().getGlobalBounds())){
-            player.unmoveY();
-            viewMove.y = 0.f;
-            break;
-        }
-    }
-
-    view.move(viewMove);
+    player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize)));
+    view.move(player.getVelocity());
 
     if(player.isAttacking() && player.getEquippedWeapon().shoot()){
         Projectile p = player.attack(fMouse(window, view));

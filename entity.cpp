@@ -35,7 +35,8 @@ Entity::Entity()
     armorFactor = 0.d;
 
     velocity = sf::Vector2f(0.f, 0.f);
-    speed = 3.f;
+    speed_orthogonal = 3.f;
+    speed_diagonal = speed_orthogonal * sqrt2_inv;
 
     setLevel(prng::number(1u, 99u));
 
@@ -134,6 +135,22 @@ void Entity::move(){
     move(velocity);
 }
 
+void Entity::move(std::vector<sf::FloatRect> walls){
+    moveX();
+    for(const auto& wall : walls){
+        if(wall.intersects(sprite.getGlobalBounds())){
+            unmoveX();
+        }
+    }
+
+    moveY();
+    for(const auto& wall : walls){
+        if(wall.intersects(sprite.getGlobalBounds())){
+            unmoveY();
+        }
+    }
+}
+
 void Entity::moveX(){
     move(sf::Vector2f(velocity.x, 0.f));
 }
@@ -173,28 +190,28 @@ void Entity::setLevel(unsigned int nlevel){
 
 void Entity::directLeft(){
     directCheck();
-    velocity.x = -speed;
+    velocity.x = -speed_orthogonal;
     direction = WEST;
     setSpriteDirection();
 }
 
 void Entity::directRight(){
     directCheck();
-    velocity.x = speed;
+    velocity.x = speed_orthogonal;
     direction = EAST;
     setSpriteDirection();
 }
 
 void Entity::directUp(){
     directCheck();
-    velocity.y = -speed;
+    velocity.y = -speed_orthogonal;
     direction = NORTH;
     setSpriteDirection();
 }
 
 void Entity::directDown(){
     directCheck();
-    velocity.y = speed;
+    velocity.y = speed_orthogonal;
     direction = SOUTH;
     setSpriteDirection();
 }
@@ -278,4 +295,32 @@ bool Entity::isDead(){
 
 Direction Entity::getDirection(){
     return direction;
+}
+
+void Entity::setVelocity(){
+    float speed;
+    if((up && down) || (up && right) || (down && left) || (down && right)){
+        speed = speed_diagonal;
+    }
+    else speed = speed_orthogonal;
+
+    if((!left && !right) || (left && right)){
+        velocity.x = 0.f;
+    }
+    else if(left && !right){
+        velocity.x = -speed;
+    }
+    else if(!left && right){
+        velocity.x = speed;
+    }
+
+    if(!up && !down){
+        velocity.y = 0.f;
+    }
+    else if(up && !down){
+        velocity.y = -speed_orthogonal;
+    }
+    else if(!up && down){
+        velocity.y = speed_orthogonal;
+    }
 }

@@ -28,42 +28,45 @@ Menu::Menu(){
         nav.back().setPosition(pos);
 }
 
-bool Menu::click(){
-    for(auto& button : nav){
+void Menu::clickLeft(){
+    std::cout << "\nmenu leftclick";
+    for(Nav& button : nav){
+        std::cout << "\n\t\t" << "checking button...";
         if(button.isHighlighted()){
-            std::cout << "\nbutton clicked!";
+            std::cout << "\n\t\tbutton clicked!";
             if(button.target_main != MAIN_NULL){
                 newMain(button.target_main);
             }
             if(button.target_menu != MENU_NULL){
                 newMenu(button.target_menu);
             }
-            return true;
+            return;
         }
     }
     for(auto& button : options){
         if(button.second.isHighlighted()){
-            return true;
+            return;
         }
     }
     for(auto& slider : sliders){
         if(slider.second.click()){
-            return true;
+            return;
         }
     }
-
-    return false;
+    std::cout << "\n\tparsed";
 }
 
-bool Menu::unclick(){
+void Menu::clickRight(){}
+
+void Menu::releaseLeft(){
     for(auto& slider : sliders){
         if(slider.second.unclick()){
-            return true;
+            return;
         }
     }
-
-    return false;
 }
+
+void Menu::releaseRight(){}
 
 void Menu::update(sf::Vector2f mpos){
     for(auto& button : nav) button.update(mpos);

@@ -64,13 +64,14 @@ void Shell::run(){
         default:
             break;
         }
-        input();
+        input.handle();
+        //input2();
         alignState();
         draw();
     }
 }
 
-void Shell::input(){
+void Shell::input2(){
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed) window.close();
         else{
@@ -80,12 +81,12 @@ void Shell::input(){
                 if(event.type == sf::Event::MouseButtonPressed){
                     if(event.mouseButton.button == sf::Mouse::Left){
                         std::cout << "\nmenu leftclick detected!";
-                        menu->click();
+                        //menu->click();
                     }
                 }
                 else if(event.type == sf::Event::MouseButtonReleased){
                     if(event.mouseButton.button == sf::Mouse::Left){
-                        menu->unclick();
+                        //menu->unclick();
                     }
                 }
                 break;

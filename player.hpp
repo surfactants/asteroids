@@ -10,6 +10,18 @@ public:
     Direction hMove;
     Direction vMove;
 
+    void upStart();
+    void upEnd();
+
+    void downStart();
+    void downEnd();
+
+    void leftStart();
+    void leftEnd();
+
+    void rightStart();
+    void rightEnd();
+
     void update() override;
 protected:
 private:

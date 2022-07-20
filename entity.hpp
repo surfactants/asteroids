@@ -4,6 +4,9 @@
 #include "weapon.hpp"
 #include "direction.hpp"
 #include "animated_sprite.hpp"
+#include <vector>
+
+#define sqrt2_inv 0.7071
 
 /////////////////////////////////////////////////////////////
 /// \brief
@@ -43,6 +46,7 @@ public:
     sf::Vector2i getCoordinates(float tileSize);
 
     void move();
+    void move(std::vector<sf::FloatRect> walls);
     void moveX();
     void moveY();
 
@@ -97,11 +101,14 @@ protected:
 
     void updateHP();
 
-    float speed;
+    float speed_orthogonal;
+    float speed_diagonal;
 
     void move(sf::Vector2f v);
 
     sf::Vector2f velocity;
+
+    void setVelocity();
 
     static sf::Font font;
 
@@ -123,4 +130,9 @@ protected:
     float animationBase;
 
     void directCheck();
+
+    bool up = false,
+         down = false,
+         left= false,
+         right = false;
 };
