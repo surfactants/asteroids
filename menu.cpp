@@ -107,5 +107,6 @@ Menu_Settings::Menu_Settings(){
 }
 
 void Menu_Settings::back(){
+    std::cout << "\nthe right one...";
     newMenu(prev_menu);
 }

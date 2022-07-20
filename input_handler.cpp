@@ -15,7 +15,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     /////////////////////////////////////////////////////////////
     Input_Package& p_g = context[MAIN_GAME];
 
-        p_g.keyReleased['\q'] = std::bind(&Game::escape, &game);
+        p_g.keyReleased['~'] = std::bind(&Game::escape, &game);
 
         p_g.keyPressed['w'] = std::bind(&Player::upStart, player);
         p_g.keyReleased['w'] = std::bind(&Player::upEnd, player);
@@ -37,7 +37,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     Input_Package& p_m = context_menu[MENU_MAIN];
     Menu* m = menu_package.m_main;
 
-        p_m.keyReleased['\q'] = std::bind(&Menu::back, m);
+        p_m.keyReleased['~'] = std::bind(&Menu::back, m);
 
         p_m.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
         p_m.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
@@ -47,7 +47,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     Input_Package& p_p = context_menu[MENU_PAUSE];
     m = menu_package.m_pause;
 
-        p_p.keyReleased['\q'] = std::bind(&Menu::back, m);
+        p_p.keyReleased['~'] = std::bind(&Menu::back, m);
 
         p_p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
         p_p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
@@ -55,8 +55,9 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
     /////////////////////////////////////////////////////////////
     Input_Package& p_s = context_menu[MENU_SETTINGS];
+    m = menu_package.m_settings;
 
-        p_p.keyReleased['\q'] = std::bind(&Menu::back, m);
+        p_s.keyReleased['~'] = std::bind(&Menu::back, m);
 
         p_s.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, menu_package.m_settings);
         p_s.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, menu_package.m_settings);

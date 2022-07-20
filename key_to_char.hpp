@@ -65,7 +65,7 @@ inline char keyToChar(sf::Keyboard::Key k){
         KEY Numpad9:
         KEY Num9: return '9';
 
-        KEY Escape: return '\q';
+        KEY Escape: return '~';
 
         default: return '$';
     }
