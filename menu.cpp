@@ -30,8 +30,8 @@ Menu::Menu(){
 
 void Menu::clickLeft(){
     std::cout << "\nmenu leftclick";
-    for(Nav& button : nav){
-        std::cout << "\n\t\t" << "checking button...";
+    for(auto& button : nav){
+        std::cout << "\n\t\t" << "checking nav...";
         if(button.isHighlighted()){
             std::cout << "\n\t\tbutton clicked!";
             if(button.target_main != MAIN_NULL){
@@ -44,11 +44,13 @@ void Menu::clickLeft(){
         }
     }
     for(auto& button : options){
+        std::cout << "\n\t\t" << "checking options...";
         if(button.second.isHighlighted()){
             return;
         }
     }
     for(auto& slider : sliders){
+        std::cout << "\n\t\t" << "checking sliders...";
         if(slider.second.click()){
             return;
         }
@@ -56,7 +58,8 @@ void Menu::clickLeft(){
     std::cout << "\n\tparsed";
 }
 
-void Menu::clickRight(){}
+void Menu::clickRight(){
+}
 
 void Menu::releaseLeft(){
     for(auto& slider : sliders){
