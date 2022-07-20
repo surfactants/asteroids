@@ -1,6 +1,7 @@
 #include "menu.hpp"
 #include <iostream>
 
+std::vector<Nav> Menu::nav = std::vector<Nav>();
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
 : Button{ nlabel, font }{
     target_main = ntmain;
@@ -42,6 +43,7 @@ void Menu::clickLeft(){
             }
             return;
         }
+        std::cout << "\n\tno nav highlight found...";
     }
     for(auto& button : options){
         std::cout << "\n\t\t" << "checking options...";
@@ -62,6 +64,7 @@ void Menu::clickRight(){
 }
 
 void Menu::releaseLeft(){
+    std::cout << "\nmenu unclick detected...";
     for(auto& slider : sliders){
         if(slider.second.unclick()){
             return;

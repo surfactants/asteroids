@@ -8,20 +8,29 @@
 #include "game.hpp"
 #include "ui.hpp"
 
+enum Mouse_Event{
+    LEFT_CLICK,
+    LEFT_RELEASE,
+    RIGHT_CLICK,
+    RIGHT_RELEASE,
+    SCROLL
+};
+
 struct Input_Package{
     std::map<char, std::function<void()>> keyPressed;
     std::map<char, std::function<void()>> keyReleased;
-    std::function<void()> left_click;
-    std::function<void()> left_release;
-    std::function<void()> right_click;
-    std::function<void()> right_release;
+    std::map<Mouse_Event, std::function<void()>> mouse;
+
+    void clear();
 };
 
 class Input_Handler : public State_Hook{
 public:
-    Input_Handler(sf::RenderWindow& nwindow, Game& ngame, UI& nui, Menu* nmenu);
+    Input_Handler(sf::RenderWindow& nwindow, Game& ngame, UI& nui, Menu_Package m);
 
     void handle();
+
+    void menuChange();
 
 private:
     sf::RenderWindow& window;
@@ -29,4 +38,5 @@ private:
     sf::Event event;
 
     std::map<Main_State, Input_Package> context;
+    std::map<Menu_State, Input_Package> context_menu;
 };

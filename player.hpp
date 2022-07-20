@@ -26,5 +26,4 @@ public:
 protected:
 private:
     sf::Texture texture;
-    void checkWASD();
 };

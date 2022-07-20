@@ -29,9 +29,9 @@ private:
         Menu_Pause menu_pause;
         Menu_Settings menu_settings;
 
-    Input_Handler input{ window, game, ui, menu };
+    //Input_Handler input{ window, game, ui };
+    Input_Handler input{ window, game, ui, Menu_Package(&menu_main, &menu_pause, &menu_settings) };
 
-    void input2();
     void update();
     void draw();
 

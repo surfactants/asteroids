@@ -2,10 +2,10 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-inline char keyToChar(sf::Event& event){
+inline char keyToChar(sf::Keyboard::Key k){
     #define KEY case sf::Keyboard::
 
-    switch(event.key.code){
+    switch(k){
         KEY A: return 'a';
         KEY B: return 'b';
         KEY C: return 'c';

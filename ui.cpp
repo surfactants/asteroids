@@ -6,10 +6,15 @@ void UI::update(){
     minimap.update(game.getEnemies(), game.getPlayer().getPosition());
 }
 
-bool UI::readEvent(sf::Event& event, sf::Vector2f mPos){
-    bool parsed = false;
+void UI::clickLeft(){
+    //if ui parses the click then return
+    //else...
+    game.clickLeft();
+}
 
-    return parsed;
+void UI::releaseLeft(){
+    //ui parse, NO IF; player needs to stop shooting
+    game.releaseLeft();
 }
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const{

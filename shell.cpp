@@ -27,6 +27,8 @@ Shell::Shell()
 
     ui.scale(window);
 
+    //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
+
     alignState();
 
     std::cout << "\n\n" << state_main << "\t|\t" << state_menu;
@@ -65,45 +67,8 @@ void Shell::run(){
             break;
         }
         input.handle();
-        //input2();
         alignState();
         draw();
-    }
-}
-
-void Shell::input2(){
-    while(window.pollEvent(event)){
-        if(event.type == sf::Event::Closed) window.close();
-        else{
-            if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape) window.close();
-            switch(state_main){
-            case MAIN_MENU:
-                if(event.type == sf::Event::MouseButtonPressed){
-                    if(event.mouseButton.button == sf::Mouse::Left){
-                        std::cout << "\nmenu leftclick detected!";
-                        //menu->click();
-                    }
-                }
-                else if(event.type == sf::Event::MouseButtonReleased){
-                    if(event.mouseButton.button == sf::Mouse::Left){
-                        //menu->unclick();
-                    }
-                }
-                break;
-            case MAIN_GAME:
-                if(!ui.readEvent(event, fMouse())){
-                    game.readEvent(event, fMouse(window, viewGame));
-                }
-                else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-                    game.readEvent(event, fMouse(window, viewGame));
-                }
-                break;
-            case MAIN_LOADING:
-                break;
-            default:
-                break;
-            }
-        }
     }
 }
 
@@ -195,5 +160,6 @@ void Shell::alignState(){
         default:
             break;
         }
+        input.menuChange();
     }
 }

@@ -1,5 +1,6 @@
 #include "slider.hpp"
 #include "fmouse.hpp"
+#include <iostream>
 
 const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 66.f);
 
@@ -87,6 +88,7 @@ void Slider::update(){
 }
 
 bool Slider::unclick(){
+    std::cout << "\nslider unclick...";
     if(changing){
         changing = false;
         return true;

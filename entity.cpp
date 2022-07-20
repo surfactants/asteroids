@@ -135,20 +135,43 @@ void Entity::move(){
     move(velocity);
 }
 
-void Entity::move(std::vector<sf::FloatRect> walls){
-    moveX();
+sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls){
+    sf::Vector2f offset(0.f, 0.f);
+    if(offset == velocity) return offset;
+
+    bool good = true;
+    sprite.move(velocity.x, 0.f);
     for(const auto& wall : walls){
         if(wall.intersects(sprite.getGlobalBounds())){
-            unmoveX();
+            sprite.move(-velocity.x, 0.f);
+            good = false;
         }
     }
 
-    moveY();
+    if(good){
+        hpFrame.move(velocity.x, 0.f);
+        hpBar.move(velocity.x, 0.f);
+        levelFrame.move(velocity.x, 0.f);
+        levelText.move(velocity.x, 0.f);
+        offset.x = velocity.x;
+    }
+    else good = true;
+    sprite.move(0.f, velocity.y);
     for(const auto& wall : walls){
         if(wall.intersects(sprite.getGlobalBounds())){
-            unmoveY();
+            sprite.move(0.f, -velocity.y);
+            good = false;
         }
     }
+    if(good){
+        hpFrame.move(0.f, velocity.y);
+        hpBar.move(0.f, velocity.y);
+        levelFrame.move(0.f, velocity.y);
+        levelText.move(0.f, velocity.y);
+        offset.y = velocity.y;
+    }
+
+    return offset;
 }
 
 void Entity::moveX(){
@@ -235,8 +258,14 @@ void Entity::stopVertical(){
 }
 
 void Entity::stop(){
+    up = false;
+    down = false;
+    left = false;
+    right = false;
     stopHorizontal();
     stopVertical();
+    setVelocity();
+
 }
 
 void Entity::setPosition(sf::Vector2f pos){
@@ -298,29 +327,42 @@ Direction Entity::getDirection(){
 }
 
 void Entity::setVelocity(){
-    float speed;
-    if((up && down) || (up && right) || (down && left) || (down && right)){
+    std::cout << "\n\nSETTING VELOCITY";
+    if(!up && !down && !left && !right){
+        std::cout << "\n\tno keys pressed, setting velocity to 0";
+        velocity = sf::Vector2f(0.f, 0.f);
+        return;
+    }
+
+    float speed = speed_orthogonal;
+    if((up && left) || (up && right) || (down && left) || (down && right)){
+        std::cout << "\n\tdiagonal detected, changing speed";
         speed = speed_diagonal;
     }
-    else speed = speed_orthogonal;
 
     if((!left && !right) || (left && right)){
+        std::cout << "\n\tleft and right canceling each other";
         velocity.x = 0.f;
     }
     else if(left && !right){
+        std::cout << "\n\tdirecting left";
         velocity.x = -speed;
     }
     else if(!left && right){
+        std::cout << "\n\tdirecting right";
         velocity.x = speed;
     }
 
     if(!up && !down){
+        std::cout << "\n\tup and down canceling each other";
         velocity.y = 0.f;
     }
     else if(up && !down){
-        velocity.y = -speed_orthogonal;
+        std::cout << "\n\tdirecting up";
+        velocity.y = -speed;
     }
     else if(!up && down){
-        velocity.y = speed_orthogonal;
+        std::cout << "\n\tdirecting down";
+        velocity.y = speed;
     }
 }

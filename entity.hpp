@@ -46,7 +46,7 @@ public:
     sf::Vector2i getCoordinates(float tileSize);
 
     void move();
-    void move(std::vector<sf::FloatRect> walls);
+    sf::Vector2f move(std::vector<sf::FloatRect> walls);
     void moveX();
     void moveY();
 

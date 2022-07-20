@@ -7,29 +7,6 @@
 /// \brief Slider for settings menu.
 ///
 class Slider : public sf::Drawable{
-private:
-    sf::Text title; /**<Title label*/
-    sf::Text label; /**<On-container label*/
-
-    sf::RectangleShape container; /**<Holds the slider*/
-        const static sf::Vector2f containerSize; /**<Container size*/
-
-    sf::RectangleShape fill; /**<Slider*/
-        const static float offset; /**<Distance of slider from container*/
-        const static sf::Color fillColor; /**<Slider fill color*/
-
-    const static float scrollFactor; /**<Rate at which scrolling changes the fill*/
-
-    bool changing = false;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Sets the fill.
-    /// Internal.
-    ///
-    /// \param \b f -> fill.setSize()
-    ///
-    void setFill(float f);
-
 public:
     Slider(){}
 
@@ -85,4 +62,27 @@ public:
     bool unclick();
 
     bool click();
+
+protected:
+    sf::Text title; /**<Title label*/
+    sf::Text label; /**<On-container label*/
+
+    sf::RectangleShape container; /**<Holds the slider*/
+        const static sf::Vector2f containerSize; /**<Container size*/
+
+    sf::RectangleShape fill; /**<Slider*/
+        const static float offset; /**<Distance of slider from container*/
+        const static sf::Color fillColor; /**<Slider fill color*/
+
+    const static float scrollFactor; /**<Rate at which scrolling changes the fill*/
+
+    bool changing = false;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets the fill.
+    /// Internal.
+    ///
+    /// \param \b f -> fill.setSize()
+    ///
+    void setFill(float f);
 };

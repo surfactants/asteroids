@@ -28,8 +28,7 @@ void Game::update(){
         enemy.update();
     }
     player.update();
-    player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize)));
-    view.move(player.getVelocity());
+    view.move(player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize))));
 
     if(player.isAttacking() && player.getEquippedWeapon().shoot()){
         Projectile p = player.attack(fMouse(window, view));
@@ -83,33 +82,12 @@ void Game::spawnEnemies(){
     enemyManager.spawn(world.getRooms(), Tile::tileSize);
 }
 
-bool Game::readEvent(sf::Event& event, sf::Vector2f mPos){
-    bool parsed = false;
+void Game::clickLeft(){
+    player.setAttacking(true);
+}
 
-    if(event.type == sf::Event::MouseButtonPressed){
-        if(event.mouseButton.button == sf::Mouse::Left){
-            player.setAttacking(true);
-        }
-    }
-    else if(event.type == sf::Event::MouseButtonReleased){
-        if(event.mouseButton.button == sf::Mouse::Left){
-            player.setAttacking(false);
-        }
-    }
-    if(event.type == sf::Event::KeyPressed){
-        switch(event.key.code){
-        default:
-            break;
-        }
-    }
-    else if(event.type == sf::Event::KeyReleased){
-        switch(event.key.code){
-        default:
-            break;
-        }
-    }
-
-    return parsed;
+void Game::releaseLeft(){
+    player.setAttacking(false);
 }
 
 std::vector<sf::Vector2f> Game::getEnemyPositions(){

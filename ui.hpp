@@ -14,7 +14,8 @@ public:
 
     void update();
 
-    bool readEvent(sf::Event& event, sf::Vector2f mPos);
+    void clickLeft();
+    void releaseLeft();
 
 protected:
 private:
