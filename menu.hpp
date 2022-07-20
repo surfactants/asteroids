@@ -20,10 +20,13 @@ public:
     void clickRight();
     void releaseLeft();
     void releaseRight();
+    virtual void back();
 
 protected:
     std::map<std::string, Button> options;
     std::map<std::string, Slider> sliders;
+
+    Main_State escape = MAIN_NULL;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -49,6 +52,7 @@ private:
 class Menu_Settings : public Menu{
 public:
     Menu_Settings();
+    virtual void back() override;
 protected:
     Slider volume_music{ "music" };
     Slider volume_sound{ "sound" };

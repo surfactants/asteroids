@@ -21,9 +21,12 @@ protected:
     static Main_State state_main;
     static Menu_State state_menu;
 
+    static Main_State prev_main;
+    static Menu_State prev_menu;
+
     static bool change_main;
     static bool change_menu;
 
-    void newMain(Main_State ns);
-    void newMenu(Menu_State ns);
+    static void newMain(Main_State ns);
+    static void newMenu(Menu_State ns);
 };

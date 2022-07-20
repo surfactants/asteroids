@@ -80,6 +80,12 @@ void Menu::update(sf::Vector2f mpos){
     for(auto& slider : sliders) slider.second.checkMouse();
 }
 
+void Menu::back(){
+    if(escape != MAIN_NULL){
+        newMain(escape);
+    }
+}
+
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     for(const auto& button : nav) target.draw(button, states);
     for(const auto& button : options) target.draw(button.second, states);
@@ -87,13 +93,19 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 }
 
 Menu_Main::Menu_Main(){
+    escape = MAIN_QUIT;
 }
 
 Menu_Pause::Menu_Pause(){
+    escape = MAIN_GAME;
 }
 
 Menu_Settings::Menu_Settings(){
     sliders["music volume"] = Slider("music volume");
     sliders["game volume"] = Slider("game volume");
     sliders["ui volume"] = Slider("ui volume");
+}
+
+void Menu_Settings::back(){
+    newMenu(prev_menu);
 }

@@ -101,3 +101,9 @@ std::vector<sf::Vector2f> Game::getEnemyPositions(){
 std::vector<Enemy>& Game::getEnemies(){
     return enemyManager.getEnemies();
 }
+
+void Game::escape(){
+    newMain(MAIN_MENU);
+    player.stop();
+    player.setAttacking(false);
+}

@@ -8,41 +8,58 @@ void Input_Package::clear(){
     mouse.clear();
 }
 
-Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu_Package m)
+Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu_Package menu_package)
 : window{ nwindow }{
     Player* player = &game.getPlayer();
 
     /////////////////////////////////////////////////////////////
     Input_Package& p_g = context[MAIN_GAME];
 
-    p_g.keyPressed['w'] = std::bind(&Player::upStart, player);
-    p_g.keyReleased['w'] = std::bind(&Player::upEnd, player);
+        p_g.keyReleased['\q'] = std::bind(&Game::escape, &game);
 
-    p_g.keyPressed['s'] = std::bind(&Player::downStart, player);
-    p_g.keyReleased['s'] = std::bind(&Player::downEnd, player);
+        p_g.keyPressed['w'] = std::bind(&Player::upStart, player);
+        p_g.keyReleased['w'] = std::bind(&Player::upEnd, player);
 
-    p_g.keyPressed['a'] = std::bind(&Player::leftStart, player);
-    p_g.keyReleased['a'] = std::bind(&Player::leftEnd, player);
+        p_g.keyPressed['s'] = std::bind(&Player::downStart, player);
+        p_g.keyReleased['s'] = std::bind(&Player::downEnd, player);
 
-    p_g.keyPressed['d'] = std::bind(&Player::rightStart, player);
-    p_g.keyReleased['d'] = std::bind(&Player::rightEnd, player);
+        p_g.keyPressed['a'] = std::bind(&Player::leftStart, player);
+        p_g.keyReleased['a'] = std::bind(&Player::leftEnd, player);
 
-    p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
-    p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
+        p_g.keyPressed['d'] = std::bind(&Player::rightStart, player);
+        p_g.keyReleased['d'] = std::bind(&Player::rightEnd, player);
+
+        p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
+        p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
+
 
     /////////////////////////////////////////////////////////////
     Input_Package& p_m = context_menu[MENU_MAIN];
+    Menu* m = menu_package.m_main;
 
-    p_m.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m.m_main);
-    p_m.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m.m_main);
+        p_m.keyReleased['\q'] = std::bind(&Menu::back, m);
 
+        p_m.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
+        p_m.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
+
+
+    /////////////////////////////////////////////////////////////
     Input_Package& p_p = context_menu[MENU_PAUSE];
-    p_p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m.m_pause);
-    p_p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m.m_pause);
+    m = menu_package.m_pause;
 
+        p_p.keyReleased['\q'] = std::bind(&Menu::back, m);
+
+        p_p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
+        p_p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
+
+
+    /////////////////////////////////////////////////////////////
     Input_Package& p_s = context_menu[MENU_SETTINGS];
-    p_s.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m.m_settings);
-    p_s.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m.m_settings);
+
+        p_p.keyReleased['\q'] = std::bind(&Menu::back, m);
+
+        p_s.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, menu_package.m_settings);
+        p_s.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, menu_package.m_settings);
 }
 
 void Input_Handler::handle(){
