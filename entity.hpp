@@ -31,12 +31,6 @@ public:
 
     virtual void update();
 
-    void directLeft();
-    void directRight();
-    void directUp();
-    void directDown();
-    void stopHorizontal();
-    void stopVertical();
     void stop();
 
     void setPosition(sf::Vector2f pos);
@@ -66,9 +60,6 @@ public:
     Weapon& getEquippedWeapon();
 
     bool isDead();
-
-    void setDirection(Direction ndirect);
-    Direction getDirection();
 
 protected:
     Animated_Sprite sprite;
@@ -124,8 +115,6 @@ protected:
     bool dead = false;
 
     const static sf::Vector2f sheetSize;
-
-    Direction direction;
 
     float animationBase;
 

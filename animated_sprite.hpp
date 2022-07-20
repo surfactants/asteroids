@@ -15,6 +15,7 @@ public:
     Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize);
 
     void setAnimationState(Animation_State nstate);
+    Animation_State getAnimationState();
 
     void setDirection(Direction ndirection);
     Direction getDirection();

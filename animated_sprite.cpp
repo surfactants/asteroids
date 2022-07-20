@@ -39,3 +39,7 @@ void Animated_Sprite::update(){
 void Animated_Sprite::updateFrame(){
     setTextureRect(sf::IntRect(sf::Vector2i(frame * size.x, animationY + directionY), size));
 }
+
+Animation_State Animated_Sprite::getAnimationState(){
+    return state;
+}

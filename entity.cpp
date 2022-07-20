@@ -211,60 +211,13 @@ void Entity::setLevel(unsigned int nlevel){
     levelText.setString(std::to_string(level));
 }
 
-void Entity::directLeft(){
-    directCheck();
-    velocity.x = -speed_orthogonal;
-    direction = WEST;
-    setSpriteDirection();
-}
-
-void Entity::directRight(){
-    directCheck();
-    velocity.x = speed_orthogonal;
-    direction = EAST;
-    setSpriteDirection();
-}
-
-void Entity::directUp(){
-    directCheck();
-    velocity.y = -speed_orthogonal;
-    direction = NORTH;
-    setSpriteDirection();
-}
-
-void Entity::directDown(){
-    directCheck();
-    velocity.y = speed_orthogonal;
-    direction = SOUTH;
-    setSpriteDirection();
-}
-
-void Entity::directCheck(){
-    if(velocity.x == 0 && velocity.y == 0){
-        sprite.setAnimationState(MOVING);
-    }
-}
-
-void Entity::stopHorizontal(){
-    velocity.x = 0.f;
-    setSpriteDirection();
-    if(velocity.y == 0.f) sprite.setAnimationState(IDLE);
-}
-
-void Entity::stopVertical(){
-    velocity.y = 0.f;
-    setSpriteDirection();
-    if(velocity.x == 0.f) sprite.setAnimationState(IDLE);
-}
-
 void Entity::stop(){
     up = false;
     down = false;
     left = false;
     right = false;
-    stopHorizontal();
-    stopVertical();
     setVelocity();
+    sprite.setAnimationState(IDLE);
 
 }
 
@@ -284,20 +237,15 @@ sf::Vector2i Entity::getCoordinates(float tileSize){
     return sf::Vector2i(getPosition() / tileSize);
 }
 
-void Entity::setDirection(Direction ndirect){
-    direction = ndirect;
-    setSpriteDirection();
-}
-
 void Entity::setSpriteDirection(){
     Direction d = sprite.getDirection();
-    if(velocity.x == 0.f){
-        if(velocity.y < 0.f) d = NORTH;
-        else if(velocity.y > 0.f) d = SOUTH;
-    }
-    else{
+    if(velocity.y == 0.f){
         if(velocity.x > 0.f) d = EAST;
         else if(velocity.x < 0.f) d = WEST;
+    }
+    else{
+        if(velocity.y < 0.f) d = NORTH;
+        else if(velocity.y > 0.f) d = SOUTH;
     }
     sprite.setDirection(d);
 }
@@ -322,47 +270,46 @@ bool Entity::isDead(){
     return dead;
 }
 
-Direction Entity::getDirection(){
-    return direction;
-}
-
 void Entity::setVelocity(){
-    std::cout << "\n\nSETTING VELOCITY";
-    if(!up && !down && !left && !right){
-        std::cout << "\n\tno keys pressed, setting velocity to 0";
+    if(velocity.x == 0.f && velocity.y == 0.f
+    && !up && !down && !left && !right){
         velocity = sf::Vector2f(0.f, 0.f);
         return;
     }
 
     float speed = speed_orthogonal;
     if((up && left) || (up && right) || (down && left) || (down && right)){
-        std::cout << "\n\tdiagonal detected, changing speed";
         speed = speed_diagonal;
     }
 
     if((!left && !right) || (left && right)){
-        std::cout << "\n\tleft and right canceling each other";
         velocity.x = 0.f;
     }
     else if(left && !right){
-        std::cout << "\n\tdirecting left";
         velocity.x = -speed;
     }
     else if(!left && right){
-        std::cout << "\n\tdirecting right";
         velocity.x = speed;
     }
 
     if(!up && !down){
-        std::cout << "\n\tup and down canceling each other";
         velocity.y = 0.f;
     }
     else if(up && !down){
-        std::cout << "\n\tdirecting up";
         velocity.y = -speed;
     }
     else if(!up && down){
-        std::cout << "\n\tdirecting down";
         velocity.y = speed;
     }
+
+    if(sprite.getAnimationState() != IDLE
+    && velocity.x == 0.f && velocity.y == 0.f){
+        sprite.setAnimationState(IDLE);
+    }
+    else if(sprite.getAnimationState() != MOVING
+    && (velocity.x != 0.f || velocity.y != 0.f)){
+        sprite.setAnimationState(MOVING);
+    }
+
+    setSpriteDirection();
 }

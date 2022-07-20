@@ -31,24 +31,20 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
             enemies.push_back(Enemy(sprite));
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
-            std::cout << "\n\tenemy direction set to " << enemies.back().getDirection();
 
             used.push_back(c);
         }
-        std::cout << "\n\nENEMIES PLACED FOR ROOM " << r << ":";
         for(const auto& p : used){
             std::cout << "\n\t" << p.x << ", " << p.y;
         }
     }
 
 
-    std::cout << "\n      spawning boss";
     //place boss
     Animated_Sprite sprite(*Texture_Manager::get("boss"), sf::Vector2i(128, 128));
     enemies.push_back(Enemy(sprite));
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
-    enemies.back().setDirection(randomDirection());
 }
 
 void Enemy_Manager::clear(){
