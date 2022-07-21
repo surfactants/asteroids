@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include "state_hook.hpp"
 #include <map>
 #include <functional>
@@ -17,8 +17,8 @@ enum Mouse_Event{
 };
 
 struct Input_Package{
-    std::map<char, std::function<void()>> keyPressed;
-    std::map<char, std::function<void()>> keyReleased;
+    std::map<sf::Keyboard::Key, std::function<void()>> keyPressed;
+    std::map<sf::Keyboard::Key, std::function<void()>> keyReleased;
     std::map<Mouse_Event, std::function<void()>> mouse;
 
     void clear();

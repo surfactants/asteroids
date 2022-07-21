@@ -1,5 +1,4 @@
 #include "input_handler.hpp"
-#include "key_to_char.hpp"
 #include <iostream>
 
 void Input_Package::clear(){
@@ -13,54 +12,39 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     Player* player = &game.getPlayer();
 
     /////////////////////////////////////////////////////////////
+    //GAME AND UI INPUTS
+    //
     Input_Package& p_g = context[MAIN_GAME];
 
-        p_g.keyReleased['~'] = std::bind(&Game::escape, &game);
+        p_g.keyReleased[sf::Keyboard::Escape] = std::bind(&Game::escape, &game);
 
-        p_g.keyPressed['w'] = std::bind(&Player::upStart, player);
-        p_g.keyReleased['w'] = std::bind(&Player::upEnd, player);
+        p_g.keyPressed[sf::Keyboard::W] = std::bind(&Player::upStart, player);
+        p_g.keyReleased[sf::Keyboard::W] = std::bind(&Player::upEnd, player);
 
-        p_g.keyPressed['s'] = std::bind(&Player::downStart, player);
-        p_g.keyReleased['s'] = std::bind(&Player::downEnd, player);
+        p_g.keyPressed[sf::Keyboard::S] = std::bind(&Player::downStart, player);
+        p_g.keyReleased[sf::Keyboard::S] = std::bind(&Player::downEnd, player);
 
-        p_g.keyPressed['a'] = std::bind(&Player::leftStart, player);
-        p_g.keyReleased['a'] = std::bind(&Player::leftEnd, player);
+        p_g.keyPressed[sf::Keyboard::A] = std::bind(&Player::leftStart, player);
+        p_g.keyReleased[sf::Keyboard::A] = std::bind(&Player::leftEnd, player);
 
-        p_g.keyPressed['d'] = std::bind(&Player::rightStart, player);
-        p_g.keyReleased['d'] = std::bind(&Player::rightEnd, player);
+        p_g.keyPressed[sf::Keyboard::D] = std::bind(&Player::rightStart, player);
+        p_g.keyReleased[sf::Keyboard::D] = std::bind(&Player::rightEnd, player);
 
         p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
         p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
 
-
     /////////////////////////////////////////////////////////////
-    Input_Package& p_m = context_menu[MENU_MAIN];
-    Menu* m = menu_package.m_main;
+    //MENU INPUTS
+    //
+    std::vector<Menu*> m = { menu_package.m_main, menu_package.m_pause, menu_package.m_settings };
+    std::vector<Menu_State> state = { MENU_MAIN, MENU_PAUSE, MENU_SETTINGS };
 
-        p_m.keyReleased['~'] = std::bind(&Menu::back, m);
-
-        p_m.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
-        p_m.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
-
-
-    /////////////////////////////////////////////////////////////
-    Input_Package& p_p = context_menu[MENU_PAUSE];
-    m = menu_package.m_pause;
-
-        p_p.keyReleased['~'] = std::bind(&Menu::back, m);
-
-        p_p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m);
-        p_p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m);
-
-
-    /////////////////////////////////////////////////////////////
-    Input_Package& p_s = context_menu[MENU_SETTINGS];
-    m = menu_package.m_settings;
-
-        p_s.keyReleased['~'] = std::bind(&Menu::back, m);
-
-        p_s.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, menu_package.m_settings);
-        p_s.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, menu_package.m_settings);
+    for(unsigned int i = 0; i <= m.size(); ++i){
+        Input_Package& p = context_menu[state[i]];
+        p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
+        p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
+        p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
+    }
 }
 
 void Input_Handler::handle(){
@@ -75,16 +59,13 @@ void Input_Handler::handle(){
             }
 
             if(event.type == sf::Event::KeyPressed){
-                char c = keyToChar(event.key.code);
-                if(context[state_main].keyPressed.count(c)){
-                    context[state_main].keyPressed[c]();
+                if(context[state_main].keyPressed.count(event.key.code)){
+                    context[state_main].keyPressed[event.key.code]();
                 }
             }
             else if(event.type == sf::Event::KeyReleased){
-                char c = keyToChar(event.key.code);
-                    std::cout << "\nkey release detected, char " << c;
-                if(context[state_main].keyReleased.count(c)){
-                    context[state_main].keyReleased[c]();
+                if(context[state_main].keyReleased.count(event.key.code)){
+                    context[state_main].keyReleased[event.key.code]();
                 }
             }
             else if(event.type == sf::Event::MouseButtonPressed){
