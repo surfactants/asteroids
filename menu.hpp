@@ -21,18 +21,19 @@ public:
     void releaseLeft();
     void releaseRight();
     virtual void back();
+    void scroll(float delta);
 
 protected:
     std::map<std::string, Button> options;
-    std::map<std::string, Slider> sliders;
+    std::map<Volume_Type, Slider> sliders;
 
     Main_State escape = MAIN_NULL;
+    static sf::Font font;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     static std::vector<Nav> nav;
-    static sf::Font font;
 };
 
 class Menu_Main : public Menu{

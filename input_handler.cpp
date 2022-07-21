@@ -1,10 +1,16 @@
 #include "input_handler.hpp"
 #include <iostream>
 
+Input_Package::Input_Package(){
+    clear();
+}
+
 void Input_Package::clear(){
     keyPressed.clear();
     keyReleased.clear();
     mouse.clear();
+
+    scroll = std::function<void( float )>( [](float a){ return; } );
 }
 
 Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu_Package menu_package)
@@ -44,6 +50,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
         p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
         p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
+        p.scroll = std::bind(&Menu::scroll, m[i], std::placeholders::_1);
     }
 }
 
@@ -87,6 +94,9 @@ void Input_Handler::handle(){
                        context[state_main].mouse[RIGHT_RELEASE]();
                     }
                 }
+            }
+            else if(event.type == sf::Event::MouseWheelScrolled){
+                context[state_main].scroll(event.mouseWheelScroll.delta);
             }
         }
     }

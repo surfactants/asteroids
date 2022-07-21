@@ -13,13 +13,14 @@ enum Mouse_Event{
     LEFT_RELEASE,
     RIGHT_CLICK,
     RIGHT_RELEASE,
-    SCROLL
 };
 
 struct Input_Package{
+    Input_Package();
     std::map<sf::Keyboard::Key, std::function<void()>> keyPressed;
     std::map<sf::Keyboard::Key, std::function<void()>> keyReleased;
     std::map<Mouse_Event, std::function<void()>> mouse;
+    std::function<void(float)> scroll;
 
     void clear();
 };

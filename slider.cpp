@@ -1,8 +1,9 @@
 #include "slider.hpp"
 #include "fmouse.hpp"
 #include <iostream>
+#include "vector2_stream.hpp"
 
-const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 66.f);
+const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 48.f);
 
 const float Slider::offset = 3.f;
 
@@ -78,6 +79,7 @@ void Slider::scroll(float delta){
 }
 
 bool Slider::checkMouse(){
+    std::cout << "\nCHANGING " << changing << ", checking slider container at pos " << container.getPosition() << " against fmouse of " << fMouse();
     return container.getGlobalBounds().contains(fMouse());
 }
 

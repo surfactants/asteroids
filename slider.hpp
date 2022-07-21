@@ -3,6 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include "palette.hpp"
 
+enum Volume_Type{
+    VOL_MUSIC,
+    VOL_GAME,
+    VOL_UI
+};
+
 ////////////////////////////////////////////////////////////
 /// \brief Slider for settings menu.
 ///

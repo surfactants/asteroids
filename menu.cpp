@@ -30,7 +30,6 @@ Menu::Menu(){
 }
 
 void Menu::clickLeft(){
-    std::cout << "\nmenu leftclick";
     for(auto& button : nav){
         std::cout << "\n\t\t" << "checking nav...";
         if(button.isHighlighted()){
@@ -52,12 +51,10 @@ void Menu::clickLeft(){
         }
     }
     for(auto& slider : sliders){
-        std::cout << "\n\t\t" << "checking sliders...";
         if(slider.second.click()){
-            return;
+            break;
         }
     }
-    std::cout << "\n\tparsed";
 }
 
 void Menu::clickRight(){
@@ -72,12 +69,21 @@ void Menu::releaseLeft(){
     }
 }
 
+void Menu::scroll(float delta){
+    for(auto& slider : sliders){
+        if(slider.second.checkMouse()){
+            slider.second.scroll(delta);
+            break;
+        }
+    }
+}
+
 void Menu::releaseRight(){}
 
 void Menu::update(sf::Vector2f mpos){
     for(auto& button : nav) button.update(mpos);
     for(auto& button : options) button.second.update(mpos);
-    for(auto& slider : sliders) slider.second.checkMouse();
+    for(auto& slider : sliders) slider.second.update();
 }
 
 void Menu::back(){
@@ -101,12 +107,20 @@ Menu_Pause::Menu_Pause(){
 }
 
 Menu_Settings::Menu_Settings(){
-    sliders["music volume"] = Slider("music volume");
-    sliders["game volume"] = Slider("game volume");
-    sliders["ui volume"] = Slider("ui volume");
+    sliders[VOL_MUSIC] = Slider("music volume");
+
+    sliders[VOL_GAME] = Slider("game volume");
+
+    sliders[VOL_UI] = Slider("ui volume");
+
+    sf::Vector2f spos(544.f, 0.f);
+
+    for(auto& slider : sliders){
+        spos.y += 128.f;
+        slider.second.set(spos, font);
+    }
 }
 
 void Menu_Settings::back(){
-    std::cout << "\nthe right one...";
     newMenu(prev_menu);
 }
