@@ -35,6 +35,10 @@
 /src_old/
 /doxygen/
 
+# database
+/sqlite/
+data.db
+
 # textures
 /textures/
 
