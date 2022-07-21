@@ -12,7 +12,13 @@ struct Nav : public Button{
     Menu_State target_menu;
 };
 
-class Menu : public sf::Drawable, public State_Hook{
+struct Option : public Button{
+    Option(std::string nlabel, sf::Font& font, std::function<void()> nt);
+
+    std::function<void()> target;
+};
+
+class Menu : public sf::Drawable, public State_Hook, public Audio_Manager{
 public:
     Menu();
     void update(sf::Vector2f mpos);
@@ -22,9 +28,11 @@ public:
     void releaseRight();
     virtual void back();
     void scroll(float delta);
+    virtual void saveSettings(){}
+    virtual void cancelSettings(){}
 
 protected:
-    std::map<std::string, Button> options;
+    std::vector<Option> options;
     std::map<Volume_Type, Slider> sliders;
 
     Main_State escape = MAIN_NULL;
@@ -50,10 +58,12 @@ protected:
 private:
 };
 
-class Menu_Settings : public Menu{
+class Menu_Settings : public Menu, public Audio_Settings{
 public:
     Menu_Settings();
     virtual void back() override;
+    virtual void saveSettings();
+    virtual void cancelSettings();
 protected:
     Slider volume_music{ "music" };
     Slider volume_sound{ "sound" };

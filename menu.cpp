@@ -1,13 +1,19 @@
 #include "menu.hpp"
 #include <iostream>
 
-std::vector<Nav> Menu::nav = std::vector<Nav>();
+
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
 : Button{ nlabel, font }{
     target_main = ntmain;
     target_menu = ntmenu;
 }
 
+Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
+: Button{ nlabel, font }, target{ nt }{
+    std::cout << "\nconstructing option!";
+}
+
+std::vector<Nav> Menu::nav = std::vector<Nav>();
 sf::Font Menu::font = sf::Font();
 
 Menu::Menu(){
@@ -44,9 +50,9 @@ void Menu::clickLeft(){
         }
         std::cout << "\n\tno nav highlight found...";
     }
-    for(auto& button : options){
-        std::cout << "\n\t\t" << "checking options...";
-        if(button.second.isHighlighted()){
+    for(auto& option : options){
+        if(option.isHighlighted()){
+            option.target();
             return;
         }
     }
@@ -61,7 +67,6 @@ void Menu::clickRight(){
 }
 
 void Menu::releaseLeft(){
-    std::cout << "\nmenu unclick detected...";
     for(auto& slider : sliders){
         if(slider.second.unclick()){
             return;
@@ -82,7 +87,7 @@ void Menu::releaseRight(){}
 
 void Menu::update(sf::Vector2f mpos){
     for(auto& button : nav) button.update(mpos);
-    for(auto& button : options) button.second.update(mpos);
+    for(auto& option : options) option.update(mpos);
     for(auto& slider : sliders) slider.second.update();
 }
 
@@ -94,7 +99,7 @@ void Menu::back(){
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     for(const auto& button : nav) target.draw(button, states);
-    for(const auto& button : options) target.draw(button.second, states);
+    for(const auto& option : options) target.draw(option, states);
     for(const auto& slider : sliders) target.draw(slider.second, states);
 }
 
@@ -119,8 +124,32 @@ Menu_Settings::Menu_Settings(){
         spos.y += 128.f;
         slider.second.set(spos, font);
     }
+
+    spos.y += 256.f;
+
+    options.push_back(Option("save", font, std::bind(&Menu::saveSettings, this)));
+    options.back().setPosition(spos);
+
+    spos.x += 256.f;
+
+    options.push_back(Option("cancel", font, std::bind(&Menu::cancelSettings, this)));
+    options.back().setPosition(spos);
 }
 
 void Menu_Settings::back(){
+    cancelSettings();
+}
+
+void Menu_Settings::saveSettings(){
+    setVolumeMusic(sliders[VOL_MUSIC].getFill());
+    setVolumeGame(sliders[VOL_GAME].getFill());
+    setVolumeUI(sliders[VOL_GAME].getFill());
+    back();
+}
+
+void Menu_Settings::cancelSettings(){
+    sliders[VOL_MUSIC].setFill(getVolumeMusic());
+    sliders[VOL_GAME].setFill(getVolumeGame());
+    sliders[VOL_UI].setFill(getVolumeGame());
     newMenu(prev_menu);
 }

@@ -69,6 +69,14 @@ public:
 
     bool click();
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets the fill.
+    /// Internal.
+    ///
+    /// \param \b f -> fill.setSize()
+    ///
+    void setFill(float f);
+
 protected:
     sf::Text title; /**<Title label*/
     sf::Text label; /**<On-container label*/
@@ -83,12 +91,4 @@ protected:
     const static float scrollFactor; /**<Rate at which scrolling changes the fill*/
 
     bool changing = false;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Sets the fill.
-    /// Internal.
-    ///
-    /// \param \b f -> fill.setSize()
-    ///
-    void setFill(float f);
 };

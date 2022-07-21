@@ -53,7 +53,10 @@ private:
 
 class Audio_Settings : public Audio_Manager{
 public:
-    void setVolumeMusic(float nv);
-    void setVolumeSound(float nv);
-    void setVolumeUI(float nv);
+    static void setVolumeMusic(float nv);
+    static float getVolumeMusic();
+    static void setVolumeGame(float nv);
+    static float getVolumeGame();
+    static void setVolumeUI(float nv);
+    static float getVolumeUI();
 };
