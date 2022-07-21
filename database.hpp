@@ -3,6 +3,7 @@
 #include "sqlite/sqlite3.h"
 #include "settings_package.hpp"
 #include <string>
+#include <SFML/Graphics/Texture.hpp>
 
 class Database{
 public:
@@ -10,6 +11,9 @@ public:
 
     static void saveSettings(Settings_Package p);
     static Settings_Package getSettings();
+
+    static void getTextures(std::map<std::string, sf::Texture>& t);
+
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);
 

@@ -1,9 +1,10 @@
 #include "texture_manager.hpp"
+#include "database.hpp"
 
-std::map<std::string, sf::Texture> Texture_Manager::textures = std::map<std::string, sf::Texture>();
-
- Texture_Manager::Texture_Manager(){
+Texture_Manager::Texture_Manager(){
     textures.clear();
+
+    Database::getTextures(textures);
 
     std::string key, path;
 

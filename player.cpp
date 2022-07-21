@@ -8,10 +8,7 @@ Player::Player(){
 
     texture.loadFromFile("textures/entity.png");
 
-    std::cout << "\nhere";
     sprite = Animated_Sprite(*Texture_Manager::get("player"), sf::Vector2i(64, 64));
-
-    std::cout << "\nhere";
 }
 
 void Player::update(){

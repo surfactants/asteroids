@@ -69,3 +69,37 @@ void Database::close(){
 int Database::callback(void* notUsed, int argc, char** argv, char** azColName){
     return 0;
 }
+
+void Database::getTextures(std::map<std::string, sf::Texture>& t){
+    open();
+
+    std::string sql = "SELECT * FROM 'TEXTURES';";
+
+    sqlite3_stmt* statement;
+
+    rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+    int row = 0;
+    while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+        std::string id = reinterpret_cast<const char*>(sqlite3_column_text(statement, 0));
+
+        sf::Texture texture;
+            sqlite3_blob* blob;
+
+            rc = sqlite3_blob_open(db, "main", "TEXTURES", "DATA", ++row, 0, &blob);
+
+            int bsize = sqlite3_blob_bytes(blob);
+            char* buffer = new char[bsize];
+
+            rc = sqlite3_blob_read(blob, buffer, bsize, 0);
+
+            texture.loadFromMemory(buffer, bsize);
+            delete[] buffer;
+
+            sqlite3_blob_close(blob);
+
+        t[id] = texture;
+    }
+    rc = sqlite3_finalize(statement);
+
+    close();
+}

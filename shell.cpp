@@ -1,6 +1,5 @@
 #include "shell.hpp"
 #include "primordial.hpp"
-#include <iostream>
 #include "projectile.hpp"
 #include "fmouse.hpp"
 
@@ -23,6 +22,8 @@ Shell::Shell()
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
 
+    Texture_Manager t;
+
     Projectile::loadTexture();
 
     ui.scale(window);
@@ -30,12 +31,9 @@ Shell::Shell()
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
 
     alignState();
-
-    std::cout << "\n\n" << state_main << "\t|\t" << state_menu;
 }
 
 void Shell::run(){
-    std::cout << "\nrunning shell...";
     fpsText.setFont(font);
     fpsText.setString("0");
     fpsText.setFillColor(sf::Color::Red);
