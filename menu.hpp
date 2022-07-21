@@ -5,6 +5,7 @@
 #include "state_hook.hpp"
 #include "audio_manager.hpp"
 #include <vector>
+#include "settings_package.hpp"
 
 struct Nav : public Button{
     Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
@@ -29,7 +30,6 @@ public:
     virtual void back();
     void scroll(float delta);
     virtual void saveSettings(){}
-    virtual void cancelSettings(){}
 
 protected:
     std::vector<Option> options;
@@ -62,14 +62,18 @@ class Menu_Settings : public Menu, public Audio_Settings{
 public:
     Menu_Settings();
     virtual void back() override;
-    virtual void saveSettings();
-    virtual void cancelSettings();
+    void saveSettings();
 protected:
     Slider volume_music{ "music" };
     Slider volume_sound{ "sound" };
 private:
 
     Audio_Settings audioSettings;
+
+    void reset();
+
+    Settings_Package generateSettingsPackage();
+    void loadSettings();
 };
 
 struct Menu_Package{

@@ -1,5 +1,6 @@
 #include "menu.hpp"
 #include <iostream>
+#include "database.hpp"
 
 
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
@@ -132,24 +133,45 @@ Menu_Settings::Menu_Settings(){
 
     spos.x += 256.f;
 
-    options.push_back(Option("cancel", font, std::bind(&Menu::cancelSettings, this)));
+    options.push_back(Option("cancel", font, std::bind(&Menu::back, this)));
     options.back().setPosition(spos);
+
+    loadSettings();
 }
 
 void Menu_Settings::back(){
-    cancelSettings();
+    reset();
+    newMenu(prev_menu);
 }
 
 void Menu_Settings::saveSettings(){
     setVolumeMusic(sliders[VOL_MUSIC].getFill());
     setVolumeGame(sliders[VOL_GAME].getFill());
     setVolumeUI(sliders[VOL_GAME].getFill());
+    Database::saveSettings(generateSettingsPackage());
     back();
 }
 
-void Menu_Settings::cancelSettings(){
+Settings_Package Menu_Settings::generateSettingsPackage(){
+    Settings_Package p;
+
+        p.volume[VOL_MUSIC] = getVolumeMusic();
+        p.volume[VOL_GAME] = getVolumeGame();
+        p.volume[VOL_UI] = getVolumeUI();
+
+    return p;
+}
+
+void Menu_Settings::reset(){
     sliders[VOL_MUSIC].setFill(getVolumeMusic());
     sliders[VOL_GAME].setFill(getVolumeGame());
     sliders[VOL_UI].setFill(getVolumeGame());
-    newMenu(prev_menu);
+}
+
+void Menu_Settings::loadSettings(){
+    Settings_Package p = Database::getSettings();
+        setVolumeMusic(p.volume[VOL_MUSIC]);
+        setVolumeGame(p.volume[VOL_GAME]);
+        setVolumeUI(p.volume[VOL_UI]);
+    reset();
 }
