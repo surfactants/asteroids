@@ -4,6 +4,7 @@
 #include "settings_package.hpp"
 #include <string>
 #include <SFML/Graphics/Texture.hpp>
+#include <map>
 
 class Database{
 public:
@@ -13,6 +14,8 @@ public:
     static Settings_Package getSettings();
 
     static void getTextures(std::map<std::string, sf::Texture>& t);
+
+    static std::map<Animation_State, Animation> getAnimations();
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

@@ -10,6 +10,13 @@ enum Faction{
     ROBOTS
 };
 
+enum Enemy_Type{
+    MELEE_LIGHT,
+    MELEE_HEAVY,
+    RANGED,
+    TURRET
+};
+
 class Enemy : public Entity{
 public:
     Enemy(Animated_Sprite nsprite);

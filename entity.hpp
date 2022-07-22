@@ -27,8 +27,6 @@ public:
 
     void setAnimationState(Animation_State newState);
 
-    void startAnimation(); //resets textureRect xpos to 0, and ypos based on
-
     virtual void update();
 
     void stop();

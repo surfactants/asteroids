@@ -2,12 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "direction.hpp"
-
-enum Animation_State{
-    MOVING,
-    DYING,
-    IDLE
-};
+#include "animation.hpp"
+#include <map>
 
 class Animated_Sprite : public sf::Sprite{
 public:
@@ -38,4 +34,6 @@ private:
     const static int frameLimit = 3;
 
     void updateFrame();
+
+    std::map<Animation_State, Animation> animations;
 };

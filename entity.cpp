@@ -106,11 +106,6 @@ void Entity::heal(int val){
     updateHP();
 }
 
-void Entity::startAnimation(){
-    //sprite.setTextureRect()
-        //x = 0, y derived from animation state, size consistent
-}
-
 void Entity::update(){
     move();
     sprite.update();

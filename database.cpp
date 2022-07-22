@@ -1,4 +1,6 @@
 #include "database.hpp"
+#include "animation.hpp"
+#include "enemy.hpp"
 
 sqlite3* Database::db = nullptr;
 
@@ -102,4 +104,10 @@ void Database::getTextures(std::map<std::string, sf::Texture>& t){
     rc = sqlite3_finalize(statement);
 
     close();
+}
+
+std::map<Animation_State, Animation> getAnimations(){
+    open();
+
+    std::string sql = "SELECT * FROM 'ANIMATIONS';";
 }
