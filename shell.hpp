@@ -13,6 +13,7 @@ public:
     Shell();
     void run();
 private:
+    Texture_Manager texureManager; //solely used for instancing, don't use this.
     sf::RenderWindow window;
     sf::Font font;
     sf::Event event;

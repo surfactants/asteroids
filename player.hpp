@@ -23,7 +23,4 @@ public:
     void rightEnd();
 
     void update() override;
-protected:
-private:
-    sf::Texture texture;
 };

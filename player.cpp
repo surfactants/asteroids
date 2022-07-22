@@ -6,9 +6,7 @@ Player::Player(){
     hMove = NULLSIDE;
     vMove = NULLSIDE;
 
-    texture.loadFromFile("textures/entity.png");
-
-    sprite = Animated_Sprite(*Texture_Manager::get("player"), sf::Vector2i(64, 64));
+    sprite = Animated_Sprite(*Texture_Manager::get("PLAYER"), sf::Vector2i(64, 64));
 }
 
 void Player::update(){

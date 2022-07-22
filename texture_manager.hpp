@@ -10,4 +10,6 @@ public:
 
 private:
     static std::map<std::string, sf::Texture> textures;
+
+    bool loaded = false;
 };

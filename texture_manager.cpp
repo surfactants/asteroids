@@ -1,11 +1,21 @@
 #include "texture_manager.hpp"
 #include "database.hpp"
+#include <iostream>
+
+std::map<std::string, sf::Texture> Texture_Manager::textures = std::map<std::string, sf::Texture>();
 
 Texture_Manager::Texture_Manager(){
-    textures.clear();
+    if(!loaded){
+        textures.clear();
 
-    Database::getTextures(textures);
+        Database::getTextures(textures);
 
+        std::cout << "\ntextures loaded:";
+        for(const auto& t : textures){
+            std::cout << "\n\t" << t.first;
+        }
+    }
+/*
     std::string key, path;
 
     key = "player";
@@ -21,7 +31,7 @@ Texture_Manager::Texture_Manager(){
     key = "boss";
     path = "textures/boss.png";
 
-    textures[key].loadFromFile(path);
+    textures[key].loadFromFile(path);*/
 }
 
 sf::Texture* Texture_Manager::get(std::string key){

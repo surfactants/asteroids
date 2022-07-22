@@ -22,8 +22,6 @@ Shell::Shell()
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
 
-    Texture_Manager t;
-
     Projectile::loadTexture();
 
     ui.scale(window);
