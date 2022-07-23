@@ -32,9 +32,6 @@ private:
     sf::Clock frameTimer;
     const static int frameThreshold{250};
 
-    int frame{};
-    const static int frameLimit = 3;
-
     void updateFrame();
 
     std::map<Animation_State, std::map<Direction, Animation>> animations;

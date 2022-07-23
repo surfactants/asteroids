@@ -1,12 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
-enum Animation_State{
-    MOVING,
-    DYING,
-    IDLE
-};
+#include "animation_state.hpp"
 
 class Animation{
 public:

@@ -12,7 +12,6 @@ const float Entity::levelOffset = 20.f;
 sf::Font Entity::font = sf::Font();
 
 const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
-const sf::Vector2f Entity::sheetSize = sf::Vector2f(0.f, 0.f);
 
 Entity::Entity()
 {
@@ -27,7 +26,7 @@ Entity::Entity()
     prepUI();
 }
 
-Entity::Entity(Entity_Data& e, sf::Texture& texture){
+Entity::Entity(Entity_Data& e, sf::Texture* texture){
     armorFactor = 0.d;
 
     velocity = sf::Vector2f(0.f, 0.f);
@@ -42,7 +41,7 @@ Entity::Entity(Entity_Data& e, sf::Texture& texture){
     faction = e.faction;
     type = e.type;
     sf::Vector2i size = e.size;
-    sprite = Animated_Sprite(texture, size, e.aCount);
+    sprite = Animated_Sprite(*texture, size, e.aCount);
 }
 
 void Entity::prepUI(){

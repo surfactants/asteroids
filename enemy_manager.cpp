@@ -73,7 +73,7 @@ void Enemy_Manager::loadPrototypes(){
     for(auto& e : enemies){
         std::string texture_key = std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
         std::cout << "\n\tloading texture from " << std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
-        p[e.faction][e.type] = Enemy(e, *Texture_Manager::get(texture_key));
+        p[e.faction][e.type] = Enemy(e, Texture_Manager::get(texture_key));
     }
 
     std::cout << "\n\tprototypes loaded!";

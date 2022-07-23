@@ -1,5 +1,4 @@
 #include "animated_sprite.hpp"
-#include <iostream>
 
 Animated_Sprite::Animated_Sprite(sf::Texture& texture, sf::Vector2i nsize, std::map<Animation_State, unsigned int> counts)
 : size{ nsize }
@@ -15,6 +14,7 @@ void Animated_Sprite::setAnimationState(Animation_State nstate){
     animations[state][direction].reset();
     state = nstate;
     setTextureRect(animations[state][direction].firstFrame());
+    //load frameThreshold here
 }
 
 void Animated_Sprite::setDirection(Direction ndirection){
