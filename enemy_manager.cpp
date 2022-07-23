@@ -2,14 +2,18 @@
 #include "prng.hpp"
 #include <iostream>
 #include "texture_manager.hpp"
+#include "database.hpp"
 
 Enemy_Manager::Enemy_Manager(){
     lowLevel = 8;
     highLevel = 13;
+
+    loadPrototypes();
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
     std::cout << "\n      spawning enemies, room count is " << rooms.size() - 1;
+    currentFaction = BUGS;
     for(unsigned int r = 0; r < rooms.size() - 1; ++r){
             //r should start at 1, this is for debugging
         unsigned int enemyCount = prng::number(12u, 64u);
@@ -26,9 +30,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
                     if(c == u) continue;
                 }
             } while(!rooms[r].contains(c));
-            sf::Texture& texture = *Texture_Manager::get("ENEMY");
-            Animated_Sprite sprite(texture, sf::Vector2i(64, 64));
-            enemies.push_back(Enemy(sprite));
+            enemies.push_back(prototypes[currentFaction][MELEE_LIGHT]);
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
 
@@ -41,8 +43,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
 
 
     //place boss
-    Animated_Sprite sprite(*Texture_Manager::get("BOSS"), sf::Vector2i(128, 128));
-    enemies.push_back(Enemy(sprite));
+    enemies.push_back(prototypes[currentFaction][BOSS]);
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
 }
@@ -59,4 +60,21 @@ void Enemy_Manager::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 
 std::vector<Enemy>& Enemy_Manager::getEnemies(){
     return enemies;
+}
+
+void Enemy_Manager::loadPrototypes(){
+    std::cout << "\nloading enemy prototypes...";
+    std::vector<Entity_Data> enemies = Database::getEnemies();
+
+    std::map<Faction, std::map<Entity_Type, Enemy>>& p = prototypes;
+
+    std::cout << "\n\tdata obtained, assigning...";
+
+    for(auto& e : enemies){
+        std::string texture_key = std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
+        std::cout << "\n\tloading texture from " << std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
+        p[e.faction][e.type] = Enemy(e, *Texture_Manager::get(texture_key));
+    }
+
+    std::cout << "\n\tprototypes loaded!";
 }

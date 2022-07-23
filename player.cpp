@@ -1,13 +1,9 @@
 #include "player.hpp"
 #include "texture_manager.hpp"
-#include <iostream>
 
-Player::Player(){
-    hMove = NULLSIDE;
-    vMove = NULLSIDE;
+Player::Player(){}
 
-    sprite = Animated_Sprite(*Texture_Manager::get("PLAYER"), sf::Vector2i(64, 64));
-}
+Player::Player(Entity_Data e, sf::Texture& texture) : Entity(e, texture){}
 
 void Player::update(){
     sprite.update();
@@ -51,7 +47,6 @@ void Player::leftStart(){
 void Player::leftEnd(){
     if(left){
         left = false;
-        std::cout << "\nplayer left end";
         setVelocity();
     }
 }

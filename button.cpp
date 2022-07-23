@@ -1,7 +1,6 @@
 #include "button.hpp"
 #include "fmouse.hpp"
 #include "primordial.hpp"
-#include <iostream>
 
 const float Button::padding = 8;
 

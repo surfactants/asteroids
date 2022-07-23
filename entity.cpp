@@ -1,7 +1,6 @@
 #include "entity.hpp"
 #include "prng.hpp"
 #include "primordial.hpp"
-#include <iostream>
 
 const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
 const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);
@@ -17,6 +16,36 @@ const sf::Vector2f Entity::sheetSize = sf::Vector2f(0.f, 0.f);
 
 Entity::Entity()
 {
+    armorFactor = 0.d;
+
+    velocity = sf::Vector2f(0.f, 0.f);
+    speed_orthogonal = 3.f;
+    speed_diagonal = speed_orthogonal * sqrt2_inv;
+
+    weapons.push_back(Weapon("test", 8));
+    equippedWeapon = 0;
+    prepUI();
+}
+
+Entity::Entity(Entity_Data& e, sf::Texture& texture){
+    armorFactor = 0.d;
+
+    velocity = sf::Vector2f(0.f, 0.f);
+    speed_orthogonal = 3.f;
+    speed_diagonal = speed_orthogonal * sqrt2_inv;
+
+    weapons.push_back(Weapon("test", 8));
+    equippedWeapon = 0;
+    prepUI();
+
+    name = e.name;
+    faction = e.faction;
+    type = e.type;
+    sf::Vector2i size = e.size;
+    sprite = Animated_Sprite(texture, size, e.aCount);
+}
+
+void Entity::prepUI(){
     hpMax = 100;
     hpCurrent = hpMax;
 
@@ -32,12 +61,6 @@ Entity::Entity()
     hpBar.setFillColor(color_hpGood);
     hpBar.setPosition(64, 64);
 
-    armorFactor = 0.d;
-
-    velocity = sf::Vector2f(0.f, 0.f);
-    speed_orthogonal = 3.f;
-    speed_diagonal = speed_orthogonal * sqrt2_inv;
-
     setLevel(prng::number(1u, 99u));
 
     font.loadFromFile("BubblerOne-Regular.ttf");
@@ -52,9 +75,6 @@ Entity::Entity()
     levelFrame.setOutlineColor(sf::Color(225, 225, 225));
     levelFrame.setOutlineThickness(2);
 
-    //spriteSize = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
-
-    sprite.setOrigin(spriteSize / 2.f);
     sf::Vector2f hpOrigin((hpSize.x / 2.f) - levelOffset, ((hpSize.y / 2.f) + (spriteSize.y / 2.f) + hpOffset));
     hpFrame.setOrigin(hpOrigin);
     hpBar.setOrigin(hpOrigin);
@@ -65,9 +85,6 @@ Entity::Entity()
     levelOrigin = hpOrigin + levelFrame.getOrigin();
     levelOrigin.x += levelOffset;
     levelFrame.setOrigin(levelOrigin);
-
-    weapons.push_back(Weapon("test", 8));
-    equippedWeapon = 0;
 }
 
 sf::Vector2f Entity::getPosition(){

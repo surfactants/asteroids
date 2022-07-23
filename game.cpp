@@ -2,9 +2,12 @@
 #include <iostream>
 #include "primordial.hpp"
 #include "fmouse.hpp"
+#include "database.hpp"
 
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
-: window{ nwindow }, view{ nview }{}
+: window{ nwindow }, view{ nview }{
+    player = Player(Database::getPlayerData(), *Texture_Manager::get("PLAYER"));
+}
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(world, states);

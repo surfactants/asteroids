@@ -2,29 +2,11 @@
 
 #include "entity.hpp"
 
-enum Faction{
-    BUGS,
-    PIRATES,
-    GHOSTS,
-    LITHOBIOMORPHS,
-    ROBOTS
-};
-
-enum Enemy_Type{
-    MELEE_LIGHT,
-    MELEE_HEAVY,
-    RANGED,
-    TURRET
-};
-
 class Enemy : public Entity{
 public:
+    Enemy(){}
     Enemy(Animated_Sprite nsprite);
+    Enemy(Entity_Data e, sf::Texture& texture);
 
     virtual void update() override;
-
-protected:
-
-private:
-    Faction faction;
 };

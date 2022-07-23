@@ -5,6 +5,8 @@
 #include <string>
 #include <SFML/Graphics/Texture.hpp>
 #include <map>
+#include "animation.hpp"
+#include "enemy.hpp"
 
 class Database{
 public:
@@ -16,6 +18,10 @@ public:
     static void getTextures(std::map<std::string, sf::Texture>& t);
 
     static std::map<Animation_State, Animation> getAnimations();
+
+    static std::vector<Entity_Data> getEnemies();
+
+    static Entity_Data getPlayerData();
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

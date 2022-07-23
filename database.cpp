@@ -1,6 +1,7 @@
 #include "database.hpp"
 #include "animation.hpp"
-#include "enemy.hpp"
+#include <iostream>
+#include "vector2_stream.hpp"
 
 sqlite3* Database::db = nullptr;
 
@@ -106,8 +107,103 @@ void Database::getTextures(std::map<std::string, sf::Texture>& t){
     close();
 }
 
-std::map<Animation_State, Animation> getAnimations(){
+std::vector<Entity_Data> Database::getEnemies(){
+    std::vector<Entity_Data> enemies;
+
+    open();
+
+    std::string sql = "SELECT * FROM 'ENTITIES' WHERE NAME != 'PLAYER';";
+
+    sqlite3_stmt* statement;
+
+    rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+    std::cout << "\nloading enemy data from database...";
+
+    while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+        enemies.push_back(Entity_Data());
+        Entity_Data& e = enemies.back();
+            //name text
+            //faction text
+            //type text
+            //size_x int
+            //size_y int
+            //moving_count int
+            //dying_count int
+            //idle_count int
+
+        int column = 0;
+
+        e.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
+        e.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        e.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        int x = sqlite3_column_int(statement, column++);
+        int y = sqlite3_column_int(statement, column++);
+        e.size = sf::Vector2i(x, y);
+        e.aCount[MOVING] = sqlite3_column_int(statement, column++);
+        e.aCount[DYING] = sqlite3_column_int(statement, column++);
+        e.aCount[IDLE] = sqlite3_column_int(statement, column++);
+
+        std::cout << "\n\nEXPORTING ENEMY...";
+        std::cout << "\n\tname " << e.name;
+        std::cout << "\n\tfaction " << factionToString(e.faction);
+        std::cout << "\n\ttype " << entityTypeToString(e.type);
+        std::cout << "\n\tsize " << e.size;
+        std::cout << "\n\tframe counts: " << e.aCount[MOVING] << e.aCount[DYING] << e.aCount[IDLE];
+    }
+
+    close();
+
+    return enemies;
+}
+
+std::map<Animation_State, Animation> Database::getAnimations(){
     open();
 
     std::string sql = "SELECT * FROM 'ANIMATIONS';";
+
+    close();
+
+    return std::map<Animation_State, Animation>();
+}
+
+Entity_Data Database::getPlayerData(){
+    Entity_Data p;
+
+    open();
+
+    std::string sql = "SELECT * FROM 'ENTITIES' WHERE NAME = 'PLAYER';";
+
+    execute(sql);
+
+    sqlite3_stmt* statement;
+
+    rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+    while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+            //name text
+            //faction text
+            //type text
+            //size_x int
+            //size_y int
+            //moving_count int
+            //dying_count int
+            //idle_count int
+
+        int column = 0;
+
+        p.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
+        p.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        p.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        int x = sqlite3_column_int(statement, column++);
+        int y = sqlite3_column_int(statement, column++);
+        p.size = sf::Vector2i(x, y);
+        p.aCount[MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+    }
+
+    close();
+
+    return p;
 }

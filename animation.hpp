@@ -10,8 +10,19 @@ enum Animation_State{
 
 class Animation{
 public:
-    Animation(std::vector<sf::IntRect> nframes) : frames{ nframes }{}
+    Animation(){}
+    Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount);
     sf::IntRect nextFrame();
+
+    bool repeats = true;
+
+    void reset();
+
+    sf::IntRect firstFrame();
+
+    sf::IntRect transition(unsigned int frame);
+
+    unsigned int getCurrentFrame();
 
 private:
     unsigned int currentFrame = 0;

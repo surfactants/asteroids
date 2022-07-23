@@ -8,9 +8,9 @@
 #include "enemy_manager.hpp"
 #include "projectile_manager.hpp"
 #include "collider.hpp"
-#include "texture_manager.hpp"
 #include "state_hook.hpp"
 #include "audio_manager.hpp"
+#include "texture_manager.hpp"
 
 class Game : public sf::Drawable, public State_Hook{
 public:

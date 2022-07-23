@@ -8,7 +8,7 @@
 class Animated_Sprite : public sf::Sprite{
 public:
     Animated_Sprite(){}
-    Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize);
+    Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Animation_State, unsigned int> counts);
 
     void setAnimationState(Animation_State nstate);
     Animation_State getAnimationState();
@@ -17,6 +17,8 @@ public:
     Direction getDirection();
 
     void update();
+
+    void loadCounts(std::map<Animation_State, unsigned int> counts);
 
 private:
     sf::Vector2i size;   /**< frame size for setTextureRect()   */
@@ -35,5 +37,5 @@ private:
 
     void updateFrame();
 
-    std::map<Animation_State, Animation> animations;
+    std::map<Animation_State, std::map<Direction, Animation>> animations;
 };
