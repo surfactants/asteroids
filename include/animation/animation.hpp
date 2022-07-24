@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <animation/animation_state.hpp>
 
 class Animation{
 public:

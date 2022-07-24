@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <world/direction.hpp>
 #include <animation/animation.hpp>
+#include <animation/animation_state.hpp>
 #include <map>
 
 class Animated_Sprite : public sf::Sprite{
