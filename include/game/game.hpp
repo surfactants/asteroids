@@ -9,7 +9,7 @@
 #include <system/collider.hpp>
 #include <system/state_hook.hpp>
 #include <audio/audio_manager.hpp>
-#include <system/texture_manager.hpp>
+#include <resources/texture_manager.hpp>
 
 class Game : public sf::Drawable, public State_Hook{
 public:

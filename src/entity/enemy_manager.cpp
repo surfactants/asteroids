@@ -1,7 +1,7 @@
 #include <entity/enemy_manager.hpp>
 #include <util/prng.hpp>
 #include <iostream>
-#include <system/texture_manager.hpp>
+#include <resources/texture_manager.hpp>
 #include <system/database.hpp>
 
 Enemy_Manager::Enemy_Manager(){
