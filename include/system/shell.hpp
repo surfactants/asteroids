@@ -7,13 +7,16 @@
 #include <game/loading.hpp>
 #include <menu/feedback.hpp>
 #include <system/input_handler.hpp>
+#include <resources/font_manager.hpp>
 
 class Shell : public State_Hook{
 public:
     Shell();
     void run();
 private:
-    Texture_Manager texureManager; //solely used for instancing, don't use this.
+    Texture_Manager texureManager; //instancing
+    Font_Manager fontManager; //instancing
+
     sf::RenderWindow window;
     sf::Font font;
     sf::Event event;

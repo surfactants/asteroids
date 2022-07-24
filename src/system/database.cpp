@@ -196,3 +196,7 @@ Entity_Data Database::getPlayerData(){
 
     return p;
 }
+
+std::map<Font, sf::Font> Database::getFonts(){
+
+}

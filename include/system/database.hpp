@@ -7,6 +7,7 @@
 #include <map>
 #include <animation/animation.hpp>
 #include <entity/enemy.hpp>
+#include <resources/font.hpp>
 
 class Database{
 public:
@@ -22,6 +23,8 @@ public:
     static std::vector<Entity_Data> getEnemies();
 
     static Entity_Data getPlayerData();
+
+    static std::map<Font, sf::Font> getFonts();
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

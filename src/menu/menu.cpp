@@ -1,19 +1,9 @@
 #include <menu/menu.hpp>
 #include <system/database.hpp>
-
-
-Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
-: Button{ nlabel, font }{
-    target_main = ntmain;
-    target_menu = ntmenu;
-}
-
-Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
-: Button{ nlabel, font }, target{ nt }{
-}
+#include <resources/font_manager.hpp>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
-sf::Font Menu::font = sf::Font();
+sf::Font Menu::font = Font_Manager::get(FONT_MENU);
 
 Menu::Menu(){
     sf::Vector2f pos(256.f, 128.f);

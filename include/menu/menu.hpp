@@ -7,18 +7,6 @@
 #include <vector>
 #include <system/settings_package.hpp>
 
-struct Nav : public Button{
-    Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
-    Main_State target_main;
-    Menu_State target_menu;
-};
-
-struct Option : public Button{
-    Option(std::string nlabel, sf::Font& font, std::function<void()> nt);
-
-    std::function<void()> target;
-};
-
 class Menu : public sf::Drawable, public State_Hook, public Audio_Manager{
 public:
     Menu();
