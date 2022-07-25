@@ -1,5 +1,4 @@
 #include <game/game.hpp>
-#include <iostream>
 #include <util/primordial.hpp>
 #include <util/fmouse.hpp>
 #include <system/database.hpp>
@@ -69,12 +68,9 @@ void Game::enter(){
 }
 
 void Game::newLevel(){
-    std::cout << "\ngenerating new level";
-
     player.setPosition(sf::Vector2f(0.f, 0.f));
 
     view.setCenter(player.getPosition());
-    std::cout << "\nnew level ready!";
 }
 
 World& Game::getWorld(){

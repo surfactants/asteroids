@@ -27,7 +27,6 @@ private:
 
     sf::RectangleShape backdrop;
     sf::Text text;
-    sf::Font font;
 
     void finish();
 

@@ -24,7 +24,7 @@ protected:
     std::map<Volume_Type, Slider> sliders;
 
     Main_State escape = MAIN_NULL;
-    static sf::Font font;
+    static sf::Font& font;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

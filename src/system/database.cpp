@@ -2,19 +2,23 @@
 #include <animation/animation.hpp>
 
 sqlite3* Database::db = nullptr;
+std::vector<char*> Database::font_buffers = std::vector<char*>();
 
 int Database::rc = 0;
 
-Database::Database(){
+Database::~Database(){
+    for(unsigned int i = 0; i < font_buffers.size(); ++i){
+        delete[] font_buffers[i];
+    }
 }
 
 void Database::saveSettings(Settings_Package p){
     open();
 
 std::string sql =
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_MUSIC]) + "' WHERE ID = 'MUSIC';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_GAME]) + "' WHERE ID = 'GAME';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_UI]) + "' WHERE ID = 'UI';";
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_MUSIC]) + "' WHERE ID = 'VOL_MUSIC';" \
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_GAME]) + "' WHERE ID = 'VOL_GAME';" \
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_UI]) + "' WHERE ID = 'VOL_UI';";
 
     execute(sql);
 
@@ -35,20 +39,10 @@ std::string sql =
 
             while((rc = sqlite3_step(statement)) == SQLITE_ROW){
                 std::string id( reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
-                Volume_Type type;
-                if(id == "MUSIC"){
-                    type = VOL_MUSIC;
-                }
-                else if(id == "GAME"){
-                    type = VOL_GAME;
-                }
-                else if(id == "UI"){
-                    type = VOL_UI;
-                }
-                else continue;
-
-                p.volume[type] = sqlite3_column_double(statement, 1);
+                p.volume[stringToVolumeType(id)] = sqlite3_column_double(statement, 1);
             }
+
+        sqlite3_finalize(statement);
 
         close();
 
@@ -141,6 +135,8 @@ std::vector<Entity_Data> Database::getEnemies(){
         e.aCount[IDLE] = sqlite3_column_int(statement, column++);
     }
 
+    sqlite3_finalize(statement);
+
     close();
 
     return enemies;
@@ -192,13 +188,49 @@ Entity_Data Database::getPlayerData(){
         p.aCount[IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
     }
 
+    sqlite3_finalize(statement);
+
     close();
 
     return p;
 }
 
-std::map<Font, sf::Font> Database::getFonts(){
-    std::map<Font, sf::Font> f;
+void Database::getFonts(std::map<Font, sf::Font>& f){
+    open();
 
-    return f;
+    std::string sql = "SELECT * FROM 'FONTS';";
+
+    sqlite3_stmt* statement;
+
+    rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+    int row = 0;
+
+    while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+        int column = 0;
+        std::string name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column));
+
+        sqlite3_blob* blob;
+
+        rc = sqlite3_blob_open(db, "main", "FONTS", "DATA", ++row, 0, &blob);
+        errorCheck(std::string("opening font blob " + name));
+
+        int bsize = sqlite3_blob_bytes(blob);
+        font_buffers.push_back(new char[bsize]);
+
+        rc = sqlite3_blob_read(blob, font_buffers.back(), bsize, 0);
+        errorCheck(std::string("\treading font blob " + name));
+
+        f[stringToFont(name)].loadFromMemory(font_buffers.back(), bsize);
+
+        rc = sqlite3_blob_close(blob);
+    }
+
+    sqlite3_finalize(statement);
+
+    close();
+}
+
+void Database::errorCheck(std::string id){
+    //std::cout << id + ": " + sqlite3_errmsg(db) << '\n';
 }

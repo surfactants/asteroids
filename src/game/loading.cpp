@@ -1,10 +1,10 @@
 #include <game/loading.hpp>
 #include <chrono>
 #include <functional>
+#include <resources/font_manager.hpp>
 
 Loading_Screen::Loading_Screen(){
-    font.loadFromFile("BubblerOne-Regular.ttf");
-    text.setFont(font);
+    text.setFont(Font_Manager::get(FONT_MENU));
     text.setFillColor(sf::Color::White);
     text.setPosition(sf::Vector2f(128.f, 128.f));
     text.setCharacterSize(48);

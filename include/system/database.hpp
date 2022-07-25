@@ -11,7 +11,7 @@
 
 class Database{
 public:
-    Database();
+    ~Database();
 
     static void saveSettings(Settings_Package p);
     static Settings_Package getSettings();
@@ -24,7 +24,7 @@ public:
 
     static Entity_Data getPlayerData();
 
-    static std::map<Font, sf::Font> getFonts();
+    static void getFonts(std::map<Font, sf::Font>& f);
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);
@@ -36,4 +36,8 @@ private:
     static void close();
 
     static int rc;
+
+    static void errorCheck(std::string id);
+
+    static std::vector<char*> font_buffers;
 };

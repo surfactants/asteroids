@@ -1,8 +1,6 @@
 #include <entity/projectile_manager.hpp>
 
-Projectile_Manager::Projectile_Manager(){
-    Projectile::loadTexture();
-}
+Projectile_Manager::Projectile_Manager(){}
 
 void Projectile_Manager::create(Projectile p){
     projectiles.push_back(p);

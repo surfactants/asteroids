@@ -25,6 +25,7 @@ void Animation::reset(){
 }
 
 sf::IntRect Animation::firstFrame(){
+    reset();
     return frames[0];
 }
 

@@ -10,8 +10,6 @@ Shell::Shell()
     cursor.loadFromSystem(sf::Cursor::Cross);
     window.setMouseCursor(cursor);
 
-    font.loadFromFile("BubblerOne-Regular.ttf");
-
     viewGame = sf::View(sf::Vector2f(0.f, 0.f), sf::Vector2f(window.getSize()));
     viewGame.setCenter(sf::Vector2f(960.f, 540.f));
     viewGame.zoom(1.5f);
@@ -22,8 +20,6 @@ Shell::Shell()
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
 
-    Projectile::loadTexture();
-
     ui.scale(window);
 
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
@@ -32,7 +28,7 @@ Shell::Shell()
 }
 
 void Shell::run(){
-    fpsText.setFont(font);
+    fpsText.setFont(Font_Manager::get(FONT_MENU));
     fpsText.setString("0");
     fpsText.setFillColor(sf::Color::Red);
 

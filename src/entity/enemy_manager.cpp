@@ -1,6 +1,5 @@
 #include <entity/enemy_manager.hpp>
 #include <util/prng.hpp>
-#include <iostream>
 #include <resources/texture_manager.hpp>
 #include <system/database.hpp>
 
@@ -12,7 +11,6 @@ Enemy_Manager::Enemy_Manager(){
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
-    std::cout << "\n      spawning enemies, room count is " << rooms.size() - 1;
     currentFaction = BUGS;
     for(unsigned int r = 0; r < rooms.size() - 1; ++r){
             //r should start at 1, this is for debugging
@@ -35,9 +33,6 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
 
             used.push_back(c);
-        }
-        for(const auto& p : used){
-            std::cout << "\n\t" << p.x << ", " << p.y;
         }
     }
 
@@ -63,18 +58,12 @@ std::vector<Enemy>& Enemy_Manager::getEnemies(){
 }
 
 void Enemy_Manager::loadPrototypes(){
-    std::cout << "\nloading enemy prototypes...";
     std::vector<Entity_Data> enemies = Database::getEnemies();
 
     std::map<Faction, std::map<Entity_Type, Enemy>>& p = prototypes;
 
-    std::cout << "\n\tdata obtained, assigning...";
-
     for(auto& e : enemies){
         std::string texture_key = std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
-        std::cout << "\n\tloading texture from " << std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
         p[e.faction][e.type] = Enemy(e, Texture_Manager::get(texture_key));
     }
-
-    std::cout << "\n\tprototypes loaded!";
 }

@@ -9,8 +9,6 @@ public:
     Projectile();
     Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype);
 
-    static void loadTexture();
-
     void update();
 
     sf::FloatRect getBounds();
@@ -24,12 +22,8 @@ public:
 
     sf::Vector2f getPosition();
 
-protected:
-
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-    static sf::Texture texture;
 
     sf::Sprite sprite;
     sf::Vector2f velocity;

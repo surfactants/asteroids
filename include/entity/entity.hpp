@@ -101,8 +101,6 @@ protected:
 
     void setVelocity();
 
-    static sf::Font font;
-
     const static sf::Vector2f spriteSize;
 
     const static float hpOffset;

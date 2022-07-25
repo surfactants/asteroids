@@ -4,7 +4,7 @@
 std::map<Font, sf::Font> Font_Manager::fonts = std::map<Font, sf::Font>();
 
 Font_Manager::Font_Manager(){
-    fonts = Database::getFonts();
+    Database::getFonts(fonts);
 }
 
 sf::Font& Font_Manager::get(Font f){

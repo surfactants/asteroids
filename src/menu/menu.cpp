@@ -3,7 +3,8 @@
 #include <resources/font_manager.hpp>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
-sf::Font Menu::font = Font_Manager::get(FONT_MENU);
+
+sf::Font& Menu::font = Font_Manager::get(FONT_MENU);
 
 Menu::Menu(){
     sf::Vector2f pos(256.f, 128.f);
@@ -128,7 +129,7 @@ void Menu_Settings::back(){
 void Menu_Settings::saveSettings(){
     setVolumeMusic(sliders[VOL_MUSIC].getFill());
     setVolumeGame(sliders[VOL_GAME].getFill());
-    setVolumeUI(sliders[VOL_GAME].getFill());
+    setVolumeUI(sliders[VOL_UI].getFill());
     Database::saveSettings(generateSettingsPackage());
     back();
 }
@@ -146,7 +147,7 @@ Settings_Package Menu_Settings::generateSettingsPackage(){
 void Menu_Settings::reset(){
     sliders[VOL_MUSIC].setFill(getVolumeMusic());
     sliders[VOL_GAME].setFill(getVolumeGame());
-    sliders[VOL_UI].setFill(getVolumeGame());
+    sliders[VOL_UI].setFill(getVolumeUI());
 }
 
 void Menu_Settings::loadSettings(){

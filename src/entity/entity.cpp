@@ -1,6 +1,7 @@
 #include <entity/entity.hpp>
 #include <util/prng.hpp>
 #include <util/primordial.hpp>
+#include <resources/font_manager.hpp>
 
 const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
 const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);
@@ -8,8 +9,6 @@ const sf::Vector2f Entity::hpSize = sf::Vector2f(80, 8);
 
 const float Entity::hpOffset = 14.f;
 const float Entity::levelOffset = 20.f;
-
-sf::Font Entity::font = sf::Font();
 
 const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
 
@@ -62,9 +61,7 @@ void Entity::prepUI(){
 
     setLevel(prng::number(1u, 99u));
 
-    font.loadFromFile("BubblerOne-Regular.ttf");
-
-    levelText.setFont(font);
+    levelText.setFont(Font_Manager::get(FONT_UI));
     levelText.setFillColor(sf::Color::White);
     levelText.setCharacterSize(26);
 

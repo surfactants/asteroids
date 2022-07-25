@@ -1,12 +1,11 @@
 #include <entity/projectile.hpp>
 #include <util/primordial.hpp>
-
-sf::Texture Projectile::texture = sf::Texture();
+#include <resources/texture_manager.hpp>
 
 Projectile::Projectile(){
     type = LASER;
     speed = 10.f;
-    sprite.setTexture(texture);
+    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
 }
 
 Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype){
@@ -16,13 +15,9 @@ Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type nt
     sprite.setRotation(theta);
     calculateMoveVector(theta, speed, velocity);
     type = ntype;
-    sprite.setTexture(texture);
+    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
 
     type = LASER;
-}
-
-void Projectile::loadTexture(){
-    texture.loadFromFile("textures/bullet.png");
 }
 
 void Projectile::update(){
