@@ -2,7 +2,7 @@
 
 #include <ui/button.hpp>
 #include <ui/slider.hpp>
-#include <system/state_hook.hpp>
+#include <system/state.hpp>
 
 struct Nav : public Button{
     Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
