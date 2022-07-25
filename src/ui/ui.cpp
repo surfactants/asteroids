@@ -24,3 +24,7 @@ void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 void UI::scale(sf::RenderWindow& window){
     minimap.set(sf::Vector2f(window.getSize()));
 }
+
+void UI::stopInput(){
+    game.stopInput();
+}

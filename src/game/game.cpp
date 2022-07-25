@@ -106,3 +106,8 @@ void Game::escape(){
     player.stop();
     player.setAttacking(false);
 }
+
+void Game::stopInput(){
+    player.stop();
+    player.setAttacking(false);
+}

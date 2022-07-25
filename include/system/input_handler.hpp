@@ -21,6 +21,7 @@ struct Input_Package{
     std::map<sf::Keyboard::Key, std::function<void()>> keyReleased;
     std::map<Mouse_Event, std::function<void()>> mouse;
     std::function<void(float)> scroll;
+    std::function<void()> focus_lost;
 
     void clear();
 };

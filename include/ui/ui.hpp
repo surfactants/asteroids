@@ -16,6 +16,8 @@ public:
     void clickLeft();
     void releaseLeft();
 
+    void stopInput();
+
 protected:
 private:
     Game& game;

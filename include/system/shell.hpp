@@ -18,7 +18,6 @@ private:
     Font_Manager fontManager; //instancing
 
     sf::RenderWindow window;
-    sf::Event event;
 
     Game game{ window, viewGame };
         sf::View viewGame;

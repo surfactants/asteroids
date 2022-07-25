@@ -18,6 +18,7 @@ public:
     virtual void back();
     void scroll(float delta);
     virtual void saveSettings(){}
+    void stopInput();
 
 protected:
     std::vector<Option> options;

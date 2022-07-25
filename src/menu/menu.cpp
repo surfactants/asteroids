@@ -157,3 +157,7 @@ void Menu_Settings::loadSettings(){
         setVolumeUI(p.volume[VOL_UI]);
     reset();
 }
+
+void Menu::stopInput(){
+    releaseLeft();
+}

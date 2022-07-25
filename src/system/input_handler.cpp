@@ -38,6 +38,8 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
         p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
 
+        p_g.focus_lost = std::bind(&Game::stopInput, &game);
+
     /////////////////////////////////////////////////////////////
     //MENU INPUTS
     //
@@ -50,6 +52,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
         p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
         p.scroll = std::bind(&Menu::scroll, m[i], std::placeholders::_1);
+        p.focus_lost = std::bind(&Menu::stopInput, m[i]);
     }
 }
 
@@ -96,6 +99,9 @@ void Input_Handler::handle(){
             }
             else if(event.type == sf::Event::MouseWheelScrolled){
                 context[state_main].scroll(event.mouseWheelScroll.delta);
+            }
+            else if(event.type == sf::Event::LostFocus){
+                context[state_main].focus_lost();
             }
         }
     }
