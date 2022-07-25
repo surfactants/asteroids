@@ -43,6 +43,10 @@ Entity::Entity(Entity_Data& e, sf::Texture* texture){
     sprite = Animated_Sprite(*texture, size, e.aCount);
 }
 
+//Entity::Entity(const Entity& e){
+//    sprite.setDirection(randomDirection());
+//}
+
 void Entity::prepUI(){
     hpMax = 100;
     hpCurrent = hpMax;

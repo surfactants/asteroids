@@ -31,6 +31,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
             enemies.push_back(prototypes[currentFaction][MELEE_LIGHT]);
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
+            enemies.back().getSprite().setDirection(randomDirection());
 
             used.push_back(c);
         }
