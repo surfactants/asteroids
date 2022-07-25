@@ -28,7 +28,7 @@ public:
     void damage(int val);
     void heal(int val);
 
-    void setAnimationState(Animation_State newState);
+    void setState(Entity_State nstate);
 
     virtual void update();
 
@@ -125,4 +125,5 @@ protected:
     void prepUI();
 
     Entity_Type type;
+    Entity_State state;
 };

@@ -1,5 +1,5 @@
 #include <entity/enemy.hpp>
-#include <system/ai.hpp>
+#include <ai/ai.hpp>
 
 Enemy::Enemy(Animated_Sprite nsprite){
     sprite = nsprite;

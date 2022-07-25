@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <SFML/System/Vector2.hpp>
-#include <animation/animation_state.hpp>
+#include <entity/entity_state.hpp>
 
 enum Faction{
     BUGS,
@@ -38,5 +38,5 @@ struct Entity_Data{
     Faction faction;
     Entity_Type type;
     sf::Vector2i size;
-    std::map<Animation_State, unsigned int> aCount;
+    std::map<Entity_State, unsigned int> aCount;
 };

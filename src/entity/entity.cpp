@@ -43,10 +43,6 @@ Entity::Entity(Entity_Data& e, sf::Texture* texture){
     sprite = Animated_Sprite(*texture, size, e.aCount);
 }
 
-//Entity::Entity(const Entity& e){
-//    sprite.setDirection(randomDirection());
-//}
-
 void Entity::prepUI(){
     hpMax = 100;
     hpCurrent = hpMax;
@@ -110,7 +106,7 @@ void Entity::damage(int val){
     if(hpCurrent <= 0){
         hpCurrent = 0;
         dead = true;
-        sprite.setAnimationState(DYING);
+        setState(DYING);
     }
 
     updateHP();
@@ -229,7 +225,7 @@ void Entity::stop(){
     left = false;
     right = false;
     setVelocity();
-    sprite.setAnimationState(IDLE);
+    setState(IDLE);
 
 }
 
@@ -316,12 +312,17 @@ void Entity::setVelocity(){
 
     if(sprite.getAnimationState() != IDLE
     && velocity.x == 0.f && velocity.y == 0.f){
-        sprite.setAnimationState(IDLE);
+        setState(IDLE);
     }
     else if(sprite.getAnimationState() != MOVING
     && (velocity.x != 0.f || velocity.y != 0.f)){
-        sprite.setAnimationState(MOVING);
+        setState(MOVING);
     }
 
     setSpriteDirection();
+}
+
+void Entity::setState(Entity_State nstate){
+    state = nstate;
+    sprite.setAnimationState(state);
 }

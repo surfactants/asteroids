@@ -3,23 +3,23 @@
 #include <SFML/Graphics.hpp>
 #include <world/direction.hpp>
 #include <animation/animation.hpp>
-#include <animation/animation_state.hpp>
+#include <entity/entity_state.hpp>
 #include <map>
 
 class Animated_Sprite : public sf::Sprite{
 public:
     Animated_Sprite(){}
-    Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Animation_State, unsigned int> counts);
+    Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Entity_State, unsigned int> counts);
 
-    void setAnimationState(Animation_State nstate);
-    Animation_State getAnimationState();
+    void setAnimationState(Entity_State nstate);
+    Entity_State getAnimationState();
 
     void setDirection(Direction ndirection);
     Direction getDirection();
 
     void update();
 
-    void loadCounts(std::map<Animation_State, unsigned int> counts);
+    void loadCounts(std::map<Entity_State, unsigned int> counts);
 
 private:
     sf::Vector2i size;   /**< frame size for setTextureRect()   */
@@ -27,7 +27,7 @@ private:
     int animationY{};    /**< offset of specific animation from the start of the spritesheet    */
     int directionY{};    /**< offset of specific direction from animationY                      */
 
-    Animation_State state{};
+    Entity_State state{};
     Direction direction{};
 
     sf::Clock frameTimer;
@@ -35,5 +35,5 @@ private:
 
     void updateFrame();
 
-    std::map<Animation_State, std::map<Direction, Animation>> animations;
+    std::map<Entity_State, std::map<Direction, Animation>> animations;
 };

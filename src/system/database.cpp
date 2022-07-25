@@ -142,14 +142,14 @@ std::vector<Entity_Data> Database::getEnemies(){
     return enemies;
 }
 
-std::map<Animation_State, Animation> Database::getAnimations(){
+std::map<Entity_State, Animation> Database::getAnimations(){
     open();
 
     std::string sql = "SELECT * FROM 'ANIMATIONS';";
 
     close();
 
-    return std::map<Animation_State, Animation>();
+    return std::map<Entity_State, Animation>();
 }
 
 Entity_Data Database::getPlayerData(){

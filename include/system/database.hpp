@@ -18,7 +18,7 @@ public:
 
     static void getTextures(std::map<std::string, sf::Texture>& t);
 
-    static std::map<Animation_State, Animation> getAnimations();
+    static std::map<Entity_State, Animation> getAnimations();
 
     static std::vector<Entity_Data> getEnemies();
 

@@ -1,6 +1,6 @@
 #include <animation/animated_sprite.hpp>
 
-Animated_Sprite::Animated_Sprite(sf::Texture& texture, sf::Vector2i nsize, std::map<Animation_State, unsigned int> counts)
+Animated_Sprite::Animated_Sprite(sf::Texture& texture, sf::Vector2i nsize, std::map<Entity_State, unsigned int> counts)
 : size{ nsize }
 {
     loadCounts(counts);
@@ -10,7 +10,7 @@ Animated_Sprite::Animated_Sprite(sf::Texture& texture, sf::Vector2i nsize, std::
     setOrigin(sf::Vector2f(size) / 2.f);
 }
 
-void Animated_Sprite::setAnimationState(Animation_State nstate){
+void Animated_Sprite::setAnimationState(Entity_State nstate){
     animations[state][direction].reset();
     state = nstate;
     setTextureRect(animations[state][direction].firstFrame());
@@ -40,11 +40,11 @@ void Animated_Sprite::updateFrame(){
     setTextureRect(animations[state][direction].nextFrame());
 }
 
-Animation_State Animated_Sprite::getAnimationState(){
+Entity_State Animated_Sprite::getAnimationState(){
     return state;
 }
 
-void Animated_Sprite::loadCounts(std::map<Animation_State, unsigned int> times){
+void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
     for(auto& t : times){
         for(unsigned int i = 0; i < 4; ++i){
             sf::Vector2i start(0, static_cast<int>(t.first) * (size.y * 4));
