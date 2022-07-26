@@ -10,7 +10,6 @@ Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(world, states);
-
     target.draw(enemyManager, states);
     target.draw(player, states);
     target.draw(projectileManager, states);
@@ -45,32 +44,13 @@ Player& Game::getPlayer(){
     return player;
 }
 
-std::vector<sf::FloatRect> Game::getPlayerCollideMap(){
-    std::vector<sf::FloatRect> wallColliders;
-
-    sf::Vector2i p = player.getCoordinates(Tile::tileSize);
-
-    const int depth = 1;
-
-    for(int x = p.x - depth; x <= p.x + depth; ++x){
-        for(int y = p.y - depth; y <= p.y + depth; ++y){
-            Tile* wall = world.getWall(x, y);
-            if(wall != nullptr){
-                wallColliders.push_back(wall->getGlobalBounds());
-            }
-        }
-    }
-
-    return wallColliders;
-}
-
 void Game::enter(){
 }
 
 void Game::newLevel(){
     player.setPosition(sf::Vector2f(0.f, 0.f));
-
     view.setCenter(player.getPosition());
+    world.reset();
 }
 
 World& Game::getWorld(){

@@ -11,16 +11,32 @@ World::World(){
 }
 
 World::~World(){
+    reset();
+}
+
+void World::reset(){
+    std::cout << "\nresetting world...";
     for(int x = worldMin.x; x <= worldMax.x; ++x){
         for(int y = worldMin.y; y <= worldMax.y; ++y){
-            if(walls[x][y] != nullptr) delete walls[x][y];
+            if(walls[x][y] != nullptr){
+                delete walls[x][y];
+            }
+            else if(floor[x][y] != nullptr){
+                delete floor[x][y];
+                floor[x][y] = nullptr;
+            }
         }
     }
 
-    sf::Drawable::~Drawable();
+    floorMap.clear();
+    floor.clear();
+    walls.clear();
+    rooms.clear();
+    std::cout << "\n\tworld reset!";
 }
 
 void World::makeFloor(){
+    std::cout << "\nmaking floor...";
     Floor_Generator floorGen;
 
     worldMin = floorGen.getWorldMin();
@@ -48,9 +64,11 @@ void World::makeFloor(){
             }
         }
     }
+    std::cout << "\n\tfloor is made!";
 }
 
 void World::makeWalls(){
+    std::cout << "\nmaking walls...";
     for(int x = worldMin.x; x <= worldMax.x; ++x){
         for(int y = worldMin.y; y <= worldMax.y; ++y){
             if(!floorMap[x][y]){
@@ -173,6 +191,7 @@ void World::makeWalls(){
             }
         }
     }
+    std::cout << "\n\twalls made!";
 }
 
 bool World::hasOrthogonalFloor(sf::Vector2i v){

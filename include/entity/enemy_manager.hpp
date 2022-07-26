@@ -25,4 +25,6 @@ private:
     unsigned int lowLevel, highLevel;
 
     void loadPrototypes();
+
+    void reset();
 };

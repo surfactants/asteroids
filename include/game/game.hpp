@@ -41,7 +41,6 @@ private:
     //Level level;
 
     Player player;
-        std::vector<sf::FloatRect> getPlayerCollideMap();
 
     Enemy_Manager enemyManager;
 

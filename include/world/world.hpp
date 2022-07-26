@@ -25,6 +25,8 @@ public:
     std::vector<sf::FloatRect> getLocalWalls(sf::Vector2i p);
     std::vector<sf::FloatRect> getLocalWalls(sf::Vector2f p);
 
+    void reset();
+
 private:
     std::map<int, std::map<int, Tile*>> floor;
     std::map<int, std::map<int, Tile*>> walls;

@@ -60,3 +60,8 @@ _resources
 # misc
 .gitattributes
 todo.hpp
+
+# sourcetrail files
+*.srctrlbm
+*.srctrldb
+*.srctrlprj

@@ -2,6 +2,7 @@
 #include <util/prng.hpp>
 #include <resources/texture_manager.hpp>
 #include <system/database.hpp>
+#include <iostream>
 
 Enemy_Manager::Enemy_Manager(){
     lowLevel = 8;
@@ -11,7 +12,7 @@ Enemy_Manager::Enemy_Manager(){
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
-    currentFaction = BUGS;
+    reset();
     for(unsigned int r = 0; r < rooms.size() - 1; ++r){
             //r should start at 1, this is for debugging
         unsigned int enemyCount = prng::number(12u, 64u);
@@ -42,6 +43,12 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
     enemies.push_back(prototypes[currentFaction][BOSS]);
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
+}
+
+void Enemy_Manager::reset(){
+    enemies.clear();
+    currentFaction = static_cast<Faction>(prng::number(0, static_cast<int>(PLAYER_FACTION) - 1));
+    currentFaction = BUGS;
 }
 
 void Enemy_Manager::clear(){

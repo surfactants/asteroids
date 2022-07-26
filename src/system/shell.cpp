@@ -36,16 +36,11 @@ void Shell::run(){
 
     while(window.isOpen()){
         switch(state_main){
-        case MAIN_NEWGAME:
-            loadNewLevel();
-            continue;
-            break;
         case MAIN_MENU:
             menu->update(fMouse(window, viewUI));
             break;
         case MAIN_LOADING:
             if(loadingScreen.update()){
-                game.newLevel();
                 state_main = MAIN_GAME;
             }
             break;
@@ -110,6 +105,9 @@ void Shell::loadNewLevel(){
     //SKIPPING THE FIRST STEP ALLOWS THE DRAW FUNCTION TO SWAP OVER TO LOADING BEFORE IT BEGINS
     loads.push_back(std::function<void()>([]{ return; }));
         messages.push_back("pee");
+
+    loads.push_back(std::bind(&Game::newLevel, &game));
+        messages.push_back("sweeping...");
 
     loads.push_back(std::bind(&World::makeFloor, &game.getWorld()));
         messages.push_back("carving rooms...");
