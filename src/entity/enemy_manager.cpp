@@ -75,3 +75,7 @@ void Enemy_Manager::loadPrototypes(){
         p[e.faction][e.type] = Enemy(e, Texture_Manager::get(texture_key));
     }
 }
+
+bool Enemy_Manager::checkFinalBoss(){
+    return (enemies.back().getState() == DEAD);
+}

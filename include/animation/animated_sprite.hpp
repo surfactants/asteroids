@@ -21,6 +21,8 @@ public:
 
     void loadCounts(std::map<Entity_State, unsigned int> counts);
 
+    Entity_State getState();
+
 private:
     sf::Vector2i size;   /**< frame size for setTextureRect()   */
 

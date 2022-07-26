@@ -15,6 +15,8 @@ public:
 
     Faction currentFaction;
 
+    bool checkFinalBoss();
+
 private:
     std::vector<Enemy> enemies;
 

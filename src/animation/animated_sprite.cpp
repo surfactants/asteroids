@@ -34,6 +34,9 @@ void Animated_Sprite::update(){
         frameTimer.restart();
         updateFrame();
     }
+    if(state == DYING && animations[state][direction].lastFrame()){
+        state = DEAD;
+    }
 }
 
 void Animated_Sprite::updateFrame(){
@@ -55,4 +58,8 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
             if(t.first == DYING) animations[t.first][d].repeats = false;
         }
     }
+}
+
+Entity_State Animated_Sprite::getState(){
+    return state;
 }

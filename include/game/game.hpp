@@ -56,4 +56,9 @@ private:
     Collider collider;
 
     Audio_Game audio;
+
+    bool levelEnding = false;
+
+    sf::Clock endTimer;
+    const static float endThreshold;
 };

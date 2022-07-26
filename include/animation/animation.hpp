@@ -18,6 +18,8 @@ public:
 
     unsigned int getCurrentFrame();
 
+    bool lastFrame();
+
 private:
     unsigned int currentFrame = 0;
     std::vector<sf::IntRect> frames;

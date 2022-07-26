@@ -60,9 +60,12 @@ public:
 
     Weapon& getEquippedWeapon();
 
-    bool isDead();
+    Entity_State getState();
 
 protected:
+    Entity_Type type;
+    Entity_State state;
+
     Animated_Sprite sprite;
     sf::RectangleShape hpFrame;
     sf::RectangleShape hpBar;
@@ -111,8 +114,6 @@ protected:
 
     bool attacking = false;
 
-    bool dead = false;
-
     void directCheck();
 
     bool up = false,
@@ -123,7 +124,4 @@ protected:
     Faction faction;
 
     void prepUI();
-
-    Entity_Type type;
-    Entity_State state;
 };

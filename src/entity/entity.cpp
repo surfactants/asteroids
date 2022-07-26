@@ -105,7 +105,6 @@ void Entity::damage(int val){
 
     if(hpCurrent <= 0){
         hpCurrent = 0;
-        dead = true;
         setState(DYING);
     }
 
@@ -120,13 +119,18 @@ void Entity::heal(int val){
 }
 
 void Entity::update(){
-    move();
-    sprite.update();
+    if(state < DEAD){
+        move();
+        sprite.update();
+        if(state == DYING){
+            state = sprite.getState();
+        }
+    }
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(sprite, states);
-    if(!dead){
+    if(state < DYING){
         target.draw(hpFrame, states);
         target.draw(hpBar, states);
         target.draw(levelFrame, states);
@@ -274,10 +278,6 @@ void Entity::setAttacking(bool n){
     attacking = n;
 }
 
-bool Entity::isDead(){
-    return dead;
-}
-
 void Entity::setVelocity(){
     if(velocity.x == 0.f && velocity.y == 0.f
     && !up && !down && !left && !right){
@@ -325,4 +325,8 @@ void Entity::setVelocity(){
 void Entity::setState(Entity_State nstate){
     state = nstate;
     sprite.setAnimationState(state);
+}
+
+Entity_State Entity::getState(){
+    return state;
 }

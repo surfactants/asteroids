@@ -3,6 +3,8 @@
 #include <util/fmouse.hpp>
 #include <system/database.hpp>
 
+const float Game::endThreshold = 3.f;
+
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
 : window{ nwindow }, view{ nview }{
     player = Player(Database::getPlayerData(), Texture_Manager::get("PLAYER"));
@@ -38,6 +40,17 @@ void Game::update(){
     }
 
     projectileManager.update();
+
+    if(levelEnding){
+        if(endTimer.getElapsedTime().asSeconds() >= endThreshold){
+            newMain(MAIN_NEWGAME);
+            levelEnding = false;
+        }
+    }
+    else if(enemyManager.checkFinalBoss()){
+        levelEnding = true;
+        endTimer.restart();
+    }
 }
 
 Player& Game::getPlayer(){

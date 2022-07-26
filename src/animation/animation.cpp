@@ -37,3 +37,7 @@ sf::IntRect Animation::transition(unsigned int frame){
 unsigned int Animation::getCurrentFrame(){
     return currentFrame;
 }
+
+bool Animation::lastFrame(){
+    return (currentFrame == frames.size() - 1);
+}
