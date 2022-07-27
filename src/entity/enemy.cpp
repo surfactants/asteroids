@@ -3,6 +3,8 @@
 #include <util/primordial.hpp>
 #include <world/tile.hpp>
 
+const float Enemy::decideThreshold = 1.f;
+
 Enemy::Enemy(Animated_Sprite nsprite){
     sprite = nsprite;
 }
@@ -32,4 +34,12 @@ void Enemy::setMoveTarget(sf::Vector2f pos){
     velocity = calculateMoveVector(getPosition(), moveTarget, speed_orthogonal);
 
     setSpriteDirection();
+}
+
+bool Enemy::decideReady(){
+    if(decideTimer.getElapsedTime().asSeconds() >= decideThreshold){
+        decideTimer.restart();
+        return true;
+    }
+    else return false;
 }

@@ -12,6 +12,11 @@ public:
 
     void setMoveTarget(sf::Vector2f pos);
 
+    bool decideReady();
+
 private:
     sf::Vector2f moveTarget;
+
+    sf::Clock decideTimer;
+    const static float decideThreshold;
 };

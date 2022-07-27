@@ -80,7 +80,7 @@ void Entity::prepUI(){
     levelFrame.setOrigin(levelOrigin);
 */
 
-    sf::Vector2f hpOrigin(hpSize.x / 2.f, (hpSize.y / 2.f) + (spriteSize.y / 2.f));
+    sf::Vector2f hpOrigin(hpSize.x / 2.f, (hpSize.y / 2.f) + (spriteSize.y / 1.5f));
     hpFrame.setOrigin(hpOrigin);
     hpBar.setOrigin(hpOrigin);
 }
@@ -107,6 +107,7 @@ void Entity::damage(int val){
 
     if(hpCurrent <= 0){
         hpCurrent = 0;
+        stop();
         setState(DYING);
     }
 

@@ -1,9 +1,9 @@
 #pragma once
 
 enum Entity_State{
-    MOVING,
-    DYING,
     IDLE,
+    MOVING,
     ATTACKING,
+    DYING,
     DEAD
 };
