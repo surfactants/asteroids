@@ -60,10 +60,11 @@ void Entity::prepUI(){
     hpBar.setPosition(64, 64);
 
     setLevel(prng::number(1u, 99u));
-
+/*
     levelText.setFont(Font_Manager::get(FONT_UI));
     levelText.setFillColor(sf::Color::White);
     levelText.setCharacterSize(26);
+    centerText(levelText);
 
     levelFrame.setSize(sf::Vector2f(24.f, 24.f));
     levelFrame.setOrigin(levelFrame.getSize() / 2.f);
@@ -71,16 +72,17 @@ void Entity::prepUI(){
     levelFrame.setOutlineColor(sf::Color(225, 225, 225));
     levelFrame.setOutlineThickness(2);
 
-    sf::Vector2f hpOrigin((hpSize.x / 2.f) - levelOffset, ((hpSize.y / 2.f) + (spriteSize.y / 2.f) + hpOffset));
-    hpFrame.setOrigin(hpOrigin);
-    hpBar.setOrigin(hpOrigin);
-    centerText(levelText);
     sf::Vector2f levelOrigin = hpOrigin + levelText.getOrigin();
     levelOrigin.x += levelOffset;
     levelText.setOrigin(levelOrigin);
     levelOrigin = hpOrigin + levelFrame.getOrigin();
     levelOrigin.x += levelOffset;
     levelFrame.setOrigin(levelOrigin);
+*/
+
+    sf::Vector2f hpOrigin(hpSize.x / 2.f, (hpSize.y / 2.f) + (spriteSize.y / 2.f));
+    hpFrame.setOrigin(hpOrigin);
+    hpBar.setOrigin(hpOrigin);
 }
 
 sf::Vector2f Entity::getPosition(){
@@ -133,8 +135,8 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     if(state < DYING){
         target.draw(hpFrame, states);
         target.draw(hpBar, states);
-        target.draw(levelFrame, states);
-        target.draw(levelText, states);
+        //target.draw(levelFrame, states);
+        //target.draw(levelText, states);
     }
 }
 
@@ -163,8 +165,8 @@ sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls){
     if(good){
         hpFrame.move(velocity.x, 0.f);
         hpBar.move(velocity.x, 0.f);
-        levelFrame.move(velocity.x, 0.f);
-        levelText.move(velocity.x, 0.f);
+        //levelFrame.move(velocity.x, 0.f);
+        //levelText.move(velocity.x, 0.f);
         offset.x = velocity.x;
     }
     else good = true;
@@ -178,8 +180,8 @@ sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls){
     if(good){
         hpFrame.move(0.f, velocity.y);
         hpBar.move(0.f, velocity.y);
-        levelFrame.move(0.f, velocity.y);
-        levelText.move(0.f, velocity.y);
+        //levelFrame.move(0.f, velocity.y);
+        //levelText.move(0.f, velocity.y);
         offset.y = velocity.y;
     }
 
@@ -210,8 +212,8 @@ void Entity::move(sf::Vector2f v){
     sprite.move(v);
     hpFrame.move(v);
     hpBar.move(v);
-    levelFrame.move(v);
-    levelText.move(v);
+    //levelFrame.move(v);
+    //levelText.move(v);
 }
 
 Animated_Sprite& Entity::getSprite(){
@@ -220,7 +222,7 @@ Animated_Sprite& Entity::getSprite(){
 
 void Entity::setLevel(unsigned int nlevel){
     level = nlevel;
-    levelText.setString(std::to_string(level));
+    //levelText.setString(std::to_string(level));
 }
 
 void Entity::stop(){
@@ -237,8 +239,8 @@ void Entity::setPosition(sf::Vector2f pos){
     sprite.setPosition(pos);
     hpFrame.setPosition(pos);
     hpBar.setPosition(pos);
-    levelFrame.setPosition(pos);
-    levelText.setPosition(pos);
+    //levelFrame.setPosition(pos);
+    //levelText.setPosition(pos);
 }
 
 sf::Vector2f Entity::getVelocity(){
@@ -251,7 +253,7 @@ sf::Vector2i Entity::getCoordinates(float tileSize){
 
 void Entity::setSpriteDirection(){
     Direction d = sprite.getDirection();
-    if(velocity.y == 0.f){
+    if(std::abs(velocity.y) < std::abs(velocity.x)){
         if(velocity.x > 0.f) d = EAST;
         else if(velocity.x < 0.f) d = WEST;
     }
@@ -323,8 +325,10 @@ void Entity::setVelocity(){
 }
 
 void Entity::setState(Entity_State nstate){
-    state = nstate;
-    sprite.setAnimationState(state);
+    if(state != nstate){
+        state = nstate;
+        sprite.setAnimationState(state);
+    }
 }
 
 Entity_State Entity::getState(){

@@ -64,13 +64,14 @@ public:
 
 protected:
     Entity_Type type;
-    Entity_State state;
+    Entity_State state = IDLE;
 
     Animated_Sprite sprite;
     sf::RectangleShape hpFrame;
     sf::RectangleShape hpBar;
-    sf::Text levelText;
-    sf::RectangleShape levelFrame;
+
+    //sf::Text levelText;
+    //sf::RectangleShape levelFrame;
 
     const static sf::Color color_hpGood;
     const static sf::Color color_hpBad;

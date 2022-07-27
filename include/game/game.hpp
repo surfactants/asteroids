@@ -10,6 +10,7 @@
 #include <system/state_hook.hpp>
 #include <audio/audio_manager.hpp>
 #include <resources/texture_manager.hpp>
+#include <ai/ai.hpp>
 
 class Game : public sf::Drawable, public State_Hook{
 public:
@@ -61,4 +62,6 @@ private:
 
     sf::Clock endTimer;
     const static float endThreshold;
+
+    AI ai;
 };

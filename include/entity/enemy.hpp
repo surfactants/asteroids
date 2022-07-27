@@ -9,4 +9,9 @@ public:
     Enemy(Entity_Data e, sf::Texture* texture);
 
     virtual void update() override;
+
+    void setMoveTarget(sf::Vector2f pos);
+
+private:
+    sf::Vector2f moveTarget;
 };

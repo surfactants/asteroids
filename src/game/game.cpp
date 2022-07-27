@@ -28,6 +28,7 @@ void Game::update(){
                               player,
                               world);
     for(auto& enemy : enemyManager.getEnemies()){
+        ai.decide(enemy, player);
         enemy.update();
     }
     player.update();
