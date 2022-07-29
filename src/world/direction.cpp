@@ -1,18 +1,52 @@
 #include <world/direction.hpp>
 #include <util/prng.hpp>
+#include <iostream>
+
+std::string directionToString(Direction d){
+    switch(d){
+    case NORTH: return "NORTH";
+    case NORTHEAST: return "NORTHEAST";
+    case EAST: return "EAST";
+    case SOUTHEAST: return "SOUTHEAST";
+    case SOUTH: return "SOUTH";
+    case SOUTHWEST: return "SOUTHWEST";
+    case WEST: return "WEST";
+    case NORTHWEST: return "NORTHWEST";
+    default: return "NULLSIDE";
+    }
+}
 
 /////////////////////////////////////////////////////////////
-Direction invertDirection(const Direction direction){
-    if(direction == NORTH) return SOUTH;
-    else if(direction == SOUTH) return NORTH;
-    else if(direction == WEST) return EAST;
-    else if(direction == EAST) return WEST;
-    else return NULLSIDE;
+Direction invertDirection(const Direction d){
+    if(d == NORTH) return SOUTH;
+    else if(d == NORTHEAST) return SOUTHWEST;
+    else if(d == EAST) return WEST;
+    else if(d == SOUTHEAST) return NORTHWEST;
+    else if(d == SOUTH) return NORTH;
+    else if(d == SOUTHWEST) return NORTHEAST;
+    else if(d == WEST) return EAST;
+    else if(d == NORTHWEST) return SOUTHEAST;
+    else return d;
+}
+
+Direction mirrorDirection(Direction d){
+    if(d == NORTHEAST) return NORTHWEST;
+    else if(d == EAST) return WEST;
+    else if(d == SOUTHEAST) return SOUTHWEST;
+    else if(d == SOUTHWEST) return SOUTHEAST;
+    else if(d == WEST) return EAST;
+    else if(d == NORTHWEST) return NORTHEAST;
+    else return d;
 }
 
 /////////////////////////////////////////////////////////////
 Direction randomDirection(){
-    return static_cast<Direction>(prng::number(0, 3));
+    Direction d = NULLSIDE;
+    while(!isOrthogonal(d)){
+        d = static_cast<Direction>(prng::number(0, static_cast<int>(NULLSIDE) - 1));
+        std::cout << "\ngenerated direction " << directionToString(d);
+    }
+    return d;
 }
 
 /////////////////////////////////////////////////////////////
@@ -25,6 +59,14 @@ Direction randomPerpendicularDirection(Direction odirect){
     case EAST:
     case WEST:
         odirect = NORTH;
+        break;
+    case NORTHEAST:
+    case SOUTHWEST:
+        odirect = NORTHWEST;
+        break;
+    case NORTHWEST:
+    case SOUTHEAST:
+        odirect = NORTHEAST;
         break;
     default:
         odirect = NULLSIDE;
@@ -71,16 +113,16 @@ Direction normalizeDirection(const Direction ref, const Direction d){
     return r;
 }
 
-bool isOrthogonal(Cardinal c){
-    return (c == N
-         || c == W
-         || c == E
-         || c == S);
+bool isOrthogonal(Direction d){
+    return (d == NORTH
+         || d == WEST
+         || d == EAST
+         || d == SOUTH);
 }
 
-bool isDiagonal(Cardinal c){
-    return (c == NW
-         || c == NE
-         || c == SW
-         || c == SE);
+bool isDiagonal(Direction d){
+    return (d == NORTHWEST
+         || d == NORTHEAST
+         || d == SOUTHWEST
+         || d == SOUTHEAST);
 }

@@ -19,7 +19,17 @@ void Animated_Sprite::setAnimationState(Entity_State nstate){
 
 void Animated_Sprite::setDirection(Direction ndirection){
     if(direction != ndirection){
-        setTextureRect(animations[state][ndirection].transition(animations[state][direction].getCurrentFrame()));
+        Direction mirror = ndirection;
+        if(direction > SOUTH && ndirection < SOUTH){
+            setScale(1.f, 1.f);
+        }
+        else if(ndirection > SOUTH){
+            mirror = mirrorDirection(ndirection);
+            if(direction <= SOUTH){
+                setScale(-1.f, 1.f);
+            }
+        }
+        setTextureRect(animations[state][ndirection].transition(animations[state][mirror].getCurrentFrame()));
         animations[state][direction].reset();
         direction = ndirection;
     }

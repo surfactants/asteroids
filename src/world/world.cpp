@@ -36,7 +36,6 @@ void World::reset(){
 }
 
 void World::makeFloor(){
-    std::cout << "\nmaking floor...";
     Floor_Generator floorGen;
 
     worldMin = floorGen.getWorldMin();
@@ -96,6 +95,8 @@ void World::makeWalls(){
                     }
 
                     Wall_Type type = BLANK;
+
+                    /*
 
                     unsigned int floorCount = std::count(std::begin(adjFloor), std::end(adjFloor), true);
 
@@ -182,8 +183,10 @@ void World::makeWalls(){
                     }
                     //else std::cout << failure << " floorCount of " << floorCount;
 
+                    */
+
                     walls[x][y]->setWall(type);
-                    walls[x][y]->rotate(rotation);
+                    //walls[x][y]->rotate(rotation);
                 }
                 else{
                     walls[x][y] = nullptr;

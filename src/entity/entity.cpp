@@ -254,6 +254,35 @@ sf::Vector2i Entity::getCoordinates(float tileSize){
 
 void Entity::setSpriteDirection(){
     Direction d = sprite.getDirection();
+    float threshold = speed_diagonal * 0.5f;
+
+    bool n = (velocity.y > threshold),
+         e = (velocity.x > threshold),
+         s = (velocity.y < -threshold),
+         w = (velocity.x < threshold);
+
+    if(n){
+        if(e) d = NORTHEAST;
+        else if(w) d = NORTHWEST;
+        else d = NORTH;
+    }
+    else if(s){
+        if(e) d = SOUTHEAST;
+        else if(w) d = SOUTHWEST;
+        else d = SOUTH;
+    }
+    else{
+        if(e) d = EAST;
+        else if(w) d = WEST;
+    }
+/*
+    if(std::abs(velocity.y) > 0.f){
+        d = SOUTH;
+        if(velocity.x > 0){}
+        if(velocity.x < (0.3 * speed_orthogonal)){
+            d =
+        }
+    }
     if(std::abs(velocity.y) < std::abs(velocity.x)){
         if(velocity.x > 0.f) d = EAST;
         else if(velocity.x < 0.f) d = WEST;
@@ -262,6 +291,7 @@ void Entity::setSpriteDirection(){
         if(velocity.y < 0.f) d = NORTH;
         else if(velocity.y > 0.f) d = SOUTH;
     }
+*/
     sprite.setDirection(d);
 }
 

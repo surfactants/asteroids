@@ -2,12 +2,26 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Direction{ NORTH, SOUTH, EAST, WEST, NULLSIDE };
+enum Direction{
+    NORTH,
+    NORTHEAST,
+    EAST,
+    SOUTHEAST,
+    SOUTH,
+    SOUTHWEST,
+    WEST,
+    NORTHWEST,
+    NULLSIDE
+};
+
+std::string directionToString(Direction d);
 
 /////////////////////////////////////////////////////////////
 /// \brief Returns the opposite direction.
 ///
 Direction invertDirection(const Direction direction);
+
+Direction mirrorDirection(Direction d);
 
 /////////////////////////////////////////////////////////////
 /// \brief Returns a random direction.
@@ -47,9 +61,9 @@ void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distanc
 ///
 Direction normalizeDirection(const Direction ref, const Direction d);
 
-enum Cardinal { NW, N, NE, W, E, SW, S, SE };
+bool isOrthogonal(Direction d);
 
+bool isDiagonal(Direction d);
 
-bool isOrthogonal(Cardinal c);
+//enum Cardinal { NW, N, NE, W, E, SW, S, SE };
 
-bool isDiagonal(Cardinal c);

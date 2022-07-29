@@ -2,6 +2,7 @@
 #include <util/prng.hpp>
 #include <util/primordial.hpp>
 #include <iostream>
+#include <util/vector2_stream.hpp>
 
 /////////////////////////////////////////////////////////////
 Floor_Generator::Floor_Generator(){
@@ -15,11 +16,9 @@ std::map<int, std::map<int, bool>> Floor_Generator::getFloorMap(){
 
 /////////////////////////////////////////////////////////////
 void Floor_Generator::reset(){
-
-
     do{
         static int attempt = 0;
-        std::cout << "\n   floor generation attempt " << ++attempt;
+        std::cout << "\nfloor generation attempt " << ++attempt;
 
         dragging = false;
         tunnels.clear();
@@ -44,9 +43,13 @@ void Floor_Generator::reset(){
         startRoom = &rooms.front();
 
         for(unsigned int i = 1; i <= steps; ++i){
+            std::cout << "\n  step " << i;
             while(rooms.back().contains(coordinates)){
+                std::cout << "\n\tchecking coordinates " << coordinates;
                 moveDirection(coordinates, direction, distance);
             }
+
+            std::cout << "\n\troom end found...";
 
             if(direction == WEST || direction == EAST){
                 coordinates.y += prng::number(-rooms.back().size.y / 2, rooms.back().size.y / 2);
@@ -57,7 +60,11 @@ void Floor_Generator::reset(){
             else{
             }
 
+            std::cout << "\n\tcreating tunnel...";
+
             tunnels.push_back(Tunnel(coordinates, direction));
+
+            std::cout << "\n\t\ttunnel created!";
 
             int roomMin = 28;
             int roomMax = 52;

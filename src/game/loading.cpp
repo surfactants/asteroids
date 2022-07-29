@@ -2,7 +2,6 @@
 #include <chrono>
 #include <functional>
 #include <resources/font_manager.hpp>
-#include <iostream>
 
 Loading_Screen::Loading_Screen(){
     text.setFont(Font_Manager::get(FONT_MENU));
@@ -40,7 +39,6 @@ void Loading_Screen::doStep(){
         omen = tasks[step].get_future();
         thread = std::thread(std::move(tasks[step]));
         text.setString(messages[step]);
-        std::cout << "\n\n\t" << messages[step];
     }
     else{
         state = END;
@@ -68,7 +66,6 @@ void Loading_Screen::prepare(std::vector<std::function<void()>> toLoad, std::vec
 }
 
 void Loading_Screen::finish(){
-    std::cout << "\nfinished loading!";
     tasks.clear();
     messages.clear();
     finished = true;
