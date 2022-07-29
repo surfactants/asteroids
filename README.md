@@ -1,7 +1,7 @@
 # asteroids
 prototype scifi roguelite.
  
-compiled with GCC 11.2, using SFML 2.5.1 and the SQLite 3.38.0 C amalgamation.
+compiled with GCC 11.2, using SFML 2.5.1 and the C amalgamation of SQLite 3.38.0.
 
 features:
 
