@@ -40,9 +40,15 @@ Direction mirrorDirection(Direction d){
 
 /////////////////////////////////////////////////////////////
 Direction randomDirection(){
-    Direction d = NULLSIDE;
-        d = static_cast<Direction>(prng::number(0, static_cast<int>(NORTHWEST)));
-    return d;
+    return static_cast<Direction>(prng::number(0, static_cast<int>(NORTHWEST)));
+}
+
+Direction randomOrthogonal(){
+    return static_cast<Direction>(2 * prng::number(0, 3));
+}
+
+Direction randomDiagonal(){
+    return static_cast<Direction>((2 * prng::number(0, 3)) + 1);
 }
 
 /////////////////////////////////////////////////////////////

@@ -31,7 +31,7 @@ void Floor_Generator::reset(){
         unsigned int steps = prng::number(stepBase, stepCeil);
         steps = 3;
 
-        direction = randomDirection();
+        direction = randomOrthogonal();
 
         sf::Vector2i coordinates(0, 0);
 

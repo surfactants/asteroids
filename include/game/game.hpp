@@ -63,5 +63,7 @@ private:
     sf::Clock endTimer;
     const static float endThreshold;
 
+    void checkWin();
+
     AI ai;
 };

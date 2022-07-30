@@ -41,6 +41,10 @@ void Game::update(){
 
     projectileManager.update();
 
+    checkWin();
+}
+
+void Game::checkWin(){
     if(levelEnding){
         if(endTimer.getElapsedTime().asSeconds() >= endThreshold){
             newMain(MAIN_NEWGAME);

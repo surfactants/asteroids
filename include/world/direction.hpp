@@ -28,6 +28,10 @@ Direction mirrorDirection(Direction d);
 ///
 Direction randomDirection();
 
+Direction randomOrthogonal();
+
+Direction randomDiagonal();
+
 /////////////////////////////////////////////////////////////
 /// \brief Returns a random direction perpendicular to odirect.
 ///
