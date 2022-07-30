@@ -14,7 +14,7 @@
 ///
 class Entity : public sf::Drawable{
 public:
-    Entity();
+    Entity(){}
     Entity(Entity_Data& e, sf::Texture* texture);
     //Entity(const Entity& e);
 

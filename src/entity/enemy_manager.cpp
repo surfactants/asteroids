@@ -5,6 +5,7 @@
 #include <iostream>
 
 Enemy_Manager::Enemy_Manager(){
+    std::cout << "\nenemy manager reached?\n";
     lowLevel = 8;
     highLevel = 13;
 
@@ -16,6 +17,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
     for(unsigned int r = 0; r < rooms.size() - 1; ++r){
             //r should start at 1, this is for debugging
         unsigned int enemyCount = prng::number(12u, 64u);
+        enemyCount = 0;
         std::vector<sf::Vector2i> used;
         for(unsigned int e = 0; e < enemyCount; ++e){
             sf::Vector2i c = rooms[r].coordinates;
@@ -66,12 +68,14 @@ std::vector<Enemy>& Enemy_Manager::getEnemies(){
 }
 
 void Enemy_Manager::loadPrototypes(){
+    std::cout << "\nloading prototypes...";
     std::vector<Entity_Data> enemies = Database::getEnemies();
 
     std::map<Faction, std::map<Entity_Type, Enemy>>& p = prototypes;
 
     for(auto& e : enemies){
         std::string texture_key = std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
+        std::cout << "\nloading enemy " << texture_key;
         p[e.faction][e.type] = Enemy(e, Texture_Manager::get(texture_key));
     }
 }

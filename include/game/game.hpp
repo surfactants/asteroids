@@ -36,7 +36,7 @@ public:
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    Texture_Manager textures;
+    //Texture_Manager textures;
 
     World world;
     //Level level;

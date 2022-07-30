@@ -12,19 +12,6 @@ const float Entity::levelOffset = 20.f;
 
 const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
 
-Entity::Entity()
-{
-    armorFactor = 0.d;
-
-    velocity = sf::Vector2f(0.f, 0.f);
-    speed_orthogonal = 3.f;
-    speed_diagonal = speed_orthogonal * sqrt2_inv;
-
-    weapons.push_back(Weapon("test", 8));
-    equippedWeapon = 0;
-    prepUI();
-}
-
 Entity::Entity(Entity_Data& e, sf::Texture* texture){
     armorFactor = 0.d;
 
@@ -254,12 +241,12 @@ sf::Vector2i Entity::getCoordinates(float tileSize){
 
 void Entity::setSpriteDirection(){
     Direction d = sprite.getDirection();
-    float threshold = speed_diagonal * 0.5f;
+    float threshold = speed_orthogonal * 0.5f;
 
-    bool n = (velocity.y > threshold),
-         e = (velocity.x > threshold),
-         s = (velocity.y < -threshold),
-         w = (velocity.x < threshold);
+    bool n = (velocity.y < 0.f),
+         e = (velocity.x > 0.f),
+         s = (velocity.y > 0.f),
+         w = (velocity.x < 0.f);
 
     if(n){
         if(e) d = NORTHEAST;

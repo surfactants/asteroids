@@ -1,7 +1,6 @@
 #include <system/collider.hpp>
 
-Collider::Collider(){
-}
+Collider::Collider(){}
 
 void Collider::checkProjectiles(std::vector<Projectile>& projectiles,
                           std::vector<Enemy>& enemies,

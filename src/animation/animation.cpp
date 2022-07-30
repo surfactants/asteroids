@@ -1,10 +1,14 @@
 #include <animation/animation.hpp>
+#include <iostream>
+#include <util/vector2_stream.hpp>
 
 Animation::Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount){
     for(unsigned int f = 0; f < frameCount; ++f){
+        std::cout << "\n\t\t" << start.x;
         frames.push_back(sf::IntRect(start, size));
-        start.x += size.x;
+        start.x += std::abs(size.x);
     }
+    std::cout << "\n\tconstructed! " << frames.size() << " frames";
 }
 
 sf::IntRect Animation::nextFrame(){
@@ -25,7 +29,9 @@ void Animation::reset(){
 }
 
 sf::IntRect Animation::firstFrame(){
+    std::cout << "\nmade it to firstFrame";
     reset();
+    std::cout << "\nsuccessful reset, returning frame 0 out of size " << frames.size();
     return frames[0];
 }
 
