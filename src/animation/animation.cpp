@@ -21,6 +21,8 @@ sf::IntRect Animation::nextFrame(){
         currentFrame = 0;
     }
 
+    std::cout << "\nreturning frame:\n\t" << frames[currentFrame];
+
     return frames[currentFrame];
 }
 

@@ -18,16 +18,20 @@ void Animated_Sprite::setAnimationState(Entity_State nstate){
     if(state != nstate){
         animations[state][direction].reset();
         state = nstate;
-        std::cout << "\n\tsetting animation state to _" << entityStateToString(state) << "_" << directionToString(direction) << "_";
+        std::cout << "\n______________________________________________________________________________";
+        std::cout << "\n\tsetting animation state; _" << entityStateToString(state) << "_" << directionToString(direction) << "_";
         setTextureRect(animations[state][direction].firstFrame());
+        std::cout << "\n\t\tnew rect of " << getTextureRect();
         //load frameThreshold here
     }
 }
 
 void Animated_Sprite::setDirection(Direction ndirection){
     if(direction != ndirection){
-        Direction mirror = ndirection;
-        setTextureRect(animations[state][ndirection].transition(animations[state][mirror].getCurrentFrame()));
+        std::cout << "\n______________________________________________________________________________";
+        std::cout << "\n\tsetting direction; _" << entityStateToString(state) << "_" << directionToString(direction) << "_";
+        setTextureRect(animations[state][ndirection].transition(animations[state][ndirection].getCurrentFrame()));
+        std::cout << "\n\t\tnew rect of " << getTextureRect();
         animations[state][direction].reset();
         direction = ndirection;
     }
@@ -63,11 +67,17 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
             sf::Vector2i start(0, static_cast<int>(t.first) * (size.y * 5));
             Direction d = static_cast<Direction>(i);
 
-            start.y += (i * size.y);
-
             sf::Vector2i aSize = size;
 
-            if(d > SOUTH) aSize.x *= -1;
+            int dFactor = 1;
+
+            if(d > SOUTH){
+                aSize.x *= -1;
+                dFactor = static_cast<int>(mirrorDirection(d));
+            }
+            else dFactor = static_cast<int>(d);
+
+            start.y += (dFactor * size.y);
 
 
     std::cout << "\nconstructing animation " << entityStateToString(t.first) << "-" << directionToString(static_cast<Direction>(i)) << ": " << start << " | size " << aSize << " | framecount " << t.second;

@@ -1,5 +1,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
+#include <string>
 
 template<typename T>
 std::ostream& operator << (std::ostream& os, sf::Vector2<T> v){
@@ -7,8 +8,7 @@ std::ostream& operator << (std::ostream& os, sf::Vector2<T> v){
     return os;
 }
 
-template<typename T>
-std::istream& operator << (std::istream& is, sf::Vector2<T> v){
-    is << v.x << ", " << v.y;
-    return is;
+inline std::ostream& operator << (std::ostream& os, sf::IntRect r){
+    os << r.left << ", " << r.top << "; " << r.width << ", " << r.height;
+    return os;
 }

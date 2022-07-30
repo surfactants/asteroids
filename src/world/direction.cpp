@@ -1,6 +1,5 @@
 #include <world/direction.hpp>
 #include <util/prng.hpp>
-#include <iostream>
 
 std::string directionToString(Direction d){
     switch(d){
@@ -42,10 +41,7 @@ Direction mirrorDirection(Direction d){
 /////////////////////////////////////////////////////////////
 Direction randomDirection(){
     Direction d = NULLSIDE;
-    while(!isOrthogonal(d)){
-        d = static_cast<Direction>(prng::number(0, static_cast<int>(NULLSIDE) - 1));
-        std::cout << "\ngenerated direction " << directionToString(d);
-    }
+        d = static_cast<Direction>(prng::number(0, static_cast<int>(NORTHWEST)));
     return d;
 }
 
