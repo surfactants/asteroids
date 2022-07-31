@@ -36,6 +36,7 @@ Entity_Type stringToEntityType(std::string s);
 struct Entity_Data{
     std::string name{};
     Faction faction;
+    float speed;
     Entity_Type type;
     sf::Vector2i size;
     std::map<Entity_State, unsigned int> aCount;

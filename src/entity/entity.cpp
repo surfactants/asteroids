@@ -13,10 +13,12 @@ const float Entity::levelOffset = 20.f;
 const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
 
 Entity::Entity(Entity_Data& e, sf::Texture* texture){
+    name = e.name;
+
     armorFactor = 0.d;
 
     velocity = sf::Vector2f(0.f, 0.f);
-    speed_orthogonal = 3.f;
+    speed_orthogonal = e.speed;
     speed_diagonal = speed_orthogonal * sqrt2_inv;
 
     weapons.push_back(Weapon("test", 8));

@@ -33,6 +33,8 @@ public:
 
     void stopInput();
 
+    void scroll(float delta);
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

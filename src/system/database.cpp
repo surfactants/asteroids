@@ -169,6 +169,7 @@ Entity_Data Database::getPlayerData(){
             //name text
             //faction text
             //type text
+            //speed double
             //size_x int
             //size_y int
             //moving_count int
@@ -180,6 +181,7 @@ Entity_Data Database::getPlayerData(){
         p.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
         p.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
         p.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        p.speed = sqlite3_column_double(statement, column++);
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         p.size = sf::Vector2i(x, y);

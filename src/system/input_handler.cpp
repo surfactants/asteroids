@@ -38,6 +38,8 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
         p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
 
+        p_g.scroll = std::bind(&Game::scroll, &game, std::placeholders::_1);
+
         p_g.focus_lost = std::bind(&Game::stopInput, &game);
 
     /////////////////////////////////////////////////////////////
