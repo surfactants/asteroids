@@ -7,5 +7,5 @@ features:
 
   *  tile-based procgen rooms
   *  animated sprites
-  *  data-driven design (database loading done using [json-to-sqlite](surfactants/json-to-sqlite))
+  *  data-driven design (using [json-to-sqlite](surfactants/json-to-sqlite))
   *  that's really it so far, but i'm slowly changing that :)
