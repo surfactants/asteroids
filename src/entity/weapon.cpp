@@ -1,7 +1,9 @@
 #include <entity/weapon.hpp>
+#include <util/prng.hpp>
 
 Weapon::Weapon(std::string nname, unsigned int nrange): name{ nname }, range{ nrange }{
-    projectile = LASER;
+    Damage dmg(prng::number(99, 101), Damage::ENERGY);
+    projectile = Projectile(LASER, dmg);
     projectileSpeed = 10.f;
     cooldownThreshold = 0.4f;
 }
@@ -18,7 +20,7 @@ unsigned int Weapon::getRange(){
     return range;
 }
 
-Projectile_Type Weapon::getProjectile(){
+Projectile Weapon::getProjectile(){
     return projectile;
 }
 

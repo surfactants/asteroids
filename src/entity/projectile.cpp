@@ -8,7 +8,7 @@ Projectile::Projectile(){
     sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
 }
 
-Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype){
+Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype, Damage ndmg){
     float theta = calculateAngle(pos, target);
     speed = 10.f;
     sprite.setPosition(pos);
@@ -18,6 +18,23 @@ Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type nt
     sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
 
     type = LASER;
+
+    dmg = ndmg;
+}
+
+Projectile::Projectile(Projectile_Type ntype, Damage ndmg)
+: type{ ntype }, dmg{ ndmg }{
+    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
+
+    type = LASER;
+}
+
+void Projectile::setVelocity(sf::Vector2f pos, sf::Vector2f target){
+    float theta = calculateAngle(pos, target);
+    speed = 10.f;
+    sprite.setPosition(pos);
+    sprite.setRotation(theta);
+    calculateMoveVector(theta, speed, velocity);
 }
 
 void Projectile::update(){
@@ -49,4 +66,8 @@ void Projectile::setPlayer(){
 
 sf::Vector2f Projectile::getPosition(){
     return sprite.getPosition();
+}
+
+Damage Projectile::getDamage(){
+    return dmg;
 }

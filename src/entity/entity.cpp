@@ -90,9 +90,12 @@ unsigned int Entity::getLevel(){
     return level;
 }
 
-void Entity::damage(int val){
-    val -= (val * armorFactor);
-    hpCurrent -= val;
+void Entity::takeDamage(Damage dmg){
+    if(resistance.count(dmg.type)){
+        dmg.val -= (dmg.val * resistance[dmg.type]);
+    }
+
+    hpCurrent -= dmg.val;
 
     if(hpCurrent <= 0){
         hpCurrent = 0;
@@ -289,7 +292,9 @@ Weapon& Entity::getEquippedWeapon(){
 }
 
 Projectile Entity::attack(sf::Vector2f target){
-    return Projectile(getPosition(), target, weapons[equippedWeapon].getProjectile());
+    Projectile p{ weapons[equippedWeapon].getProjectile() };
+    p.setVelocity(getPosition(), target);
+    return p;
 }
 
 bool Entity::isAttacking(){

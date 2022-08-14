@@ -9,7 +9,7 @@ public:
     Weapon(std::string nname, unsigned int nrange);
     sf::Sprite& getSprite();
     unsigned int getRange();
-    Projectile_Type getProjectile();
+    Projectile getProjectile();
     float getProjectileSpeed();
 
     bool shoot();
@@ -20,7 +20,7 @@ private:
     unsigned int range;
     sf::Sprite sprite;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-    Projectile_Type projectile;
+    Projectile projectile;
     float projectileSpeed;
     float cooldownThreshold; //seconds
     sf::Clock cooldown;

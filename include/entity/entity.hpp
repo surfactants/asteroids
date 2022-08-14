@@ -6,6 +6,7 @@
 #include <animation/animated_sprite.hpp>
 #include <vector>
 #include <entity/entity_data.hpp>
+#include <entity/damage.hpp>
 
 #define sqrt2_inv 0.7071
 
@@ -25,7 +26,7 @@ public:
 
     unsigned int getLevel();
 
-    void damage(int val);
+    void takeDamage(Damage dmg);
     void heal(int val);
 
     void setState(Entity_State nstate);
@@ -125,4 +126,6 @@ protected:
     Faction faction;
 
     void prepUI();
+
+    std::map<Damage::Type, float> resistance;
 };

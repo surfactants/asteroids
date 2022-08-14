@@ -1,13 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <entity/damage.hpp>
 
 enum Projectile_Type { BULLET, LASER };
 
 class Projectile : public sf::Drawable{
 public:
     Projectile();
-    Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype);
+    Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype, Damage ndmg);
+    Projectile(Projectile_Type ntype, Damage ndmg);
+
+    void setVelocity(sf::Vector2f pos, sf::Vector2f target);
 
     void update();
 
@@ -22,6 +26,8 @@ public:
 
     sf::Vector2f getPosition();
 
+    Damage getDamage();
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -32,4 +38,6 @@ private:
     Projectile_Type type;
 
     bool player = false;
+
+    Damage dmg;
 };

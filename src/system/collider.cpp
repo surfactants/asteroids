@@ -27,7 +27,7 @@ void Collider::checkProjectiles(std::vector<Projectile>& projectiles,
             if(projectiles[i].isPlayer()){
                 for(auto& enemy : enemies){
                     if((enemy.getState() < DYING) && projectiles[i].getBounds().intersects(enemy.getSprite().getGlobalBounds())){
-                        enemy.damage(50);
+                        enemy.takeDamage(projectiles[i].getDamage());
                         deleted = true;
                         break;
                     }
@@ -35,8 +35,8 @@ void Collider::checkProjectiles(std::vector<Projectile>& projectiles,
             }
             else{
                 if(projectiles[i].getBounds().intersects(player.getSprite().getGlobalBounds())){
-                    player.damage(10);
-                    continue;
+                    player.takeDamage(projectiles[i].getDamage());
+                    deleted = true;
                 }
             }
         }
