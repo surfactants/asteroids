@@ -27,6 +27,8 @@ protected:
     Main_State escape = MAIN_NULL;
     static sf::Font& font;
 
+    std::vector<Logo> logos;
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

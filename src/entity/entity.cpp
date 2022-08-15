@@ -91,11 +91,7 @@ unsigned int Entity::getLevel(){
 }
 
 void Entity::takeDamage(Damage dmg){
-    if(resistance.count(dmg.type)){
-        dmg.val -= (dmg.val * resistance[dmg.type]);
-    }
-
-    hpCurrent -= dmg.val;
+    hpCurrent -= dmg.val - (dmg.val * resistance[dmg.type]);
 
     if(hpCurrent <= 0){
         hpCurrent = 0;

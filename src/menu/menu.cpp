@@ -41,7 +41,12 @@ void Menu::clickLeft(){
     }
     for(auto& slider : sliders){
         if(slider.second.click()){
-            break;
+            return;
+        }
+    }
+    for(auto& logo : logos){
+        if(logo.click()){
+            return;
         }
     }
 }
@@ -72,6 +77,7 @@ void Menu::update(sf::Vector2f mpos){
     for(auto& button : nav) button.update(mpos);
     for(auto& option : options) option.update(mpos);
     for(auto& slider : sliders) slider.second.update();
+    for(auto& logo : logos) logo.update(mpos);
 }
 
 void Menu::back(){
@@ -84,10 +90,14 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     for(const auto& button : nav) target.draw(button, states);
     for(const auto& option : options) target.draw(option, states);
     for(const auto& slider : sliders) target.draw(slider.second, states);
+    for(const auto& logo : logos) target.draw(logo);
 }
 
 Menu_Main::Menu_Main(){
     escape = MAIN_QUIT;
+
+    logos.push_back(Logo("https://www.sfml-dev.org", sf::Vector2f(1200.f, 750.f)));
+
 }
 
 Menu_Pause::Menu_Pause(){

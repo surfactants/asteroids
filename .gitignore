@@ -65,3 +65,5 @@ todo.hpp
 *.srctrlbm
 *.srctrldb
 *.srctrlprj
+
+*.png
