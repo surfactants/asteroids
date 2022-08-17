@@ -15,10 +15,10 @@ inline std::string fontToString(Font f){
 }
 
 inline Font stringToFont(std::string s){
-    if(s == "FONT_MENU"){
+    if(s == "FONT_MENU" || s == "MENU"){
         return FONT_MENU;
     }
-    else if(s == "FONT_UI"){
+    else if(s == "FONT_UI" || s == "UI"){
         return FONT_UI;
     }
     else return FONT_NULL;

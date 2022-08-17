@@ -1,11 +1,8 @@
 #include <animation/animated_sprite.hpp>
-#include <iostream>
-#include <util/vector2_stream.hpp>
 
 Animated_Sprite::Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Entity_State, unsigned int> counts)
 : size{ nsize }
 {
-    std::cout << "\n\t\tanimated sprite loaded with size " << size;
     loadCounts(counts);
     setTexture(ntexture);
     direction = NORTH;

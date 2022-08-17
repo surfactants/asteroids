@@ -1,16 +1,14 @@
 #include <system/database.hpp>
 #include <animation/animation.hpp>
-#include <iostream>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
-std::vector<char*> Database::texture_buffers = std::vector<char*>();
 
 int Database::rc = 0;
 
 Database::~Database(){
     for(unsigned int i = 0; i < font_buffers.size(); ++i){
-        delete[] font_buffers[i];
+        //delete[] font_buffers[i];
     }
 }
 
@@ -79,33 +77,26 @@ void Database::getTextures(std::map<std::string, sf::Texture>& t){
     while((rc = sqlite3_step(statement)) == SQLITE_ROW){
         std::string id = reinterpret_cast<const char*>(sqlite3_column_text(statement, 0));
 
-        //sf::Texture texture;
+        sf::Texture texture;
             sqlite3_blob* blob;
 
             rc = sqlite3_blob_open(db, "main", "TEXTURES", "DATA", ++row, 0, &blob);
 
             int bsize = sqlite3_blob_bytes(blob);
-            texture_buffers.push_back(new char[bsize]);
-            //char* buffer = new char[bsize];
+            char* buffer = new char[bsize];
 
-            rc = sqlite3_blob_read(blob, texture_buffers.back(), bsize, 0);
+            rc = sqlite3_blob_read(blob, buffer, bsize, 0);
 
-            //texture.loadFromMemory(buffer, bsize);
-            //delete[] buffer;
+            texture.loadFromMemory(buffer, bsize);
+            delete[] buffer;
 
             sqlite3_blob_close(blob);
 
-        t[id].loadFromMemory(texture_buffers.back(), bsize);
+        t[id] = texture;
     }
     rc = sqlite3_finalize(statement);
 
     close();
-
-    std::cout << "\ntextures loaded:";
-    for(const auto& it : t){
-        std::cout << "\n\t" << it.first;
-    }
-    std::cout << "\n";
 }
 
 std::vector<Entity_Data> Database::getEnemies(){
@@ -237,6 +228,9 @@ void Database::getFonts(std::map<Font, sf::Font>& f){
         f[stringToFont(name)].loadFromMemory(font_buffers.back(), bsize);
 
         rc = sqlite3_blob_close(blob);
+
+        std::cout << "\nnew font!";
+        std::cout << "\n\t" << *font_buffers.back();
     }
 
     sqlite3_finalize(statement);

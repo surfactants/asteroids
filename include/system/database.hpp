@@ -8,6 +8,7 @@
 #include <animation/animation.hpp>
 #include <entity/enemy.hpp>
 #include <resources/font.hpp>
+#include <string>
 
 class Database{
 public:
@@ -40,5 +41,4 @@ private:
     static void errorCheck(std::string id);
 
     static std::vector<char*> font_buffers;
-    static std::vector<char*> texture_buffers;
 };

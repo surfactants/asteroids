@@ -1,7 +1,6 @@
 #include <menu/menu.hpp>
 #include <system/database.hpp>
 #include <resources/font_manager.hpp>
-#include <iostream>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 
@@ -20,6 +19,8 @@ Menu::Menu(){
 
     nav.push_back(Nav("quit", font, MAIN_QUIT, MENU_NULL));
         nav.back().setPosition(pos);
+
+    logos.push_back(Logo("https://www.sfml-dev.org", sf::Vector2f(1200.f, 750.f)));
 }
 
 void Menu::clickLeft(){
@@ -96,9 +97,6 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 
 Menu_Main::Menu_Main(){
     escape = MAIN_QUIT;
-
-    logos.push_back(Logo("https://www.sfml-dev.org", sf::Vector2f(1200.f, 750.f)));
-
 }
 
 Menu_Pause::Menu_Pause(){
