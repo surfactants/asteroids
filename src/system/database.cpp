@@ -228,9 +228,6 @@ void Database::getFonts(std::map<Font, sf::Font>& f){
         f[stringToFont(name)].loadFromMemory(font_buffers.back(), bsize);
 
         rc = sqlite3_blob_close(blob);
-
-        std::cout << "\nnew font!";
-        std::cout << "\n\t" << *font_buffers.back();
     }
 
     sqlite3_finalize(statement);

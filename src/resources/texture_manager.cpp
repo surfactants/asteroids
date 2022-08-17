@@ -11,7 +11,6 @@ Texture_Manager::Texture_Manager(){
 
         loaded = true;
     }
-    std::cout << "done\n"
 ;}
 
 sf::Texture& Texture_Manager::get(std::string key){

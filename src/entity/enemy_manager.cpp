@@ -4,14 +4,11 @@
 #include <system/database.hpp>
 
 Enemy_Manager::Enemy_Manager(){
-    std::cout << "\ninitializing enemy manager...\t";
     lowLevel = 8;
     highLevel = 13;
 
-    std::cout << "loading prototypes...\t";
     loadPrototypes();
 
-    std::cout << "done\n";
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
@@ -69,7 +66,6 @@ std::vector<Enemy>& Enemy_Manager::getEnemies(){
 
 void Enemy_Manager::loadPrototypes(){
     std::vector<Entity_Data> enemies = Database::getEnemies();
-    std::cout << "done\n";
 
     std::map<Faction, std::map<Entity_Type, Enemy>>& p = prototypes;
 

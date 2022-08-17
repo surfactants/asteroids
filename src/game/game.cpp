@@ -8,8 +8,6 @@ const float Game::endThreshold = 3.f;
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
 : window{ nwindow }, view{ nview }{
     player = Player(Database::getPlayerData(), Texture_Manager::get("PLAYER"));
-
-    std::cout << "done\n";
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
