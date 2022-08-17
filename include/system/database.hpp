@@ -40,4 +40,5 @@ private:
     static void errorCheck(std::string id);
 
     static std::vector<char*> font_buffers;
+    static std::vector<char*> texture_buffers;
 };

@@ -6,7 +6,7 @@
 class Texture_Manager{
 public:
     Texture_Manager();
-    static sf::Texture* get(std::string key);
+    static sf::Texture& get(std::string key);
 
 private:
     static std::map<std::string, sf::Texture> textures;

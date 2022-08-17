@@ -5,7 +5,7 @@
 Projectile::Projectile(){
     type = LASER;
     speed = 10.f;
-    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
+    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 }
 
 Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype, Damage ndmg){
@@ -15,7 +15,7 @@ Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type nt
     sprite.setRotation(theta);
     calculateMoveVector(theta, speed, velocity);
     type = ntype;
-    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
+    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 
     type = LASER;
 
@@ -24,7 +24,7 @@ Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type nt
 
 Projectile::Projectile(Projectile_Type ntype, Damage ndmg)
 : type{ ntype }, dmg{ ndmg }{
-    sprite.setTexture(*Texture_Manager::get("PROJECTILE"));
+    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 
     type = LASER;
 }

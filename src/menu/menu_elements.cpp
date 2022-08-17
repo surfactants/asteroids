@@ -1,5 +1,6 @@
 #include <menu/menu_elements.hpp>
 #include <util/url.hpp>
+#include <resources/texture_manager.hpp>
 
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
 : Button{ nlabel, font }{
@@ -18,12 +19,9 @@ Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
 
 Logo::Logo(std::string nurl, sf::Vector2f pos)
 : url{ nurl }{
-    texture_logo.loadFromFile("sfml-icon-small.png");
-    texture_shadow.loadFromFile("sfml-logo-small.png");
-
-    logo.setTexture(texture_logo);
+    logo.setTexture(Texture_Manager::get("SFML"));
     logo.setPosition(pos);
-    shadow.setTexture(texture_shadow);
+    shadow.setTexture(Texture_Manager::get("SFML-SHADOW"));
     shadow.setPosition(pos);
 }
 

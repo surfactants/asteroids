@@ -2,12 +2,17 @@
 #include <util/prng.hpp>
 #include <resources/texture_manager.hpp>
 #include <system/database.hpp>
+#include <iostream>
 
 Enemy_Manager::Enemy_Manager(){
+    std::cout << "\ninitializing enemy manager...\t";
     lowLevel = 8;
     highLevel = 13;
 
+    std::cout << "loading prototypes...\t";
     loadPrototypes();
+
+    std::cout << "done\n";
 }
 
 void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
@@ -64,14 +69,20 @@ std::vector<Enemy>& Enemy_Manager::getEnemies(){
 }
 
 void Enemy_Manager::loadPrototypes(){
+    std::cout << "\n\t\t\trequesting prototypes from database...\t";
     std::vector<Entity_Data> enemies = Database::getEnemies();
+    std::cout << "done\n";
 
     std::map<Faction, std::map<Entity_Type, Enemy>>& p = prototypes;
 
+    std::cout << "\t\t\tloading prototype textures...\t";
     for(auto& e : enemies){
+        std::string f(factionToString(e.faction)), t(entityTypeToString(e.type));
         std::string texture_key = std::string(factionToString(e.faction) + "-" + entityTypeToString(e.type));
+        std::cout << "\n\t\t\t\tloading " << f << '-' << t;
         p[e.faction][e.type] = Enemy(e, Texture_Manager::get(texture_key));
     }
+    std::cout << "done\n";
 }
 
 bool Enemy_Manager::checkFinalBoss(){

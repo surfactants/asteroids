@@ -6,7 +6,7 @@
 class Player : public Entity{
 public:
     Player();
-    Player(Entity_Data e, sf::Texture* texture);
+    Player(Entity_Data e, sf::Texture& texture);
 
     Direction hMove;
     Direction vMove;

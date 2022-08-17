@@ -9,7 +9,7 @@ Enemy::Enemy(Animated_Sprite nsprite){
     sprite = nsprite;
 }
 
-Enemy::Enemy(Entity_Data e, sf::Texture* texture) : Entity(e, texture){
+Enemy::Enemy(Entity_Data e, sf::Texture& texture) : Entity(e, texture){
     //debug:
         //resistance[Damage::ENERGY] = .9;
 }

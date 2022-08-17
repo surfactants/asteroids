@@ -2,12 +2,16 @@
 #include <util/primordial.hpp>
 #include <util/fmouse.hpp>
 #include <system/database.hpp>
+#include <iostream>
 
 const float Game::endThreshold = 3.f;
 
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
 : window{ nwindow }, view{ nview }{
+    std::cout << "\ninitializing game...\t";
     player = Player(Database::getPlayerData(), Texture_Manager::get("PLAYER"));
+
+    std::cout << "done\n";
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{

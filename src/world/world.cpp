@@ -6,8 +6,10 @@
 const sf::Vector2i World::renderDistance { 16, 10 };
 
 World::World(){
+    std::cout << "\ninitializing world...\t";
     textureFloors.loadFromFile("textures/floors.png");
     textureWalls.loadFromFile("textures/walls.png");
+    std::cout << "done\n";
 }
 
 World::~World(){

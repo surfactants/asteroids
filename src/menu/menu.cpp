@@ -1,6 +1,7 @@
 #include <menu/menu.hpp>
 #include <system/database.hpp>
 #include <resources/font_manager.hpp>
+#include <iostream>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 

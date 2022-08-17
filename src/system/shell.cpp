@@ -2,9 +2,11 @@
 #include <util/primordial.hpp>
 #include <entity/projectile.hpp>
 #include <util/fmouse.hpp>
+#include <iostream>
 
 Shell::Shell()
 : window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{
+    std::cout << "\ninitializing shell...\t";
     //window.setKeyRepeatEnabled(false);
     sf::Cursor cursor;
     cursor.loadFromSystem(sf::Cursor::Cross);
@@ -25,6 +27,8 @@ Shell::Shell()
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
 
     alignState();
+
+    std::cout << "done\n";
 }
 
 void Shell::run(){

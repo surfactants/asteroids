@@ -1,8 +1,10 @@
 #include <system/database.hpp>
 #include <animation/animation.hpp>
+#include <iostream>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
+std::vector<char*> Database::texture_buffers = std::vector<char*>();
 
 int Database::rc = 0;
 
@@ -77,26 +79,33 @@ void Database::getTextures(std::map<std::string, sf::Texture>& t){
     while((rc = sqlite3_step(statement)) == SQLITE_ROW){
         std::string id = reinterpret_cast<const char*>(sqlite3_column_text(statement, 0));
 
-        sf::Texture texture;
+        //sf::Texture texture;
             sqlite3_blob* blob;
 
             rc = sqlite3_blob_open(db, "main", "TEXTURES", "DATA", ++row, 0, &blob);
 
             int bsize = sqlite3_blob_bytes(blob);
-            char* buffer = new char[bsize];
+            texture_buffers.push_back(new char[bsize]);
+            //char* buffer = new char[bsize];
 
-            rc = sqlite3_blob_read(blob, buffer, bsize, 0);
+            rc = sqlite3_blob_read(blob, texture_buffers.back(), bsize, 0);
 
-            texture.loadFromMemory(buffer, bsize);
-            delete[] buffer;
+            //texture.loadFromMemory(buffer, bsize);
+            //delete[] buffer;
 
             sqlite3_blob_close(blob);
 
-        t[id] = texture;
+        t[id].loadFromMemory(texture_buffers.back(), bsize);
     }
     rc = sqlite3_finalize(statement);
 
     close();
+
+    std::cout << "\ntextures loaded:";
+    for(const auto& it : t){
+        std::cout << "\n\t" << it.first;
+    }
+    std::cout << "\n";
 }
 
 std::vector<Entity_Data> Database::getEnemies(){
@@ -116,6 +125,7 @@ std::vector<Entity_Data> Database::getEnemies(){
             //name text
             //faction text
             //type text
+            //speed float
             //size_x int
             //size_y int
             //moving_count int
@@ -127,6 +137,7 @@ std::vector<Entity_Data> Database::getEnemies(){
         e.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
         e.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
         e.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        e.speed = sqlite3_column_double(statement, column++);
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         e.size = sf::Vector2i(x, y);
