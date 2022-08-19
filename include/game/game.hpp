@@ -35,6 +35,14 @@ public:
 
     void scroll(float delta);
 
+    enum State{
+        PEACE,
+        COMBAT,
+        END
+    };
+
+    State state_game{ PEACE };
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

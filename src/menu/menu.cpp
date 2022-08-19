@@ -20,7 +20,9 @@ Menu::Menu(){
     nav.push_back(Nav("quit", font, MAIN_QUIT, MENU_NULL));
         nav.back().setPosition(pos);
 
-    logos.push_back(Logo("https://www.sfml-dev.org", sf::Vector2f(1200.f, 750.f)));
+    logos.push_back(Logo("https://github.com/surfactants/", sf::Vector2f(1100.f, 900.f), "SURFACTANT"));
+
+    logos.push_back(Logo("https://www.sfml-dev.org", sf::Vector2f(1600.f, 900.f), "SFML"));
 }
 
 void Menu::clickLeft(){

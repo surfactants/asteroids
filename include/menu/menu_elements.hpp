@@ -31,7 +31,7 @@ struct Option : public Button, public Target{
 class Logo : public sf::Drawable{
 public:
     Logo(){}
-    Logo(std::string nurl, sf::Vector2f pos);
+    Logo(std::string nurl, sf::Vector2f pos, std::string key);
 
     bool isHighlighted();
     void highlight();

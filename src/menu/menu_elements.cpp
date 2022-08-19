@@ -17,16 +17,18 @@ Target_With_String::Target_With_String(std::function<void(std::string)> nt)
 Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
 : Button{ nlabel, font }, Target(nt){}
 
-Logo::Logo(std::string nurl, sf::Vector2f pos)
+Logo::Logo(std::string nurl, sf::Vector2f pos, std::string key)
 : url{ nurl }{
-    logo.setTexture(Texture_Manager::get("SFML"));
+    logo.setTexture(Texture_Manager::get(key));
+    logo.setOrigin(sf::Vector2f((logo.getGlobalBounds().left + logo.getGlobalBounds().width) / 2.f, (logo.getGlobalBounds().top + logo.getGlobalBounds().height) / 2.f));
     logo.setPosition(pos);
-    shadow.setTexture(Texture_Manager::get("SFML-SHADOW"));
+    shadow.setTexture(Texture_Manager::get(std::string(key + "-SHADOW")));
+    shadow.setOrigin(sf::Vector2f((shadow.getGlobalBounds().left + shadow.getGlobalBounds().width) / 2.f, (shadow.getGlobalBounds().top + shadow.getGlobalBounds().height) / 2.f));
     shadow.setPosition(pos);
 }
 
 void Logo::update(sf::Vector2f& mpos){
-    bool contains = logo.getGlobalBounds().contains(mpos);
+    bool contains = shadow.getGlobalBounds().contains(mpos);
     if(!highlighted && contains){
         highlight();
     }
