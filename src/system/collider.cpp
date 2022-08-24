@@ -26,7 +26,7 @@ void Collider::checkProjectiles(std::vector<Projectile>& projectiles,
         if(!deleted){
             if(projectiles[i].isPlayer()){
                 for(auto& enemy : enemies){
-                    if((enemy.getState() < DYING) && projectiles[i].getBounds().intersects(enemy.getSprite().getGlobalBounds())){
+                    if((enemy.getState() < Entity_State::DYING) && projectiles[i].getBounds().intersects(enemy.getSprite().getGlobalBounds())){
                         enemy.takeDamage(projectiles[i].getDamage());
                         deleted = true;
                         break;

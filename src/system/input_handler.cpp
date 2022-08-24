@@ -19,7 +19,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     /////////////////////////////////////////////////////////////
     //GAME AND UI INPUTS
     //
-    Input_Package& p_g = context[MAIN_GAME];
+    Input_Package& p_g = context[Main_State::GAME];
 
         p_g.keyReleased[sf::Keyboard::Escape] = std::bind(&Game::escape, &game);
 
@@ -35,8 +35,8 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p_g.keyPressed[sf::Keyboard::D] = std::bind(&Player::rightStart, player);
         p_g.keyReleased[sf::Keyboard::D] = std::bind(&Player::rightEnd, player);
 
-        p_g.mouse[LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
-        p_g.mouse[LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
+        p_g.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
+        p_g.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
 
         p_g.scroll = std::bind(&Game::scroll, &game, std::placeholders::_1);
 
@@ -46,13 +46,13 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     //MENU INPUTS
     //
     std::vector<Menu*> m = { menu_package.m_main, menu_package.m_pause, menu_package.m_settings };
-    std::vector<Menu_State> state = { MENU_MAIN, MENU_PAUSE, MENU_SETTINGS };
+    std::vector<Menu_State> state = { Menu_State::MAIN, Menu_State::PAUSE, Menu_State::SETTINGS };
 
     for(unsigned int i = 0; i <= m.size(); ++i){
         Input_Package& p = context_menu[state[i]];
         p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
-        p.mouse[LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
-        p.mouse[LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
+        p.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
+        p.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
         p.scroll = std::bind(&Menu::scroll, m[i], std::placeholders::_1);
         p.focus_lost = std::bind(&Menu::stopInput, m[i]);
     }
@@ -62,10 +62,10 @@ void Input_Handler::handle(){
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed) window.close();
         else{
-            if(state_main == MAIN_LOADING
-            || state_main == MAIN_NEWGAME
-            || state_main == MAIN_NULL
-            || state_main == MAIN_QUIT){
+            if(state_main == Main_State::LOADING
+            || state_main == Main_State::NEWGAME
+            || state_main == Main_State::NULLSTATE
+            || state_main == Main_State::QUIT){
                 continue;
             }
 
@@ -80,22 +80,22 @@ void Input_Handler::handle(){
                 }
             }
             else if(event.type == sf::Event::MouseButtonPressed){
-                if(event.mouseButton.button == sf::Mouse::Left && context[state_main].mouse.count(LEFT_CLICK)){
-                        context[state_main].mouse[LEFT_CLICK]();
+                if(event.mouseButton.button == sf::Mouse::Left && context[state_main].mouse.count(Mouse_Event::LEFT_CLICK)){
+                        context[state_main].mouse[Mouse_Event::LEFT_CLICK]();
                 }
-                else if(event.mouseButton.button == sf::Mouse::Right && context[state_main].mouse.count(RIGHT_CLICK)){
-                    context[state_main].mouse[RIGHT_CLICK]();
+                else if(event.mouseButton.button == sf::Mouse::Right && context[state_main].mouse.count(Mouse_Event::RIGHT_CLICK)){
+                    context[state_main].mouse[Mouse_Event::RIGHT_CLICK]();
                 }
             }
             else if(event.type == sf::Event::MouseButtonReleased){
                 if(event.mouseButton.button == sf::Mouse::Left){
-                    if(context[state_main].mouse.count(LEFT_RELEASE)){
-                       context[state_main].mouse[LEFT_RELEASE]();
+                    if(context[state_main].mouse.count(Mouse_Event::LEFT_RELEASE)){
+                       context[state_main].mouse[Mouse_Event::LEFT_RELEASE]();
                     }
                 }
                 else if(event.mouseButton.button == sf::Mouse::Right){
-                    if(context[state_main].mouse.count(RIGHT_RELEASE)){
-                       context[state_main].mouse[RIGHT_RELEASE]();
+                    if(context[state_main].mouse.count(Mouse_Event::RIGHT_RELEASE)){
+                       context[state_main].mouse[Mouse_Event::RIGHT_RELEASE]();
                     }
                 }
             }
@@ -110,8 +110,8 @@ void Input_Handler::handle(){
 }
 
 void Input_Handler::menuChange(){
-    context[MAIN_MENU].clear();
-    context[MAIN_MENU] = context_menu[state_menu];
+    context[Main_State::MENU].clear();
+    context[Main_State::MENU] = context_menu[state_menu];
 }
 
 

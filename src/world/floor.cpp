@@ -38,7 +38,7 @@ void Floor_Generator::reset(){
         int distance = 1;
 
         rooms.push_back(Room(Node(coordinates), sf::Vector2i(24, 24)));
-        rooms.back().type = START;
+        rooms.back().type = Room::START;
 
         startRoom = &rooms.front();
 
@@ -51,10 +51,10 @@ void Floor_Generator::reset(){
 
             std::cout << "\n\troom end found...";
 
-            if(direction == WEST || direction == EAST){
+            if(direction == Direction::W || direction == Direction::E){
                 coordinates.y += prng::number(-rooms.back().size.y / 2, rooms.back().size.y / 2);
             }
-            else if(direction == NORTH || direction == SOUTH){
+            else if(direction == Direction::N || direction == Direction::S){
                 coordinates.x += prng::number(-rooms.back().size.x / 2, rooms.back().size.y / 2);
             }
             else{
@@ -76,12 +76,12 @@ void Floor_Generator::reset(){
 
             int offset;
             switch(direction){
-            case NORTH:
-            case SOUTH:
+            case Direction::N:
+            case Direction::S:
                 offset = roomSize.y / 2;
                 break;
-            case EAST:
-            case WEST:
+            case Direction::E:
+            case Direction::W:
                 offset = roomSize.x / 2;
                 break;
             default:
@@ -90,11 +90,11 @@ void Floor_Generator::reset(){
             moveDirection(coordinates, direction, offset);
 
             rooms.push_back(Room(Node(coordinates), roomSize));
-            if(i < steps) rooms.back().type = REGULAR;
+            if(i < steps) rooms.back().type = Room::REGULAR;
         }
 
         endRoom = &rooms.back();
-        rooms.back().type = END;
+        rooms.back().type = Room::END;
 
         for(const auto& tunnel : tunnels){
             if(prng::boolean(.05f)){
@@ -122,12 +122,12 @@ void Floor_Generator::reset(){
                     sf::Vector2i roomSize(prng::number(28, 56), prng::number(28, 56));
                     int offset;
                     switch(side){
-                    case NORTH:
-                    case SOUTH:
+                    case Direction::N:
+                    case Direction::S:
                         offset = roomSize.y / 2;
                         break;
-                    case EAST:
-                    case WEST:
+                    case Direction::E:
+                    case Direction::W:
                         offset = roomSize.x / 2;
                         break;
                     default:
@@ -135,7 +135,7 @@ void Floor_Generator::reset(){
                     }
                     moveDirection(coordinates, side, offset);
                     rooms.push_back(Room(Node(coordinates), roomSize));
-                    rooms.back().type = SIDE;
+                    rooms.back().type = Room::SIDE;
                     directions[rooms.size() - 1] = side;
                 }
             }

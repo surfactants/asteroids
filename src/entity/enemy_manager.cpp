@@ -29,7 +29,8 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
                     if(c == u) continue;
                 }
             } while(!rooms[r].contains(c));
-            enemies.push_back(prototypes[currentFaction][MELEE_LIGHT]);
+            Entity_Type type = Entity_Type::MELEE_LIGHT;
+            enemies.push_back(prototypes[currentFaction][type]);
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
             enemies.back().getSprite().setDirection(randomDirection());
@@ -39,15 +40,15 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
     }
 
     //place boss
-    enemies.push_back(prototypes[currentFaction][BOSS]);
+    enemies.push_back(prototypes[currentFaction][Entity_Type::BOSS]);
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
 }
 
 void Enemy_Manager::reset(){
     enemies.clear();
-    currentFaction = static_cast<Faction>(prng::number(0, static_cast<int>(PLAYER_FACTION) - 1));
-    currentFaction = BUGS;
+    currentFaction = randomEnemyFaction();
+    currentFaction = Faction::BUGS;
 }
 
 void Enemy_Manager::clear(){
@@ -77,5 +78,5 @@ void Enemy_Manager::loadPrototypes(){
 }
 
 bool Enemy_Manager::checkFinalBoss(){
-    return (enemies.back().getState() == DEAD);
+    return (enemies.back().getState() == Entity_State::DEAD);
 }

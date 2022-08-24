@@ -28,7 +28,7 @@ Shell::Shell()
 }
 
 void Shell::run(){
-    fpsText.setFont(Font_Manager::get(FONT_MENU));
+    fpsText.setFont(Font_Manager::get(Font::MENU));
     fpsText.setString("0");
     fpsText.setFillColor(sf::Color::Red);
 
@@ -36,15 +36,15 @@ void Shell::run(){
 
     while(window.isOpen()){
         switch(state_main){
-        case MAIN_MENU:
+        case Main_State::MENU:
             menu->update(fMouse(window, viewUI));
             break;
-        case MAIN_LOADING:
+        case Main_State::LOADING:
             if(loadingScreen.update()){
-                state_main = MAIN_GAME;
+                state_main = Main_State::GAME;
             }
             break;
-        case MAIN_GAME:
+        case Main_State::GAME:
             game.update();
             ui.update();
             fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
@@ -61,10 +61,10 @@ void Shell::run(){
 
 void Shell::update(){
     switch(state_main){
-    case MAIN_MENU:
+    case Main_State::MENU:
         menu->update(fMouse(window, viewUI));
         break;
-    case MAIN_GAME:
+    case Main_State::GAME:
         game.update();
         ui.update();
         break;
@@ -76,18 +76,18 @@ void Shell::update(){
 void Shell::draw(){
     window.clear();
         switch(state_main){
-        case MAIN_MENU:
+        case Main_State::MENU:
             window.setView(viewUI);
             window.draw(*menu);
             break;
-        case MAIN_GAME:
+        case Main_State::GAME:
             window.setView(viewGame);
             window.draw(game);
             window.setView(viewUI);
             window.draw(fpsText);
             window.draw(ui);
             break;
-        case MAIN_LOADING:
+        case Main_State::LOADING:
             window.setView(viewUI);
             window.draw(loadingScreen);
             break;
@@ -98,7 +98,7 @@ void Shell::draw(){
 }
 
 void Shell::loadNewLevel(){
-    state_main = MAIN_LOADING;
+    state_main = Main_State::LOADING;
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 
@@ -125,10 +125,10 @@ void Shell::alignState(){
     if(change_main){
         change_main = false;
         switch(state_main){
-        case MAIN_QUIT:
+        case Main_State::QUIT:
             window.close();
             break;
-        case MAIN_NEWGAME:
+        case Main_State::NEWGAME:
             loadNewLevel();
             break;
         default:
@@ -138,13 +138,13 @@ void Shell::alignState(){
     if(change_menu){
         change_menu = false;
         switch(state_menu){
-        case MENU_MAIN:
+        case Menu_State::MAIN:
             menu = &menu_main;
             break;
-        case MENU_PAUSE:
+        case Menu_State::PAUSE:
             menu = &menu_pause;
             break;
-        case MENU_SETTINGS:
+        case Menu_State::SETTINGS:
             menu = &menu_settings;
             break;
         default:

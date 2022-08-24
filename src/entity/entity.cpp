@@ -1,7 +1,6 @@
 #include <entity/entity.hpp>
 #include <util/prng.hpp>
 #include <util/primordial.hpp>
-#include <resources/font_manager.hpp>
 
 const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
 const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);
@@ -96,7 +95,7 @@ void Entity::takeDamage(Damage dmg){
     if(hpCurrent <= 0){
         hpCurrent = 0;
         stop();
-        setState(DYING);
+        setState(Entity_State::DYING);
     }
 
     updateHP();
@@ -110,10 +109,10 @@ void Entity::heal(int val){
 }
 
 void Entity::update(){
-    if(state < DEAD){
+    if(state < Entity_State::DEAD){
         move();
         sprite.update();
-        if(state == DYING){
+        if(state == Entity_State::DYING){
             state = sprite.getState();
         }
     }
@@ -121,11 +120,9 @@ void Entity::update(){
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(sprite, states);
-    if(state < DYING){
+    if(state < Entity_State::DYING){
         target.draw(hpFrame, states);
         target.draw(hpBar, states);
-        //target.draw(levelFrame, states);
-        //target.draw(levelText, states);
     }
 }
 
@@ -220,7 +217,7 @@ void Entity::stop(){
     left = false;
     right = false;
     setVelocity();
-    setState(IDLE);
+    setState(Entity_State::IDLE);
 
 }
 
@@ -250,36 +247,20 @@ void Entity::setSpriteDirection(){
          w = (velocity.x < -threshold);
 
     if(n){
-        if(e) d = NORTHEAST;
-        else if(w) d = NORTHWEST;
-        else d = NORTH;
+        if(e) d = Direction::NE;
+        else if(w) d = Direction::NW;
+        else d = Direction::N;
     }
     else if(s){
-        if(e) d = SOUTHEAST;
-        else if(w) d = SOUTHWEST;
-        else d = SOUTH;
+        if(e) d = Direction::SE;
+        else if(w) d = Direction::SW;
+        else d = Direction::S;
     }
     else{
-        if(e) d = EAST;
-        else if(w) d = WEST;
+        if(e) d = Direction::E;
+        else if(w) d = Direction::W;
     }
-/*
-    if(std::abs(velocity.y) > 0.f){
-        d = SOUTH;
-        if(velocity.x > 0){}
-        if(velocity.x < (0.3 * speed_orthogonal)){
-            d =
-        }
-    }
-    if(std::abs(velocity.y) < std::abs(velocity.x)){
-        if(velocity.x > 0.f) d = EAST;
-        else if(velocity.x < 0.f) d = WEST;
-    }
-    else{
-        if(velocity.y < 0.f) d = NORTH;
-        else if(velocity.y > 0.f) d = SOUTH;
-    }
-*/
+
     sprite.setDirection(d);
 }
 
@@ -333,13 +314,13 @@ void Entity::setVelocity(){
         velocity.y = speed;
     }
 
-    if(sprite.getAnimationState() != IDLE
+    if(sprite.getAnimationState() != Entity_State::IDLE
     && velocity.x == 0.f && velocity.y == 0.f){
-        setState(IDLE);
+        setState(Entity_State::IDLE);
     }
-    else if(sprite.getAnimationState() != MOVING
+    else if(sprite.getAnimationState() != Entity_State::MOVING
     && (velocity.x != 0.f || velocity.y != 0.f)){
-        setState(MOVING);
+        setState(Entity_State::MOVING);
     }
 
     setSpriteDirection();

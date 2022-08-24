@@ -38,7 +38,9 @@ public:
     enum State{
         PEACE,
         COMBAT,
-        END
+        END,
+        WIN,
+        LOSE
     };
 
     State state_game{ PEACE };

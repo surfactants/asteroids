@@ -8,7 +8,7 @@ Tile::Tile(sf::Vector2i ncoord, bool nwall, sf::Texture& texture) : coordinates{
 
     wall = nwall;
     if(!wall){
-        wallType = NULLTYPE;
+        wallType = Wall_Type::NULLTYPE;
         setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
     }
     else if(wall){
@@ -35,15 +35,15 @@ void Tile::setWall(Wall_Type type){
     switch(wallType){
     default:
         break;
-    case ISLAND:
+    case Wall_Type::ISLAND:
         pos.x += size.x;
-    case PENINSULA:
+    case Wall_Type::PENINSULA:
         pos.x += size.x;
-    case CORNER_INNER:
+    case Wall_Type::CORNER_INNER:
         pos.x += size.x;
-    case CORNER_OUTER:
+    case Wall_Type::CORNER_OUTER:
         pos.x += size.x;
-    case STRAIGHT:
+    case Wall_Type::STRAIGHT:
         pos.x += size.x;
         break;
     }

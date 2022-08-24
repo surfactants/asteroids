@@ -67,3 +67,6 @@ todo.hpp
 *.srctrlprj
 
 *.png
+
+# database loading
+/db/

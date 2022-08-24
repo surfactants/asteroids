@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Wall_Type{ BLANK, STRAIGHT, CORNER_OUTER, CORNER_INNER, PENINSULA, ISLAND, NULLTYPE };
+enum class Wall_Type{ BLANK, STRAIGHT, CORNER_OUTER, CORNER_INNER, PENINSULA, ISLAND, NULLTYPE };
 
 struct Tile : public sf::Sprite{
     Tile(){}

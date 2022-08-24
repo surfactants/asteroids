@@ -4,12 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <world/node.hpp>
 
-enum Room_Type{ START, END, REGULAR, SIDE };
-
 /////////////////////////////////////////////////////////////
 /// \brief Defines rectangular room areas for carving and automating.
 ///
 struct Room{
+    enum Type{ START, END, REGULAR, SIDE, NULLTYPE };
+
     /////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
@@ -46,5 +46,5 @@ struct Room{
     /////////////////////////////////////////////////////////////
     /// \brief Type of the room (for level population)
     ///
-    Room_Type type;
+    Type type;
 };

@@ -8,7 +8,7 @@ Projectile::Projectile(){
     sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 }
 
-Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype, Damage ndmg){
+Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Type ntype, Damage ndmg){
     float theta = calculateAngle(pos, target);
     speed = 10.f;
     sprite.setPosition(pos);
@@ -22,7 +22,7 @@ Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type nt
     dmg = ndmg;
 }
 
-Projectile::Projectile(Projectile_Type ntype, Damage ndmg)
+Projectile::Projectile(Type ntype, Damage ndmg)
 : type{ ntype }, dmg{ ndmg }{
     sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 
@@ -49,7 +49,7 @@ void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(sprite, states);
 }
 
-Projectile_Type Projectile::getType(){
+Projectile::Type Projectile::getType(){
     return type;
 }
 

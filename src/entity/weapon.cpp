@@ -3,7 +3,7 @@
 
 Weapon::Weapon(std::string nname, unsigned int nrange): name{ nname }, range{ nrange }{
     Damage dmg(prng::number(99, 101), Damage::ENERGY);
-    projectile = Projectile(LASER, dmg);
+    projectile = Projectile(Projectile::LASER, dmg);
     projectileSpeed = 10.f;
     cooldownThreshold = 0.4f;
 }

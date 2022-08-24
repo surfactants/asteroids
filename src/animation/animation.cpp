@@ -1,5 +1,4 @@
 #include <animation/animation.hpp>
-#include <util/vector2_stream.hpp>
 
 Animation::Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount){
     for(unsigned int f = 0; f < frameCount; ++f){

@@ -16,9 +16,9 @@ void Database::saveSettings(Settings_Package p){
     open();
 
 std::string sql =
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_MUSIC]) + "' WHERE ID = 'VOL_MUSIC';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_GAME]) + "' WHERE ID = 'VOL_GAME';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[VOL_UI]) + "' WHERE ID = 'VOL_UI';";
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::MUSIC]) + "' WHERE ID = 'MUSIC';" \
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::GAME]) + "' WHERE ID = 'GAME';" \
+    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::UI]) + "' WHERE ID = 'UI';";
 
     execute(sql);
 
@@ -132,9 +132,9 @@ std::vector<Entity_Data> Database::getEnemies(){
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         e.size = sf::Vector2i(x, y);
-        e.aCount[MOVING] = sqlite3_column_int(statement, column++);
-        e.aCount[DYING] = sqlite3_column_int(statement, column++);
-        e.aCount[IDLE] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::DYING] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
     }
 
     sqlite3_finalize(statement);
@@ -187,9 +187,9 @@ Entity_Data Database::getPlayerData(){
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         p.size = sf::Vector2i(x, y);
-        p.aCount[MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
     }
 
     sqlite3_finalize(statement);

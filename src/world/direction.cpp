@@ -3,44 +3,44 @@
 
 std::string directionToString(Direction d){
     switch(d){
-    case NORTH: return "NORTH";
-    case NORTHEAST: return "NORTHEAST";
-    case EAST: return "EAST";
-    case SOUTHEAST: return "SOUTHEAST";
-    case SOUTH: return "SOUTH";
-    case SOUTHWEST: return "SOUTHWEST";
-    case WEST: return "WEST";
-    case NORTHWEST: return "NORTHWEST";
-    default: return "NULLSIDE";
+    case Direction::N: return "NORTH";
+    case Direction::NE: return "NORTHEAST";
+    case Direction::E: return "EAST";
+    case Direction::SE: return "SOUTHEAST";
+    case Direction::S: return "SOUTH";
+    case Direction::SW: return "SOUTHWEST";
+    case Direction::W: return "WEST";
+    case Direction::NW: return "NORTHWEST";
+    default: return "NULLDIRECTION";
     }
 }
 
 /////////////////////////////////////////////////////////////
 Direction invertDirection(const Direction d){
-    if(d == NORTH) return SOUTH;
-    else if(d == NORTHEAST) return SOUTHWEST;
-    else if(d == EAST) return WEST;
-    else if(d == SOUTHEAST) return NORTHWEST;
-    else if(d == SOUTH) return NORTH;
-    else if(d == SOUTHWEST) return NORTHEAST;
-    else if(d == WEST) return EAST;
-    else if(d == NORTHWEST) return SOUTHEAST;
+    if(d == Direction::N) return Direction::S;
+    else if(d == Direction::NE) return Direction::SW;
+    else if(d == Direction::E) return Direction::W;
+    else if(d == Direction::SE) return Direction::NW;
+    else if(d == Direction::S) return Direction::N;
+    else if(d == Direction::SW) return Direction::NE;
+    else if(d == Direction::W) return Direction::E;
+    else if(d == Direction::NW) return Direction::SE;
     else return d;
 }
 
 Direction mirrorDirection(Direction d){
-    if(d == NORTHEAST) return NORTHWEST;
-    else if(d == EAST) return WEST;
-    else if(d == SOUTHEAST) return SOUTHWEST;
-    else if(d == SOUTHWEST) return SOUTHEAST;
-    else if(d == WEST) return EAST;
-    else if(d == NORTHWEST) return NORTHEAST;
+    if(d == Direction::NE) return Direction::NW;
+    else if(d == Direction::E) return Direction::W;
+    else if(d == Direction::SE) return Direction::SW;
+    else if(d == Direction::SW) return Direction::SE;
+    else if(d == Direction::W) return Direction::E;
+    else if(d == Direction::NW) return Direction::NE;
     else return d;
 }
 
 /////////////////////////////////////////////////////////////
 Direction randomDirection(){
-    return static_cast<Direction>(prng::number(0, static_cast<int>(NORTHWEST)));
+    return static_cast<Direction>(prng::number(0, static_cast<int>(Direction::NW)));
 }
 
 Direction randomOrthogonal(){
@@ -54,28 +54,28 @@ Direction randomDiagonal(){
 /////////////////////////////////////////////////////////////
 Direction randomPerpendicularDirection(Direction odirect){
     switch(odirect){
-    case NORTH:
-    case SOUTH:
-        odirect = WEST;
+    case Direction::N:
+    case Direction::S:
+        odirect = Direction::W;
         break;
-    case EAST:
-    case WEST:
-        odirect = NORTH;
+    case Direction::E:
+    case Direction::W:
+        odirect = Direction::N;
         break;
-    case NORTHEAST:
-    case SOUTHWEST:
-        odirect = NORTHWEST;
+    case Direction::NE:
+    case Direction::SW:
+        odirect = Direction::NW;
         break;
-    case NORTHWEST:
-    case SOUTHEAST:
-        odirect = NORTHEAST;
+    case Direction::NW:
+    case Direction::SE:
+        odirect = Direction::NE;
         break;
     default:
-        odirect = NULLSIDE;
+        odirect = Direction::NULLDIRECTION;
         break;
     }
 
-    if(odirect != NULLSIDE){
+    if(odirect != Direction::NULLDIRECTION){
         if(prng::boolean()) odirect = invertDirection(odirect);
     }
 
@@ -86,29 +86,29 @@ Direction randomPerpendicularDirection(Direction odirect){
 Direction normalizeDirection(const Direction ref, const Direction d){
     Direction r;
     switch(ref){
-    case WEST:
-        if(d == WEST) r = SOUTH;
-        else if(d == EAST) r = NORTH;
-        else if(d == NORTH) r = WEST;
-        else if(d == SOUTH) r = EAST;
+    case Direction::W:
+        if(d == Direction::W) r = Direction::S;
+        else if(d == Direction::E) r = Direction::N;
+        else if(d == Direction::N) r = Direction::W;
+        else if(d == Direction::S) r = Direction::E;
         break;
-    case EAST:
-        if(d == WEST) r = NORTH;
-        else if(d == EAST) r = SOUTH;
-        else if(d == NORTH) r = EAST;
-        else if(d == SOUTH) r = WEST;
+    case Direction::E:
+        if(d == Direction::W) r = Direction::N;
+        else if(d == Direction::E) r = Direction::S;
+        else if(d == Direction::N) r = Direction::E;
+        else if(d == Direction::S) r = Direction::W;
         break;
-    case NORTH:
+    case Direction::N:
         r = d;
         break;
-    case SOUTH:
-        if(d == WEST) r = EAST;
-        else if(d == EAST) r = WEST;
-        else if(d == NORTH) r = SOUTH;
-        else if(d == SOUTH) r = NORTH;
+    case Direction::S:
+        if(d == Direction::W) r = Direction::E;
+        else if(d == Direction::E) r = Direction::W;
+        else if(d == Direction::N) r = Direction::S;
+        else if(d == Direction::S) r = Direction::N;
         break;
     default:
-        r = NULLSIDE;
+        r = Direction::NULLDIRECTION;
         break;
     } //case NORTH is excluded because Direction is already normalized to it
 
@@ -116,15 +116,15 @@ Direction normalizeDirection(const Direction ref, const Direction d){
 }
 
 bool isOrthogonal(Direction d){
-    return (d == NORTH
-         || d == WEST
-         || d == EAST
-         || d == SOUTH);
+    return (d == Direction::N
+         || d == Direction::W
+         || d == Direction::E
+         || d == Direction::S);
 }
 
 bool isDiagonal(Direction d){
-    return (d == NORTHWEST
-         || d == NORTHEAST
-         || d == SOUTHWEST
-         || d == SOUTHEAST);
+    return (d == Direction::NW
+         || d == Direction::NE
+         || d == Direction::SW
+         || d == Direction::SE);
 }

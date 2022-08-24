@@ -2,16 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Direction{
-    NORTH,
-    NORTHEAST,
-    EAST,
-    SOUTHEAST,
-    SOUTH,
-    SOUTHWEST,
-    WEST,
-    NORTHWEST,
-    NULLSIDE
+enum class Direction{
+    N,
+    NE,
+    E,
+    SE,
+    S,
+    SW,
+    W,
+    NW,
+    NULLDIRECTION
 };
 
 std::string directionToString(Direction d);
@@ -43,16 +43,16 @@ Direction randomPerpendicularDirection(Direction odirect);
 template<typename T>
 void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distance){
     switch(direction){
-    case NORTH:
+    case Direction::N:
         v.y -= distance;
         break;
-    case SOUTH:
+    case Direction::S:
         v.y += distance;
         break;
-    case EAST:
+    case Direction::E:
         v.x += distance;
         break;
-    case WEST:
+    case Direction::W:
         v.x -= distance;
         break;
     default:
@@ -68,6 +68,4 @@ Direction normalizeDirection(const Direction ref, const Direction d);
 bool isOrthogonal(Direction d);
 
 bool isDiagonal(Direction d);
-
-//enum Cardinal { NW, N, NE, W, E, SW, S, SE };
 

@@ -1,25 +1,25 @@
 #pragma once
 
-enum Font{
-    FONT_MENU,
-    FONT_UI,
-    FONT_NULL
+enum class Font{
+    MENU,
+    UI,
+    NULLFONT
 };
 
 inline std::string fontToString(Font f){
     switch(f){
-    case FONT_MENU: return "FONT_MENU";
-    case FONT_UI: return "FONT_UI";
+    case Font::MENU: return "FONT_MENU";
+    case Font::UI: return "FONT_UI";
     default: return "";
     }
 }
 
 inline Font stringToFont(std::string s){
-    if(s == "FONT_MENU" || s == "MENU"){
-        return FONT_MENU;
+    if(s == "MENU"){
+        return Font::MENU;
     }
-    else if(s == "FONT_UI" || s == "UI"){
-        return FONT_UI;
+    else if(s == "UI"){
+        return Font::UI;
     }
-    else return FONT_NULL;
+    else return Font::NULLFONT;
 }

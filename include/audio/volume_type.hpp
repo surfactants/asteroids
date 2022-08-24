@@ -2,25 +2,25 @@
 
 #include <string>
 
-enum Volume_Type{
-    VOL_MUSIC,
-    VOL_GAME,
-    VOL_UI,
-    VOL_NULL
+enum class Volume_Type{
+    MUSIC,
+    GAME,
+    UI,
+    NULLTYPE
 };
 
 inline std::string volumeTypeToString(Volume_Type t){
     switch(t){
-    case VOL_MUSIC: return "VOL_MUSIC";
-    case VOL_GAME: return "VOL_GAME";
-    case VOL_UI: return "VOL_UI";
+    case Volume_Type::MUSIC: return "Volume_Type::MUSIC";
+    case Volume_Type::GAME: return "GAME";
+    case Volume_Type::UI: return "UI";
     default: return std::string();
     }
 }
 
 inline Volume_Type stringToVolumeType(std::string s){
-    if(s == "VOL_MUSIC") return VOL_MUSIC;
-    else if(s == "VOL_GAME") return VOL_GAME;
-    else if(s == "VOL_UI") return VOL_UI;
-    else return VOL_NULL;
+    if(s == "MUSIC") return Volume_Type::MUSIC;
+    else if(s == "GAME") return Volume_Type::GAME;
+    else if(s == "UI") return Volume_Type::UI;
+    else return Volume_Type::NULLTYPE;
 }

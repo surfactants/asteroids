@@ -17,11 +17,11 @@ Enemy::Enemy(Entity_Data e, sf::Texture& texture) : Entity(e, texture){
 void Enemy::update(){
     Entity::update();
 
-    if(state == MOVING){
+    if(state == Entity_State::MOVING){
         float distance = scalarDistance(getPosition(), moveTarget);
         if(distance < 100.f){
                 velocity = sf::Vector2f();
-        setState(IDLE);
+        setState(Entity_State::IDLE);
             //stop();
         }
     }
@@ -29,8 +29,8 @@ void Enemy::update(){
 
 void Enemy::setMoveTarget(sf::Vector2f pos){
     moveTarget = pos;
-    if(state != MOVING){
-        setState(MOVING);
+    if(state != Entity_State::MOVING){
+        setState(Entity_State::MOVING);
     }
 
     velocity = calculateMoveVector(getPosition(), moveTarget, speed_orthogonal);

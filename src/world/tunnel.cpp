@@ -6,7 +6,7 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
     nodes.push_back(Node(pos));
     direction = ndirect;
 
-    Direction sideways = NULLSIDE;
+    Direction sideways = Direction::NULLDIRECTION;
 
     unsigned int steps = prng::number(48u, 96u);
 
@@ -26,13 +26,13 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
             while(nd == sideways){
                 switch(prng::number(-1, 1)){
                 case -1:
-                    sideways = WEST;
+                    sideways = Direction::W;
                     break;
                 case 0:
-                    sideways = NULLSIDE;
+                    sideways = Direction::NULLDIRECTION;
                     break;
                 case 1:
-                    sideways = EAST;
+                    sideways = Direction::E;
                     break;
                 default:
                     break;
@@ -40,14 +40,14 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
             }
         }
 
-        if(!forward && sideways == NULLSIDE){
+        if(!forward && sideways == Direction::NULLDIRECTION){
             Direction t;
-            if(prng::boolean()) t = WEST;
-            else t = EAST;
+            if(prng::boolean()) t = Direction::W;
+            else t = Direction::E;
             moveDirection(pos, normalizeDirection(direction, t), distance);
         }
 
-        if(sideways != NULLSIDE){
+        if(sideways != Direction::NULLDIRECTION){
             moveDirection(pos, normalizeDirection(direction, sideways), distance);
         }
 

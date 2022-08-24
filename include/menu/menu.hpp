@@ -24,7 +24,7 @@ protected:
     std::vector<Option> options;
     std::map<Volume_Type, Slider> sliders;
 
-    Main_State escape = MAIN_NULL;
+    Main_State escape = Main_State::NULLSTATE;
     static sf::Font& font;
 
     std::vector<Logo> logos;

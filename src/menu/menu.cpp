@@ -4,20 +4,20 @@
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 
-sf::Font& Menu::font = Font_Manager::get(FONT_MENU);
+sf::Font& Menu::font = Font_Manager::get(Font::MENU);
 
 Menu::Menu(){
     sf::Vector2f pos(256.f, 128.f);
 
-    nav.push_back(Nav("new game", font, MAIN_NEWGAME, MENU_PAUSE));
+    nav.push_back(Nav("new game", font, Main_State::NEWGAME, Menu_State::PAUSE));
         nav.back().setPosition(pos);
         pos.y += 128.f;
 
-    nav.push_back(Nav("settings", font, MAIN_MENU, MENU_SETTINGS));
+    nav.push_back(Nav("settings", font, Main_State::MENU, Menu_State::SETTINGS));
         nav.back().setPosition(pos);
         pos.y += 128.f;
 
-    nav.push_back(Nav("quit", font, MAIN_QUIT, MENU_NULL));
+    nav.push_back(Nav("quit", font, Main_State::QUIT, Menu_State::NULLSTATE));
         nav.back().setPosition(pos);
 
     logos.push_back(Logo("https://github.com/surfactants/", sf::Vector2f(1100.f, 900.f), "SURFACTANT"));
@@ -28,10 +28,10 @@ Menu::Menu(){
 void Menu::clickLeft(){
     for(auto& button : nav){
         if(button.isHighlighted()){
-            if(button.target_main != MAIN_NULL){
+            if(button.target_main != Main_State::NULLSTATE){
                 newMain(button.target_main);
             }
-            if(button.target_menu != MENU_NULL){
+            if(button.target_menu != Menu_State::NULLSTATE){
                 newMenu(button.target_menu);
             }
             return;
@@ -85,7 +85,7 @@ void Menu::update(sf::Vector2f mpos){
 }
 
 void Menu::back(){
-    if(escape != MAIN_NULL){
+    if(escape != Main_State::NULLSTATE){
         newMain(escape);
     }
 }
@@ -98,19 +98,19 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 }
 
 Menu_Main::Menu_Main(){
-    escape = MAIN_QUIT;
+    escape = Main_State::QUIT;
 }
 
 Menu_Pause::Menu_Pause(){
-    escape = MAIN_GAME;
+    escape = Main_State::GAME;
 }
 
 Menu_Settings::Menu_Settings(){
-    sliders[VOL_MUSIC] = Slider("music volume");
+    sliders[Volume_Type::MUSIC] = Slider("music volume");
 
-    sliders[VOL_GAME] = Slider("game volume");
+    sliders[Volume_Type::GAME] = Slider("game volume");
 
-    sliders[VOL_UI] = Slider("ui volume");
+    sliders[Volume_Type::UI] = Slider("ui volume");
 
     sf::Vector2f spos(544.f, 0.f);
 
@@ -138,9 +138,9 @@ void Menu_Settings::back(){
 }
 
 void Menu_Settings::saveSettings(){
-    setVolumeMusic(sliders[VOL_MUSIC].getFill());
-    setVolumeGame(sliders[VOL_GAME].getFill());
-    setVolumeUI(sliders[VOL_UI].getFill());
+    setVolumeMusic(sliders[Volume_Type::MUSIC].getFill());
+    setVolumeGame(sliders[Volume_Type::GAME].getFill());
+    setVolumeUI(sliders[Volume_Type::UI].getFill());
     Database::saveSettings(generateSettingsPackage());
     back();
 }
@@ -148,24 +148,24 @@ void Menu_Settings::saveSettings(){
 Settings_Package Menu_Settings::generateSettingsPackage(){
     Settings_Package p;
 
-        p.volume[VOL_MUSIC] = getVolumeMusic();
-        p.volume[VOL_GAME] = getVolumeGame();
-        p.volume[VOL_UI] = getVolumeUI();
+        p.volume[Volume_Type::MUSIC] = getVolumeMusic();
+        p.volume[Volume_Type::GAME] = getVolumeGame();
+        p.volume[Volume_Type::UI] = getVolumeUI();
 
     return p;
 }
 
 void Menu_Settings::reset(){
-    sliders[VOL_MUSIC].setFill(getVolumeMusic());
-    sliders[VOL_GAME].setFill(getVolumeGame());
-    sliders[VOL_UI].setFill(getVolumeUI());
+    sliders[Volume_Type::MUSIC].setFill(getVolumeMusic());
+    sliders[Volume_Type::GAME].setFill(getVolumeGame());
+    sliders[Volume_Type::UI].setFill(getVolumeUI());
 }
 
 void Menu_Settings::loadSettings(){
     Settings_Package p = Database::getSettings();
-        setVolumeMusic(p.volume[VOL_MUSIC]);
-        setVolumeGame(p.volume[VOL_GAME]);
-        setVolumeUI(p.volume[VOL_UI]);
+        setVolumeMusic(p.volume[Volume_Type::MUSIC]);
+        setVolumeGame(p.volume[Volume_Type::GAME]);
+        setVolumeUI(p.volume[Volume_Type::UI]);
     reset();
 }
 

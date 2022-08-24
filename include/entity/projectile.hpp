@@ -3,13 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <entity/damage.hpp>
 
-enum Projectile_Type { BULLET, LASER };
-
 class Projectile : public sf::Drawable{
 public:
+    enum Type { BULLET, LASER };
+
     Projectile();
-    Projectile(sf::Vector2f pos, sf::Vector2f target, Projectile_Type ntype, Damage ndmg);
-    Projectile(Projectile_Type ntype, Damage ndmg);
+    Projectile(sf::Vector2f pos, sf::Vector2f target, Type ntype, Damage ndmg);
+    Projectile(Type ntype, Damage ndmg);
 
     void setVelocity(sf::Vector2f pos, sf::Vector2f target);
 
@@ -17,7 +17,7 @@ public:
 
     sf::FloatRect getBounds();
 
-    Projectile_Type getType();
+    Type getType();
 
     void setTarget(sf::Vector2f t);
 
@@ -35,7 +35,7 @@ private:
     sf::Vector2f velocity;
     float speed;
 
-    Projectile_Type type;
+    Type type;
 
     bool player = false;
 

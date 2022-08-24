@@ -4,29 +4,16 @@
 #include <map>
 #include <SFML/System/Vector2.hpp>
 #include <entity/entity_state.hpp>
+#include <entity/faction.hpp>
 
-enum Faction{
-    BUGS,
-    PIRATES,
-    GHOSTS,
-    LITHOBIOMORPHS,
-    ROBOTS,
-    PLAYER_FACTION,
-    NULL_FACTION
-};
-
-std::string factionToString(Faction f);
-
-Faction stringToFaction(std::string s);
-
-enum Entity_Type{
+enum class Entity_Type{
     MELEE_LIGHT,
     MELEE_HEAVY,
     RANGED,
     TURRET,
     BOSS,
     PLAYER,
-    NULLENEMY
+    NULLTYPE
 };
 
 std::string entityTypeToString(Entity_Type e);

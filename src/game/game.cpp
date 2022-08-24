@@ -47,7 +47,7 @@ void Game::update(){
 void Game::checkWin(){
     if(levelEnding){
         if(endTimer.getElapsedTime().asSeconds() >= endThreshold){
-            newMain(MAIN_NEWGAME);
+            newMain(Main_State::NEWGAME);
             levelEnding = false;
         }
     }
@@ -99,7 +99,7 @@ std::vector<Enemy>& Game::getEnemies(){
 }
 
 void Game::escape(){
-    newMain(MAIN_MENU);
+    newMain(Main_State::MENU);
     player.stop();
     player.setAttacking(false);
 }

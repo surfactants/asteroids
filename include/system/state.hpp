@@ -1,17 +1,17 @@
 #pragma once
 
-enum Main_State{
-    MAIN_NULL,
-    MAIN_MENU,
-    MAIN_NEWGAME,
-    MAIN_GAME,
-    MAIN_LOADING,
-    MAIN_QUIT
+enum class Main_State{
+    MENU,
+    NEWGAME,
+    GAME,
+    LOADING,
+    QUIT,
+    NULLSTATE
 };
 
-enum Menu_State{
-    MENU_NULL,
-    MENU_MAIN,
-    MENU_PAUSE,
-    MENU_SETTINGS
+enum class Menu_State{
+    MAIN,
+    PAUSE,
+    SETTINGS,
+    NULLSTATE
 };

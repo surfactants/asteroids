@@ -5,9 +5,8 @@ Animated_Sprite::Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std:
 {
     loadCounts(counts);
     setTexture(ntexture);
-    direction = NORTH;
-    direction = randomDirection();
-    setAnimationState(IDLE);
+    direction = Direction::N;
+    setAnimationState(Entity_State::IDLE);
     setOrigin(sf::Vector2f(size) / 2.f);
 }
 
@@ -37,8 +36,8 @@ void Animated_Sprite::update(){
         frameTimer.restart();
         updateFrame();
     }
-    if(state == DYING && animations[state][direction].lastFrame()){
-        state = DEAD;
+    if(state == Entity_State::DYING && animations[state][direction].lastFrame()){
+        state = Entity_State::DEAD;
     }
 }
 
@@ -51,7 +50,7 @@ Entity_State Animated_Sprite::getAnimationState(){
 }
 
 void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
-    const int dlimit = static_cast<int>(NULLSIDE);
+    const int dlimit = static_cast<int>(Direction::NULLDIRECTION);
     for(auto& t : times){
         for(unsigned int i = 0; i < dlimit; ++i){
             sf::Vector2i start(0, static_cast<int>(t.first) * (size.y * 5));
@@ -61,7 +60,7 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
 
             int dFactor = 1;
 
-            if(d > SOUTH){
+            if(d > Direction::S){
                 aSize.x *= -1;
                 start.x += size.x;
                 dFactor = static_cast<int>(mirrorDirection(d));
@@ -70,9 +69,8 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
 
             start.y += (dFactor * size.y);
 
-
             animations[t.first][d] = Animation(start, aSize, t.second);
-            if(t.first == DYING) animations[t.first][d].repeats = false;
+            if(t.first == Entity_State::DYING) animations[t.first][d].repeats = false;
         }
     }
 }

@@ -65,7 +65,7 @@ public:
 
 protected:
     Entity_Type type;
-    Entity_State state = IDLE;
+    Entity_State state = Entity_State::IDLE;
 
     Animated_Sprite sprite;
     sf::RectangleShape hpFrame;

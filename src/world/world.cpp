@@ -96,7 +96,7 @@ void World::makeWalls(){
                         first = false;
                     }
 
-                    Wall_Type type = BLANK;
+                    Wall_Type type = Wall_Type::BLANK;
 
                     /*
 
