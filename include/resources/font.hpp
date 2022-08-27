@@ -8,8 +8,8 @@ enum class Font{
 
 inline std::string fontToString(Font f){
     switch(f){
-    case Font::MENU: return "FONT_MENU";
-    case Font::UI: return "FONT_UI";
+    case Font::MENU: return "MENU";
+    case Font::UI: return "UI";
     default: return "";
     }
 }

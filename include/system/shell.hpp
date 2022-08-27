@@ -14,9 +14,6 @@ public:
     Shell();
     void run();
 private:
-    Texture_Manager texureManager; //instancing
-    Font_Manager fontManager; //instancing
-
     sf::RenderWindow window;
 
     Game game{ window, viewGame };

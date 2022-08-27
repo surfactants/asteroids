@@ -8,7 +8,7 @@ int Database::rc = 0;
 
 Database::~Database(){
     for(unsigned int i = 0; i < font_buffers.size(); ++i){
-        //delete[] font_buffers[i];
+        delete[] font_buffers[i];
     }
 }
 
@@ -73,6 +73,7 @@ void Database::getTextures(std::map<std::string, sf::Texture>& t){
     sqlite3_stmt* statement;
 
     rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
     int row = 0;
     while((rc = sqlite3_step(statement)) == SQLITE_ROW){
         std::string id = reinterpret_cast<const char*>(sqlite3_column_text(statement, 0));

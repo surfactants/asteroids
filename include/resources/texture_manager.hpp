@@ -5,11 +5,13 @@
 
 class Texture_Manager{
 public:
-    Texture_Manager();
     static sf::Texture& get(std::string key);
+
+    ~Texture_Manager();
 
 private:
     static std::map<std::string, sf::Texture> textures;
+    Texture_Manager();
 
-    bool loaded = false;
+    static Texture_Manager* instance;
 };
