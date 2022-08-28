@@ -5,7 +5,7 @@ Weapon::Weapon(std::string nname, unsigned int nrange): name{ nname }, range{ nr
     Damage dmg(prng::number(99, 101), Damage::ENERGY);
     projectile = Projectile(Projectile::LASER, dmg);
     projectileSpeed = 10.f;
-    cooldownThreshold = 0.4f;
+    cooldownThreshold = 0.6f;
 }
 
 sf::Sprite& Weapon::getSprite(){
@@ -20,18 +20,23 @@ unsigned int Weapon::getRange(){
     return range;
 }
 
-Projectile Weapon::getProjectile(){
-    return projectile;
+Projectile* Weapon::getProjectile(){
+    return &projectile;
 }
 
 float Weapon::getProjectileSpeed(){
     return projectileSpeed;
 }
 
-bool Weapon::shoot(){
-    if(cooldown.getElapsedTime().asSeconds() >= cooldownThreshold){
-        cooldown.restart();
-        return true;
+bool Weapon::ready(){
+    if(cooling && cooldown.getElapsedTime().asSeconds() >= cooldownThreshold){
+        cooling = false;
     }
-    else return false;
+
+    return (!cooling);
+}
+
+void Weapon::startCooldown(){
+    cooldown.restart();
+    cooling = true;
 }

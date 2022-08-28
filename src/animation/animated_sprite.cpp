@@ -32,12 +32,14 @@ Direction Animated_Sprite::getDirection(){
 }
 
 void Animated_Sprite::update(){
-    if(frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold){
+    if(!animations[state][direction].repeats && animations[state][direction].lastFrame()){
+        if(state == Entity_State::DYING){
+            state = Entity_State::DEAD;
+        }
+    }
+    else if(frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold){
         frameTimer.restart();
         updateFrame();
-    }
-    if(state == Entity_State::DYING && animations[state][direction].lastFrame()){
-        state = Entity_State::DEAD;
     }
 }
 
@@ -70,11 +72,16 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
             start.y += (dFactor * size.y);
 
             animations[t.first][d] = Animation(start, aSize, t.second);
-            if(t.first == Entity_State::DYING) animations[t.first][d].repeats = false;
+            if(t.first == Entity_State::DYING
+            || t.first == Entity_State::ATTACKING) animations[t.first][d].repeats = false;
         }
     }
 }
 
 Entity_State Animated_Sprite::getState(){
     return state;
+}
+
+bool Animated_Sprite::done(){
+    return (animations[state][direction].lastFrame() && frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold);
 }

@@ -44,12 +44,13 @@ private:
     std::string url;
 
     sf::Sprite logo;
-    sf::Sprite shadow;
+    sf::Sprite dropShadow;
 
     sf::Texture texture_logo;
-    sf::Texture texture_shadow;
 
     bool highlighted;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    std::unique_ptr<sf::Shader> shadow;
 };

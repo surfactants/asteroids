@@ -54,7 +54,7 @@ public:
 
     void setLevel(unsigned int nlevel);
 
-    Projectile attack(sf::Vector2f target);
+    Projectile* attack(sf::Vector2f target);
 
     bool isAttacking();
     void setAttacking(bool n);
@@ -66,6 +66,7 @@ public:
 protected:
     Entity_Type type;
     Entity_State state = Entity_State::IDLE;
+    Entity_State lastState = Entity_State::IDLE;
 
     Animated_Sprite sprite;
     sf::RectangleShape hpFrame;
@@ -128,4 +129,6 @@ protected:
     void prepUI();
 
     std::map<Damage::Type, float> resistance;
+
+    bool attackFrame = false;
 };

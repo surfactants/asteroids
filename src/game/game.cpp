@@ -29,14 +29,18 @@ void Game::update(){
     for(auto& enemy : enemyManager.getEnemies()){
         ai.decide(enemy, player);
         enemy.update();
+        enemy.move(world.getLocalWalls(enemy.getCoordinates(Tile::tileSize)) );
     }
     player.update();
     view.move(player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize))));
 
-    if(player.isAttacking() && player.getEquippedWeapon().shoot()){
-        Projectile p = player.attack(fMouse(window, view));
-        p.setPlayer();
-        projectileManager.create(p);
+    if(player.isAttacking()){
+        Projectile* p = player.attack(fMouse(window, view));
+        if(p != nullptr){
+            Projectile pf = *p;
+            pf.setPlayer();
+            projectileManager.create(pf);
+        }
     }
 
     projectileManager.update();
@@ -48,6 +52,7 @@ void Game::checkWin(){
     if(levelEnding){
         if(endTimer.getElapsedTime().asSeconds() >= endThreshold){
             newMain(Main_State::NEWGAME);
+            stopInput();
             levelEnding = false;
         }
     }

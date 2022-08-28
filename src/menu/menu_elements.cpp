@@ -1,6 +1,7 @@
 #include <menu/menu_elements.hpp>
 #include <util/url.hpp>
 #include <resources/texture_manager.hpp>
+#include <memory>
 
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
 : Button{ nlabel, font }{
@@ -19,16 +20,27 @@ Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
 
 Logo::Logo(std::string nurl, sf::Vector2f pos, std::string key)
 : url{ nurl }{
+    shadow = std::make_unique<sf::Shader>();
+    shadow->loadFromFile("src\\shader\\dropshadow.frag", sf::Shader::Fragment);
+
     logo.setTexture(Texture_Manager::get(key));
-    logo.setOrigin(sf::Vector2f((logo.getGlobalBounds().left + logo.getGlobalBounds().width) / 2.f, (logo.getGlobalBounds().top + logo.getGlobalBounds().height) / 2.f));
+    dropShadow.setTexture(Texture_Manager::get(std::string(key)));
+
+    sf::Vector2f size = sf::Vector2f((logo.getGlobalBounds().left + logo.getGlobalBounds().width), (logo.getGlobalBounds().top + logo.getGlobalBounds().height));
+
+    logo.setOrigin(size / 2.f);
     logo.setPosition(pos);
-    shadow.setTexture(Texture_Manager::get(std::string(key + "-SHADOW")));
-    shadow.setOrigin(sf::Vector2f((shadow.getGlobalBounds().left + shadow.getGlobalBounds().width) / 2.f, (shadow.getGlobalBounds().top + shadow.getGlobalBounds().height) / 2.f));
-    shadow.setPosition(pos);
+    dropShadow.setOrigin(size / 2.f);
+    dropShadow.setPosition(pos);
+
+    shadow->setUniform("offsetFactor", sf::Vector2f(0.003f, 0.003f));
+    shadow->setUniform("u_resolution", size);
+    shadow->setUniform("u_pos", pos);
 }
 
 void Logo::update(sf::Vector2f& mpos){
-    bool contains = shadow.getGlobalBounds().contains(mpos);
+    //bool contains = shadow.getGlobalBounds().contains(mpos);
+    bool contains = logo.getGlobalBounds().contains(mpos);
     if(!highlighted && contains){
         highlight();
     }
@@ -46,7 +58,12 @@ bool Logo::click(){
 }
 
 void Logo::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    if(highlighted) target.draw(shadow, states);
+    //if(highlighted) target.draw(shadow, states);
+
+    if(highlighted){
+        target.draw(dropShadow, shadow.get());
+    }
+
     target.draw(logo, states);
 }
 

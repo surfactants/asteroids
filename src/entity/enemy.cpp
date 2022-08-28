@@ -20,8 +20,8 @@ void Enemy::update(){
     if(state == Entity_State::MOVING){
         float distance = scalarDistance(getPosition(), moveTarget);
         if(distance < 100.f){
-                velocity = sf::Vector2f();
-        setState(Entity_State::IDLE);
+            velocity = sf::Vector2f();
+            setState(Entity_State::IDLE);
             //stop();
         }
     }

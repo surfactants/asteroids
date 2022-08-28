@@ -110,10 +110,21 @@ void Entity::heal(int val){
 
 void Entity::update(){
     if(state < Entity_State::DEAD){
-        move();
+        if(state == Entity_State::ATTACKING){
+            if(sprite.done()){
+                attackFrame = true;
+                setState(lastState);
+                weapons[equippedWeapon].startCooldown();
+            }
+        }
+        else if(attacking){
+            if(weapons[equippedWeapon].ready()){
+                setState(Entity_State::ATTACKING);
+            }
+        }
         sprite.update();
         if(state == Entity_State::DYING){
-            state = sprite.getState();
+            setState(sprite.getState());
         }
     }
 }
@@ -132,43 +143,47 @@ void Entity::updateHP(){
 }
 
 void Entity::move(){
-    move(velocity);
+    if(state == Entity_State::MOVING){
+        move(velocity);
+    }
 }
 
 sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls){
     sf::Vector2f offset(0.f, 0.f);
     if(offset == velocity) return offset;
 
-    bool good = true;
-    sprite.move(velocity.x, 0.f);
-    for(const auto& wall : walls){
-        if(wall.intersects(sprite.getGlobalBounds())){
-            sprite.move(-velocity.x, 0.f);
-            good = false;
+    if(state == Entity_State::MOVING){
+        bool good = true;
+        sprite.move(velocity.x, 0.f);
+        for(const auto& wall : walls){
+            if(wall.intersects(sprite.getGlobalBounds())){
+                sprite.move(-velocity.x, 0.f);
+                good = false;
+            }
         }
-    }
 
-    if(good){
-        hpFrame.move(velocity.x, 0.f);
-        hpBar.move(velocity.x, 0.f);
-        //levelFrame.move(velocity.x, 0.f);
-        //levelText.move(velocity.x, 0.f);
-        offset.x = velocity.x;
-    }
-    else good = true;
-    sprite.move(0.f, velocity.y);
-    for(const auto& wall : walls){
-        if(wall.intersects(sprite.getGlobalBounds())){
-            sprite.move(0.f, -velocity.y);
-            good = false;
+        if(good){
+            hpFrame.move(velocity.x, 0.f);
+            hpBar.move(velocity.x, 0.f);
+            //levelFrame.move(velocity.x, 0.f);
+            //levelText.move(velocity.x, 0.f);
+            offset.x = velocity.x;
         }
-    }
-    if(good){
-        hpFrame.move(0.f, velocity.y);
-        hpBar.move(0.f, velocity.y);
-        //levelFrame.move(0.f, velocity.y);
-        //levelText.move(0.f, velocity.y);
-        offset.y = velocity.y;
+        else good = true;
+        sprite.move(0.f, velocity.y);
+        for(const auto& wall : walls){
+            if(wall.intersects(sprite.getGlobalBounds())){
+                sprite.move(0.f, -velocity.y);
+                good = false;
+            }
+        }
+        if(good){
+            hpFrame.move(0.f, velocity.y);
+            hpBar.move(0.f, velocity.y);
+            //levelFrame.move(0.f, velocity.y);
+            //levelText.move(0.f, velocity.y);
+            offset.y = velocity.y;
+        }
     }
 
     return offset;
@@ -268,10 +283,14 @@ Weapon& Entity::getEquippedWeapon(){
     return weapons[equippedWeapon];
 }
 
-Projectile Entity::attack(sf::Vector2f target){
-    Projectile p{ weapons[equippedWeapon].getProjectile() };
-    p.setVelocity(getPosition(), target);
-    return p;
+Projectile* Entity::attack(sf::Vector2f target){
+    if(attackFrame){
+        attackFrame = false;
+        Projectile* p = weapons[equippedWeapon].getProjectile();
+        p->setVelocity(getPosition(), target);
+        return p;
+    }
+    else return nullptr;
 }
 
 bool Entity::isAttacking(){
@@ -328,6 +347,7 @@ void Entity::setVelocity(){
 
 void Entity::setState(Entity_State nstate){
     if(state != nstate){
+        lastState = state;
         state = nstate;
         sprite.setAnimationState(state);
     }

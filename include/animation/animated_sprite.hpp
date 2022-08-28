@@ -23,6 +23,8 @@ public:
 
     Entity_State getState();
 
+    bool done();
+
 private:
     sf::Vector2i size;   /**< frame size for setTextureRect()   */
 

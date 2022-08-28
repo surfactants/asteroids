@@ -5,8 +5,8 @@
 enum class Entity_State{
     IDLE,
     MOVING,
-    DYING,
     ATTACKING,
+    DYING,
     DEAD
 };
 

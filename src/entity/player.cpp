@@ -6,7 +6,7 @@ Player::Player(){}
 Player::Player(Entity_Data e, sf::Texture& texture) : Entity(e, texture){}
 
 void Player::update(){
-    sprite.update();
+    Entity::update();
 }
 
 void Player::upStart(){

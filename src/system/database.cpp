@@ -120,9 +120,10 @@ std::vector<Entity_Data> Database::getEnemies(){
             //speed float
             //size_x int
             //size_y int
-            //moving_count int
-            //dying_count int
             //idle_count int
+            //moving_count int
+            //attacking_count int
+            //dying_count int
 
         int column = 0;
 
@@ -133,9 +134,10 @@ std::vector<Entity_Data> Database::getEnemies(){
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         e.size = sf::Vector2i(x, y);
-        e.aCount[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
-        e.aCount[Entity_State::DYING] = sqlite3_column_int(statement, column++);
         e.aCount[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::ATTACKING] = sqlite3_column_int(statement, column++);
+        e.aCount[Entity_State::DYING] = sqlite3_column_int(statement, column++);
     }
 
     sqlite3_finalize(statement);
@@ -175,9 +177,10 @@ Entity_Data Database::getPlayerData(){
             //speed double
             //size_x int
             //size_y int
-            //moving_count int
-            //dying_count int
             //idle_count int
+            //moving_count int
+            //attacking_count int
+            //dying_count int
 
         int column = 0;
 
@@ -188,9 +191,10 @@ Entity_Data Database::getPlayerData(){
         int x = sqlite3_column_int(statement, column++);
         int y = sqlite3_column_int(statement, column++);
         p.size = sf::Vector2i(x, y);
-        p.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
         p.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::ATTACKING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
     }
 
     sqlite3_finalize(statement);

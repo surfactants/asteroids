@@ -9,10 +9,12 @@ public:
     Weapon(std::string nname, unsigned int nrange);
     sf::Sprite& getSprite();
     unsigned int getRange();
-    Projectile getProjectile();
+    Projectile* getProjectile();
     float getProjectileSpeed();
 
-    bool shoot();
+    bool ready();
+
+    void startCooldown();
 
 protected:
 private:
@@ -24,4 +26,5 @@ private:
     float projectileSpeed;
     float cooldownThreshold; //seconds
     sf::Clock cooldown;
+    bool cooling = false;
 };
