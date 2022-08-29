@@ -85,9 +85,6 @@ protected:
     int hpCurrent;
     int hpMax;
 
-    ///percentage of damage blocked by armor, 0-1.d scale
-    double armorFactor;
-
     unsigned int level;
 
     std::vector<Weapon> weapons;

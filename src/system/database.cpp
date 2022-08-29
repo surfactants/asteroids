@@ -15,12 +15,11 @@ Database::~Database(){
 void Database::saveSettings(Settings_Package p){
     open();
 
-std::string sql =
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::MUSIC]) + "' WHERE ID = 'MUSIC';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::GAME]) + "' WHERE ID = 'GAME';" \
-    "UPDATE VOLUME SET VALUE = '" + std::to_string(p.volume[Volume_Type::UI]) + "' WHERE ID = 'UI';";
-
-    execute(sql);
+    for(const auto& v : p.volume){
+    std::string sql =
+        "UPDATE VOLUME SET VALUE = '" + std::to_string(v.second) + "' WHERE ID = '" + volumeTypeToString(v.first) + "';";
+        execute(sql);
+    }
 
     close();
 }
@@ -112,32 +111,7 @@ std::vector<Entity_Data> Database::getEnemies(){
     rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
 
     while((rc = sqlite3_step(statement)) == SQLITE_ROW){
-        enemies.push_back(Entity_Data());
-        Entity_Data& e = enemies.back();
-            //name text
-            //faction text
-            //type text
-            //speed float
-            //size_x int
-            //size_y int
-            //idle_count int
-            //moving_count int
-            //attacking_count int
-            //dying_count int
-
-        int column = 0;
-
-        e.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
-        e.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
-        e.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
-        e.speed = sqlite3_column_double(statement, column++);
-        int x = sqlite3_column_int(statement, column++);
-        int y = sqlite3_column_int(statement, column++);
-        e.size = sf::Vector2i(x, y);
-        e.aCount[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
-        e.aCount[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
-        e.aCount[Entity_State::ATTACKING] = sqlite3_column_int(statement, column++);
-        e.aCount[Entity_State::DYING] = sqlite3_column_int(statement, column++);
+        enemies.push_back(readEntity(statement));
     }
 
     sqlite3_finalize(statement);
@@ -171,30 +145,7 @@ Entity_Data Database::getPlayerData(){
     rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
 
     while((rc = sqlite3_step(statement)) == SQLITE_ROW){
-            //name text
-            //faction text
-            //type text
-            //speed double
-            //size_x int
-            //size_y int
-            //idle_count int
-            //moving_count int
-            //attacking_count int
-            //dying_count int
-
-        int column = 0;
-
-        p.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
-        p.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
-        p.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
-        p.speed = sqlite3_column_double(statement, column++);
-        int x = sqlite3_column_int(statement, column++);
-        int y = sqlite3_column_int(statement, column++);
-        p.size = sf::Vector2i(x, y);
-        p.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[Entity_State::ATTACKING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-        p.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        p = readEntity(statement);
     }
 
     sqlite3_finalize(statement);
@@ -202,6 +153,56 @@ Entity_Data Database::getPlayerData(){
     close();
 
     return p;
+}
+
+Entity_Data Database::readEntity(sqlite3_stmt* statement){
+    int column = 0;
+
+    Entity_Data d;
+    //base data
+            //name text
+            //faction text
+            //type text
+            //speed double
+
+        d.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
+        d.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        d.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        d.speed = sqlite3_column_double(statement, column++);
+
+    //size data
+            //size_x int
+            //size_y int
+
+        int x = sqlite3_column_int(statement, column++);
+        int y = sqlite3_column_int(statement, column++);
+        d.size = sf::Vector2i(x, y);
+
+    //resistances
+            //sharp float
+            //blunt float
+            //bullet float
+            //energy float
+            //acid float
+
+        d.resistance[Damage::SHARP] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::BLUNT] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::BULLET] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::ENERGY] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::ACID] = sqlite3_column_double(statement, column++);
+
+    //animation data
+            //idle_count int
+            //moving_count int
+            //attacking_count int
+            //dying_count int
+
+        d.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        d.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        d.aCount[Entity_State::ATTACKING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+        d.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+
+    return d;
 }
 
 void Database::getFonts(std::map<Font, sf::Font>& f){

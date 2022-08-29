@@ -41,4 +41,6 @@ private:
     static void errorCheck(std::string id);
 
     static std::vector<char*> font_buffers;
+
+    static Entity_Data readEntity(sqlite3_stmt* statement);
 };
