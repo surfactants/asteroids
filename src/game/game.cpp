@@ -17,7 +17,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(projectileManager, states);
 }
 
-void Game::update(){
+void Game::update(float deltaTime){
     if(tickClock.getElapsedTime().asSeconds() >= 1.f){
         tickClock.restart();
     }
@@ -29,10 +29,10 @@ void Game::update(){
     for(auto& enemy : enemyManager.getEnemies()){
         ai.decide(enemy, player);
         enemy.update();
-        enemy.move(world.getLocalWalls(enemy.getCoordinates(Tile::tileSize)) );
+        enemy.move(world.getLocalWalls(enemy.getCoordinates(Tile::tileSize)), deltaTime);
     }
     player.update();
-    view.move(player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize))));
+    view.move(player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize)), deltaTime));
 
     if(player.isAttacking()){
         Projectile* p = player.attack(fMouse(window, view));

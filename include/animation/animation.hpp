@@ -14,13 +14,14 @@ public:
 
     sf::IntRect firstFrame();
 
-    sf::IntRect transition(unsigned int frame);
-
     unsigned int getCurrentFrame();
 
     bool lastFrame();
 
     float threshold;
+
+    unsigned int transitionFrom();
+    sf::IntRect transitionTo(unsigned int frame);
 
 private:
     unsigned int currentFrame = 0;

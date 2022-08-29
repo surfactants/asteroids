@@ -26,6 +26,8 @@ public:
 
     bool done();
 
+    void resetAttack();
+
 private:
     void loadCounts(std::map<Entity_State, unsigned int> counts);
     void loadThresholds(std::map<Entity_State, int> thresholds);
@@ -39,7 +41,7 @@ private:
     Direction direction{};
 
     sf::Clock frameTimer;
-    const static int frameThreshold{250};
+    int frameThreshold{ 250 };
 
     void updateFrame();
 

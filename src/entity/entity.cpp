@@ -117,9 +117,12 @@ void Entity::update(){
                 weapons[equippedWeapon].startCooldown();
             }
         }
-        else if(attacking){
-            if(weapons[equippedWeapon].ready()){
-                setState(Entity_State::ATTACKING);
+        else{
+            if(attackFrame) attackFrame = false;
+            if(attacking){
+                if(weapons[equippedWeapon].ready()){
+                    setState(Entity_State::ATTACKING);
+                }
             }
         }
         sprite.update();
@@ -148,41 +151,39 @@ void Entity::move(){
     }
 }
 
-sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls){
+sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls, float deltaTime){
     sf::Vector2f offset(0.f, 0.f);
     if(offset == velocity) return offset;
 
+    sf::Vector2f v = velocity * deltaTime;
+
     if(state == Entity_State::MOVING){
         bool good = true;
-        sprite.move(velocity.x, 0.f);
+        sprite.move(v.x, 0.f);
         for(const auto& wall : walls){
             if(wall.intersects(sprite.getGlobalBounds())){
-                sprite.move(-velocity.x, 0.f);
+                sprite.move(-v.x, 0.f);
                 good = false;
             }
         }
 
         if(good){
-            hpFrame.move(velocity.x, 0.f);
-            hpBar.move(velocity.x, 0.f);
-            //levelFrame.move(velocity.x, 0.f);
-            //levelText.move(velocity.x, 0.f);
-            offset.x = velocity.x;
+            hpFrame.move(v.x, 0.f);
+            hpBar.move(v.x, 0.f);
+            offset.x = v.x;
         }
         else good = true;
-        sprite.move(0.f, velocity.y);
+        sprite.move(0.f, v.y);
         for(const auto& wall : walls){
             if(wall.intersects(sprite.getGlobalBounds())){
-                sprite.move(0.f, -velocity.y);
+                sprite.move(0.f, -v.y);
                 good = false;
             }
         }
         if(good){
-            hpFrame.move(0.f, velocity.y);
-            hpBar.move(0.f, velocity.y);
-            //levelFrame.move(0.f, velocity.y);
-            //levelText.move(0.f, velocity.y);
-            offset.y = velocity.y;
+            hpFrame.move(0.f, v.y);
+            hpBar.move(0.f, v.y);
+            offset.y = v.y;
         }
     }
 
@@ -299,6 +300,10 @@ bool Entity::isAttacking(){
 
 void Entity::setAttacking(bool n){
     attacking = n;
+    if(!attacking && attackFrame){
+        attackFrame = false;
+        sprite.resetAttack();
+    }
 }
 
 void Entity::setVelocity(){
@@ -338,6 +343,7 @@ void Entity::setVelocity(){
         setState(Entity_State::IDLE);
     }
     else if(sprite.getAnimationState() != Entity_State::MOVING
+    && sprite.getAnimationState() != Entity_State::ATTACKING
     && (velocity.x != 0.f || velocity.y != 0.f)){
         setState(Entity_State::MOVING);
     }

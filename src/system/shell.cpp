@@ -20,6 +20,10 @@ Shell::Shell()
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
 
+    fpsText.setFont(Font_Manager::get(Font::MENU));
+    fpsText.setString("0");
+    fpsText.setFillColor(sf::Color::Red);
+
     ui.scale(window);
 
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
@@ -28,31 +32,11 @@ Shell::Shell()
 }
 
 void Shell::run(){
-    fpsText.setFont(Font_Manager::get(Font::MENU));
-    fpsText.setString("0");
-    fpsText.setFillColor(sf::Color::Red);
 
     sf::Clock fpsClock;
 
     while(window.isOpen()){
-        switch(state_main){
-        case Main_State::MENU:
-            menu->update(fMouse(window, viewUI));
-            break;
-        case Main_State::LOADING:
-            if(loadingScreen.update()){
-                state_main = Main_State::GAME;
-            }
-            break;
-        case Main_State::GAME:
-            game.update();
-            ui.update();
-            fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
-            fpsClock.restart();
-            break;
-        default:
-            break;
-        }
+        update();
         input.handle();
         alignState();
         draw();
@@ -60,13 +44,24 @@ void Shell::run(){
 }
 
 void Shell::update(){
+    frameTime = timestepClock.getElapsedTime().asSeconds();
+    timestepClock.restart();
+    deltaTime = frameTime / targetTime;
+
     switch(state_main){
     case Main_State::MENU:
         menu->update(fMouse(window, viewUI));
         break;
+    case Main_State::LOADING:
+        if(loadingScreen.update()){
+            state_main = Main_State::GAME;
+        }
+        break;
     case Main_State::GAME:
-        game.update();
+        game.update(deltaTime);
         ui.update();
+        fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
+        fpsClock.restart();
         break;
     default:
         break;

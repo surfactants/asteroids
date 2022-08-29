@@ -15,7 +15,7 @@
 class Game : public sf::Drawable, public State_Hook{
 public:
     Game(sf::RenderWindow& nwindow, sf::View& nview);
-    void update();
+    void update(float deltaTime);
     void enter();
     Player& getPlayer();
     World& getWorld();

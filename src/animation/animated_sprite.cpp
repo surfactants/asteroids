@@ -1,4 +1,5 @@
 #include <animation/animated_sprite.hpp>
+#include <iostream>
 
 Animated_Sprite::Animated_Sprite(sf::Texture& ntexture,
                                  sf::Vector2i nsize,
@@ -19,15 +20,15 @@ void Animated_Sprite::setAnimationState(Entity_State nstate){
         animations[state][direction].reset();
         state = nstate;
         setTextureRect(animations[state][direction].firstFrame());
-        //load frameThreshold here
+        frameThreshold = animations[state][direction].threshold;
+        frameTimer.restart();
     }
 }
 
 void Animated_Sprite::setDirection(Direction ndirection){
     if(direction != ndirection){
-        animations[state][direction].reset();
+        setTextureRect(animations[state][ndirection].transitionTo(animations[state][direction].transitionFrom()));
         direction = ndirection;
-        setTextureRect(animations[state][direction].firstFrame());
     }
 }
 
@@ -96,4 +97,11 @@ Entity_State Animated_Sprite::getState(){
 
 bool Animated_Sprite::done(){
     return (animations[state][direction].lastFrame() && frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold);
+}
+
+void Animated_Sprite::resetAttack(){
+    std::cout << "\nresetting attack!";
+    for(auto& a : animations[Entity_State::ATTACKING]){
+        a.second.reset();
+    }
 }

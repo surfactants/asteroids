@@ -29,15 +29,21 @@ sf::IntRect Animation::firstFrame(){
     return frames[0];
 }
 
-sf::IntRect Animation::transition(unsigned int frame){
-    currentFrame = frame;
-    return frames[currentFrame];
-}
-
 unsigned int Animation::getCurrentFrame(){
     return currentFrame;
 }
 
 bool Animation::lastFrame(){
     return (currentFrame == frames.size() - 1);
+}
+
+unsigned int Animation::transitionFrom(){
+    unsigned int f = currentFrame;
+    reset();
+    return f;
+}
+
+sf::IntRect Animation::transitionTo(unsigned int frame){
+    currentFrame = frame;
+    return frames[currentFrame];
 }

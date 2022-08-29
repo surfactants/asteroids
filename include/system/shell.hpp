@@ -34,11 +34,18 @@ private:
     void update();
     void draw();
 
-    sf::Text fpsText;
 
     Loading_Screen loadingScreen;
 
     void loadNewLevel();
 
     void alignState();
+
+    sf::Clock timestepClock;
+    float frameTime{ 0.f };
+    float targetTime{ 1.f / 60.f };
+    float deltaTime{ 0.f };
+
+    sf::Clock fpsClock;
+    sf::Text fpsText;
 };

@@ -42,7 +42,7 @@ public:
     sf::Vector2i getCoordinates(float tileSize);
 
     void move();
-    sf::Vector2f move(std::vector<sf::FloatRect> walls);
+    sf::Vector2f move(std::vector<sf::FloatRect> walls, float deltaTime);
     void moveX();
     void moveY();
 
