@@ -9,7 +9,10 @@
 class Animated_Sprite : public sf::Sprite{
 public:
     Animated_Sprite(){}
-    Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Entity_State, unsigned int> counts);
+    Animated_Sprite(sf::Texture& ntexture,
+                    sf::Vector2i nsize,
+                    std::map<Entity_State, unsigned int> counts,
+                    std::map<Entity_State, int> thresholds);
 
     void setAnimationState(Entity_State nstate);
     Entity_State getAnimationState();
@@ -19,13 +22,14 @@ public:
 
     void update();
 
-    void loadCounts(std::map<Entity_State, unsigned int> counts);
-
     Entity_State getState();
 
     bool done();
 
 private:
+    void loadCounts(std::map<Entity_State, unsigned int> counts);
+    void loadThresholds(std::map<Entity_State, int> thresholds);
+
     sf::Vector2i size;   /**< frame size for setTextureRect()   */
 
     int animationY{};    /**< offset of specific animation from the start of the spritesheet    */

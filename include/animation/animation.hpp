@@ -20,6 +20,8 @@ public:
 
     bool lastFrame();
 
+    float threshold;
+
 private:
     unsigned int currentFrame = 0;
     std::vector<sf::IntRect> frames;

@@ -1,9 +1,13 @@
 #include <animation/animated_sprite.hpp>
 
-Animated_Sprite::Animated_Sprite(sf::Texture& ntexture, sf::Vector2i nsize, std::map<Entity_State, unsigned int> counts)
+Animated_Sprite::Animated_Sprite(sf::Texture& ntexture,
+                                 sf::Vector2i nsize,
+                                 std::map<Entity_State, unsigned int> counts,
+                                 std::map<Entity_State, int> thresholds)
 : size{ nsize }
 {
     loadCounts(counts);
+    loadThresholds(thresholds);
     setTexture(ntexture);
     direction = Direction::N;
     setAnimationState(Entity_State::IDLE);
@@ -74,6 +78,14 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times){
             animations[t.first][d] = Animation(start, aSize, t.second);
             if(t.first == Entity_State::DYING
             || t.first == Entity_State::ATTACKING) animations[t.first][d].repeats = false;
+        }
+    }
+}
+
+void Animated_Sprite::loadThresholds(std::map<Entity_State, int> thresholds){
+    for(auto& a : animations){
+        for(auto& b : a.second){
+            b.second.threshold = thresholds[a.first];
         }
     }
 }

@@ -191,7 +191,7 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement){
         d.resistance[Damage::ENERGY] = sqlite3_column_double(statement, column++);
         d.resistance[Damage::ACID] = sqlite3_column_double(statement, column++);
 
-    //animation data
+    //animation counts
             //idle_count int
             //moving_count int
             //attacking_count int
@@ -201,6 +201,17 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement){
         d.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
         d.aCount[Entity_State::ATTACKING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
         d.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+
+    //animation thresholds
+            //idle_threshold int
+            //moving_threshold int
+            //attacking_threshold int
+            //dying_threshold int
+
+        d.aThreshold[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
+        d.aThreshold[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
+        d.aThreshold[Entity_State::ATTACKING] = sqlite3_column_int(statement, column++);
+        d.aThreshold[Entity_State::DYING] = sqlite3_column_int(statement, column++);
 
     return d;
 }

@@ -26,7 +26,7 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture){
     faction = data.faction;
     type = data.type;
     sf::Vector2i size = data.size;
-    sprite = Animated_Sprite(texture, size, data.aCount);
+    sprite = Animated_Sprite(texture, size, data.aCount, data.aThreshold);
 
     resistance = data.resistance;
 }

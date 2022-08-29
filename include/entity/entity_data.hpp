@@ -28,5 +28,6 @@ struct Entity_Data{
     Entity_Type type;
     sf::Vector2i size;
     std::map<Entity_State, unsigned int> aCount;
+    std::map<Entity_State, int> aThreshold;
     std::map<Damage::Type, float> resistance;
 };
