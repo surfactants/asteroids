@@ -60,13 +60,14 @@ _resources
 # misc
 .gitattributes
 todo.hpp
+/palettes/
+*.png
 
 # sourcetrail files
 *.srctrlbm
 *.srctrldb
 *.srctrlprj
 
-*.png
 
 # database loading
 /db/
