@@ -4,7 +4,7 @@
 
 Projectile::Projectile(){
     type = LASER;
-    speed = 10.f;
+    speed = 64.f;
     sprite.setTexture(Texture_Manager::get("PROJECTILE"));
 }
 
@@ -37,8 +37,8 @@ void Projectile::setVelocity(sf::Vector2f pos, sf::Vector2f target){
     calculateMoveVector(theta, speed, velocity);
 }
 
-void Projectile::update(){
-    sprite.move(velocity);
+void Projectile::update(float deltaTime){
+    sprite.move(velocity * deltaTime);
 }
 
 sf::FloatRect Projectile::getBounds(){

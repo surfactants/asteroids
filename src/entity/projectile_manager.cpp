@@ -6,9 +6,9 @@ void Projectile_Manager::create(Projectile p){
     projectiles.push_back(p);
 }
 
-void Projectile_Manager::update(){
+void Projectile_Manager::update(float deltaTime){
     for(auto& p : projectiles){
-        p.update();
+        p.update(deltaTime);
     }
 }
 

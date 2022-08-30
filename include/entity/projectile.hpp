@@ -13,7 +13,7 @@ public:
 
     void setVelocity(sf::Vector2f pos, sf::Vector2f target);
 
-    void update();
+    void update(float deltaTime);
 
     sf::FloatRect getBounds();
 

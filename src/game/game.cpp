@@ -43,7 +43,7 @@ void Game::update(float deltaTime){
         }
     }
 
-    projectileManager.update();
+    projectileManager.update(deltaTime);
 
     checkWin();
 }

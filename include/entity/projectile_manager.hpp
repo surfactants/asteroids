@@ -8,7 +8,7 @@ public:
 
     void create(Projectile p);
 
-    void update();
+    void update(float deltaTime);
 
     std::vector<Projectile>& getProjectiles();
 
