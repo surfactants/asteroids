@@ -76,3 +76,7 @@ void calculateMoveVector(float angle, float velocity, sf::Vector2f& moveVector){
     moveVector.x = velocity*cos(angle);
     moveVector.y = velocity*sin(angle);
 }
+
+int roundFloat(float f){
+    return static_cast<int>(f + 0.5f);
+}

@@ -2,14 +2,14 @@
 #include <world/floor.hpp>
 #include <util/primordial.hpp>
 #include <iostream>
+#include <util/vector2_stream.hpp>
+#include <resources/texture_manager.hpp>
 
 const sf::Vector2i World::renderDistance { 16, 10 };
 
 World::World(){
-    std::cout << "\ninitializing world...\t";
-    textureFloors.loadFromFile("textures/floors.png");
-    textureWalls.loadFromFile("textures/walls.png");
-    std::cout << "done\n";
+    textureFloors = &Texture_Manager::get("FLOOR");
+    textureWalls = &Texture_Manager::get("WALL");
 }
 
 World::~World(){
@@ -48,7 +48,7 @@ void World::makeFloor(){
     for(const auto& x : floorGen.getFloorMap()){
         for(const auto& y : x.second){
             if(y.second){
-                floor[x.first][y.first] = (new Tile(sf::Vector2i(x.first, y.first), false, textureFloors));
+                floor[x.first][y.first] = (new Tile(sf::Vector2i(x.first, y.first), false, *textureFloors));
             }
         }
     }
@@ -75,124 +75,25 @@ void World::makeWalls(){
             if(!floorMap[x][y]){
                 sf::Vector2i v(x, y);
 
-                bool adjFloor[8] = {
-                   floorMap[x - 1][y - 1],
-                   floorMap[x + 0][y - 1],
-                   floorMap[x + 1][y - 1],
-                   floorMap[x - 1][y + 0],
-                   floorMap[x + 1][y + 0],
-                   floorMap[x - 1][y + 1],
-                   floorMap[x + 0][y + 1],
-                   floorMap[x + 1][y + 1]
-                };
+                bool walled = (hasOrthogonalFloor(v) || hasDiagonalFloor(v));
 
-                if(std::find(std::begin(adjFloor), std::end(adjFloor), true) != std::end(adjFloor)){
-                    //std::cout << "\n\n   setting wall " << x << ", " << y << "...";
-                    walls[x][y] = new Tile(v, true, textureWalls);
+                if(walled){
+                    walls[x][y] = new Tile(v, true, *textureWalls);
+                    bool n = !floorMap[x][y - 1],
+                         s = !floorMap[x][y + 1],
+                         w = !floorMap[x - 1][y],
+                         e = !floorMap[x + 1][y];
 
-                    static bool first = true;
-                    if(first){
-                        walls[x][y]->setColor(sf::Color::Green);
-                        first = false;
-                    }
+                    int tx = getWallX(n, s, w, e);
+                    int ty = 0; //static_cast<int>(faction) * roundFloat(Tile::tileSize);
+                    sf::Vector2i tpos(tx, ty);
+                    sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
-                    Wall_Type type = Wall_Type::BLANK;
+                    const sf::IntRect rect(tpos, tsize);
 
-                    /*
-
-                    unsigned int floorCount = std::count(std::begin(adjFloor), std::end(adjFloor), true);
-
-                    std::string failure = "\n   a wall failed to set properly: ";
-
-                    float rotation = 0.f;
-
-                    std::string cardinalTypes[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
-
-                    if(floorCount == 0){
-                        //std::cout << failure << "floorCount == 0";
-                        type = BLANK;
-                    }
-                    else if(floorCount == 1){
-                        Cardinal cdirect = static_cast<Cardinal>((int)(std::distance(std::begin(adjFloor), std::find(std::begin(adjFloor), std::end(adjFloor), true))));
-                        if(cdirect == N || cdirect == W || cdirect == E || cdirect == S){
-                            type = STRAIGHT;
-
-                            switch(cdirect){
-                            case N:
-                                rotation = 180.f;
-                                break;
-                            case W:
-                                rotation = 90.f;
-                                break;
-                            case E:
-                                rotation = 270.f;
-                                break;
-                            default:
-                                break;
-                            }
-                        }
-                        else if(cdirect == NW || cdirect == NE || cdirect == SW || cdirect == SE){
-                            type = CORNER_INNER;
-
-                            switch(cdirect){
-                            case NW:
-                                rotation = 90.f;
-                                break;
-                            case NE:
-                                rotation = 180.f;
-                                break;
-                            case SE:
-                                rotation = 270.f;
-                                break;
-                            default:
-                                break;
-                            }
-                        }
-                        //else std::cout << failure << "1 was counted, but no cardinal direction was found for a wall with 1 adjacent wall!";
-                    }
-                    else if(floorCount == 2){
-                        Cardinal c[2];
-                            unsigned int d = 0;
-                            for(unsigned int i = 0; i < sizeof(adjFloor); ++i){
-                                if(adjFloor[i]) c[d++] = static_cast<Cardinal>(i);
-                            }
-
-                            //std::cout << "\n   floorCount == 2: cardinal sizes { " << cardinalTypes[(int)c[0]] << ", " << cardinalTypes[(int)c[1]] << " }";
-
-                        for(unsigned int i = 0; i < 2; ++i){
-                            unsigned int j = 1 - i;
-                            if((c[i] == N && c[j] == NW)
-                            || (c[i] == N && c[j] == NE)){
-                                type = STRAIGHT;
-                                rotation = 180.f;
-                            }
-                            else if((c[i] == W && c[j] == NW)
-                                 || (c[i] == W && c[j] == SW)){
-                                type = STRAIGHT;
-                                rotation = 90.f;
-                            }
-                            else if((c[i] == E && c[j] == NE)
-                                 || (c[i] == E && c[j] == SE)){
-                                type = STRAIGHT;
-                                rotation = 270.f;
-                            }
-                            else if((c[i] == S && c[j] == SW)
-                                 || (c[i] == S && c[j] == SE)){
-                                type = STRAIGHT;
-                                break;
-                            }
-                        }
-                    }
-                    //else std::cout << failure << " floorCount of " << floorCount;
-
-                    */
-
-                    walls[x][y]->setWall(type);
-                    //walls[x][y]->rotate(rotation);
+                    walls[x][y]->setTextureRect(rect);
                 }
-                else{
-                    walls[x][y] = nullptr;
-                }
+                else walls[x][y] = nullptr;
             }
         }
     }
@@ -269,4 +170,13 @@ std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2i p){
 
 std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2f p){
     return getLocalWalls(sf::Vector2i(p / Tile::tileSize));
+}
+
+int World::getWallX(bool n, bool s, bool w, bool e) {
+    int sum = 0;
+        if (n) sum += 1;
+        if (w)  sum += 2;
+        if (s) sum += 4;
+        if (e) sum += 8;
+    return (sum * roundFloat(Tile::tileSize));
 }

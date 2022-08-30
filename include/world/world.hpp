@@ -34,8 +34,8 @@ private:
     sf::Vector2i worldMin;
     sf::Vector2i worldMax;
 
-    sf::Texture textureFloors;
-    sf::Texture textureWalls;
+    sf::Texture* textureFloors{ nullptr };
+    sf::Texture* textureWalls{ nullptr };
 
     bool hasOrthogonalFloor(sf::Vector2i v);
     bool hasDiagonalFloor(sf::Vector2i v);
@@ -47,5 +47,7 @@ private:
     std::vector<Room> rooms;
 
     const static sf::Vector2i renderDistance;
+
+    int getWallX(bool n, bool s, bool w, bool e);
 
 };

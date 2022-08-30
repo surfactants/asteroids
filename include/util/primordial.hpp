@@ -108,3 +108,5 @@ T scalarProduct(const sf::Vector2<T>& v, const sf::Vector2<T>& w)
 {
     return ((v.x * w.x) + (v.y * w.y));
 }
+
+int roundFloat(float f);
