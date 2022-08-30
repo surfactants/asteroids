@@ -4,10 +4,12 @@
 #include <iostream>
 #include <util/vector2_stream.hpp>
 #include <resources/texture_manager.hpp>
+#include <util/prng.hpp>
 
 const sf::Vector2i World::renderDistance { 16, 10 };
 
-World::World(){
+World::World(Faction& f)
+: enemyFaction{ f }{
     textureFloors = &Texture_Manager::get("FLOOR");
     textureWalls = &Texture_Manager::get("WALL");
 }
@@ -49,6 +51,14 @@ void World::makeFloor(){
         for(const auto& y : x.second){
             if(y.second){
                 floor[x.first][y.first] = (new Tile(sf::Vector2i(x.first, y.first), false, *textureFloors));
+
+                int tx = getFloorX();
+                int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
+
+                sf::Vector2i tpos(tx, ty);
+                sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
+
+                floor[x.first][y.first]->setTextureRect(sf::IntRect(tpos, tsize));
             }
         }
     }
@@ -85,13 +95,12 @@ void World::makeWalls(){
                          e = !floorMap[x + 1][y];
 
                     int tx = getWallX(n, s, w, e);
-                    int ty = 0; //static_cast<int>(faction) * roundFloat(Tile::tileSize);
+                    int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
+
                     sf::Vector2i tpos(tx, ty);
                     sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
-                    const sf::IntRect rect(tpos, tsize);
-
-                    walls[x][y]->setTextureRect(rect);
+                    walls[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
                 else walls[x][y] = nullptr;
             }
@@ -170,6 +179,10 @@ std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2i p){
 
 std::vector<sf::FloatRect> World::getLocalWalls(sf::Vector2f p){
     return getLocalWalls(sf::Vector2i(p / Tile::tileSize));
+}
+
+int World::getFloorX(){
+    return (prng::number(0, 4) * roundFloat(Tile::tileSize));
 }
 
 int World::getWallX(bool n, bool s, bool w, bool e) {

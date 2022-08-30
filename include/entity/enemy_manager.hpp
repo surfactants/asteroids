@@ -6,14 +6,14 @@
 
 class Enemy_Manager : public sf::Drawable{
 public:
-    Enemy_Manager();
+    Enemy_Manager(Faction& f);
 
     void spawn(std::vector<Room>& rooms, float tileSize);
     void clear();
 
     std::vector<Enemy>& getEnemies();
 
-    Faction currentFaction;
+    Faction& enemyFaction;
 
     bool checkFinalBoss();
 

@@ -3,8 +3,6 @@
 
 std::string factionToString(Faction f){
     switch(f){
-    case Faction::PLAYER:
-        return "PLAYER_FACTION";
     case Faction::BUGS:
         return "BUGS";
     case Faction::PIRATES:
@@ -15,18 +13,20 @@ std::string factionToString(Faction f){
         return "LITHOBIOMORPHS";
     case Faction::ROBOTS:
         return "ROBOTS";
+    case Faction::PLAYER:
+        return "PLAYER_FACTION";
     default:
         return std::string();
     }
 }
 
 Faction stringToFaction(std::string s){
-    if(s == "PLAYER_FACTION") return Faction::PLAYER;
-    else if(s == "BUGS") return Faction::BUGS;
+    if(s == "BUGS") return Faction::BUGS;
     else if(s == "PIRATES") return Faction::PIRATES;
     else if(s == "GHOSTS") return Faction::GHOSTS;
     else if(s == "LITHOBIOMORPHS") return Faction::LITHOBIOMORPHS;
     else if(s == "ROBOTS") return Faction::ROBOTS;
+    else if(s == "PLAYER_FACTION") return Faction::PLAYER;
     else return Faction::NULLFACTION;
 }
 

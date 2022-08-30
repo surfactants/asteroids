@@ -3,7 +3,8 @@
 #include <resources/texture_manager.hpp>
 #include <system/database.hpp>
 
-Enemy_Manager::Enemy_Manager(){
+Enemy_Manager::Enemy_Manager(Faction& f)
+: enemyFaction{ f }{
     lowLevel = 8;
     highLevel = 13;
 
@@ -30,7 +31,7 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
                 }
             } while(!rooms[r].contains(c));
             Entity_Type type = Entity_Type::MELEE_LIGHT;
-            enemies.push_back(prototypes[currentFaction][type]);
+            enemies.push_back(prototypes[enemyFaction][type]);
             enemies.back().setPosition(sf::Vector2f(c) * tileSize);
             enemies.back().setLevel(prng::number(lowLevel, highLevel));
             enemies.back().getSprite().setDirection(randomDirection());
@@ -40,15 +41,15 @@ void Enemy_Manager::spawn(std::vector<Room>& rooms, float tileSize){
     }
 
     //place boss
-    enemies.push_back(prototypes[currentFaction][Entity_Type::BOSS]);
+    enemies.push_back(prototypes[enemyFaction][Entity_Type::BOSS]);
     enemies.back().setPosition(sf::Vector2f(rooms.back().coordinates) * tileSize);
     enemies.back().setLevel(highLevel + 1);
 }
 
 void Enemy_Manager::reset(){
     enemies.clear();
-    currentFaction = randomEnemyFaction();
-    currentFaction = Faction::BUGS;
+    enemyFaction = randomEnemyFaction();
+    enemyFaction = Faction::BUGS;
 }
 
 void Enemy_Manager::clear(){

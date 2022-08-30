@@ -73,6 +73,7 @@ void Game::newLevel(){
     player.setPosition(sf::Vector2f(0.f, 0.f));
     view.setCenter(player.getPosition());
     world.reset();
+    enemyFaction = randomEnemyFaction();
 }
 
 World& Game::getWorld(){

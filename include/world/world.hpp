@@ -4,10 +4,11 @@
 #include <world/tile.hpp>
 #include <map>
 #include <world/room.hpp>
+#include <entity/faction.hpp>
 
 class World : public sf::Drawable{
 public:
-    World();
+    World(Faction& f);
     ~World();
 
     void newLevel();
@@ -48,6 +49,9 @@ private:
 
     const static sf::Vector2i renderDistance;
 
+    int getFloorX();
     int getWallX(bool n, bool s, bool w, bool e);
+
+    Faction& enemyFaction;
 
 };

@@ -51,12 +51,14 @@ private:
 
     //Texture_Manager textures;
 
-    World world;
+    Faction enemyFaction;
+
+    World world{ enemyFaction };
     //Level level;
 
     Player player;
 
-    Enemy_Manager enemyManager;
+    Enemy_Manager enemyManager{ enemyFaction };
 
     Projectile_Manager projectileManager;
 
@@ -79,6 +81,4 @@ private:
     void checkWin();
 
     AI ai;
-
-    Faction enemyFaction;
 };

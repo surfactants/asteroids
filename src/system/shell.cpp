@@ -97,9 +97,9 @@ void Shell::loadNewLevel(){
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 
-    //SKIPPING THE FIRST STEP ALLOWS THE DRAW FUNCTION TO SWAP OVER TO LOADING BEFORE IT BEGINS
+    //SKIPPING THE FIRST STEP ALLOWS THE RENDERING TO SWAP OVER TO LOADING BEFORE IT BEGINS
     loads.push_back(std::function<void()>([]{ return; }));
-        messages.push_back("pee");
+        messages.push_back("...");
 
     loads.push_back(std::bind(&Game::newLevel, &game));
         messages.push_back("sweeping...");
