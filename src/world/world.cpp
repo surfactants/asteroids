@@ -9,10 +9,11 @@
 const sf::Vector2i World::renderDistance { 16, 10 };
 
 World::World(Faction& f)
-: enemyFaction{ f }{
-    textureFloors = &Texture_Manager::get("FLOOR");
-    textureWalls = &Texture_Manager::get("WALL");
-}
+    : enemyFaction{ f },
+    textureFloors{ Texture_Manager::get("FLOOR") },
+    textureWalls{ Texture_Manager::get("WALL") },
+    textureTiledDetail{ Texture_Manager::get("ACIDPOOLS") }
+{}
 
 World::~World(){
     reset();
@@ -29,6 +30,21 @@ void World::reset(){
                 delete floor[x][y];
                 floor[x][y] = nullptr;
             }
+
+            if(details[x][y] != nullptr){
+                delete details[x][y];
+                details[x][y] = nullptr;
+            }
+
+            if(hazards[x][y] != nullptr){
+                delete hazards[x][y];
+                hazards[x][y] = nullptr;
+            }
+
+            if(cover[x][y] != nullptr){
+                delete cover[x][y];
+                cover[x][y] = nullptr;
+            }
         }
     }
 
@@ -36,6 +52,9 @@ void World::reset(){
     floor.clear();
     walls.clear();
     rooms.clear();
+    details.clear();
+    hazards.clear();
+    cover.clear();
     std::cout << "\n\tworld reset!";
 }
 
@@ -50,7 +69,7 @@ void World::makeFloor(){
     for(const auto& x : floorGen.getFloorMap()){
         for(const auto& y : x.second){
             if(y.second){
-                floor[x.first][y.first] = (new Tile(sf::Vector2i(x.first, y.first), false, *textureFloors));
+                floor[x.first][y.first] = (new Floor(sf::Vector2i(x.first, y.first), textureFloors));
 
                 int tx = getFloorX();
                 int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
@@ -88,13 +107,13 @@ void World::makeWalls(){
                 bool walled = (hasOrthogonalFloor(v) || hasDiagonalFloor(v));
 
                 if(walled){
-                    walls[x][y] = new Tile(v, true, *textureWalls);
+                    walls[x][y] = new Wall(v, textureWalls);
                     bool n = !floorMap[x][y - 1],
                          s = !floorMap[x][y + 1],
                          w = !floorMap[x - 1][y],
                          e = !floorMap[x + 1][y];
 
-                    int tx = getWallX(n, s, w, e);
+                    int tx = autotileX(n, s, w, e);
                     int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
 
                     sf::Vector2i tpos(tx, ty);
@@ -107,6 +126,52 @@ void World::makeWalls(){
         }
     }
     std::cout << "\n\twalls made!";
+}
+
+void World::makeDetails(){
+    for(int x = worldMin.x; x <= worldMax.x; ++x){
+        for(int y = worldMin.y; y <= worldMax.y; ++y){
+            if(floorMap[x][y]){
+                sf::Vector2i v(x, y);
+                if(prng::boolean(0.5f)){
+                    details[x][y] = new Detail(v, textureTiledDetail, true);
+                }
+            }
+        }
+    }
+
+    for(int x = worldMin.x; x <= worldMax.x; ++x){
+        for(int y = worldMin.y; y <= worldMax.y; ++y){
+            sf::Vector2i v(x, y);
+            if(details[x][y] != nullptr && details[x][y]->autotiled){
+                bool n = ((walls[x][y - 1] != nullptr)
+                   || ((details[x][y - 1] != nullptr) && (details[x][y - 1]->autotiled))),
+
+                     s = ((walls[x][y + 1] != nullptr)
+                   || ((details[x][y + 1] != nullptr) && (details[x][y + 1]->autotiled))),
+
+                     w = ((walls[x - 1][y] != nullptr)
+                   || ((details[x - 1][y] != nullptr) && (details[x - 1][y]->autotiled))),
+
+                     e = ((walls[x + 1][y] != nullptr)
+                   || ((details[x + 1][y] != nullptr) && (details[x + 1][y]->autotiled)));
+
+                int tx = autotileX(n, s, w, e);
+                int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
+
+                sf::Vector2i tpos(tx, ty);
+                sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
+
+                details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+            }
+        }
+    }
+}
+
+void World::makeHazards(){
+}
+
+void World::makeCover(){
 }
 
 bool World::hasOrthogonalFloor(sf::Vector2i v){
@@ -123,11 +188,11 @@ bool World::hasDiagonalFloor(sf::Vector2i v){
          || floorMap[v.x + 1][v.y + 1]);
 }
 
-std::map<int, std::map<int, Tile*>>& World::getFloor(){
+std::map<int, std::map<int, Floor*>>& World::getFloor(){
     return floor;
 }
 
-std::map<int, std::map<int, Tile*>>& World::getWalls(){
+std::map<int, std::map<int, Wall*>>& World::getWalls(){
     return walls;
 }
 
@@ -141,6 +206,9 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const{
             }
             else if(walls.count(x) && walls.at(x).count(y) && walls.at(x).at(y) != nullptr){
                 target.draw(*walls.at(x).at(y), states);
+            }
+            if(details.count(x) && details.at(x).count(y) && details.at(x).at(y) != nullptr){
+                target.draw(*details.at(x).at(y), states);
             }
         }
     }
@@ -185,7 +253,7 @@ int World::getFloorX(){
     return (prng::number(0, 4) * roundFloat(Tile::tileSize));
 }
 
-int World::getWallX(bool n, bool s, bool w, bool e) {
+int World::autotileX(bool n, bool s, bool w, bool e) {
     int sum = 0;
         if (n) sum += 1;
         if (w)  sum += 2;

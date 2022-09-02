@@ -2,6 +2,7 @@
 #include <util/primordial.hpp>
 #include <util/fmouse.hpp>
 #include <system/database.hpp>
+#include <util/prng.hpp>
 
 const float Game::endThreshold = 3.f;
 
@@ -74,6 +75,8 @@ void Game::newLevel(){
     view.setCenter(player.getPosition());
     world.reset();
     enemyFaction = randomEnemyFaction();
+    if(prng::boolean()) enemyFaction = Faction::BUGS;
+    else enemyFaction = Faction::ROBOTS;
 }
 
 World& Game::getWorld(){

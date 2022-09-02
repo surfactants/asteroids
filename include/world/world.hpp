@@ -13,13 +13,16 @@ public:
 
     void newLevel();
 
-    std::map<int, std::map<int, Tile*>>& getFloor();
-    std::map<int, std::map<int, Tile*>>& getWalls();
+    std::map<int, std::map<int, Floor*>>& getFloor();
+    std::map<int, std::map<int, Wall*>>& getWalls();
     Tile* getWall(int x, int y);
 
     void erase();
     void makeFloor();
     void makeWalls();
+    void makeDetails();
+    void makeHazards();
+    void makeCover();
 
     std::vector<Room>& getRooms();
 
@@ -29,14 +32,24 @@ public:
     void reset();
 
 private:
-    std::map<int, std::map<int, Tile*>> floor;
-    std::map<int, std::map<int, Tile*>> walls;
+    std::map<int, std::map<int, Wall*>> walls;
+    std::map<int, std::map<int, Floor*>> floor;
+
+
+    std::map<int, std::map<int, Detail*>> details;
+    std::map<int, std::map<int, Hazard*>> hazards;
+
+    std::map<int, std::map<int, Cover*>> cover;
 
     sf::Vector2i worldMin;
     sf::Vector2i worldMax;
 
-    sf::Texture* textureFloors{ nullptr };
-    sf::Texture* textureWalls{ nullptr };
+    Faction& enemyFaction;
+
+    sf::Texture& textureFloors;
+    sf::Texture& textureWalls;
+
+    sf::Texture& textureTiledDetail;
 
     bool hasOrthogonalFloor(sf::Vector2i v);
     bool hasDiagonalFloor(sf::Vector2i v);
@@ -50,8 +63,5 @@ private:
     const static sf::Vector2i renderDistance;
 
     int getFloorX();
-    int getWallX(bool n, bool s, bool w, bool e);
-
-    Faction& enemyFaction;
-
+    int autotileX(bool n, bool s, bool w, bool e);
 };

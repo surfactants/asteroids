@@ -110,8 +110,17 @@ void Shell::loadNewLevel(){
     loads.push_back(std::bind(&World::makeWalls, &game.getWorld()));
         messages.push_back("reinforcing structures...");
 
-    loads.push_back(std::bind(&Game::spawnEnemies, &game));
+    loads.push_back(std::bind(&World::makeDetails, &game.getWorld()));
         messages.push_back("reticulating splines...");
+
+    loads.push_back(std::bind(&World::makeHazards, &game.getWorld()));
+        messages.push_back("re-reticulating splines...");
+
+    loads.push_back(std::bind(&World::makeCover, &game.getWorld()));
+        messages.push_back("furnishing...");
+
+    loads.push_back(std::bind(&Game::spawnEnemies, &game));
+        messages.push_back("populating...");
 
     loadingScreen.prepare(loads, messages);
 }
