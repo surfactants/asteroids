@@ -7,6 +7,8 @@
 #include <util/prng.hpp>
 #include <world/automaton.hpp>
 #include <cmath>
+#include <system/database.hpp>
+#include <iostream>
 
 const sf::Vector2i World::renderDistance { 16, 10 };
 
@@ -16,7 +18,9 @@ World::World(Faction& f)
     textureWalls{ Texture_Manager::get("WALL") },
     textureDetails{ Texture_Manager::get("DETAILS") },
     textureTiledDetail{ Texture_Manager::get("TILING") }
-{}
+{
+    hazard_data = Database::getHazards();
+}
 
 World::~World(){
     reset();
@@ -137,7 +141,10 @@ void World::makeDetails(){
             if(floorMap[x][y]){
                 sf::Vector2i v(x, y);
                 if(prng::boolean(0.05f)){
-                    details[x][y] = new Detail(v, textureDetails, false);
+
+                    int index = prng::number(0, 4);
+
+                    bool hazard = (hazard_data[enemyFaction].index == index);
 
                     int tx = prng::number(0, 4) * roundFloat(Tile::tileSize);
                     int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
@@ -145,7 +152,14 @@ void World::makeDetails(){
                     sf::Vector2i tpos(tx, ty);
                     sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
-                    details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                    if(hazard){
+                        hazards[x][y] = new Hazard(v, textureDetails, false, hazard_data[enemyFaction].damage);
+                        hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                    }
+                    else{
+                        details[x][y] = new Detail(v, textureDetails, false);
+                        details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                    }
                 }
             }
         }
@@ -156,6 +170,37 @@ void World::makeDetails(){
 
 void World::makeTiledDetails(){
     std::map<int, std::map<int, bool>> detailMap;
+
+//define faction-wise rules for the automata
+    unsigned int iterations = 0;
+
+    std::function<float(float)> t = [](float x) { return x; };
+    std::function<float(float)> a = [](float x) { return x; };
+
+    switch(enemyFaction){
+    case Faction::BUGS:
+        iterations = 0;
+
+        t = [](float x){
+            return 0.95f - sqrt(0.08f * x);
+        };
+
+        a = [](int x){
+            return sqrt(0.03f * x) + 0.01f;
+        };
+
+        break;
+    case Faction::PIRATES:
+        break;
+    case Faction::GHOSTS:
+        break;
+    case Faction::LITHOBIOMORPHS:
+        break;
+    case Faction::ROBOTS:
+        break;
+    default:
+        break;
+    }
 
     for(int x = worldMin.x; x <= worldMax.x; ++x){
         for(int y = worldMin.y; y <= worldMax.y; ++y){
@@ -170,65 +215,9 @@ void World::makeTiledDetails(){
         }
     }
 
-    unsigned int iterations = 0;
 
     Adjacency_Rules adj_take;
     Adjacency_Rules adj_add;
-
-    for(unsigned int i = 0; i < 2; ++i){
-        adj_take[i] = 0.1f;
-        adj_add[i] = 0.1f;
-    }
-
-    std::function<float(float)> t = [](float x) { return x; };
-    std::function<float(float)> a = [](float x) { return x; };
-
-    switch(enemyFaction){
-    case Faction::BUGS:
-        iterations = 4;
-
-        t = [](float x){
-            return 0.95f - sqrt(0.08f * x);
-        };
-
-        a = [](int x){
-            return sqrt(0.03f * x) + 0.01f;
-        };
-
-    /*
-        adj_take[0] = 0.4f;
-        adj_take[1] = 0.3f;
-        adj_take[2] = 0.2f;
-        adj_take[3] = 0.1f;
-        adj_take[4] = 0.05f;
-        adj_take[5] = 0.025f;
-        adj_take[6] = 0.0125f;
-        adj_take[7] = 0.00625f;
-        adj_take[8] = 0.003125f;
-
-        adj_add[0] = 0.003125f;
-        adj_add[1] = 0.00625f;
-        adj_add[2] = 0.0125f;
-        adj_add[3] = 0.025f;
-        adj_add[4] = 0.05f;
-        adj_add[5] = 0.1f;
-        adj_add[6] = 0.2f;
-        adj_add[7] = 0.3f;
-        adj_add[8] = 0.4f;
-    */
-
-        break;
-    case Faction::PIRATES:
-        break;
-    case Faction::GHOSTS:
-        break;
-    case Faction::LITHOBIOMORPHS:
-        break;
-    case Faction::ROBOTS:
-        break;
-    default:
-        break;
-    }
 
     for(unsigned int x = 0; x < 8; ++x){
         adj_take[x] = t(x);
@@ -244,6 +233,10 @@ void World::makeTiledDetails(){
             if(detailMap[x][y]){
                 sf::Vector2i v(x, y);
 
+                int index = -1;
+
+                bool hazard = (hazard_data[enemyFaction].index == index);
+
                 bool n = ((walls[x][y - 1] != nullptr)
                   || ((detailMap[x][y - 1]))),
 
@@ -256,15 +249,20 @@ void World::makeTiledDetails(){
                      e = ((walls[x + 1][y] != nullptr)
                   || ((detailMap[x + 1][y])));
 
-                details[x][y] = new Detail(v, textureTiledDetail, true);
-
                 int tx = autotileX(n, s, w, e);
                 int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
 
                 sf::Vector2i tpos(tx, ty);
                 sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
-                details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                if(hazard){
+                    hazards[x][y] = new Hazard(v, textureTiledDetail, true, hazard_data[enemyFaction].damage);
+                    hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                }
+                else{
+                    details[x][y] = new Detail(v, textureTiledDetail, true);
+                    details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
+                }
             }
         }
     }
@@ -310,7 +308,10 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const{
                 target.draw(*walls.at(x).at(y), states);
             }
             if(details.count(x) && details.at(x).count(y) && details.at(x).at(y) != nullptr){
-                if(details.at(x).at(y)->autotiled) target.draw(*details.at(x).at(y), states);
+                target.draw(*details.at(x).at(y), states);
+            }
+            else if(hazards.count(x) && hazards.at(x).count(y) && hazards.at(x).at(y) != nullptr){
+                target.draw(*hazards.at(x).at(y), states);
             }
         }
     }

@@ -40,7 +40,11 @@ public:
 
 class Hazard : public Detail{
 public:
-    Hazard(sf::Vector2i ncoord, sf::Texture& texture, Damage::Type ntype, bool ntiled, int ndamage);
-    Damage::Type type;
-    int damage;
+    Hazard(sf::Vector2i ncoord, sf::Texture& texture, bool ntiled, Damage ndmg);
+    Damage damage;
+};
+
+struct Hazard_Data{
+    Damage damage;
+    int index;
 };

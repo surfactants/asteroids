@@ -252,6 +252,35 @@ void Database::getFonts(std::map<Font, sf::Font>& f){
     close();
 }
 
+std::map<Faction, Hazard_Data> Database::getHazards(){
+    std::map<Faction, Hazard_Data> hazards;
+
+        open();
+
+            sqlite3_stmt* statement;
+
+std::string sql =
+            "SELECT * FROM 'HAZARDS'";
+
+            rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+
+            while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+                unsigned int column = 0;
+                Faction faction = stringToFaction(std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++))));
+
+                hazards[faction].damage.type = stringToDamageType(std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++))));
+                hazards[faction].damage.val = sqlite3_column_int(statement, column++);
+                hazards[faction].index = sqlite3_column_int(statement, column++);
+            }
+
+        sqlite3_finalize(statement);
+
+        close();
+
+    return hazards;
+}
+
 void Database::errorCheck(std::string id){
     //std::cout << id + ": " + sqlite3_errmsg(db) << '\n';
 }

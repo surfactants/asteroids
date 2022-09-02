@@ -17,8 +17,9 @@ Wall::Wall(sf::Vector2i ncoord, sf::Texture& texture)
     : Tile{ ncoord, texture }{}
 
 Wall::Wall(sf::Vector2i ncoord, sf::Texture& texture, float nprotection)
-    : protection{ nprotection },
-    Tile{ ncoord, texture }{}
+  : Tile{ ncoord, texture },
+    protection{ nprotection }
+{}
 
 /////////////////////////////////////////////////////////////
 Cover::Cover(sf::Vector2i ncoord, sf::Texture& texture, float nprotection)
@@ -30,11 +31,12 @@ Floor::Floor(sf::Vector2i ncoord, sf::Texture& texture)
 
 /////////////////////////////////////////////////////////////
 Detail::Detail(sf::Vector2i ncoord, sf::Texture& texture, bool ntiled)
-    : autotiled{ ntiled },
-    Floor{ ncoord, texture }{}
+    : Floor{ ncoord, texture },
+    autotiled{ ntiled }
+{}
 
 /////////////////////////////////////////////////////////////
-Hazard::Hazard(sf::Vector2i ncoord, sf::Texture& texture, Damage::Type ntype, bool ntiled, int ndamage)
-    : type{ ntype },
-    damage{ ndamage },
-    Detail{ ncoord, texture, ntiled }{}
+Hazard::Hazard(sf::Vector2i ncoord, sf::Texture& texture, bool ntiled, Damage ndmg)
+  : Detail{ ncoord, texture, ntiled },
+    damage{ ndmg }
+{}

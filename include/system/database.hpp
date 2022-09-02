@@ -9,6 +9,8 @@
 #include <entity/enemy.hpp>
 #include <resources/font.hpp>
 #include <string>
+#include <entity/faction.hpp>
+#include <world/tile.hpp>
 
 class Database{
 public:
@@ -26,6 +28,8 @@ public:
     static Entity_Data getPlayerData();
 
     static void getFonts(std::map<Font, sf::Font>& f);
+
+    static std::map<Faction, Hazard_Data> getHazards();
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

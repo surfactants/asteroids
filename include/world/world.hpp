@@ -42,6 +42,8 @@ private:
 
     std::map<int, std::map<int, Cover*>> cover;
 
+    std::map<Faction, Hazard_Data> hazard_data;
+
     sf::Vector2i worldMin;
     sf::Vector2i worldMax;
 
