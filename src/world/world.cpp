@@ -5,6 +5,8 @@
 #include <util/vector2_stream.hpp>
 #include <resources/texture_manager.hpp>
 #include <util/prng.hpp>
+#include <world/automaton.hpp>
+#include <cmath>
 
 const sf::Vector2i World::renderDistance { 16, 10 };
 
@@ -12,7 +14,8 @@ World::World(Faction& f)
     : enemyFaction{ f },
     textureFloors{ Texture_Manager::get("FLOOR") },
     textureWalls{ Texture_Manager::get("WALL") },
-    textureTiledDetail{ Texture_Manager::get("ACIDPOOLS") }
+    textureDetails{ Texture_Manager::get("DETAILS") },
+    textureTiledDetail{ Texture_Manager::get("TILING") }
 {}
 
 World::~World(){
@@ -133,28 +136,127 @@ void World::makeDetails(){
         for(int y = worldMin.y; y <= worldMax.y; ++y){
             if(floorMap[x][y]){
                 sf::Vector2i v(x, y);
-                if(prng::boolean(0.5f)){
-                    details[x][y] = new Detail(v, textureTiledDetail, true);
+                if(prng::boolean(0.05f)){
+                    details[x][y] = new Detail(v, textureDetails, false);
+
+                    int tx = prng::number(0, 4) * roundFloat(Tile::tileSize);
+                    int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
+
+                    sf::Vector2i tpos(tx, ty);
+                    sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
+
+                    details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
             }
         }
     }
 
+    makeTiledDetails();
+}
+
+void World::makeTiledDetails(){
+    std::map<int, std::map<int, bool>> detailMap;
+
     for(int x = worldMin.x; x <= worldMax.x; ++x){
         for(int y = worldMin.y; y <= worldMax.y; ++y){
-            sf::Vector2i v(x, y);
-            if(details[x][y] != nullptr && details[x][y]->autotiled){
+            if(floorMap[x][y]){
+                if(details[x][y] == nullptr && prng::boolean(0.05f)){
+                    detailMap[x][y] = true;
+                }
+                else{
+                    detailMap[x][y] = false;
+                }
+            }
+        }
+    }
+
+    unsigned int iterations = 0;
+
+    Adjacency_Rules adj_take;
+    Adjacency_Rules adj_add;
+
+    for(unsigned int i = 0; i < 2; ++i){
+        adj_take[i] = 0.1f;
+        adj_add[i] = 0.1f;
+    }
+
+    std::function<float(float)> t = [](float x) { return x; };
+    std::function<float(float)> a = [](float x) { return x; };
+
+    switch(enemyFaction){
+    case Faction::BUGS:
+        iterations = 4;
+
+        t = [](float x){
+            return 0.95f - sqrt(0.08f * x);
+        };
+
+        a = [](int x){
+            return sqrt(0.03f * x) + 0.01f;
+        };
+
+    /*
+        adj_take[0] = 0.4f;
+        adj_take[1] = 0.3f;
+        adj_take[2] = 0.2f;
+        adj_take[3] = 0.1f;
+        adj_take[4] = 0.05f;
+        adj_take[5] = 0.025f;
+        adj_take[6] = 0.0125f;
+        adj_take[7] = 0.00625f;
+        adj_take[8] = 0.003125f;
+
+        adj_add[0] = 0.003125f;
+        adj_add[1] = 0.00625f;
+        adj_add[2] = 0.0125f;
+        adj_add[3] = 0.025f;
+        adj_add[4] = 0.05f;
+        adj_add[5] = 0.1f;
+        adj_add[6] = 0.2f;
+        adj_add[7] = 0.3f;
+        adj_add[8] = 0.4f;
+    */
+
+        break;
+    case Faction::PIRATES:
+        break;
+    case Faction::GHOSTS:
+        break;
+    case Faction::LITHOBIOMORPHS:
+        break;
+    case Faction::ROBOTS:
+        break;
+    default:
+        break;
+    }
+
+    for(unsigned int x = 0; x < 8; ++x){
+        adj_take[x] = t(x);
+        adj_add[x] = a(x);
+    }
+
+    Automaton automaton(detailMap, iterations, adj_take, adj_add);
+
+    detailMap = automaton.iterate();
+
+    for(int x = worldMin.x; x <= worldMax.x; ++x){
+        for(int y = worldMin.y; y <= worldMax.y; ++y){
+            if(detailMap[x][y]){
+                sf::Vector2i v(x, y);
+
                 bool n = ((walls[x][y - 1] != nullptr)
-                   || ((details[x][y - 1] != nullptr) && (details[x][y - 1]->autotiled))),
+                  || ((detailMap[x][y - 1]))),
 
                      s = ((walls[x][y + 1] != nullptr)
-                   || ((details[x][y + 1] != nullptr) && (details[x][y + 1]->autotiled))),
+                  || ((detailMap[x][y + 1]))),
 
                      w = ((walls[x - 1][y] != nullptr)
-                   || ((details[x - 1][y] != nullptr) && (details[x - 1][y]->autotiled))),
+                  || ((detailMap[x - 1][y]))),
 
                      e = ((walls[x + 1][y] != nullptr)
-                   || ((details[x + 1][y] != nullptr) && (details[x + 1][y]->autotiled)));
+                  || ((detailMap[x + 1][y])));
+
+                details[x][y] = new Detail(v, textureTiledDetail, true);
 
                 int tx = autotileX(n, s, w, e);
                 int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
@@ -208,7 +310,7 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const{
                 target.draw(*walls.at(x).at(y), states);
             }
             if(details.count(x) && details.at(x).count(y) && details.at(x).at(y) != nullptr){
-                target.draw(*details.at(x).at(y), states);
+                if(details.at(x).at(y)->autotiled) target.draw(*details.at(x).at(y), states);
             }
         }
     }

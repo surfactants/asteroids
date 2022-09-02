@@ -21,6 +21,7 @@ public:
     void makeFloor();
     void makeWalls();
     void makeDetails();
+    void makeTiledDetails();
     void makeHazards();
     void makeCover();
 
@@ -49,6 +50,7 @@ private:
     sf::Texture& textureFloors;
     sf::Texture& textureWalls;
 
+    sf::Texture& textureDetails;
     sf::Texture& textureTiledDetail;
 
     bool hasOrthogonalFloor(sf::Vector2i v);
