@@ -21,7 +21,8 @@ public:
     void makeFloor();
     void makeWalls();
     void makeDetails();
-    void makeTiledDetails();
+    void tileAutomata();
+    void tileSnake();
     void makeHazards();
     void makeCover();
 
@@ -43,6 +44,18 @@ private:
     std::map<int, std::map<int, Cover*>> cover;
 
     std::map<Faction, Hazard_Data> hazard_data;
+
+    enum Autotile_Rules{
+        AUTOMATON,
+        SNAKE,
+        NULLRULE
+    };
+
+    std::map<Faction, Autotile_Rules> autotile_rules;
+
+    void loadAutotileRules();
+
+    Autotile_Rules autotileRulesToString(std::string rule);
 
     sf::Vector2i worldMin;
     sf::Vector2i worldMax;

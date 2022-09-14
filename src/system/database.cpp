@@ -281,6 +281,32 @@ std::string sql =
     return hazards;
 }
 
+std::map<Faction, std::string> Database::getAutotileRules(){
+    open();
+
+        sqlite3_stmt* statement;
+
+        std::string sql = "SELECT * FROM 'AUTOTILED'";
+
+        rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+        std::map<Faction, std::string> rules;
+
+        while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+            unsigned int column = 0;
+            Faction faction = stringToFaction(std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++))));
+
+            rules[faction] = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        }
+
+        sqlite3_finalize(statement);
+
+    close();
+
+    return rules;
+}
+
 void Database::errorCheck(std::string id){
     //std::cout << id + ": " + sqlite3_errmsg(db) << '\n';
 }
+

@@ -8,6 +8,7 @@
 #include <menu/feedback.hpp>
 #include <system/input_handler.hpp>
 #include <resources/font_manager.hpp>
+#include <audio/audio_manager.hpp>
 
 class Shell : public State_Hook{
 public:
@@ -48,4 +49,7 @@ private:
 
     sf::Clock fpsClock;
     sf::Text fpsText;
+
+    Sound_Interface sound_player;
+    Music_Interface music_player;
 };

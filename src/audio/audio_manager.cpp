@@ -33,6 +33,38 @@ void Audio_Manager::playUI(sf::Sound sound){
 //END AUDIO MANAGER IMPLEMENTATION
 ///////////////////////////////////////////////////
 
+void Sound_Interface::update(){
+    if(sounds_game.size() > 0 && sounds_game.front().getStatus() == sf::Sound::Stopped) sounds_game.pop_front();
+}
+
+void Sound_Interface::play(){
+}
+
+void Music_Interface::update(){
+    switch(state){
+        case FADE_IN:
+            break;
+        case PLAYING:
+            if(song_change){
+                state = FADE_OUT;
+            }
+            break;
+        case FADE_OUT:
+            if(music.getVolume() == 0.f){
+                change_clock.restart();
+                state = NULLSTATE;
+            }
+            break;
+        case NULLSTATE:
+            if(change_clock.getElapsedTime().asMilliseconds() >= change_threshold){
+                state = FADE_IN;
+                music.openFromFile(nextSong());
+            }
+            break;
+    }
+}
+
+/*
 ///////////////////////////////////////////////////
 //BEGIN AUDIO GAME IMPLEMENTATION
 //
@@ -53,6 +85,18 @@ void Audio_UI::play(std::string id){
 //END AUDIO UI IMPLEMENTATION
 ///////////////////////////////////////////////////
 
+///////////////////////////////////////////////////
+//BEGIN AUDIO MUSIC IMPLEMENTATION
+//
+void Audio_UI::play(std::string id){
+    music.loadFromFile("soundtrack" + id + ".wav");
+}
+
+void Audio_Music::
+//
+//END AUDIO MUSIC IMPLEMENTATION
+///////////////////////////////////////////////////
+*/
 ///////////////////////////////////////////////////
 //BEGIN AUDIO SETTINGS IMPLEMENTATION
 //

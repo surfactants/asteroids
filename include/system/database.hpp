@@ -31,6 +31,8 @@ public:
 
     static std::map<Faction, Hazard_Data> getHazards();
 
+    static std::map<Faction, std::string> getAutotileRules();
+
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);
 

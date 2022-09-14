@@ -75,7 +75,8 @@ void Game::newLevel(){
     view.setCenter(player.getPosition());
     world.reset();
     enemyFaction = randomEnemyFaction();
-    enemyFaction = Faction::BUGS; /* DEBUG / TESTING */
+    if(prng::boolean()) enemyFaction = Faction::BUGS; /* DEBUG / TESTING */
+    else enemyFaction = Faction::ROBOTS;
 }
 
 World& Game::getWorld(){

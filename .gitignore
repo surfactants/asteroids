@@ -71,3 +71,6 @@ todo.hpp
 
 # database loading
 /db/
+
+# music
+/soundtrack/

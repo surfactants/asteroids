@@ -165,10 +165,19 @@ void World::makeDetails(){
         }
     }
 
-    makeTiledDetails();
+    switch(autotile_rules[enemyFaction]){
+    case AUTOMATON:
+        tileAutomata();
+        break;
+    case SNAKE:
+        tileSnake();
+        break;
+    default:
+        break;
+    }
 }
 
-void World::makeTiledDetails(){
+void World::tileAutomata(){
     std::map<int, std::map<int, bool>> detailMap;
 
 //define faction-wise rules for the automata
@@ -268,6 +277,9 @@ void World::makeTiledDetails(){
     }
 }
 
+void World::tileSnake(){
+}
+
 void World::makeHazards(){
 }
 
@@ -359,8 +371,21 @@ int World::getFloorX(){
 int World::autotileX(bool n, bool s, bool w, bool e) {
     int sum = 0;
         if (n) sum += 1;
-        if (w)  sum += 2;
+        if (w) sum += 2;
         if (s) sum += 4;
         if (e) sum += 8;
     return (sum * roundFloat(Tile::tileSize));
+}
+
+void World::loadAutotileRules(){
+    std::map<Faction, std::string> rules = Database::getAutotileRules();
+    for(const auto& rule : rules){
+        autotile_rules[rule.first] = autotileRulesToString(rule.second);
+    }
+}
+
+World::Autotile_Rules World::autotileRulesToString(std::string rule){
+    if(rule == "AUTOMATON") return AUTOMATON;
+    else if(rule == "SNAKE") return SNAKE;
+    else return NULLRULE;
 }
