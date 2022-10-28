@@ -19,6 +19,9 @@ private:
     sf::CircleShape frame;
     sf::CircleShape center;
 
+    sf::Clock rotateClock;
+    const static float rotateThreshold;
+
     struct Blip : public sf::CircleShape{
         Blip();
         Blip(sf::Vector2f pos);

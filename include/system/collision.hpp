@@ -10,8 +10,6 @@ namespace collide
 {
     bool contains = false;
 
-    sf::Transform transform = rect.getTransform();
-
     sf::Vector2f A = rect.getTransform().transformPoint(rect.getPoint(0));
     sf::Vector2f B = rect.getTransform().transformPoint(rect.getPoint(1));
     //sf::Vector2f C = rect.getTransform().transformPoint(rect.getPoint(2));

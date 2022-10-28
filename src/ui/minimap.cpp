@@ -6,6 +6,7 @@
 #include <system/collision.hpp>
 
 const float Minimap::Blip::timeThreshold = 0.5f;
+const float Minimap::rotateThreshold = 0.001f;
 
 Minimap::Minimap(){
     backdrop.setPosition(sf::Vector2f(0.f, 0.f));
@@ -66,21 +67,25 @@ void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
         if(!blip.second.dead) blip.second.update();
     }
 
-    line.rotate(.8f);
+    if(rotateClock.getElapsedTime().asSeconds() > rotateThreshold){
+        rotateClock.restart();
 
-    for(unsigned int e = 0; e < enemies.size(); ++e){
-        sf::Vector2f p = (enemies[e].getPosition() - playerPos) / 40.f;
-        if(p.x + p.y > 1.f && enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)){
-            if(blips[e].ready()){
-                if(!blips[e].dead){
-                    dyingBlips.push_back(blips[e]);
+        line.rotate(.6f);
+
+        for(unsigned int e = 0; e < enemies.size(); ++e){
+            sf::Vector2f p = (enemies[e].getPosition() - playerPos) / 35.f;
+            if(enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)){
+                if(blips[e].ready()){
+                    if(!blips[e].dead){
+                        dyingBlips.push_back(blips[e]);
+                    }
+                    blips[e].setPosition(p);
+                    blips[e].reset();
+                    std::cout << "\nenemy found at pos " << enemies[e].getPosition();
+                    std::cout << "\n\tchecking against player position " << playerPos;
+                    std::cout << "\n\tp = " << p;
+                    std::cout << "\n\tblip placed at " << blips[e].getPosition();
                 }
-                blips[e].setPosition(p);
-                blips[e].reset();
-                std::cout << "\nenemy found at pos " << enemies[e].getPosition();
-                std::cout << "\n\tchecking against player position " << playerPos;
-                std::cout << "\n\tp = " << p;
-                std::cout << "\n\tblip placed at " << blips[e].getPosition();
             }
         }
     }
