@@ -1,5 +1,8 @@
 #include <audio/audio_bus.hpp>
 
+std::string Audio_Bus::next_song;
+std::queue<std::string> Audio_Bus::next_sounds;
+
 bool Audio_Bus::song_change = false;
 
 void Audio_Bus::addSound(std::string id){

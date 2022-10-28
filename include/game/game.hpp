@@ -12,6 +12,7 @@
 #include <resources/texture_manager.hpp>
 #include <ai/ai.hpp>
 #include <entity/faction.hpp>
+#include <audio/audio_manager.hpp>
 
 class Game : public sf::Drawable, public State_Hook{
 public:

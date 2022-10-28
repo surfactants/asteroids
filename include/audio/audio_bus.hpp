@@ -11,6 +11,8 @@ protected:
     static std::string nextSound();
     static std::string nextSong();
 
+    static bool songChanging();
+
     static std::queue<std::string> next_sounds;
     static std::string next_song;
     static bool song_change;

@@ -59,7 +59,7 @@ private:
 
     sf::Music music;
 };
-/*
+
 
 class Audio_Interface{
 public:
@@ -89,7 +89,7 @@ public:
     static void update();
 protected:
 private:
-};*/
+};
 
 class Audio_Settings : public Audio_Manager{
 public:

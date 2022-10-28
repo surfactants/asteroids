@@ -64,7 +64,7 @@ void Music_Interface::update(){
     }
 }
 
-/*
+
 ///////////////////////////////////////////////////
 //BEGIN AUDIO GAME IMPLEMENTATION
 //
@@ -88,15 +88,13 @@ void Audio_UI::play(std::string id){
 ///////////////////////////////////////////////////
 //BEGIN AUDIO MUSIC IMPLEMENTATION
 //
-void Audio_UI::play(std::string id){
-    music.loadFromFile("soundtrack" + id + ".wav");
+void Audio_Music::play(std::string id){
+    //music.loadFromFile("soundtrack" + id + ".wav");
 }
-
-void Audio_Music::
 //
 //END AUDIO MUSIC IMPLEMENTATION
 ///////////////////////////////////////////////////
-*/
+
 ///////////////////////////////////////////////////
 //BEGIN AUDIO SETTINGS IMPLEMENTATION
 //

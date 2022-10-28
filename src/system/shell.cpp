@@ -4,7 +4,7 @@
 #include <util/fmouse.hpp>
 
 Shell::Shell()
-: window{sf::VideoMode(), "asteroids", sf::Style::Fullscreen}{
+: window{sf::VideoMode::getDesktopMode(), "asteroids", sf::Style::Fullscreen}{
     //window.setKeyRepeatEnabled(false);
     sf::Cursor cursor;
     cursor.loadFromSystem(sf::Cursor::Cross);

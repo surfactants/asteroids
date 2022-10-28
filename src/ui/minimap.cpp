@@ -69,9 +69,8 @@ void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
     line.rotate(.8f);
 
     for(unsigned int e = 0; e < enemies.size(); ++e){
-
-        sf::Vector2f p = (playerPos - enemies[e].getPosition());
-        if(enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)){
+        sf::Vector2f p = (enemies[e].getPosition() - playerPos) / 40.f;
+        if(p.x + p.y > 1.f && enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)){
             if(blips[e].ready()){
                 if(!blips[e].dead){
                     dyingBlips.push_back(blips[e]);
