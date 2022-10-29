@@ -77,6 +77,7 @@ void Game::newLevel(){
     enemyFaction = randomEnemyFaction();
     if(prng::boolean()) enemyFaction = Faction::BUGS; /* DEBUG / TESTING */
     else enemyFaction = Faction::ROBOTS;
+    state = PEACE;
 }
 
 World& Game::getWorld(){
@@ -95,12 +96,20 @@ void Game::releaseLeft(){
     player.setAttacking(false);
 }
 
-std::vector<sf::Vector2f> Game::getEnemyPositions(){
-    std::vector<sf::Vector2f> e;
-    for(auto& enemy : enemyManager.getEnemies()){
-        e.push_back(enemy.getPosition() - player.getPosition());
+std::vector<sf::Vector2f> Game::getRelativeEnemyPositions(){
+    std::vector<sf::Vector2f> ep;
+    float closest = std::numeric_limits<float>::max();
+    std::vector<Enemy>& enemies = enemyManager.getEnemies();
+    size_t n = enemies.size();
+    for(size_t e = 0; e < n; ++e){
+        ep.push_back(enemies[e].getPosition() - player.getPosition());
+        float v = scalarDistance(ep.back());
+        if(v < closest){
+            closest = v;
+            closestEnemyIndex = e;
+        }
     }
-    return e;
+    return ep;
 }
 
 std::vector<Enemy>& Game::getEnemies(){

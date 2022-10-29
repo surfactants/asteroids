@@ -53,6 +53,13 @@ T scalarDistance(const sf::Vector2<T> v, sf::Vector2<T> const w){
     return static_cast<T>(sqrt(pow(a, 2) + pow(b, 2)));
 }
 
+template<typename T>
+T scalarDistance(const sf::Vector2<T> v){
+    T a = std::abs(v.x);
+    T b = std::abs(v.y);
+    return static_cast<T>(sqrt(pow(a, 2) + pow(b, 2)));
+}
+
 /////////////////////////////////////////////////////////////
 /// \brief Returns the 2d vector distance between two 2d vectors.
 ///

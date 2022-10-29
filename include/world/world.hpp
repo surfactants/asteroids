@@ -9,12 +9,11 @@
 class World : public sf::Drawable{
 public:
     World(Faction& f);
-    ~World();
 
     void newLevel();
 
-    std::map<int, std::map<int, Floor*>>& getFloor();
-    std::map<int, std::map<int, Wall*>>& getWalls();
+    std::map<int, std::map<int, std::unique_ptr<Floor>>>& getFloor();
+    std::map<int, std::map<int, std::unique_ptr<Wall>>>& getWalls();
     Tile* getWall(int x, int y);
 
     void erase();
@@ -34,14 +33,14 @@ public:
     void reset();
 
 private:
-    std::map<int, std::map<int, Wall*>> walls;
-    std::map<int, std::map<int, Floor*>> floor;
+    std::map<int, std::map<int, std::unique_ptr<Wall>>> walls;
+    std::map<int, std::map<int, std::unique_ptr<Floor>>> floor;
 
 
-    std::map<int, std::map<int, Detail*>> details;
-    std::map<int, std::map<int, Hazard*>> hazards;
+    std::map<int, std::map<int, std::unique_ptr<Detail>>> details;
+    std::map<int, std::map<int, std::unique_ptr<Hazard>>> hazards;
 
-    std::map<int, std::map<int, Cover*>> cover;
+    std::map<int, std::map<int, std::unique_ptr<Cover>>> cover;
 
     std::map<Faction, Hazard_Data> hazard_data;
 

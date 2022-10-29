@@ -22,38 +22,8 @@ World::World(Faction& f)
     hazard_data = Database::getHazards();
 }
 
-World::~World(){
-    reset();
-}
-
 void World::reset(){
     std::cout << "\nresetting world...";
-    for(int x = worldMin.x; x <= worldMax.x; ++x){
-        for(int y = worldMin.y; y <= worldMax.y; ++y){
-            if(walls[x][y] != nullptr){
-                delete walls[x][y];
-            }
-            else if(floor[x][y] != nullptr){
-                delete floor[x][y];
-                floor[x][y] = nullptr;
-            }
-
-            if(details[x][y] != nullptr){
-                delete details[x][y];
-                details[x][y] = nullptr;
-            }
-
-            if(hazards[x][y] != nullptr){
-                delete hazards[x][y];
-                hazards[x][y] = nullptr;
-            }
-
-            if(cover[x][y] != nullptr){
-                delete cover[x][y];
-                cover[x][y] = nullptr;
-            }
-        }
-    }
 
     floorMap.clear();
     floor.clear();
@@ -76,7 +46,7 @@ void World::makeFloor(){
     for(const auto& x : floorGen.getFloorMap()){
         for(const auto& y : x.second){
             if(y.second){
-                floor[x.first][y.first] = (new Floor(sf::Vector2i(x.first, y.first), textureFloors));
+                floor[x.first][y.first] = std::make_unique<Floor>(Floor(sf::Vector2i(x.first, y.first), textureFloors));
 
                 int tx = getFloorX();
                 int ty = static_cast<int>(enemyFaction) * roundFloat(Tile::tileSize);
@@ -114,7 +84,7 @@ void World::makeWalls(){
                 bool walled = (hasOrthogonalFloor(v) || hasDiagonalFloor(v));
 
                 if(walled){
-                    walls[x][y] = new Wall(v, textureWalls);
+                    walls[x][y] = std::make_unique<Wall>(Wall(v, textureWalls));
                     bool n = !floorMap[x][y - 1],
                          s = !floorMap[x][y + 1],
                          w = !floorMap[x - 1][y],
@@ -153,11 +123,11 @@ void World::makeDetails(){
                     sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
                     if(hazard){
-                        hazards[x][y] = new Hazard(v, textureDetails, false, hazard_data[enemyFaction].damage);
+                        hazards[x][y] = std::make_unique<Hazard>(Hazard(v, textureDetails, false, hazard_data[enemyFaction].damage));
                         hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                     }
                     else{
-                        details[x][y] = new Detail(v, textureDetails, false);
+                        details[x][y] = std::make_unique<Detail>(Detail(v, textureDetails, false));
                         details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                     }
                 }
@@ -265,11 +235,11 @@ void World::tileAutomata(){
                 sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
                 if(hazard){
-                    hazards[x][y] = new Hazard(v, textureTiledDetail, true, hazard_data[enemyFaction].damage);
+                    hazards[x][y] = std::make_unique<Hazard>(Hazard(v, textureTiledDetail, true, hazard_data[enemyFaction].damage));
                     hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
                 else{
-                    details[x][y] = new Detail(v, textureTiledDetail, true);
+                    details[x][y] = std::make_unique<Detail>(Detail(v, textureTiledDetail, true));
                     details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
             }
@@ -300,11 +270,11 @@ bool World::hasDiagonalFloor(sf::Vector2i v){
          || floorMap[v.x + 1][v.y + 1]);
 }
 
-std::map<int, std::map<int, Floor*>>& World::getFloor(){
+std::map<int, std::map<int, std::unique_ptr<Floor>>>& World::getFloor(){
     return floor;
 }
 
-std::map<int, std::map<int, Wall*>>& World::getWalls(){
+std::map<int, std::map<int, std::unique_ptr<Wall>>>& World::getWalls(){
     return walls;
 }
 
@@ -330,7 +300,7 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 }
 
 Tile* World::getWall(int x, int y){
-    return walls[x][y];
+    return walls[x][y].get();
 }
 
 void World::erase(){

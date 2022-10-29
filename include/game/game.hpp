@@ -24,7 +24,7 @@ public:
     void newLevel();
     void spawnEnemies();
 
-    std::vector<sf::Vector2f> getEnemyPositions();
+    std::vector<sf::Vector2f> getRelativeEnemyPositions();
 
     std::vector<Enemy>& getEnemies();
 
@@ -40,12 +40,12 @@ public:
     enum State{
         PEACE,
         COMBAT,
-        END,
+        BOSS,
         WIN,
         LOSE
     };
 
-    State state_game{ PEACE };
+    State state{ PEACE };
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -56,6 +56,8 @@ private:
 
     World world{ enemyFaction };
     //Level level;
+
+    size_t closestEnemyIndex{ SIZE_MAX };
 
     Player player;
 
