@@ -182,14 +182,22 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement){
             //sharp float
             //blunt float
             //bullet float
-            //energy float
             //acid float
+            //explosive float
+            //fire float
+            //plasma float
+            //laser float
+            //electric float
 
         d.resistance[Damage::SHARP] = sqlite3_column_double(statement, column++);
         d.resistance[Damage::BLUNT] = sqlite3_column_double(statement, column++);
         d.resistance[Damage::BULLET] = sqlite3_column_double(statement, column++);
-        d.resistance[Damage::ENERGY] = sqlite3_column_double(statement, column++);
         d.resistance[Damage::ACID] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::EXPLOSIVE] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::FIRE] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::PLASMA] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::LASER] = sqlite3_column_double(statement, column++);
+        d.resistance[Damage::ELECTRIC] = sqlite3_column_double(statement, column++);
 
     //animation counts
             //idle_count int
