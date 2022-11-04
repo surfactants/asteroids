@@ -23,16 +23,16 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
         p_g.keyReleased[sf::Keyboard::Escape] = std::bind(&Game::escape, &game);
 
-        p_g.keyPressed[sf::Keyboard::W] = std::bind(&Player::upStart, player);
+        p_g.keyPressed[sf::Keyboard::W] = std::make_pair("move up", std::bind(&Player::upStart, player));
         p_g.keyReleased[sf::Keyboard::W] = std::bind(&Player::upEnd, player);
 
-        p_g.keyPressed[sf::Keyboard::S] = std::bind(&Player::downStart, player);
+        p_g.keyPressed[sf::Keyboard::S] = std::make_pair("move down", std::bind(&Player::downStart, player));
         p_g.keyReleased[sf::Keyboard::S] = std::bind(&Player::downEnd, player);
 
-        p_g.keyPressed[sf::Keyboard::A] = std::bind(&Player::leftStart, player);
+        p_g.keyPressed[sf::Keyboard::A] = std::make_pair("move left", std::bind(&Player::leftStart, player));
         p_g.keyReleased[sf::Keyboard::A] = std::bind(&Player::leftEnd, player);
 
-        p_g.keyPressed[sf::Keyboard::D] = std::bind(&Player::rightStart, player);
+        p_g.keyPressed[sf::Keyboard::D] = std::make_pair("move right", std::bind(&Player::rightStart, player));
         p_g.keyReleased[sf::Keyboard::D] = std::bind(&Player::rightEnd, player);
 
         p_g.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
@@ -45,8 +45,6 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     /////////////////////////////////////////////////////////////
     //MENU INPUTS
     //
-    std::vector<Menu*> m = { menu_package.m_main, menu_package.m_pause, menu_package.m_settings, menu_package.m_keymap };
-    std::vector<Menu_State> state = { Menu_State::MAIN, Menu_State::PAUSE, Menu_State::SETTINGS, Menu_State::KEYS };
 
     std::map<Menu_State, Menu*> menus = {{ Menu_State::MAIN, menu_package.m_main },
                                          { Menu_State::PAUSE, menu_package.m_pause },
@@ -55,16 +53,51 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
     for(const auto& m : menus){
         Input_Package& p = context_menu[m.first];
-        p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
+        p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m.second);
+        p.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&Menu::clickLeft, m.second);
+        p.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m.second);
+        p.scroll = std::bind(&Menu::scroll, m.second, std::placeholders::_1);
+        p.focus_lost = std::bind(&Menu::stopInput, m.second);
     }
 
-    for(unsigned int i = 0; i <= m.size(); ++i){
-        Input_Package& p = context_menu[state[i]];
-        p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
-        p.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&Menu::clickLeft, m[i]);
-        p.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m[i]);
-        p.scroll = std::bind(&Menu::scroll, m[i], std::placeholders::_1);
-        p.focus_lost = std::bind(&Menu::stopInput, m[i]);
+    context_menu[Menu_State::KEYS].special = std::bind(&Menu_Keymap::keyPressed, menu_package.m_keymap, std::placeholders::_1);
+}
+
+const std::vector<Action> Input_Handler::getRemappableActions(){
+    Input_Package& p_g = context[Main_State::GAME];
+
+    std::vector<Action> actions;
+
+    for(size_t k = 0; k < sf::Keyboard::KeyCount; k++){
+        sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(k);
+        if(p_g.keyPressed.contains(key)){
+            actions.push_back(Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]));
+        }
+    }
+
+    return actions;
+}
+
+void Input_Handler::setRemappableActions(const std::vector<Action>& actions){
+    Input_Package& p_g = context[Main_State::GAME];
+
+    Convert_Key converter;
+
+    for (auto k = p_g.keyReleased.begin(); k != p_g.keyReleased.end();)
+    {
+        if (k->first != sf::Keyboard::Escape)
+            k = p_g.keyReleased.erase(k);
+        else
+            ++k;
+    }
+
+    p_g.keyPressed.clear();
+
+    for(const auto& action : actions){
+        sf::Keyboard::Key k = std::get<sf::Keyboard::Key>(action.key);
+        p_g.keyPressed[k].first = action.name;
+        p_g.keyPressed[k].second = action.press;
+        p_g.keyReleased[k] = action.release;
     }
 }
 
@@ -80,8 +113,11 @@ void Input_Handler::handle(){
             }
 
             if(event.type == sf::Event::KeyPressed){
-                if(context[state_main].keyPressed.count(event.key.code)){
-                    context[state_main].keyPressed[event.key.code]();
+                if(state_main == Main_State::MENU && state_menu == Menu_State::KEYS){
+                    context[state_main].special(event.key.code);
+                }
+                else if(context[state_main].keyPressed.count(event.key.code)){
+                    context[state_main].keyPressed[event.key.code].second();
                 }
             }
             else if(event.type == sf::Event::KeyReleased){

@@ -28,9 +28,9 @@ protected:
     static sf::Font& font;
 
     std::vector<Logo> logos;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     static std::vector<Nav> nav;
 };
@@ -76,10 +76,17 @@ public:
 
     virtual void clickLeft() override;
 
+
+    void setActions(const std::vector<Action>& actions);
+
     void save();
     void cancel();
 
+    std::function<void(const std::vector<Action>)> saveActions;
+
 private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 };
 
 struct Menu_Package{

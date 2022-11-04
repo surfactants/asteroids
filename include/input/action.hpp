@@ -7,10 +7,13 @@
 
 class Action{
 public:
-    Action(const std::string& name, const std::function<void()>& function, sf::Keyboard::Key key) :
-        name{ name }, function{ function }, key{ key }{}
+    Action(const std::string& name, const sf::Keyboard::Key& key,
+           std::function<void()> press,
+           std::function<void()> release) :
+        name{ name }, key{ key }, press{ press }, release{ release }{}
 
-    const std::string& name;
-    const std::function<void()>& function;
+    const std::string name;
     std::variant<sf::Keyboard::Key, std::string> key;
+    std::function<void()> press;
+    std::function<void()> release;
 };

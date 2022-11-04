@@ -28,6 +28,10 @@ Shell::Shell()
 
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
 
+    menu_keymap.saveActions = std::bind(&Input_Handler::setRemappableActions, &input, std::placeholders::_1);
+
+    menu_keymap.setActions(input.getRemappableActions());
+
     alignState();
 }
 

@@ -89,14 +89,18 @@
  **********************************************************************************/
 
 class Key_Mapper : public sf::Drawable{
+public:
+    std::vector<Action> getActions();
+
+    bool keyPressed(sf::Keyboard::Key key);
+
+    void reset();
+
 protected:
     Key_Mapper();
 
     void setActions(const sf::Font& font, const std::vector<Action>& actions);
 
-    std::vector<Action> getActions();
-
-    void reset();
     void confirm();
 
     void setPosition(sf::Vector2f pos);
@@ -104,8 +108,6 @@ protected:
     bool checkMouse(sf::Vector2f mpos);
 
     bool clickLeft();
-
-    bool keyPressed(sf::Keyboard::Key key);
 
     void setTextColor(const sf::Color& color);
     void setBackgroundColor(const sf::Color& color);
@@ -158,7 +160,8 @@ public:
 
     std::string getLabel();
     std::string getKey();
-    std::function<void()> function;
+    std::function<void()> press;
+    std::function<void()> release;
 
     Action asAction();
 
@@ -166,7 +169,6 @@ private:
     std::pair<sf::RectangleShape, sf::RectangleShape> cells;
     std::pair<sf::Text, sf::Text> labels;
 
-    std::string key;
     std::string keyCache; //for resets
 
     sf::FloatRect bounds;

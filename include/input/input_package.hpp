@@ -9,11 +9,15 @@
 
 struct Input_Package{
     Input_Package();
-    std::map<sf::Keyboard::Key, std::function<void()>> keyPressed;
+
+    //keyPressed map contains a name string for the settings menu key mapper
+    std::unordered_map<sf::Keyboard::Key, std::pair<std::string, std::function<void()>>> keyPressed;
     std::map<sf::Keyboard::Key, std::function<void()>> keyReleased;
     std::map<Mouse_Event, std::function<void()>> mouse;
     std::function<void(float)> scroll;
     std::function<void()> focus_lost;
+
+    std::function<void(sf::Keyboard::Key)> special;
 
     void clear();
 };

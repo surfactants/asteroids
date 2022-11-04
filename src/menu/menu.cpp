@@ -1,7 +1,6 @@
 #include <menu/menu.hpp>
 #include <resources/font_manager.hpp>
 #include <system/database.hpp>
-#include <iostream>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 
@@ -120,17 +119,18 @@ Menu_Settings::Menu_Settings(){
         slider.second.set(spos, font);
     }
 
-    spos.y += 128.f;
+    spos.x += 32.f;
+    spos.y += 256.f;
 
-    options.push_back(Option("input", font, [=](){ newMenu(Menu_State::KEYS); }));
+    options.push_back(Option("input", font, [=](){ state_menu = Menu_State::KEYS; change_menu = true; }));
     options.back().setPosition(spos);
 
-    spos.y += 256.f;
+    spos.y += 128.f;
 
     options.push_back(Option("save", font, std::bind(&Menu::saveSettings, this)));
     options.back().setPosition(spos);
 
-    spos.x += 256.f;
+    spos.x += 192.f;
 
     options.push_back(Option("cancel", font, std::bind(&Menu::back, this)));
     options.back().setPosition(spos);
@@ -180,34 +180,35 @@ void Menu::stopInput(){
 }
 
 Menu_Keymap::Menu_Keymap(){
-    setPosition(sf::Vector2f(128.f, 128.f));
+    sf::Vector2f spos(512.f, 192.f);
 
-    sf::Vector2f spos(128.f, 800.f);
+    setPosition(spos);
+
+    spos.x += 512.f + 128.f;
 
     options.push_back(Option("save", font, std::bind(&Menu_Keymap::save, this)));
     options.back().setPosition(spos);
 
-    spos.x += 256.f;
+    spos.y += 128.f;
 
-    options.push_back(Option("cancel", font, std::bind(&Menu_Keymap::cancel, this)));
+    options.push_back(Option("reset", font, std::bind(&Key_Mapper::reset, this)));
+    options.back().setPosition(spos);
+
+    spos.y += 128.f;
+
+    options.push_back(Option("cancel", font, std::bind(&Menu_Keymap::back, this)));
     options.back().setPosition(spos);
 }
 
 void Menu_Keymap::back(){
     reset();
-    newMenu(prev_menu);
+    state_menu = Menu_State::SETTINGS;
+    change_menu = true;
 }
 
 void Menu_Keymap::save(){
-    std::cout << "confirm1";
     confirm();
-    std::cout << "confirm2";
-    back();
-    std::cout << "confirm3";
-}
-
-void Menu_Keymap::cancel(){
-    reset();
+    saveActions(getActions());
     back();
 }
 
@@ -220,4 +221,13 @@ void Menu_Keymap::clickLeft(){
     if(!Key_Mapper::clickLeft()){
         Menu::clickLeft();
     }
+}
+
+void Menu_Keymap::setActions(const std::vector<Action>& actions){
+    Key_Mapper::setActions(font, actions);
+}
+
+void Menu_Keymap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    Menu::draw(target, states);
+    Key_Mapper::draw(target, states);
 }

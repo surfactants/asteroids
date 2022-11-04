@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 
+#include "action.hpp"
 #include <game/game.hpp>
 #include "input_package.hpp"
 #include <menu/menu.hpp>
@@ -19,6 +20,11 @@ public:
     void handle();
 
     void menuChange();
+
+
+    const std::vector<Action> getRemappableActions();
+
+    void setRemappableActions(const std::vector<Action>& actions);
 
 private:
     sf::RenderWindow& window;

@@ -8,6 +8,7 @@ std::map<Key_Mapper::Row::State, sf::Color> Key_Mapper::Row::colors = { { Row::N
 
 Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size) :
     Action(action){
+    keyCache = std::get<std::string>(action.key);
     labels.first.setFont(font);
     labels.first.setCharacterSize(characterSize);
     labels.first.setString(name);
@@ -66,22 +67,22 @@ const sf::Vector2f Key_Mapper::Row::getSize() const{
 }
 
 void Key_Mapper::Row::setKey(std::string key){
-    this->key = key;
+    keyCache = key;
     labels.second.setString(key);
     centerText(labels.second);
 }
 
 std::string Key_Mapper::Row::getKey(){
-    return key;
+    return std::get<std::string>(key);
 }
 
 void Key_Mapper::Row::reset(){
-    setKey(keyCache);
+    setKey(std::get<std::string>(key));
     setState(Row::NONE);
 }
 
 void Key_Mapper::Row::confirm(){
-    keyCache = key;
+    key = keyCache;
     setState(Row::NONE);
 }
 
@@ -109,14 +110,9 @@ void Key_Mapper::reset(){
 }
 
 void Key_Mapper::confirm(){
-
     for(auto& row : rows){
         row.confirm();
-        row.reset();
     }
-
-    hoverIndex = SIZE_MAX;
-    selectIndex = SIZE_MAX;
 }
 
 void Key_Mapper::setPosition(sf::Vector2f pos){
@@ -225,9 +221,10 @@ void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& act
     sf::Vector2f rpos = pos;
 
     for(auto action : actions){
-        action.key.emplace<std::string>(converter.toString(std::get<sf::Keyboard::Key>(action.key)));
+        action.key = converter.toString(std::get<sf::Keyboard::Key>(action.key));
         rows.push_back(Row(action, font, characterSize, rowSize));
-        rows.back().function = action.function;
+        rows.back().press = action.press;
+        rows.back().release = action.release;
         rows.back().setPosition(rpos);
         rpos.y += rows.back().getSize().y + Row::padding;
     }
@@ -238,7 +235,7 @@ std::vector<Action> Key_Mapper::getActions(){
 
     for(const auto& row : rows){
         actions.push_back(row);
-        actions.back().key.emplace<sf::Keyboard::Key>(converter.toKey(std::get<std::string>(actions.back().key)));
+        actions.back().key = converter.toKey(std::get<std::string>(actions.back().key));
     }
 
     return actions;
