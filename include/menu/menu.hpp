@@ -10,8 +10,8 @@
 class Menu : public sf::Drawable, public State_Hook, public Audio_Manager{
 public:
     Menu();
-    void update(sf::Vector2f mpos);
-    void clickLeft();
+    virtual void update(sf::Vector2f mpos);
+    virtual void clickLeft();
     void clickRight();
     void releaseLeft();
     void releaseRight();
@@ -67,11 +67,27 @@ private:
     void loadSettings();
 };
 
+class Menu_Keymap : public Menu, public Key_Mapper{
+public:
+    Menu_Keymap();
+    virtual void back() override;
+
+    virtual void update(sf::Vector2f mpos) override;
+
+    virtual void clickLeft() override;
+
+    void save();
+    void cancel();
+
+private:
+};
+
 struct Menu_Package{
-    Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s)
-    : m_main{ m }, m_pause{ p }, m_settings{ s }{}
+    Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s, Menu_Keymap* k)
+    : m_main{ m }, m_pause{ p }, m_settings{ s }, m_keymap{ k }{}
 
     Menu_Main* m_main;
     Menu_Pause* m_pause;
     Menu_Settings* m_settings;
+    Menu_Keymap* m_keymap;
 };

@@ -3,6 +3,7 @@
 #include <ui/button.hpp>
 #include <ui/slider.hpp>
 #include <system/state.hpp>
+#include <ui/key_mapper.hpp>
 
 struct Nav : public Button{
     Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
@@ -15,13 +16,6 @@ struct Target{
     Target(std::function<void()> nt);
 
     std::function<void()> target;
-};
-
-struct Target_With_String{ //oh god this is terrible, FIX THIS
-    Target_With_String(){}
-    Target_With_String(std::function<void(std::string)> nt);
-
-    std::function<void(std::string)> target;
 };
 
 struct Option : public Button, public Target{

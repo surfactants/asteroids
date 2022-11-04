@@ -13,5 +13,6 @@ enum class Menu_State{
     MAIN,
     PAUSE,
     SETTINGS,
+    KEYS,
     NULLSTATE
 };

@@ -12,9 +12,6 @@ Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmen
 Target::Target(std::function<void()> nt)
 : target{ nt }{}
 
-Target_With_String::Target_With_String(std::function<void(std::string)> nt)
-: target{ nt }{}
-
 Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
 : Button{ nlabel, font }, Target(nt){}
 

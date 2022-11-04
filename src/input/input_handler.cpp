@@ -1,4 +1,4 @@
-#include <system/input_handler.hpp>
+#include <input/input_handler.hpp>
 
 Input_Package::Input_Package(){
     clear();
@@ -45,8 +45,18 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     /////////////////////////////////////////////////////////////
     //MENU INPUTS
     //
-    std::vector<Menu*> m = { menu_package.m_main, menu_package.m_pause, menu_package.m_settings };
-    std::vector<Menu_State> state = { Menu_State::MAIN, Menu_State::PAUSE, Menu_State::SETTINGS };
+    std::vector<Menu*> m = { menu_package.m_main, menu_package.m_pause, menu_package.m_settings, menu_package.m_keymap };
+    std::vector<Menu_State> state = { Menu_State::MAIN, Menu_State::PAUSE, Menu_State::SETTINGS, Menu_State::KEYS };
+
+    std::map<Menu_State, Menu*> menus = {{ Menu_State::MAIN, menu_package.m_main },
+                                         { Menu_State::PAUSE, menu_package.m_pause },
+                                         { Menu_State::SETTINGS, menu_package.m_settings },
+                                         { Menu_State::KEYS, menu_package.m_keymap }};
+
+    for(const auto& m : menus){
+        Input_Package& p = context_menu[m.first];
+        p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m[i]);
+    }
 
     for(unsigned int i = 0; i <= m.size(); ++i){
         Input_Package& p = context_menu[state[i]];

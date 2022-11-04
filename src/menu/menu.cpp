@@ -1,6 +1,7 @@
 #include <menu/menu.hpp>
-#include <system/database.hpp>
 #include <resources/font_manager.hpp>
+#include <system/database.hpp>
+#include <iostream>
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 
@@ -119,6 +120,11 @@ Menu_Settings::Menu_Settings(){
         slider.second.set(spos, font);
     }
 
+    spos.y += 128.f;
+
+    options.push_back(Option("input", font, [=](){ newMenu(Menu_State::KEYS); }));
+    options.back().setPosition(spos);
+
     spos.y += 256.f;
 
     options.push_back(Option("save", font, std::bind(&Menu::saveSettings, this)));
@@ -171,4 +177,47 @@ void Menu_Settings::loadSettings(){
 
 void Menu::stopInput(){
     releaseLeft();
+}
+
+Menu_Keymap::Menu_Keymap(){
+    setPosition(sf::Vector2f(128.f, 128.f));
+
+    sf::Vector2f spos(128.f, 800.f);
+
+    options.push_back(Option("save", font, std::bind(&Menu_Keymap::save, this)));
+    options.back().setPosition(spos);
+
+    spos.x += 256.f;
+
+    options.push_back(Option("cancel", font, std::bind(&Menu_Keymap::cancel, this)));
+    options.back().setPosition(spos);
+}
+
+void Menu_Keymap::back(){
+    reset();
+    newMenu(prev_menu);
+}
+
+void Menu_Keymap::save(){
+    std::cout << "confirm1";
+    confirm();
+    std::cout << "confirm2";
+    back();
+    std::cout << "confirm3";
+}
+
+void Menu_Keymap::cancel(){
+    reset();
+    back();
+}
+
+void Menu_Keymap::update(sf::Vector2f mpos){
+    Menu::update(mpos);
+    checkMouse(mpos);
+}
+
+void Menu_Keymap::clickLeft(){
+    if(!Key_Mapper::clickLeft()){
+        Menu::clickLeft();
+    }
 }

@@ -154,6 +154,9 @@ void Shell::alignState(){
         case Menu_State::SETTINGS:
             menu = &menu_settings;
             break;
+        case Menu_State::KEYS:
+            menu = &menu_keymap;
+            break;
         default:
             break;
         }

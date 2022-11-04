@@ -6,7 +6,7 @@
 #include <menu/menu.hpp>
 #include <game/loading.hpp>
 #include <menu/feedback.hpp>
-#include <system/input_handler.hpp>
+#include <input/input_handler.hpp>
 #include <resources/font_manager.hpp>
 #include <audio/audio_manager.hpp>
 
@@ -28,9 +28,10 @@ private:
         Menu_Main menu_main;
         Menu_Pause menu_pause;
         Menu_Settings menu_settings;
+        Menu_Keymap menu_keymap;
 
     //Input_Handler input{ window, game, ui };
-    Input_Handler input{ window, game, ui, Menu_Package(&menu_main, &menu_pause, &menu_settings) };
+    Input_Handler input{ window, game, ui, Menu_Package(&menu_main, &menu_pause, &menu_settings, &menu_keymap) };
 
     void update();
     void draw();
