@@ -1,19 +1,18 @@
 #pragma once
 
-#include <sqlite/sqlite3.h>
-#include <system/settings_package.hpp>
-#include <string>
 #include <SFML/Graphics/Texture.hpp>
-#include <map>
 #include <animation/animation.hpp>
 #include <entity/enemy.hpp>
-#include <resources/font.hpp>
-#include <string>
 #include <entity/faction.hpp>
-#include <world/tile.hpp>
 #include <input/action.hpp>
+#include <map>
+#include <resources/font.hpp>
+#include <sqlite/sqlite3.h>
+#include <string>
+#include <system/settings_package.hpp>
+#include <world/tile.hpp>
 
-class Database{
+class Database {
 public:
     ~Database();
 

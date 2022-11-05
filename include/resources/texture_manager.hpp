@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-class Texture_Manager{
+class Texture_Manager {
 public:
     static sf::Texture& get(std::string key);
 

@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <entity/projectile.hpp>
 
-struct Weapon : public sf::Drawable{
+struct Weapon : public sf::Drawable {
 public:
-    Weapon(){}
+    Weapon() { }
     Weapon(std::string nname, unsigned int nrange);
     sf::Sprite& getSprite();
     unsigned int getRange();

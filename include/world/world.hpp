@@ -1,12 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <world/tile.hpp>
+#include <entity/faction.hpp>
 #include <map>
 #include <world/room.hpp>
-#include <entity/faction.hpp>
+#include <world/tile.hpp>
 
-class World : public sf::Drawable{
+class World : public sf::Drawable {
 public:
     World(Faction& f);
 
@@ -36,7 +36,6 @@ private:
     std::map<int, std::map<int, std::unique_ptr<Wall>>> walls;
     std::map<int, std::map<int, std::unique_ptr<Floor>>> floor;
 
-
     std::map<int, std::map<int, std::unique_ptr<Detail>>> details;
     std::map<int, std::map<int, std::unique_ptr<Hazard>>> hazards;
 
@@ -44,7 +43,7 @@ private:
 
     std::map<Faction, Hazard_Data> hazard_data;
 
-    enum Autotile_Rules{
+    enum Autotile_Rules {
         AUTOMATON,
         SNAKE,
         NULLRULE

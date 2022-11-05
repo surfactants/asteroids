@@ -1,30 +1,30 @@
 #pragma once
 
-#include <ui/button.hpp>
-#include <ui/slider.hpp>
 #include <system/state.hpp>
+#include <ui/button.hpp>
 #include <ui/key_mapper.hpp>
+#include <ui/slider.hpp>
 
-struct Nav : public Button{
+struct Nav : public Button {
     Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
     Main_State target_main;
     Menu_State target_menu;
 };
 
-struct Target{
-    Target(){}
+struct Target {
+    Target() { }
     Target(std::function<void()> nt);
 
     std::function<void()> target;
 };
 
-struct Option : public Button, public Target{
+struct Option : public Button, public Target {
     Option(std::string nlabel, sf::Font& font, std::function<void()> nt);
 };
 
-class Logo : public sf::Drawable{
+class Logo : public sf::Drawable {
 public:
-    Logo(){}
+    Logo() { }
     Logo(std::string nurl, sf::Vector2f pos, std::string key);
 
     bool isHighlighted();

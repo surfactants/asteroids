@@ -2,7 +2,7 @@
 
 #include <entity/projectile.hpp>
 
-class Projectile_Manager : public sf::Drawable{
+class Projectile_Manager : public sf::Drawable {
 public:
     Projectile_Manager();
 
@@ -13,7 +13,6 @@ public:
     std::vector<Projectile>& getProjectiles();
 
 protected:
-
 private:
     std::vector<Projectile> projectiles;
 

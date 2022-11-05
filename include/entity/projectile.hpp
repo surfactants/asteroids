@@ -3,9 +3,10 @@
 #include <SFML/Graphics.hpp>
 #include <entity/damage.hpp>
 
-class Projectile : public sf::Drawable{
+class Projectile : public sf::Drawable {
 public:
-    enum Type { BULLET, LASER };
+    enum Type { BULLET,
+        LASER };
 
     Projectile();
     Projectile(sf::Vector2f pos, sf::Vector2f target, Type ntype, Damage ndmg);

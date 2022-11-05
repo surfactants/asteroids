@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Main_State{
+enum class Main_State {
     MENU,
     NEWGAME,
     GAME,
@@ -9,7 +9,7 @@ enum class Main_State{
     NULLSTATE
 };
 
-enum class Menu_State{
+enum class Menu_State {
     MAIN,
     PAUSE,
     SETTINGS,

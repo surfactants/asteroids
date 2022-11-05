@@ -1,15 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <resources/palette.hpp>
 #include <audio/volume_type.hpp>
+#include <resources/palette.hpp>
 
 ////////////////////////////////////////////////////////////
 /// \brief Slider for settings menu.
 ///
-class Slider : public sf::Drawable{
+class Slider : public sf::Drawable {
 public:
-    Slider(){}
+    Slider() { }
 
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
@@ -77,11 +77,11 @@ protected:
     sf::Text label; /**<On-container label*/
 
     sf::RectangleShape container; /**<Holds the slider*/
-        const static sf::Vector2f containerSize; /**<Container size*/
+    const static sf::Vector2f containerSize; /**<Container size*/
 
     sf::RectangleShape fill; /**<Slider*/
-        const static float offset; /**<Distance of slider from container*/
-        const static sf::Color fillColor; /**<Slider fill color*/
+    const static float offset; /**<Distance of slider from container*/
+    const static sf::Color fillColor; /**<Slider fill color*/
 
     const static float scrollFactor; /**<Rate at which scrolling changes the fill*/
 

@@ -2,9 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
-class Animation{
+class Animation {
 public:
-    Animation(){}
+    Animation() { }
     Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount);
     sf::IntRect nextFrame();
 

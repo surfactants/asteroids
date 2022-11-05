@@ -1,25 +1,29 @@
-#include <entity/enemy.hpp>
 #include <ai/ai.hpp>
+#include <entity/enemy.hpp>
 #include <util/primordial.hpp>
 #include <world/tile.hpp>
 
 const float Enemy::decideThreshold = 1.f;
 
-Enemy::Enemy(Animated_Sprite nsprite){
+Enemy::Enemy(Animated_Sprite nsprite)
+{
     sprite = nsprite;
 }
 
-Enemy::Enemy(Entity_Data e, sf::Texture& texture) : Entity(e, texture){
+Enemy::Enemy(Entity_Data e, sf::Texture& texture)
+    : Entity(e, texture)
+{
     //debug:
-        //resistance[Damage::ENERGY] = .9;
+    //resistance[Damage::ENERGY] = .9;
 }
 
-void Enemy::update(){
+void Enemy::update()
+{
     Entity::update();
 
-    if(state == Entity_State::MOVING){
+    if (state == Entity_State::MOVING) {
         float distance = scalarDistance(getPosition(), moveTarget);
-        if(distance < 100.f){
+        if (distance < 100.f) {
             velocity = sf::Vector2f();
             setState(Entity_State::IDLE);
             //stop();
@@ -27,9 +31,10 @@ void Enemy::update(){
     }
 }
 
-void Enemy::setMoveTarget(sf::Vector2f pos){
+void Enemy::setMoveTarget(sf::Vector2f pos)
+{
     moveTarget = pos;
-    if(state != Entity_State::MOVING){
+    if (state != Entity_State::MOVING) {
         setState(Entity_State::MOVING);
     }
 
@@ -38,10 +43,11 @@ void Enemy::setMoveTarget(sf::Vector2f pos){
     setSpriteDirection();
 }
 
-bool Enemy::decideReady(){
-    if(decideTimer.getElapsedTime().asSeconds() >= decideThreshold){
+bool Enemy::decideReady()
+{
+    if (decideTimer.getElapsedTime().asSeconds() >= decideThreshold) {
         decideTimer.restart();
         return true;
-    }
-    else return false;
+    } else
+        return false;
 }

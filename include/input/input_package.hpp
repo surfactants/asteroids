@@ -7,7 +7,7 @@
 
 #include "mouse_event.hpp"
 
-struct Input_Package{
+struct Input_Package {
     Input_Package();
 
     //keyPressed map contains a name string for the settings menu key mapper

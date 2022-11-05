@@ -1,21 +1,21 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <entity/weapon.hpp>
-#include <world/direction.hpp>
 #include <animation/animated_sprite.hpp>
-#include <vector>
-#include <entity/entity_data.hpp>
 #include <entity/damage.hpp>
+#include <entity/entity_data.hpp>
+#include <entity/weapon.hpp>
+#include <vector>
+#include <world/direction.hpp>
 
 #define sqrt2_inv 0.7071
 
 /////////////////////////////////////////////////////////////
 /// \brief
 ///
-class Entity : public sf::Drawable{
+class Entity : public sf::Drawable {
 public:
-    Entity(){}
+    Entity() { }
     Entity(Entity_Data& e, sf::Texture& texture);
     //Entity(const Entity& e);
 
@@ -88,7 +88,7 @@ protected:
     unsigned int level;
 
     std::vector<Weapon> weapons;
-        unsigned int equippedWeapon;
+    unsigned int equippedWeapon;
 
     void animate();
 
@@ -118,7 +118,7 @@ protected:
 
     bool up = false,
          down = false,
-         left= false,
+         left = false,
          right = false;
 
     Faction faction;

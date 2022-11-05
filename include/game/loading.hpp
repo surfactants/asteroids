@@ -1,16 +1,16 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <thread>
-#include <map>
-#include <world/world.hpp>
 #include <future>
+#include <map>
+#include <thread>
+#include <world/world.hpp>
 
 //loading screen should:
-    //display stats from previous level, and stats for the entire run (except the first loading screen!)
-    //have a "continue" button/hotkey which can be activated when loading is done
+//display stats from previous level, and stats for the entire run (except the first loading screen!)
+//have a "continue" button/hotkey which can be activated when loading is done
 
-class Loading_Screen : public sf::Drawable{
+class Loading_Screen : public sf::Drawable {
 public:
     Loading_Screen();
 
@@ -32,7 +32,9 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    enum State{ LOADING, WAITING, END };
+    enum State { LOADING,
+        WAITING,
+        END };
 
     State state;
 
@@ -43,8 +45,5 @@ private:
     std::vector<std::packaged_task<void()>> tasks;
     std::vector<std::string> messages;
 
-
     std::future<void> omen;
-
-
 };

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum class Direction{
+enum class Direction {
     N,
     NE,
     E,
@@ -40,9 +40,10 @@ Direction randomPerpendicularDirection(Direction odirect);
 /////////////////////////////////////////////////////////////
 /// \brief Increments a vector depending on direction.
 ///
-template<typename T>
-void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distance){
-    switch(direction){
+template <typename T>
+void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distance)
+{
+    switch (direction) {
     case Direction::N:
         v.y -= distance;
         break;
@@ -68,4 +69,3 @@ Direction normalizeDirection(const Direction ref, const Direction d);
 bool isOrthogonal(Direction d);
 
 bool isDiagonal(Direction d);
-

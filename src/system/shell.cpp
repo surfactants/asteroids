@@ -1,10 +1,11 @@
-#include <system/shell.hpp>
-#include <util/primordial.hpp>
 #include <entity/projectile.hpp>
+#include <system/shell.hpp>
 #include <util/fmouse.hpp>
+#include <util/primordial.hpp>
 
 Shell::Shell()
-: window{sf::VideoMode::getDesktopMode(), "asteroids", sf::Style::Fullscreen}{
+    : window { sf::VideoMode::getDesktopMode(), "asteroids", sf::Style::Fullscreen }
+{
     //window.setKeyRepeatEnabled(false);
     sf::Cursor cursor;
     cursor.loadFromSystem(sf::Cursor::Cross);
@@ -35,11 +36,12 @@ Shell::Shell()
     alignState();
 }
 
-void Shell::run(){
+void Shell::run()
+{
 
     sf::Clock fpsClock;
 
-    while(window.isOpen()){
+    while (window.isOpen()) {
         update();
         input.handle();
         alignState();
@@ -47,7 +49,8 @@ void Shell::run(){
     }
 }
 
-void Shell::update(){
+void Shell::update()
+{
     music_player.update();
     sound_player.update();
 
@@ -55,12 +58,12 @@ void Shell::update(){
     timestepClock.restart();
     deltaTime = frameTime / targetTime;
 
-    switch(state_main){
+    switch (state_main) {
     case Main_State::MENU:
         menu->update(fMouse(window, viewUI));
         break;
     case Main_State::LOADING:
-        if(loadingScreen.update()){
+        if (loadingScreen.update()) {
             state_main = Main_State::GAME;
         }
         break;
@@ -75,67 +78,70 @@ void Shell::update(){
     }
 }
 
-void Shell::draw(){
+void Shell::draw()
+{
     window.clear();
-        switch(state_main){
-        case Main_State::MENU:
-            window.setView(viewUI);
-            window.draw(*menu);
-            break;
-        case Main_State::GAME:
-            window.setView(viewGame);
-            window.draw(game);
-            window.setView(viewUI);
-            window.draw(fpsText);
-            window.draw(ui);
-            break;
-        case Main_State::LOADING:
-            window.setView(viewUI);
-            window.draw(loadingScreen);
-            break;
-        default:
-            break;
-        }
+    switch (state_main) {
+    case Main_State::MENU:
+        window.setView(viewUI);
+        window.draw(*menu);
+        break;
+    case Main_State::GAME:
+        window.setView(viewGame);
+        window.draw(game);
+        window.setView(viewUI);
+        window.draw(fpsText);
+        window.draw(ui);
+        break;
+    case Main_State::LOADING:
+        window.setView(viewUI);
+        window.draw(loadingScreen);
+        break;
+    default:
+        break;
+    }
     window.display();
 }
 
-void Shell::loadNewLevel(){
+void Shell::loadNewLevel()
+{
     state_main = Main_State::LOADING;
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 
     //SKIPPING THE FIRST STEP ALLOWS THE RENDERING TO SWAP OVER TO LOADING BEFORE IT BEGINS
-    loads.push_back(std::function<void()>([]{ return; }));
-        messages.push_back("...");
+    loads.push_back(std::function<void()>([] { return; }));
+    messages.push_back("...");
 
     loads.push_back(std::bind(&Game::newLevel, &game));
-        messages.push_back("sweeping...");
+    messages.push_back("sweeping...");
 
     loads.push_back(std::bind(&World::makeFloor, &game.getWorld()));
-        messages.push_back("carving rooms...");
+    messages.push_back("carving rooms...");
 
     loads.push_back(std::bind(&World::makeWalls, &game.getWorld()));
-        messages.push_back("reinforcing structures...");
+    messages.push_back("reinforcing structures...");
 
     loads.push_back(std::bind(&World::makeDetails, &game.getWorld()));
-        messages.push_back("reticulating splines...");
+    messages.push_back("reticulating splines...");
 
     loads.push_back(std::bind(&World::makeHazards, &game.getWorld()));
-        messages.push_back("re-reticulating splines...");
+    messages.push_back("re-reticulating splines...");
 
     loads.push_back(std::bind(&World::makeCover, &game.getWorld()));
-        messages.push_back("furnishing...");
+    messages.push_back("furnishing...");
 
     loads.push_back(std::bind(&Game::spawnEnemies, &game));
-        messages.push_back("populating...");
+    messages.push_back("populating...");
 
     loadingScreen.prepare(loads, messages);
 }
 
-void Shell::alignState(){
-    if(change_main){
+void Shell::alignState()
+{
+    if (change_main) {
         change_main = false;
-        switch(state_main){
+        switch (state_main) {
         case Main_State::QUIT:
             window.close();
             break;
@@ -146,9 +152,9 @@ void Shell::alignState(){
             break;
         }
     }
-    if(change_menu){
+    if (change_menu) {
         change_menu = false;
-        switch(state_menu){
+        switch (state_menu) {
         case Menu_State::MAIN:
             menu = &menu_main;
             break;

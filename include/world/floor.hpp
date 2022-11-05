@@ -1,15 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <world/tile.hpp>
-#include <world/room.hpp>
-#include <world/tunnel.hpp>
 #include <world/direction.hpp>
+#include <world/room.hpp>
+#include <world/tile.hpp>
+#include <world/tunnel.hpp>
 
 /////////////////////////////////////////////////////////////
 /// \brief Procedural generation of tile-based levels, consisting of rooms connected by snaking tunnels.
 ///
-class Floor_Generator{
+class Floor_Generator {
 public:
     /////////////////////////////////////////////////////////////
     /// \brief
@@ -47,17 +47,17 @@ private:
     ///
     std::vector<Room> rooms;
 
-        /////////////////////////////////////////////////////////////
-        /// \brief Pointer to the final boss room.
-        /// Unsafe if vector<Room> changes!!!
-        ///
-        Room* endRoom;
+    /////////////////////////////////////////////////////////////
+    /// \brief Pointer to the final boss room.
+    /// Unsafe if vector<Room> changes!!!
+    ///
+    Room* endRoom;
 
-        /////////////////////////////////////////////////////////////
-        /// \brief Pointer to the starting room.
-        /// Unsafe if vector<Room> changes!!!
-        ///
-        Room* startRoom;
+    /////////////////////////////////////////////////////////////
+    /// \brief Pointer to the starting room.
+    /// Unsafe if vector<Room> changes!!!
+    ///
+    Room* startRoom;
 
     /////////////////////////////////////////////////////////////
     /// \brief Tracks where floor tiles will be placed.
@@ -84,25 +84,25 @@ private:
     ///
     void carveRooms();
 
-        /////////////////////////////////////////////////////////////
-        /// \brief Appends rooms to floorMap.
-        ///
-        void readRooms();
+    /////////////////////////////////////////////////////////////
+    /// \brief Appends rooms to floorMap.
+    ///
+    void readRooms();
 
-        /////////////////////////////////////////////////////////////
-        /// \brief True if all rooms are accessible
-        ///
-        bool checkRooms();
+    /////////////////////////////////////////////////////////////
+    /// \brief True if all rooms are accessible
+    ///
+    bool checkRooms();
 
     /////////////////////////////////////////////////////////////
     /// \brief Appends tunnels to floorMap.
     ///
     void readTunnels();
 
-        /////////////////////////////////////////////////////////////
-        /// \brief Sets area around tunnel nodes as floor.
-        ///
-        void addTunnelFloor(sf::Vector2i v, int distance);
+    /////////////////////////////////////////////////////////////
+    /// \brief Sets area around tunnel nodes as floor.
+    ///
+    void addTunnelFloor(sf::Vector2i v, int distance);
 
     /////////////////////////////////////////////////////////////
     /// \brief Performs a cellular automata on the rooms.
@@ -114,10 +114,10 @@ private:
     ///
     void floodCheck();
 
-        /////////////////////////////////////////////////////////////
-        /// \brief Recursive component of floodCheck()
-        ///
-        void floodFill(int x, int y, std::map<int, std::map<int, bool>>& floodMap);
+    /////////////////////////////////////////////////////////////
+    /// \brief Recursive component of floodCheck()
+    ///
+    void floodFill(int x, int y, std::map<int, std::map<int, bool>>& floodMap);
 
     /////////////////////////////////////////////////////////////
     /// \brief Counts orthogonal and diagonal walls for automata.
@@ -130,6 +130,4 @@ private:
     float calculateDistanceFactor(int distance, int size);
 
     void updateRooms();
-
 };
-

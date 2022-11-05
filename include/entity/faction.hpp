@@ -2,7 +2,7 @@
 
 #include <string>
 
-enum class Faction{
+enum class Faction {
     BUGS,
     PIRATES,
     GHOSTS,

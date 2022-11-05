@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////
 /// \brief Button class for mouse navigation.
 ///
-class Button : public sf::Drawable{
+class Button : public sf::Drawable {
 public:
     Button(std::string nlabel, sf::Font& font);
 

@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <resources/font.hpp>
 
-class Font_Manager{
+class Font_Manager {
 public:
     ~Font_Manager();
 

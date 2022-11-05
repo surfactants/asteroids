@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <audio/audio_manager.hpp>
 #include <game/game.hpp>
 #include <ui/ui_elements.hpp>
-#include <audio/audio_manager.hpp>
 
-class UI : public sf::Drawable{
+class UI : public sf::Drawable {
 public:
     UI(Game& ngame);
 

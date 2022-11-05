@@ -1,8 +1,9 @@
-#include <world/tunnel.hpp>
 #include <util/prng.hpp>
+#include <world/tunnel.hpp>
 
 /////////////////////////////////////////////////////////////
-Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
+Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect)
+{
     nodes.push_back(Node(pos));
     direction = ndirect;
 
@@ -12,19 +13,19 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
 
     int distance = 1;
 
-    for(unsigned int i = 0; i < steps; ++i){
+    for (unsigned int i = 0; i < steps; ++i) {
 
         bool forward = false;
 
-        if(prng::boolean(.75d)){
+        if (prng::boolean(.75d)) {
             moveDirection(pos, direction, distance);
             forward = true;
         }
 
-        if(prng::boolean(.10f)){
+        if (prng::boolean(.10f)) {
             Direction nd = sideways;
-            while(nd == sideways){
-                switch(prng::number(-1, 1)){
+            while (nd == sideways) {
+                switch (prng::number(-1, 1)) {
                 case -1:
                     sideways = Direction::W;
                     break;
@@ -40,14 +41,16 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect){
             }
         }
 
-        if(!forward && sideways == Direction::NULLDIRECTION){
+        if (!forward && sideways == Direction::NULLDIRECTION) {
             Direction t;
-            if(prng::boolean()) t = Direction::W;
-            else t = Direction::E;
+            if (prng::boolean())
+                t = Direction::W;
+            else
+                t = Direction::E;
             moveDirection(pos, normalizeDirection(direction, t), distance);
         }
 
-        if(sideways != Direction::NULLDIRECTION){
+        if (sideways != Direction::NULLDIRECTION) {
             moveDirection(pos, normalizeDirection(direction, sideways), distance);
         }
 

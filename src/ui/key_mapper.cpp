@@ -3,11 +3,12 @@
 
 //////////////////////////////////////////////////////////////
 std::map<Key_Mapper::Row::State, sf::Color> Key_Mapper::Row::colors = { { Row::NONE, sf::Color(25, 25, 25) },
-                                                { Row::HOVER, sf::Color(75, 125, 65) },
-                                                { Row::SELECT, sf::Color(95, 75, 145) } };
+    { Row::HOVER, sf::Color(75, 125, 65) },
+    { Row::SELECT, sf::Color(95, 75, 145) } };
 
-Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size) :
-    Action(action){
+Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size)
+    : Action(action)
+{
     keyCache = std::get<std::string>(action.key);
     labels.first.setFont(font);
     labels.first.setCharacterSize(characterSize);
@@ -29,32 +30,37 @@ Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int ch
     setState(Row::NONE);
 }
 
-void Key_Mapper::Row::setPosition(sf::Vector2f pos){
+void Key_Mapper::Row::setPosition(sf::Vector2f pos)
+{
     bounds.left = pos.x;
     bounds.top = pos.y;
 
     cells.first.setPosition(pos);
-        labels.first.setPosition(cells.first.getPosition() + (cells.first.getSize() / 2.f));
+    labels.first.setPosition(cells.first.getPosition() + (cells.first.getSize() / 2.f));
     pos.x += cells.first.getSize().x + padding;
     cells.second.setPosition(pos);
-        labels.second.setPosition(cells.second.getPosition() + (cells.second.getSize() / 2.f));
+    labels.second.setPosition(cells.second.getPosition() + (cells.second.getSize() / 2.f));
 }
 
-sf::Vector2f Key_Mapper::Row::getPosition(){
+sf::Vector2f Key_Mapper::Row::getPosition()
+{
     return cells.first.getPosition();
 }
 
-bool Key_Mapper::Row::checkMouse(sf::Vector2f mpos){
-    return (bounds.contains(mpos.x,  mpos.y));
+bool Key_Mapper::Row::checkMouse(sf::Vector2f mpos)
+{
+    return (bounds.contains(mpos.x, mpos.y));
 }
 
-void Key_Mapper::Row::setState(Key_Mapper::Row::State state){
+void Key_Mapper::Row::setState(Key_Mapper::Row::State state)
+{
     this->state = state;
     cells.first.setFillColor(colors[state]);
     cells.second.setFillColor(colors[state]);
 }
 
-void Key_Mapper::Row::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void Key_Mapper::Row::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     target.draw(cells.first, states);
     target.draw(cells.second, states);
 
@@ -62,46 +68,54 @@ void Key_Mapper::Row::draw(sf::RenderTarget& target, sf::RenderStates states) co
     target.draw(labels.second, states);
 }
 
-const sf::Vector2f Key_Mapper::Row::getSize() const{
+const sf::Vector2f Key_Mapper::Row::getSize() const
+{
     return cells.first.getSize() + sf::Vector2f(cells.second.getSize().x, 0.f);
 }
 
-void Key_Mapper::Row::setKey(std::string key){
+void Key_Mapper::Row::setKey(std::string key)
+{
     keyCache = key;
     labels.second.setString(key);
     centerText(labels.second);
 }
 
-std::string Key_Mapper::Row::getKey(){
+std::string Key_Mapper::Row::getKey()
+{
     return std::get<std::string>(key);
 }
 
-void Key_Mapper::Row::reset(){
+void Key_Mapper::Row::reset()
+{
     setKey(std::get<std::string>(key));
     setState(Row::NONE);
 }
 
-void Key_Mapper::Row::confirm(){
+void Key_Mapper::Row::confirm()
+{
     key = keyCache;
     setState(Row::NONE);
 }
 
-void Key_Mapper::Row::setCellColor(const Row::State state, const sf::Color& color){
+void Key_Mapper::Row::setCellColor(const Row::State state, const sf::Color& color)
+{
     colors[state] = color;
     setState(this->state);
 }
 
-void Key_Mapper::Row::setTextColor(const sf::Color& color){
+void Key_Mapper::Row::setTextColor(const sf::Color& color)
+{
     labels.first.setFillColor(color);
     labels.second.setFillColor(color);
 }
 
 //////////////////////////////////////////////////////////////
-Key_Mapper::Key_Mapper(){}
+Key_Mapper::Key_Mapper() { }
 
-void Key_Mapper::reset(){
+void Key_Mapper::reset()
+{
 
-    for(auto& row : rows){
+    for (auto& row : rows) {
         row.reset();
     }
 
@@ -109,25 +123,28 @@ void Key_Mapper::reset(){
     selectIndex = SIZE_MAX;
 }
 
-void Key_Mapper::confirm(){
-    for(auto& row : rows){
+void Key_Mapper::confirm()
+{
+    for (auto& row : rows) {
         row.confirm();
     }
 }
 
-void Key_Mapper::setPosition(sf::Vector2f pos){
+void Key_Mapper::setPosition(sf::Vector2f pos)
+{
     this->pos = pos;
-    for(auto& row : rows){
+    for (auto& row : rows) {
         row.setPosition(pos);
         pos.y += row.getSize().y + 4;
     }
 }
 
-bool Key_Mapper::checkMouse(sf::Vector2f mpos){
+bool Key_Mapper::checkMouse(sf::Vector2f mpos)
+{
     const size_t n = rows.size();
-    for(size_t r = 0; r < n; r++){
-        if(rows[r].checkMouse(mpos)){
-            if(r != hoverIndex && r != selectIndex){
+    for (size_t r = 0; r < n; r++) {
+        if (rows[r].checkMouse(mpos)) {
+            if (r != hoverIndex && r != selectIndex) {
                 undoHover();
                 rows[r].setState(Row::HOVER);
                 hoverIndex = r;
@@ -139,24 +156,27 @@ bool Key_Mapper::checkMouse(sf::Vector2f mpos){
     return false;
 }
 
-void Key_Mapper::undoHover(){
-    if(hoverIndex != SIZE_MAX && hoverIndex != selectIndex){
+void Key_Mapper::undoHover()
+{
+    if (hoverIndex != SIZE_MAX && hoverIndex != selectIndex) {
         rows[hoverIndex].setState(Row::NONE);
         hoverIndex = SIZE_MAX;
     }
 }
 
-void Key_Mapper::undoSelect(){
-    if(selectIndex != SIZE_MAX){
+void Key_Mapper::undoSelect()
+{
+    if (selectIndex != SIZE_MAX) {
         rows[selectIndex].setState(static_cast<Row::State>(hoverIndex == selectIndex));
         selectIndex = SIZE_MAX;
     }
 }
 
-bool Key_Mapper::clickLeft(){
+bool Key_Mapper::clickLeft()
+{
     bool parsed = (hoverIndex != SIZE_MAX && hoverIndex != selectIndex);
 
-    if(parsed){
+    if (parsed) {
         undoSelect();
         selectIndex = hoverIndex;
         rows[selectIndex].setState(Row::SELECT);
@@ -165,21 +185,23 @@ bool Key_Mapper::clickLeft(){
     return parsed;
 }
 
-void Key_Mapper::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    for(const auto& row : rows){
+void Key_Mapper::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    for (const auto& row : rows) {
         target.draw(row, states);
     }
 }
 
-bool Key_Mapper::keyPressed(sf::Keyboard::Key key){
+bool Key_Mapper::keyPressed(sf::Keyboard::Key key)
+{
     bool parsed = (selectIndex != SIZE_MAX);
 
-    if(parsed){
-        if(key != sf::Keyboard::Escape){
+    if (parsed) {
+        if (key != sf::Keyboard::Escape) {
             std::string k = converter.toString(key);
-            auto isPrev = [k](Row r){ return r.getKey() == k; };
+            auto isPrev = [k](Row r) { return r.getKey() == k; };
             auto prevIt = std::find_if(rows.begin(), rows.end(), isPrev);
-            if(prevIt != rows.end()){
+            if (prevIt != rows.end()) {
                 std::string prev = rows[selectIndex].getKey();
                 prevIt->setKey(prev);
             }
@@ -192,35 +214,40 @@ bool Key_Mapper::keyPressed(sf::Keyboard::Key key){
     return parsed;
 }
 
-void Key_Mapper::setBackgroundColor(const sf::Color& color){
-    for(auto& row : rows){
+void Key_Mapper::setBackgroundColor(const sf::Color& color)
+{
+    for (auto& row : rows) {
         row.setCellColor(Row::NONE, color);
     }
 }
 
-void Key_Mapper::setHoverColor(const sf::Color& color){
-    for(auto& row : rows){
+void Key_Mapper::setHoverColor(const sf::Color& color)
+{
+    for (auto& row : rows) {
         row.setCellColor(Row::HOVER, color);
     }
 }
 
-void Key_Mapper::setSelectColor(const sf::Color& color){
-    for(auto& row : rows){
+void Key_Mapper::setSelectColor(const sf::Color& color)
+{
+    for (auto& row : rows) {
         row.setCellColor(Row::SELECT, color);
     }
 }
 
-void Key_Mapper::setTextColor(const sf::Color& color){
-    for(auto& row : rows){
+void Key_Mapper::setTextColor(const sf::Color& color)
+{
+    for (auto& row : rows) {
         row.setTextColor(color);
     }
 }
 
-void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& actions){
+void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& actions)
+{
     rows.clear();
     sf::Vector2f rpos = pos;
 
-    for(auto action : actions){
+    for (auto action : actions) {
         action.key = converter.toString(std::get<sf::Keyboard::Key>(action.key));
         rows.push_back(Row(action, font, characterSize, rowSize));
         rows.back().press = action.press;
@@ -230,10 +257,11 @@ void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& act
     }
 }
 
-std::vector<Action> Key_Mapper::getActions(){
+std::vector<Action> Key_Mapper::getActions()
+{
     std::vector<Action> actions;
 
-    for(const auto& row : rows){
+    for (const auto& row : rows) {
         actions.push_back(row);
         actions.back().key = converter.toKey(std::get<std::string>(actions.back().key));
     }

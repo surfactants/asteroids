@@ -8,7 +8,7 @@
 //this class handles conversions between sf::Keyboard::Key
 //it is a bimap-less modification of Bromeon's solution in Thor
 
-class Convert_Key{
+class Convert_Key {
 public:
     Convert_Key();
 

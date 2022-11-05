@@ -1,13 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <menu/menu_elements.hpp>
-#include <system/state_hook.hpp>
 #include <audio/audio_manager.hpp>
-#include <vector>
+#include <menu/menu_elements.hpp>
 #include <system/settings_package.hpp>
+#include <system/state_hook.hpp>
+#include <vector>
 
-class Menu : public sf::Drawable, public State_Hook, public Audio_Manager{
+class Menu : public sf::Drawable, public State_Hook, public Audio_Manager {
 public:
     Menu();
     virtual void update(sf::Vector2f mpos);
@@ -17,7 +17,7 @@ public:
     void releaseRight();
     virtual void back();
     void scroll(float delta);
-    virtual void saveSettings(){}
+    virtual void saveSettings() { }
     void stopInput();
 
 protected:
@@ -31,34 +31,36 @@ protected:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
-
     static std::vector<Nav> nav;
 };
 
-class Menu_Main : public Menu{
+class Menu_Main : public Menu {
 public:
     Menu_Main();
+
 protected:
 private:
 };
 
-class Menu_Pause : public Menu{
+class Menu_Pause : public Menu {
 public:
     Menu_Pause();
+
 protected:
 private:
 };
 
-class Menu_Settings : public Menu, public Audio_Settings{
+class Menu_Settings : public Menu, public Audio_Settings {
 public:
     Menu_Settings();
     virtual void back() override;
     void saveSettings();
-protected:
-    Slider volume_music{ "music" };
-    Slider volume_sound{ "sound" };
-private:
 
+protected:
+    Slider volume_music { "music" };
+    Slider volume_sound { "sound" };
+
+private:
     Audio_Settings audioSettings;
 
     void reset();
@@ -67,7 +69,7 @@ private:
     void loadSettings();
 };
 
-class Menu_Keymap : public Menu, public Key_Mapper{
+class Menu_Keymap : public Menu, public Key_Mapper {
 public:
     Menu_Keymap();
     virtual void back() override;
@@ -75,7 +77,6 @@ public:
     virtual void update(sf::Vector2f mpos) override;
 
     virtual void clickLeft() override;
-
 
     void setActions(const std::vector<Action>& actions);
 
@@ -86,12 +87,16 @@ public:
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
 };
 
-struct Menu_Package{
+struct Menu_Package {
     Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s, Menu_Keymap* k)
-    : m_main{ m }, m_pause{ p }, m_settings{ s }, m_keymap{ k }{}
+        : m_main { m }
+        , m_pause { p }
+        , m_settings { s }
+        , m_keymap { k }
+    {
+    }
 
     Menu_Main* m_main;
     Menu_Pause* m_pause;

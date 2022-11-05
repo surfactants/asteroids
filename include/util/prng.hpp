@@ -27,64 +27,73 @@
 /////////////////////////////////////////////////////////////
 /// \brief Pseudo-random number generation (and bools, and chars)
 ///
-namespace prng{
+namespace prng {
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Internal wrapper struct to seed the rng.
-    ///
-    struct Engine : public std::mt19937{
-         Engine() : std::mt19937(std::random_device()()){}
-    };
-
-    /////////////////////////////////////////////////////////////
-    /// \brief Internal function which returns the rng engine.
-    ///
-    inline std::mt19937& engine(){
-        static Engine mt;
-        return mt;
+/////////////////////////////////////////////////////////////
+/// \brief Internal wrapper struct to seed the rng.
+///
+struct Engine : public std::mt19937 {
+    Engine()
+        : std::mt19937(std::random_device()())
+    {
     }
+};
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Returns a random floating-point number (float or double)
-    ///
-    template<typename T>
-    typename std::enable_if<std::is_floating_point<T>::value, T>::type
-    number(const T floor, const T ceil){
-        std::uniform_real_distribution<T> dist(floor, ceil);
-        return dist(engine());
-    }
+/////////////////////////////////////////////////////////////
+/// \brief Internal function which returns the rng engine.
+///
+inline std::mt19937& engine()
+{
+    static Engine mt;
+    return mt;
+}
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Returns a random integral type (int, char)
-    ///
-    template<typename T>
-    typename std::enable_if<std::is_integral<T>::value, T>::type
-    number(const T floor, const T ceil){
-        std::uniform_int_distribution<T> dist(floor, ceil);
-        return dist(engine());
-    }
+/////////////////////////////////////////////////////////////
+/// \brief Returns a random floating-point number (float or double)
+///
+template <typename T>
+typename std::enable_if<std::is_floating_point<T>::value, T>::type
+number(const T floor, const T ceil)
+{
+    std::uniform_real_distribution<T> dist(floor, ceil);
+    return dist(engine());
+}
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Returns a random container accessor based on its size.
-    ///
-    template<typename size_type>
-    number(size_type s){
-        return number(0u, (unsigned int)s - 1);
-    }
+/////////////////////////////////////////////////////////////
+/// \brief Returns a random integral type (int, char)
+///
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value, T>::type
+number(const T floor, const T ceil)
+{
+    std::uniform_int_distribution<T> dist(floor, ceil);
+    return dist(engine());
+}
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Returns a random bool (50% chance)
-    ///
-    inline bool boolean(){
-        std::bernoulli_distribution dist;
-        return dist(engine());
-    }
+/////////////////////////////////////////////////////////////
+/// \brief Returns a random container accessor based on its size.
+///
+template <typename size_type>
+number(size_type s)
+{
+    return number(0u, (unsigned int)s - 1);
+}
 
-    /////////////////////////////////////////////////////////////
-    /// \brief Returns a weighted bool (percent chance out of 1.f)
-    ///
-    inline bool boolean(float chance){
-        std::bernoulli_distribution dist(chance);
-        return dist(engine());
-    }
+/////////////////////////////////////////////////////////////
+/// \brief Returns a random bool (50% chance)
+///
+inline bool boolean()
+{
+    std::bernoulli_distribution dist;
+    return dist(engine());
+}
+
+/////////////////////////////////////////////////////////////
+/// \brief Returns a weighted bool (percent chance out of 1.f)
+///
+inline bool boolean(float chance)
+{
+    std::bernoulli_distribution dist(chance);
+    return dist(engine());
+}
 }

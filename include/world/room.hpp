@@ -1,14 +1,18 @@
 #pragma once
 
-#include <map>
 #include <SFML/Graphics.hpp>
+#include <map>
 #include <world/node.hpp>
 
 /////////////////////////////////////////////////////////////
 /// \brief Defines rectangular room areas for carving and automating.
 ///
-struct Room{
-    enum Type{ START, END, REGULAR, SIDE, NULLTYPE };
+struct Room {
+    enum Type { START,
+        END,
+        REGULAR,
+        SIDE,
+        NULLTYPE };
 
     /////////////////////////////////////////////////////////////
     /// \brief Default constructor
@@ -37,8 +41,9 @@ struct Room{
     /// \brief Checks whether a given coordinate position is in the room's floor.
     /// Careful with signs.
     ///
-    template<typename T>
-    bool contains(sf::Vector2<T> pos){
+    template <typename T>
+    bool contains(sf::Vector2<T> pos)
+    {
 
         return floor[(int)pos.x][(int)pos.y];
     }

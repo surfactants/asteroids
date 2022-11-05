@@ -1,18 +1,20 @@
 #include <animation/animation.hpp>
 
-Animation::Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount){
-    for(unsigned int f = 0; f < frameCount; ++f){
+Animation::Animation(sf::Vector2i start, sf::Vector2i size, unsigned int frameCount)
+{
+    for (unsigned int f = 0; f < frameCount; ++f) {
         frames.push_back(sf::IntRect(start, size));
         start.x += std::abs(size.x);
     }
 }
 
-sf::IntRect Animation::nextFrame(){
-    if(!repeats && currentFrame == frames.size() - 1){
+sf::IntRect Animation::nextFrame()
+{
+    if (!repeats && currentFrame == frames.size() - 1) {
         return frames[currentFrame];
     }
     currentFrame++;
-    if(currentFrame >= frames.size()){
+    if (currentFrame >= frames.size()) {
 
         currentFrame = 0;
     }
@@ -20,30 +22,36 @@ sf::IntRect Animation::nextFrame(){
     return frames[currentFrame];
 }
 
-void Animation::reset(){
+void Animation::reset()
+{
     currentFrame = 0;
 }
 
-sf::IntRect Animation::firstFrame(){
+sf::IntRect Animation::firstFrame()
+{
     reset();
     return frames[0];
 }
 
-unsigned int Animation::getCurrentFrame(){
+unsigned int Animation::getCurrentFrame()
+{
     return currentFrame;
 }
 
-bool Animation::lastFrame(){
+bool Animation::lastFrame()
+{
     return (currentFrame == frames.size() - 1);
 }
 
-unsigned int Animation::transitionFrom(){
+unsigned int Animation::transitionFrom()
+{
     unsigned int f = currentFrame;
     reset();
     return f;
 }
 
-sf::IntRect Animation::transitionTo(unsigned int frame){
+sf::IntRect Animation::transitionTo(unsigned int frame)
+{
     currentFrame = frame;
     return frames[currentFrame];
 }

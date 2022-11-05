@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Mouse_Event{
+enum class Mouse_Event {
     LEFT_CLICK,
     LEFT_RELEASE,
     RIGHT_CLICK,

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
 #include <queue>
+#include <string>
 
-class Audio_Bus{
+class Audio_Bus {
 protected:
     static void addSound(std::string id);
     static void addMusic(std::string id);

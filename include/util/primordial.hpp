@@ -46,15 +46,17 @@ sf::FloatRect getViewBounds(const sf::View& view);
 /////////////////////////////////////////////////////////////
 /// \brief Returns the scalar distance between two 2d vectors.
 ///
-template<typename T>
-T scalarDistance(const sf::Vector2<T> v, sf::Vector2<T> const w){
+template <typename T>
+T scalarDistance(const sf::Vector2<T> v, sf::Vector2<T> const w)
+{
     T a = std::abs(w.x - v.x);
     T b = std::abs(w.y - v.y);
     return static_cast<T>(sqrt(pow(a, 2) + pow(b, 2)));
 }
 
-template<typename T>
-T scalarDistance(const sf::Vector2<T> v){
+template <typename T>
+T scalarDistance(const sf::Vector2<T> v)
+{
     T a = std::abs(v.x);
     T b = std::abs(v.y);
     return static_cast<T>(sqrt(pow(a, 2) + pow(b, 2)));
@@ -63,54 +65,59 @@ T scalarDistance(const sf::Vector2<T> v){
 /////////////////////////////////////////////////////////////
 /// \brief Returns the 2d vector distance between two 2d vectors.
 ///
-template<typename T>
-sf::Vector2<T> vectorDistance(const sf::Vector2<T> v, const sf::Vector2<T> w){
+template <typename T>
+sf::Vector2<T> vectorDistance(const sf::Vector2<T> v, const sf::Vector2<T> w)
+{
     return sf::Vector2<T>(w.x - v.x, w.y - v.y);
 }
 
-template<typename T>
-double calculateOrientation(sf::Vector2<T> v){
+template <typename T>
+double calculateOrientation(sf::Vector2<T> v)
+{
     double t = atan((double)v.y / (double)v.x);
 
-    t *= 180.d/PI;
+    t *= 180.d / PI;
 
-    if(v.x > 0) t += 90;
-    else if(v.y < 0) t += 270;
+    if (v.x > 0)
+        t += 90;
+    else if (v.y < 0)
+        t += 270;
 
     return t;
 }
 
-template<typename T>
-double calculateOrientation(sf::Vector2<T> v, sf::Vector2<T> w){
+template <typename T>
+double calculateOrientation(sf::Vector2<T> v, sf::Vector2<T> w)
+{
     return calculateOrientation(w - v);
 }
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Calculates the angle needed to point an object towards
-    /// another object or point.
-    ///
-    /// \param \b pos1
-    /// \param \b pos2
-    ///
-    /// \return \b theta in degrees
-    ///
-    /// \see calculateDistance(), calculateMovementVector(), calculateVelocity()
-    ///
-    float calculateAngle(sf::Vector2f pos1, sf::Vector2f pos2);
+////////////////////////////////////////////////////////////
+/// \brief Calculates the angle needed to point an object towards
+/// another object or point.
+///
+/// \param \b pos1
+/// \param \b pos2
+///
+/// \return \b theta in degrees
+///
+/// \see calculateDistance(), calculateMovementVector(), calculateVelocity()
+///
+float calculateAngle(sf::Vector2f pos1, sf::Vector2f pos2);
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Defines a movement vector based on speed and angle.
-    ///
-    /// \param \b angle in degrees
-    /// \param \b velocity
-    /// \param \b moveVector a reference to an object's movement vector
-    ///
-    /// \see calculateOrientation(), calculateDistance(), calculateVelocity()
-    ///
-    void calculateMoveVector(float angle, float velocity, sf::Vector2f& moveVector);
-    sf::Vector2f calculateMoveVector(sf::Vector2f start, sf::Vector2f end, float speed);
+////////////////////////////////////////////////////////////
+/// \brief Defines a movement vector based on speed and angle.
+///
+/// \param \b angle in degrees
+/// \param \b velocity
+/// \param \b moveVector a reference to an object's movement vector
+///
+/// \see calculateOrientation(), calculateDistance(), calculateVelocity()
+///
+void calculateMoveVector(float angle, float velocity, sf::Vector2f& moveVector);
+sf::Vector2f calculateMoveVector(sf::Vector2f start, sf::Vector2f end, float speed);
 
-template<typename T>
+template <typename T>
 T scalarProduct(const sf::Vector2<T>& v, const sf::Vector2<T>& w)
 {
     return ((v.x * w.x) + (v.y * w.y));

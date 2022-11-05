@@ -4,9 +4,8 @@
 #include <math.h>
 #include <util/primordial.hpp>
 
-namespace collide
-{
-    inline bool pointRect(sf::Vector2f point, sf::RectangleShape rect)
+namespace collide {
+inline bool pointRect(sf::Vector2f point, sf::RectangleShape rect)
 {
     bool contains = false;
 
@@ -24,7 +23,7 @@ namespace collide
     float APAD = scalarProduct(AP, AD);
     float ADAD = scalarProduct(AD, AD);
 
-    if((0 < APAB) && (APAB < ABAB) && (0 < APAD) && (APAD < ADAD)){
+    if ((0 < APAB) && (APAB < ABAB) && (0 < APAD) && (APAD < ADAD)) {
         contains = true;
     }
     return contains;

@@ -3,26 +3,32 @@
 std::map<sf::Keyboard::Key, std::string> Convert_Key::to_string;
 std::map<std::string, sf::Keyboard::Key> Convert_Key::to_key;
 
-Convert_Key::Convert_Key(){
-    if(to_string.empty()){
+Convert_Key::Convert_Key()
+{
+    if (to_string.empty()) {
         init();
     }
 }
 
-std::string Convert_Key::toString(sf::Keyboard::Key key){
+std::string Convert_Key::toString(sf::Keyboard::Key key)
+{
     return to_string[key];
 }
 
-sf::Keyboard::Key Convert_Key::toKey(std::string str){
-    sf::Keyboard::Key key{ sf::Keyboard::Unknown };
-    if(to_key.contains(str)){
+sf::Keyboard::Key Convert_Key::toKey(std::string str)
+{
+    sf::Keyboard::Key key { sf::Keyboard::Unknown };
+    if (to_key.contains(str)) {
         key = to_key[str];
     }
     return key;
 }
 
-void Convert_Key::init(){
-    #define MAP_INSERT(x) to_string.insert({sf::Keyboard::x, std::string(#x)}); to_key.insert({std::string(#x), sf::Keyboard::x});
+void Convert_Key::init()
+{
+#define MAP_INSERT(x)                                       \
+    to_string.insert({ sf::Keyboard::x, std::string(#x) }); \
+    to_key.insert({ std::string(#x), sf::Keyboard::x });
 
     MAP_INSERT(Unknown);
     MAP_INSERT(A);
@@ -128,5 +134,5 @@ void Convert_Key::init(){
     MAP_INSERT(Pause);
 
     static_assert(sf::Keyboard::KeyCount == 101, "Number of SFML keys has changed");
-    #undef MAP_INSERT
+#undef MAP_INSERT
 }

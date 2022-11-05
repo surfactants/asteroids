@@ -1,13 +1,13 @@
 #pragma once
 
-#include <string>
-#include <map>
 #include <SFML/System/Vector2.hpp>
+#include <entity/damage.hpp>
 #include <entity/entity_state.hpp>
 #include <entity/faction.hpp>
-#include <entity/damage.hpp>
+#include <map>
+#include <string>
 
-enum class Entity_Type{
+enum class Entity_Type {
     MELEE_LIGHT,
     MELEE_HEAVY,
     RANGED,
@@ -21,8 +21,8 @@ std::string entityTypeToString(Entity_Type e);
 
 Entity_Type stringToEntityType(std::string s);
 
-struct Entity_Data{
-    std::string name{};
+struct Entity_Data {
+    std::string name {};
     Faction faction;
     float speed;
     Entity_Type type;

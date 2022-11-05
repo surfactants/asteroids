@@ -3,13 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include <entity/enemy.hpp>
 
-class Minimap : public sf::Drawable{
+class Minimap : public sf::Drawable {
 public:
     Minimap();
     void initialize(std::vector<Enemy>& enemies, sf::Vector2f playerPos);
     void update(std::vector<Enemy>& enemies, sf::Vector2f playerPos);
     void readBlip(sf::Vector2f pos);
     void set(sf::Vector2f size);
+
 protected:
 private:
     sf::View view;
@@ -22,7 +23,7 @@ private:
     sf::Clock rotateClock;
     const static float rotateThreshold;
 
-    struct Blip : public sf::CircleShape{
+    struct Blip : public sf::CircleShape {
         Blip();
         Blip(sf::Vector2f pos);
         sf::Clock decayClock;

@@ -1,14 +1,15 @@
-#include <ui/minimap.hpp>
-#include <util/prng.hpp>
 #include <iostream>
 #include <system/collider.hpp>
-#include <util/vector2_stream.hpp>
 #include <system/collision.hpp>
+#include <ui/minimap.hpp>
+#include <util/prng.hpp>
+#include <util/vector2_stream.hpp>
 
 const float Minimap::Blip::timeThreshold = 0.5f;
 const float Minimap::rotateThreshold = 0.001f;
 
-Minimap::Minimap(){
+Minimap::Minimap()
+{
     backdrop.setPosition(sf::Vector2f(0.f, 0.f));
     backdrop.setSize(sf::Vector2f(1600.f, 1600.f));
     backdrop.setFillColor(sf::Color(15, 15, 15));
@@ -27,26 +28,31 @@ Minimap::Minimap(){
     center.setFillColor(sf::Color(200, 200, 200));
 }
 
-Minimap::Blip::Blip(){
+Minimap::Blip::Blip()
+{
     setRadius(8.f);
     setPointCount(18);
     reset();
 }
 
-Minimap::Blip::Blip(sf::Vector2f pos){
+Minimap::Blip::Blip(sf::Vector2f pos)
+{
     setRadius(8.f);
     setPosition(pos);
     setPointCount(18);
     setFillColor(sf::Color::Transparent);
 }
 
-void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     target.setView(view);
 
     target.draw(backdrop, states);
 
-    for(const auto& blip : dyingBlips) target.draw(blip, states);
-    for(const auto& blip : blips) target.draw(blip.second, states);
+    for (const auto& blip : dyingBlips)
+        target.draw(blip, states);
+    for (const auto& blip : blips)
+        target.draw(blip.second, states);
 
     target.draw(line, states);
 
@@ -55,28 +61,31 @@ void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const{
     target.draw(center, states);
 }
 
-void Minimap::initialize(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
+void Minimap::initialize(std::vector<Enemy>& enemies, sf::Vector2f playerPos)
+{
     blips.clear();
-    for(unsigned int e = 0; e < enemies.size(); ++e){
+    for (unsigned int e = 0; e < enemies.size(); ++e) {
         blips[e] = Blip(enemies[e].getPosition());
     }
 }
 
-void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
-    for(auto& blip : blips){
-        if(!blip.second.dead) blip.second.update();
+void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos)
+{
+    for (auto& blip : blips) {
+        if (!blip.second.dead)
+            blip.second.update();
     }
 
-    if(rotateClock.getElapsedTime().asSeconds() > rotateThreshold){
+    if (rotateClock.getElapsedTime().asSeconds() > rotateThreshold) {
         rotateClock.restart();
 
         line.rotate(.6f);
 
-        for(unsigned int e = 0; e < enemies.size(); ++e){
+        for (unsigned int e = 0; e < enemies.size(); ++e) {
             sf::Vector2f p = (enemies[e].getPosition() - playerPos) / 35.f;
-            if(enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)){
-                if(blips[e].ready()){
-                    if(!blips[e].dead){
+            if (enemies[e].getState() < Entity_State::DYING && collide::pointRect(p, line)) {
+                if (blips[e].ready()) {
+                    if (!blips[e].dead) {
                         dyingBlips.push_back(blips[e]);
                     }
                     blips[e].setPosition(p);
@@ -90,47 +99,51 @@ void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos){
         }
     }
 
-    for(unsigned int b = 0; b < dyingBlips.size(); ++b){
+    for (unsigned int b = 0; b < dyingBlips.size(); ++b) {
         dyingBlips[b].update();
-        if(dyingBlips[b].dead){
+        if (dyingBlips[b].dead) {
             dyingBlips.erase(dyingBlips.begin() + b--);
         }
     }
 }
 
-void Minimap::Blip::update(){
-    if(decayClock.getElapsedTime().asMilliseconds() >= 50){
+void Minimap::Blip::update()
+{
+    if (decayClock.getElapsedTime().asMilliseconds() >= 50) {
         decayClock.restart();
-        if(a == 0){
+        if (a == 0) {
             dead = true;
-        }
-        else{
+        } else {
             a -= 3;
             refill();
         }
     }
 }
 
-void Minimap::Blip::reset(){
+void Minimap::Blip::reset()
+{
     dead = false;
     a = 255;
     refill();
     timer.restart();
 }
 
-bool Minimap::Blip::ready(){
+bool Minimap::Blip::ready()
+{
     bool r = (timer.getElapsedTime().asSeconds() >= timeThreshold);
-    if(r){
+    if (r) {
         timer.restart();
     }
     return r;
 }
 
-void Minimap::Blip::refill(){
+void Minimap::Blip::refill()
+{
     setFillColor(sf::Color(r, g, b, a));
 }
 
-void Minimap::set(sf::Vector2f size){
+void Minimap::set(sf::Vector2f size)
+{
     sf::Vector2f factor;
     factor.x = 0.15f;
     factor.y = (size.x * factor.x) / size.y;

@@ -1,20 +1,19 @@
 #pragma once
 
-#include <entity/player.hpp>
+#include <ai/ai.hpp>
+#include <audio/audio_manager.hpp>
 #include <entity/enemy.hpp>
-#include <vector>
-#include <world/world.hpp>
 #include <entity/enemy_manager.hpp>
+#include <entity/faction.hpp>
+#include <entity/player.hpp>
 #include <entity/projectile_manager.hpp>
+#include <resources/texture_manager.hpp>
 #include <system/collider.hpp>
 #include <system/state_hook.hpp>
-#include <audio/audio_manager.hpp>
-#include <resources/texture_manager.hpp>
-#include <ai/ai.hpp>
-#include <entity/faction.hpp>
-#include <audio/audio_manager.hpp>
+#include <vector>
+#include <world/world.hpp>
 
-class Game : public sf::Drawable, public State_Hook{
+class Game : public sf::Drawable, public State_Hook {
 public:
     Game(sf::RenderWindow& nwindow, sf::View& nview);
     void update(float deltaTime);
@@ -37,7 +36,7 @@ public:
 
     void scroll(float delta);
 
-    enum State{
+    enum State {
         PEACE,
         COMBAT,
         BOSS,
@@ -45,7 +44,7 @@ public:
         LOSE
     };
 
-    State state{ PEACE };
+    State state { PEACE };
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -54,14 +53,14 @@ private:
 
     Faction enemyFaction;
 
-    World world{ enemyFaction };
+    World world { enemyFaction };
     //Level level;
 
-    size_t closestEnemyIndex{ SIZE_MAX };
+    size_t closestEnemyIndex { SIZE_MAX };
 
     Player player;
 
-    Enemy_Manager enemyManager{ enemyFaction };
+    Enemy_Manager enemyManager { enemyFaction };
 
     Projectile_Manager projectileManager;
 

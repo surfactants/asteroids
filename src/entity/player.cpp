@@ -1,65 +1,77 @@
 #include <entity/player.hpp>
 #include <resources/texture_manager.hpp>
 
-Player::Player(){}
+Player::Player() { }
 
-Player::Player(Entity_Data e, sf::Texture& texture) : Entity(e, texture){}
+Player::Player(Entity_Data e, sf::Texture& texture)
+    : Entity(e, texture)
+{
+}
 
-void Player::update(){
+void Player::update()
+{
     Entity::update();
 }
 
-void Player::upStart(){
-    if(!up){
+void Player::upStart()
+{
+    if (!up) {
         up = true;
         setVelocity();
     }
 }
 
-void Player::upEnd(){
-    if(up){
+void Player::upEnd()
+{
+    if (up) {
         up = false;
         setVelocity();
     }
 }
 
-void Player::downStart(){
-    if(!down){
+void Player::downStart()
+{
+    if (!down) {
         down = true;
         setVelocity();
     }
 }
 
-void Player::downEnd(){
-    if(down){
+void Player::downEnd()
+{
+    if (down) {
         down = false;
         setVelocity();
     }
 }
 
-void Player::leftStart(){
-    if(!left){
+void Player::leftStart()
+{
+    if (!left) {
         left = true;
         setVelocity();
     }
 }
 
-void Player::leftEnd(){
-    if(left){
+void Player::leftEnd()
+{
+    if (left) {
         left = false;
         setVelocity();
     }
 }
 
-void Player::rightStart(){
-    if(!right){
+void Player::rightStart()
+{
+    if (!right) {
         right = true;
         setVelocity();
     }
 }
 
-void Player::rightEnd(){
-    if(right){
+void Player::rightEnd()
+{
+    if (right) {
         right = false;
         setVelocity();
     }

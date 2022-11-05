@@ -1,7 +1,8 @@
 #include <system/shell.hpp>
 
-int main(){
+int main()
+{
     Shell shell;
-        shell.run();
+    shell.run();
     return 0;
 }

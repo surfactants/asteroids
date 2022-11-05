@@ -10,9 +10,9 @@
 //this will work great, i think, at the expense of a less generic input handler
 
 //TODO:
-    // scrolling ? :(
-    // re-setting a key should swap with the previous binding (h/t oblivion)
-    // buttons (confirm, cancel, reset changes)
+// scrolling ? :(
+// re-setting a key should swap with the previous binding (h/t oblivion)
+// buttons (confirm, cancel, reset changes)
 
 //recommend running checkMouse() every frame, for post-selection hovers
 
@@ -88,7 +88,7 @@
  *
  **********************************************************************************/
 
-class Key_Mapper : public sf::Drawable{
+class Key_Mapper : public sf::Drawable {
 public:
     std::vector<Action> getActions();
 
@@ -118,11 +118,11 @@ protected:
 
     Convert_Key converter;
 
-    sf::Vector2f pos{ 0.f, 0.f };
-    sf::Vector2f rowSize{ 512.f, 72.f };
+    sf::Vector2f pos { 0.f, 0.f };
+    sf::Vector2f rowSize { 512.f, 72.f };
 
-    size_t hoverIndex{ SIZE_MAX };
-    size_t selectIndex{ SIZE_MAX };
+    size_t hoverIndex { SIZE_MAX };
+    size_t selectIndex { SIZE_MAX };
 
     std::vector<Row> rows;
 
@@ -134,11 +134,13 @@ protected:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Key_Mapper::Row : public sf::Drawable, public Action{
+class Key_Mapper::Row : public sf::Drawable, public Action {
 public:
     Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size);
 
-    enum State{ NONE, HOVER, SELECT };
+    enum State { NONE,
+        HOVER,
+        SELECT };
 
     sf::Vector2f getPosition();
     void setPosition(sf::Vector2f pos);

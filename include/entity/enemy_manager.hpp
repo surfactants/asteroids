@@ -1,10 +1,10 @@
 #pragma once
 
 #include <entity/enemy.hpp>
-#include <world/room.hpp>
 #include <vector>
+#include <world/room.hpp>
 
-class Enemy_Manager : public sf::Drawable{
+class Enemy_Manager : public sf::Drawable {
 public:
     Enemy_Manager(Faction& f);
 

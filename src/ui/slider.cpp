@@ -7,27 +7,30 @@ const float Slider::offset = 3.f;
 
 const float Slider::scrollFactor = 5.f;
 
-Slider::Slider(std::string ntitle){
+Slider::Slider(std::string ntitle)
+{
     container.setSize(containerSize);
-        container.setFillColor(sf::Color::Transparent);
-        container.setOutlineThickness(1);
+    container.setFillColor(sf::Color::Transparent);
+    container.setOutlineThickness(1);
 
     fill.setSize(sf::Vector2f(0.f, container.getSize().y - (offset * 2.f)));
-        fill.setFillColor(palette::orange);
+    fill.setFillColor(palette::orange);
 
     setFill(100.f);
 
     title.setString(ntitle);
 }
 
-void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     target.draw(title, states);
     target.draw(container, states);
     target.draw(fill, states);
     target.draw(label, states);
 }
 
-void Slider::set(sf::Vector2f pos, sf::Font& font){
+void Slider::set(sf::Vector2f pos, sf::Font& font)
+{
     title.setFont(font);
 
     label.setFont(font);
@@ -49,52 +52,68 @@ void Slider::set(sf::Vector2f pos, sf::Font& font){
     container.setOutlineColor(palette::white);
 }
 
-void Slider::setFill(float f){
-    if(f < 0.f) f = 0.f;
-    if(f > 100.f) f = 100.f;
+void Slider::setFill(float f)
+{
+    if (f < 0.f)
+        f = 0.f;
+    if (f > 100.f)
+        f = 100.f;
     fill.setSize(sf::Vector2f((f / 100.f) * (container.getSize().x - (offset * 2.f)), fill.getSize().y));
     label.setString(std::to_string((int)(f)));
 }
 
-void Slider::findFill(int mX){
+void Slider::findFill(int mX)
+{
     static float f;
-    if(mX <= container.getPosition().x + offset) f = 0.f;
-    else if(mX >= container.getPosition().x + container.getSize().x - offset) f = 1.f;
-    else f = (mX - container.getPosition().x) / container.getSize().x;
+    if (mX <= container.getPosition().x + offset)
+        f = 0.f;
+    else if (mX >= container.getPosition().x + container.getSize().x - offset)
+        f = 1.f;
+    else
+        f = (mX - container.getPosition().x) / container.getSize().x;
 
     f *= 100.f;
 
     setFill(f);
 }
 
-float Slider::getFill() const{
+float Slider::getFill() const
+{
     return 100.f * (fill.getSize().x / (container.getSize().x - (offset * 2.f)));
 }
 
-void Slider::scroll(float delta){
-    if(delta < 0) setFill(getFill() - scrollFactor);
-    else if(delta > 0) setFill(getFill() + scrollFactor);
+void Slider::scroll(float delta)
+{
+    if (delta < 0)
+        setFill(getFill() - scrollFactor);
+    else if (delta > 0)
+        setFill(getFill() + scrollFactor);
 }
 
-bool Slider::checkMouse(){
+bool Slider::checkMouse()
+{
     return container.getGlobalBounds().contains(fMouse());
 }
 
-void Slider::update(){
-    if(changing){
+void Slider::update()
+{
+    if (changing) {
         findFill(sf::Mouse::getPosition().x);
     }
 }
 
-bool Slider::unclick(){
-    if(changing){
+bool Slider::unclick()
+{
+    if (changing) {
         changing = false;
         return true;
     }
     return false;
 }
 
-bool Slider::click(){
-    if(!changing && checkMouse()) changing = true;
+bool Slider::click()
+{
+    if (!changing && checkMouse())
+        changing = true;
     return changing;
 }

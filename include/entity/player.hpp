@@ -3,7 +3,7 @@
 #include <entity/entity.hpp>
 #include <world/direction.hpp>
 
-class Player : public Entity{
+class Player : public Entity {
 public:
     Player();
     Player(Entity_Data e, sf::Texture& texture);
