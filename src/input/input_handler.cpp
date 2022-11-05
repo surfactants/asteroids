@@ -35,13 +35,16 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         if (action.first == "Move North") {
             press = std::bind(&Player::upStart, player);
             release = std::bind(&Player::upEnd, player);
-        } else if (action.first == "Move South") {
+        }
+        else if (action.first == "Move South") {
             press = std::bind(&Player::downStart, player);
             release = std::bind(&Player::downEnd, player);
-        } else if (action.first == "Move West") {
+        }
+        else if (action.first == "Move West") {
             press = std::bind(&Player::leftStart, player);
             release = std::bind(&Player::leftEnd, player);
-        } else if (action.first == "Move East") {
+        }
+        else if (action.first == "Move East") {
             press = std::bind(&Player::rightStart, player);
             release = std::bind(&Player::rightEnd, player);
         }
@@ -132,32 +135,40 @@ void Input_Handler::handle()
             if (event.type == sf::Event::KeyPressed) {
                 if (state_main == Main_State::MENU && state_menu == Menu_State::KEYS) {
                     context[state_main].special(event.key.code);
-                } else if (context[state_main].keyPressed.count(event.key.code)) {
+                }
+                else if (context[state_main].keyPressed.count(event.key.code)) {
                     context[state_main].keyPressed[event.key.code].second();
                 }
-            } else if (event.type == sf::Event::KeyReleased) {
+            }
+            else if (event.type == sf::Event::KeyReleased) {
                 if (context[state_main].keyReleased.count(event.key.code)) {
                     context[state_main].keyReleased[event.key.code]();
                 }
-            } else if (event.type == sf::Event::MouseButtonPressed) {
+            }
+            else if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left && context[state_main].mouse.count(Mouse_Event::LEFT_CLICK)) {
                     context[state_main].mouse[Mouse_Event::LEFT_CLICK]();
-                } else if (event.mouseButton.button == sf::Mouse::Right && context[state_main].mouse.count(Mouse_Event::RIGHT_CLICK)) {
+                }
+                else if (event.mouseButton.button == sf::Mouse::Right && context[state_main].mouse.count(Mouse_Event::RIGHT_CLICK)) {
                     context[state_main].mouse[Mouse_Event::RIGHT_CLICK]();
                 }
-            } else if (event.type == sf::Event::MouseButtonReleased) {
+            }
+            else if (event.type == sf::Event::MouseButtonReleased) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (context[state_main].mouse.count(Mouse_Event::LEFT_RELEASE)) {
                         context[state_main].mouse[Mouse_Event::LEFT_RELEASE]();
                     }
-                } else if (event.mouseButton.button == sf::Mouse::Right) {
+                }
+                else if (event.mouseButton.button == sf::Mouse::Right) {
                     if (context[state_main].mouse.count(Mouse_Event::RIGHT_RELEASE)) {
                         context[state_main].mouse[Mouse_Event::RIGHT_RELEASE]();
                     }
                 }
-            } else if (event.type == sf::Event::MouseWheelScrolled) {
+            }
+            else if (event.type == sf::Event::MouseWheelScrolled) {
                 context[state_main].scroll(event.mouseWheelScroll.delta);
-            } else if (event.type == sf::Event::LostFocus) {
+            }
+            else if (event.type == sf::Event::LostFocus) {
                 context[state_main].focus_lost();
             }
         }

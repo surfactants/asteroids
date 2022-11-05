@@ -48,7 +48,8 @@ void Logo::update(sf::Vector2f& mpos)
     bool contains = logo.getGlobalBounds().contains(mpos);
     if (!highlighted && contains) {
         highlight();
-    } else if (highlighted && !contains) {
+    }
+    else if (highlighted && !contains) {
         unhighlight();
     }
 }

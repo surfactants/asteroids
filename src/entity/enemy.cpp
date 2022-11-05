@@ -48,6 +48,7 @@ bool Enemy::decideReady()
     if (decideTimer.getElapsedTime().asSeconds() >= decideThreshold) {
         decideTimer.restart();
         return true;
-    } else
+    }
+    else
         return false;
 }

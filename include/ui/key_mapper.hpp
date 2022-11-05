@@ -138,9 +138,11 @@ class Key_Mapper::Row : public sf::Drawable, public Action {
 public:
     Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size);
 
-    enum State { NONE,
+    enum State {
+        NONE,
         HOVER,
-        SELECT };
+        SELECT
+    };
 
     sf::Vector2f getPosition();
     void setPosition(sf::Vector2f pos);

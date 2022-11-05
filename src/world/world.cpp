@@ -101,7 +101,8 @@ void World::makeWalls()
                     sf::Vector2i tsize(roundFloat(Tile::tileSize), roundFloat(Tile::tileSize));
 
                     walls[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
-                } else
+                }
+                else
                     walls[x][y] = nullptr;
             }
         }
@@ -130,7 +131,8 @@ void World::makeDetails()
                     if (hazard) {
                         hazards[x][y] = std::make_unique<Hazard>(Hazard(v, textureDetails, false, hazard_data[enemyFaction].damage));
                         hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
-                    } else {
+                    }
+                    else {
                         details[x][y] = std::make_unique<Detail>(Detail(v, textureDetails, false));
                         details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                     }
@@ -191,7 +193,8 @@ void World::tileAutomata()
             if (floorMap[x][y]) {
                 if (details[x][y] == nullptr && prng::boolean(0.05f)) {
                     detailMap[x][y] = true;
-                } else {
+                }
+                else {
                     detailMap[x][y] = false;
                 }
             }
@@ -240,7 +243,8 @@ void World::tileAutomata()
                 if (hazard) {
                     hazards[x][y] = std::make_unique<Hazard>(Hazard(v, textureTiledDetail, true, hazard_data[enemyFaction].damage));
                     hazards[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
-                } else {
+                }
+                else {
                     details[x][y] = std::make_unique<Detail>(Detail(v, textureTiledDetail, true));
                     details[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
@@ -295,12 +299,14 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
         for (int y = w.y - renderDistance.y; y <= w.y + renderDistance.y; ++y) {
             if (floor.count(x) && floor.at(x).count(y) && floor.at(x).at(y) != nullptr) {
                 target.draw(*floor.at(x).at(y), states);
-            } else if (walls.count(x) && walls.at(x).count(y) && walls.at(x).at(y) != nullptr) {
+            }
+            else if (walls.count(x) && walls.at(x).count(y) && walls.at(x).at(y) != nullptr) {
                 target.draw(*walls.at(x).at(y), states);
             }
             if (details.count(x) && details.at(x).count(y) && details.at(x).at(y) != nullptr) {
                 target.draw(*details.at(x).at(y), states);
-            } else if (hazards.count(x) && hazards.at(x).count(y) && hazards.at(x).at(y) != nullptr) {
+            }
+            else if (hazards.count(x) && hazards.at(x).count(y) && hazards.at(x).at(y) != nullptr) {
                 target.draw(*hazards.at(x).at(y), states);
             }
         }

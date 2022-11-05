@@ -24,10 +24,12 @@ bool Loading_Screen::update()
                 doStep();
             }
         }
-    } else if (state == WAITING) {
+    }
+    else if (state == WAITING) {
         //check for clicks on the continue button
         state = END;
-    } else if (state == END) { //TODO: check for the end of the final animation
+    }
+    else if (state == END) { //TODO: check for the end of the final animation
         finish();
     }
 
@@ -40,7 +42,8 @@ void Loading_Screen::doStep()
         omen = tasks[step].get_future();
         thread = std::thread(std::move(tasks[step]));
         text.setString(messages[step]);
-    } else {
+    }
+    else {
         state = END;
     }
 

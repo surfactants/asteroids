@@ -56,9 +56,11 @@ void Floor_Generator::reset()
 
             if (direction == Direction::W || direction == Direction::E) {
                 coordinates.y += prng::number(-rooms.back().size.y / 2, rooms.back().size.y / 2);
-            } else if (direction == Direction::N || direction == Direction::S) {
+            }
+            else if (direction == Direction::N || direction == Direction::S) {
                 coordinates.x += prng::number(-rooms.back().size.x / 2, rooms.back().size.y / 2);
-            } else {
+            }
+            else {
             }
 
             std::cout << "\n\tcreating tunnel...";
@@ -201,7 +203,8 @@ void Floor_Generator::carveRooms()
             for (int y = room.coordinates.y - room.size.y / 2; y <= room.coordinates.y + room.size.y / 2; ++y) {
                 if (&room == endRoom) {
                     floorChance = .99f;
-                } else {
+                }
+                else {
                     floorChance = .9f;
                 }
 

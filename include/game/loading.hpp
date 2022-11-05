@@ -32,9 +32,11 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    enum State { LOADING,
+    enum State {
+        LOADING,
         WAITING,
-        END };
+        END
+    };
 
     State state;
 

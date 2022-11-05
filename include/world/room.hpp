@@ -8,11 +8,13 @@
 /// \brief Defines rectangular room areas for carving and automating.
 ///
 struct Room {
-    enum Type { START,
+    enum Type {
+        START,
         END,
         REGULAR,
         SIDE,
-        NULLTYPE };
+        NULLTYPE
+    };
 
     /////////////////////////////////////////////////////////////
     /// \brief Default constructor

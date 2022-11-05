@@ -61,7 +61,8 @@ void Game::checkWin()
             stopInput();
             levelEnding = false;
         }
-    } else if (enemyManager.checkFinalBoss()) {
+    }
+    else if (enemyManager.checkFinalBoss()) {
         levelEnding = true;
         endTimer.restart();
     }
@@ -148,7 +149,8 @@ void Game::scroll(float delta)
 {
     if (delta < 0.f) {
         view.zoom(1.5f);
-    } else if (delta > 0.f) {
+    }
+    else if (delta > 0.f) {
         view.zoom(0.5f);
     }
 }

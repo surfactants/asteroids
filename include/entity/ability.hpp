@@ -6,8 +6,10 @@ class Ability {
 public:
     Ability();
 
-    enum Type { DAMAGE,
-        UTILITY };
+    enum Type {
+        DAMAGE,
+        UTILITY
+    };
     size_t range { 0 };
 
 protected:

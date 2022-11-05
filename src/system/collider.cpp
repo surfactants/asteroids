@@ -32,7 +32,8 @@ void Collider::checkProjectiles(std::vector<Projectile>& projectiles,
                         break;
                     }
                 }
-            } else {
+            }
+            else {
                 if (projectiles[i].getBounds().intersects(player.getSprite().getGlobalBounds())) {
                     player.takeDamage(projectiles[i].getDamage());
                     deleted = true;

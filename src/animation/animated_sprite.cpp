@@ -45,7 +45,8 @@ void Animated_Sprite::update()
         if (state == Entity_State::DYING) {
             state = Entity_State::DEAD;
         }
-    } else if (frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold) {
+    }
+    else if (frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold) {
         frameTimer.restart();
         updateFrame();
     }
@@ -77,7 +78,8 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times)
                 aSize.x *= -1;
                 start.x += size.x;
                 dFactor = static_cast<int>(mirrorDirection(d));
-            } else
+            }
+            else
                 dFactor = static_cast<int>(d);
 
             start.y += (dFactor * size.y);

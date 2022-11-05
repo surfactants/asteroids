@@ -113,7 +113,8 @@ void Minimap::Blip::update()
         decayClock.restart();
         if (a == 0) {
             dead = true;
-        } else {
+        }
+        else {
             a -= 3;
             refill();
         }

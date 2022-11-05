@@ -3,13 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <entity/damage.hpp>
 
-enum class Wall_Type { BLANK,
+enum class Wall_Type {
+    BLANK,
     STRAIGHT,
     CORNER_OUTER,
     CORNER_INNER,
     PENINSULA,
     ISLAND,
-    NULLTYPE };
+    NULLTYPE
+};
 
 class Tile : public sf::Sprite {
 public:

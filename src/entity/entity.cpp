@@ -126,7 +126,8 @@ void Entity::update()
                 setState(lastState);
                 weapons[equippedWeapon].startCooldown();
             }
-        } else {
+        }
+        else {
             if (attackFrame)
                 attackFrame = false;
             if (attacking) {
@@ -186,7 +187,8 @@ sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls, float deltaTime)
             hpFrame.move(v.x, 0.f);
             hpBar.move(v.x, 0.f);
             offset.x = v.x;
-        } else
+        }
+        else
             good = true;
         sprite.move(0.f, v.y);
         for (const auto& wall : walls) {
@@ -296,14 +298,16 @@ void Entity::setSpriteDirection()
             d = Direction::NW;
         else
             d = Direction::N;
-    } else if (s) {
+    }
+    else if (s) {
         if (e)
             d = Direction::SE;
         else if (w)
             d = Direction::SW;
         else
             d = Direction::S;
-    } else {
+    }
+    else {
         if (e)
             d = Direction::E;
         else if (w)
@@ -325,7 +329,8 @@ Projectile* Entity::attack(sf::Vector2f target)
         Projectile* p = weapons[equippedWeapon].getProjectile();
         p->setVelocity(getPosition(), target);
         return p;
-    } else
+    }
+    else
         return nullptr;
 }
 
@@ -358,24 +363,29 @@ void Entity::setVelocity()
 
     if ((!left && !right) || (left && right)) {
         velocity.x = 0.f;
-    } else if (left && !right) {
+    }
+    else if (left && !right) {
         velocity.x = -speed;
-    } else if (!left && right) {
+    }
+    else if (!left && right) {
         velocity.x = speed;
     }
 
     if (!up && !down) {
         velocity.y = 0.f;
-    } else if (up && !down) {
+    }
+    else if (up && !down) {
         velocity.y = -speed;
-    } else if (!up && down) {
+    }
+    else if (!up && down) {
         velocity.y = speed;
     }
 
     if (sprite.getAnimationState() != Entity_State::IDLE
         && velocity.x == 0.f && velocity.y == 0.f) {
         setState(Entity_State::IDLE);
-    } else if (sprite.getAnimationState() != Entity_State::MOVING
+    }
+    else if (sprite.getAnimationState() != Entity_State::MOVING
         && sprite.getAnimationState() != Entity_State::ATTACKING
         && (velocity.x != 0.f || velocity.y != 0.f)) {
         setState(Entity_State::MOVING);

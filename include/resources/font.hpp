@@ -22,8 +22,10 @@ inline Font stringToFont(std::string s)
 {
     if (s == "MENU") {
         return Font::MENU;
-    } else if (s == "UI") {
+    }
+    else if (s == "UI") {
         return Font::UI;
-    } else
+    }
+    else
         return Font::NULLFONT;
 }
