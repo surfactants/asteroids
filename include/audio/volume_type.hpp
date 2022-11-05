@@ -25,12 +25,16 @@ inline std::string volumeTypeToString(Volume_Type t)
 
 inline Volume_Type stringToVolumeType(std::string s)
 {
-    if (s == "MUSIC")
+    if (s == "MUSIC") {
         return Volume_Type::MUSIC;
-    else if (s == "GAME")
+    }
+    else if (s == "GAME") {
         return Volume_Type::GAME;
-    else if (s == "UI")
+    }
+    else if (s == "UI") {
         return Volume_Type::UI;
-    else
+    }
+    else {
         return Volume_Type::NULLTYPE;
+    }
 }
