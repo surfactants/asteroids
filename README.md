@@ -8,5 +8,5 @@ features:
   *  tile-based procgen rooms
   *  animated sprites
   *  data-driven design (using [json-to-sqlite](https://github.com/surfactants/json-to-sqlite))
-  *  key remapping (pending)
+  *  key remapping
   *  a minimap (radar-style)
