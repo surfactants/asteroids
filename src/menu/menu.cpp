@@ -209,6 +209,7 @@ void Menu_Keymap::back(){
 void Menu_Keymap::save(){
     confirm();
     saveActions(getActions());
+    Database::saveActions(getActions());
     back();
 }
 

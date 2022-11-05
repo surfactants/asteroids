@@ -11,6 +11,7 @@
 #include <string>
 #include <entity/faction.hpp>
 #include <world/tile.hpp>
+#include <input/action.hpp>
 
 class Database{
 public:
@@ -32,6 +33,10 @@ public:
     static std::map<Faction, Hazard_Data> getHazards();
 
     static std::map<Faction, std::string> getAutotileRules();
+
+    static std::map<std::string, sf::Keyboard::Key> getActions();
+
+    static void saveActions(std::vector<Action> actions);
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

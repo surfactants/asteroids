@@ -1,5 +1,7 @@
 #include <system/database.hpp>
 #include <animation/animation.hpp>
+#include <input/key_char.hpp>
+#include <iostream>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
@@ -318,3 +320,52 @@ void Database::errorCheck(std::string id){
     //std::cout << id + ": " + sqlite3_errmsg(db) << '\n';
 }
 
+std::map<std::string, sf::Keyboard::Key> Database::getActions(){
+    open();
+
+        sqlite3_stmt* statement;
+
+        std::string sql = "SELECT * FROM 'COMMANDS'";
+
+        rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+        std::map<std::string, sf::Keyboard::Key> actions;
+
+        Convert_Key converter;
+
+        while((rc = sqlite3_step(statement)) == SQLITE_ROW){
+            unsigned int column = 0;
+            std::string name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+            std::string key = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+
+            actions[name] = converter.toKey(key);
+        }
+
+        sqlite3_finalize(statement);
+
+    close();
+
+    return actions;
+}
+
+void Database::saveActions(std::vector<Action> actions){
+    open();
+
+    std::string sql = "DELETE FROM COMMANDS";
+
+    execute(sql);
+
+    sql = "VACUUM";
+
+    execute(sql);
+
+    Convert_Key converter;
+
+    for(const auto& action : actions){
+        sql = "INSERT INTO COMMANDS(NAME, KEY) VALUES(\"" + action.name + "\", \"" + converter.toString(std::get<sf::Keyboard::Key>(action.key)) + "\");";
+        std::cout << "\texecuting sqlite command: " << sql << '\n';
+        execute(sql);
+    }
+
+    close();
+}

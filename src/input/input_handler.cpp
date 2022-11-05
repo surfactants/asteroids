@@ -1,4 +1,5 @@
 #include <input/input_handler.hpp>
+#include <system/database.hpp>
 
 Input_Package::Input_Package(){
     clear();
@@ -23,17 +24,30 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
         p_g.keyReleased[sf::Keyboard::Escape] = std::bind(&Game::escape, &game);
 
-        p_g.keyPressed[sf::Keyboard::W] = std::make_pair("move up", std::bind(&Player::upStart, player));
-        p_g.keyReleased[sf::Keyboard::W] = std::bind(&Player::upEnd, player);
+        std::map<std::string, sf::Keyboard::Key> actions = Database::getActions();
 
-        p_g.keyPressed[sf::Keyboard::S] = std::make_pair("move down", std::bind(&Player::downStart, player));
-        p_g.keyReleased[sf::Keyboard::S] = std::bind(&Player::downEnd, player);
-
-        p_g.keyPressed[sf::Keyboard::A] = std::make_pair("move left", std::bind(&Player::leftStart, player));
-        p_g.keyReleased[sf::Keyboard::A] = std::bind(&Player::leftEnd, player);
-
-        p_g.keyPressed[sf::Keyboard::D] = std::make_pair("move right", std::bind(&Player::rightStart, player));
-        p_g.keyReleased[sf::Keyboard::D] = std::bind(&Player::rightEnd, player);
+        for(const auto& action : actions){
+            std::function<void()> press;
+            std::function<void()> release;
+            if(action.first == "Move North"){
+                press = std::bind(&Player::upStart, player);
+                release = std::bind(&Player::upEnd, player);
+            }
+            else if(action.first == "Move South"){
+                press = std::bind(&Player::downStart, player);
+                release = std::bind(&Player::downEnd, player);
+            }
+            else if(action.first == "Move West"){
+                press = std::bind(&Player::leftStart, player);
+                release = std::bind(&Player::leftEnd, player);
+            }
+            else if(action.first == "Move East"){
+                press = std::bind(&Player::rightStart, player);
+                release = std::bind(&Player::rightEnd, player);
+            }
+            p_g.keyPressed[action.second] = std::make_pair(action.first, press);
+            p_g.keyReleased[action.second] = release;
+        }
 
         p_g.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
         p_g.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
