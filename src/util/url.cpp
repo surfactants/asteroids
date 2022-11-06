@@ -1,6 +1,8 @@
+
+#include <windows.h> //MUST BE INCLUDED BEFORE <shellapi.h> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #include <shellapi.h>
+
 #include <util/url.hpp>
-#include <windows.h>
 
 void launchURL(std::string target)
 {

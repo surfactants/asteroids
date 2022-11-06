@@ -2,6 +2,8 @@
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
 
+#define SQRT2_INV 0.707106781
+
 const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
 const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);
 const sf::Vector2f Entity::hpSize = sf::Vector2f(80, 8);
@@ -17,7 +19,7 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
 
     velocity = sf::Vector2f(0.f, 0.f);
     speed_orthogonal = data.speed;
-    speed_diagonal = speed_orthogonal * sqrt2_inv;
+    speed_diagonal = speed_orthogonal * SQRT2_INV;
 
     weapons.push_back(Weapon("test", 8));
     equippedWeapon = 0;
@@ -30,6 +32,11 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
     sprite = Animated_Sprite(texture, size, data.aCount, data.aThreshold);
 
     resistance = data.resistance;
+
+    for(unsigned int i = 0; i < ABILITY_COUNT; ++i){
+        abilities.push_back(Ability());
+        abilities.back().sheetIndex = i;
+    }
 }
 
 void Entity::prepUI()
@@ -407,3 +414,9 @@ Entity_State Entity::getState()
 {
     return state;
 }
+
+const std::vector<Ability>& Entity::getAbilities()
+{
+    return abilities;
+}
+

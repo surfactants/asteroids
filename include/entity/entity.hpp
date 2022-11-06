@@ -7,8 +7,9 @@
 #include <entity/weapon.hpp>
 #include <vector>
 #include <world/direction.hpp>
+#include "ability.hpp"
 
-#define sqrt2_inv 0.7071
+#define ABILITY_COUNT 4
 
 /////////////////////////////////////////////////////////////
 /// \brief
@@ -63,6 +64,8 @@ public:
 
     Entity_State getState();
 
+    const std::vector<Ability>& getAbilities();
+
 protected:
     Entity_Type type;
     Entity_State state = Entity_State::IDLE;
@@ -81,6 +84,8 @@ protected:
     const static sf::Vector2f hpSize;
 
     std::string name;
+
+    std::vector<Ability> abilities;
 
     int hpCurrent;
     int hpMax;

@@ -4,6 +4,7 @@
 #include <audio/audio_manager.hpp>
 #include <game/game.hpp>
 #include <ui/ui_elements.hpp>
+#include <entity/ability.hpp>
 
 class UI : public sf::Drawable {
 public:
@@ -18,11 +19,15 @@ public:
 
     void stopInput();
 
+    void loadPlayerAbilities(const std::vector<Ability>& abilities);
+
 protected:
 private:
     Game& game;
 
     Minimap minimap;
+
+    std::vector<Ability_Icon> playerAbilities;
 
     Audio_UI audio;
 

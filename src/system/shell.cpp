@@ -15,8 +15,8 @@ Shell::Shell()
     viewGame.setCenter(sf::Vector2f(960.f, 540.f));
     viewGame.zoom(1.5f);
 
-    viewUI.setSize(sf::Vector2f(1920.f, 1080.f));
-    viewUI.setCenter(sf::Vector2f(960.f, 540.f));
+    viewUI.setSize(window.getSize());//sf::Vector2f(1920.f, 1080.f));
+    viewUI.setCenter(window.getSize() / 2.f);//sf::Vector2f(960.f, 540.f));
 
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
@@ -24,6 +24,7 @@ Shell::Shell()
     fpsText.setFont(Font_Manager::get(Font::MENU));
     fpsText.setString("0");
     fpsText.setFillColor(sf::Color::Red);
+    fpsText.setPosition(sf::Vector2f(window.getSize().x - 64.f, window.getSize().y - 96.f));
 
     ui.scale(window);
 
@@ -32,6 +33,8 @@ Shell::Shell()
     menu_keymap.saveActions = std::bind(&Input_Handler::setRemappableActions, &input, std::placeholders::_1);
 
     menu_keymap.setActions(input.getRemappableActions());
+
+    ui.loadPlayerAbilities(game.getPlayer().getAbilities());
 
     alignState();
 }

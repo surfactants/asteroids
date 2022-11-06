@@ -1,5 +1,6 @@
 #include <resources/texture_manager.hpp>
 #include <system/database.hpp>
+#include <iostream>
 
 std::map<std::string, sf::Texture> Texture_Manager::textures = std::map<std::string, sf::Texture>();
 
@@ -22,8 +23,11 @@ sf::Texture& Texture_Manager::get(std::string key)
     }
 
     if (textures.count(key)) {
+        std::cout << "returning " << key << " texture\n";
         return textures[key];
     }
+
+    std::cout << "returning blank texture\n";
 
     static sf::Texture blank;
     return blank;
