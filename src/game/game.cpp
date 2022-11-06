@@ -11,6 +11,13 @@ Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
     , view { nview }
 {
     player = Player(Database::getPlayerData(), Texture_Manager::get("PLAYER"));
+
+    abilities = Database::getAbilities();
+
+    player.addAbility(abilities["SHOOT"]);
+    player.addAbility(abilities["KNIFE"]);
+    player.addAbility(abilities["ROLL"]);
+    player.addAbility(abilities["SNIPE"]);
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const

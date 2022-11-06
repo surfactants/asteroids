@@ -383,3 +383,48 @@ void Database::saveActions(std::vector<Action> actions)
 
     close();
 }
+
+std::map<std::string, Ability> Database::getAbilities()
+{
+    std::map<std::string, Ability> abilities;
+
+    open();
+
+    sqlite3_stmt* statement;
+
+    std::string sql = "SELECT * FROM ABILITIES";
+
+    rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
+
+    size_t index = 0;
+
+    while ((rc = sqlite3_step(statement)) == SQLITE_ROW) {
+        unsigned int column = 0;
+        std::string name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        std::string type = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        size_t magnitude = sqlite3_column_int(statement, column++);
+        size_t range = sqlite3_column_int(statement, column++);
+        size_t radius = sqlite3_column_int(statement, column++);
+        double cooldown = sqlite3_column_double(statement, column++);
+        double duration = sqlite3_column_double(statement, column++);
+
+        Ability a;
+            a.name = name;
+            a.type = Ability::DAMAGE;
+            a.sheetIndex = index;
+            a.magnitude = magnitude;
+            a.range = range;
+            a.radius = radius;
+            a.cooldown = cooldown;
+            a.duration = duration;
+        abilities[name] = a;
+
+        index++;
+    }
+
+    sqlite3_finalize(statement);
+
+    close();
+
+    return abilities;
+}

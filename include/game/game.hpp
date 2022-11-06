@@ -82,5 +82,7 @@ private:
 
     void checkWin();
 
+    std::map<std::string, Ability> abilities;
+
     AI ai;
 };

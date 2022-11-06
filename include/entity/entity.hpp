@@ -66,6 +66,8 @@ public:
 
     const std::vector<Ability>& getAbilities();
 
+    void addAbility(Ability ability);
+
 protected:
     Entity_Type type;
     Entity_State state = Entity_State::IDLE;

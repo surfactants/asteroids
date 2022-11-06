@@ -32,11 +32,6 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
     sprite = Animated_Sprite(texture, size, data.aCount, data.aThreshold);
 
     resistance = data.resistance;
-
-    for(unsigned int i = 0; i < ABILITY_COUNT; ++i){
-        abilities.push_back(Ability());
-        abilities.back().sheetIndex = i;
-    }
 }
 
 void Entity::prepUI()
@@ -418,5 +413,9 @@ Entity_State Entity::getState()
 const std::vector<Ability>& Entity::getAbilities()
 {
     return abilities;
+}
+
+void Entity::addAbility(Ability ability){
+    abilities.push_back(ability);
 }
 

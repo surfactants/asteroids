@@ -3,6 +3,7 @@
 #include <string>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
+#include <entity/projectile.hpp>
 
 class Ability {
 public:
@@ -12,25 +13,32 @@ public:
         DAMAGE,
         UTILITY
     };
+
+    Type type;
+
     size_t range;
     size_t magnitude;
+    size_t radius;
 
     void startCooldown();
     bool isCooling();
     void checkCooldown();
 
-    std::string getName() { return name; }
+    std::string name;
 
     size_t sheetIndex;
 
+    Projectile projectile;
+
+    float cooldown;
+    float duration;
+
 protected:
-    float cooldownThreshold;
     sf::Clock cooldownClock;
 
     bool cooling{ false };
 
 private:
-    std::string name;
 };
 
 class Ability_Icon : public sf::Sprite {

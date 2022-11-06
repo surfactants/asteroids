@@ -37,6 +37,8 @@ public:
 
     static void saveActions(std::vector<Action> actions);
 
+    static std::map<std::string, Ability> getAbilities();
+
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);
 
