@@ -1,6 +1,5 @@
 #include <ui/ui.hpp>
 #include <resources/texture_manager.hpp>
-#include <iostream>
 
 UI::UI(Game& ngame)
     : game { ngame }
@@ -50,7 +49,6 @@ void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
     playerAbilities.clear();
     sf::Vector2f pos(8.f, 8.f);
     for(const auto& a : abilities){
-        std::cout << "loading abilities\n";
         playerAbilities.push_back(Ability_Icon(a));
         playerAbilities.back().setTexture(Texture_Manager::get("ABILITIES"));
 

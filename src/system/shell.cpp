@@ -12,11 +12,11 @@ Shell::Shell()
     window.setMouseCursor(cursor);
 
     viewGame = sf::View(sf::Vector2f(0.f, 0.f), sf::Vector2f(window.getSize()));
-    viewGame.setCenter(sf::Vector2f(960.f, 540.f));
+    viewGame.setCenter(sf::Vector2f(window.getSize()) / 2.f);
     viewGame.zoom(1.5f);
 
-    viewUI.setSize(window.getSize());//sf::Vector2f(1920.f, 1080.f));
-    viewUI.setCenter(window.getSize() / 2.f);//sf::Vector2f(960.f, 540.f));
+    viewUI.setSize(sf::Vector2f(window.getSize()));
+    viewUI.setCenter(sf::Vector2f(window.getSize()) / 2.f);
 
     viewMenu.setSize(sf::Vector2f(window.getSize()));
     viewMenu.setCenter(sf::Vector2f(window.getSize()) * 0.5f);
