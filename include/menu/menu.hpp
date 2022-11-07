@@ -12,7 +12,7 @@ public:
     Menu();
     virtual void update(sf::Vector2f mpos);
     virtual void clickLeft();
-    void clickRight();
+    virtual void clickRight();
     void releaseLeft();
     void releaseRight();
     virtual void back();
@@ -77,6 +77,7 @@ public:
     virtual void update(sf::Vector2f mpos) override;
 
     virtual void clickLeft() override;
+    virtual void clickRight() override;
 
     void setActions(const std::vector<Action>& actions);
 

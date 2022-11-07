@@ -174,6 +174,12 @@ void Key_Mapper::undoSelect()
 
 bool Key_Mapper::clickLeft()
 {
+    if (selectIndex != SIZE_MAX) {
+        //set selection as left click
+
+        return true;
+    }
+
     bool parsed = (hoverIndex != SIZE_MAX && hoverIndex != selectIndex);
 
     if (parsed) {
