@@ -24,4 +24,6 @@ public:
     void rightEnd();
 
     void update() override;
+
+    void setPlayerAbilities();
 };

@@ -2,49 +2,34 @@
 #include <resources/texture_manager.hpp>
 #include <util/primordial.hpp>
 
-Projectile::Projectile()
+Projectile::Projectile(Ability_Type type, double speed, Damage dmg, size_t range) :
+    type{ type }, speed{ speed }, dmg{ dmg }
 {
-    type = LASER;
-    speed = 64.f;
-    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
-}
-
-Projectile::Projectile(sf::Vector2f pos, sf::Vector2f target, Type ntype, Damage ndmg)
-{
-    float theta = calculateAngle(pos, target);
-    speed = 10.f;
-    sprite.setPosition(pos);
-    sprite.setRotation(theta);
-    calculateMoveVector(theta, speed, velocity);
-    type = ntype;
-    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
-
-    type = LASER;
-
-    dmg = ndmg;
-}
-
-Projectile::Projectile(Type ntype, Damage ndmg)
-    : type { ntype }
-    , dmg { ndmg }
-{
-    sprite.setTexture(Texture_Manager::get("PROJECTILE"));
-
-    type = LASER;
+    loadTexture();
 }
 
 void Projectile::setVelocity(sf::Vector2f pos, sf::Vector2f target)
 {
     float theta = calculateAngle(pos, target);
-    speed = 10.f;
     sprite.setPosition(pos);
     sprite.setRotation(theta);
     calculateMoveVector(theta, speed, velocity);
 }
 
+void Projectile::loadTexture()
+{
+    sprite.setTexture(Texture_Manager::get("PROJECTILES"));
+    sf::Vector2i rpos(0, 0);
+        rpos.x += 12 * static_cast<unsigned int>(type);
+    sf::Vector2i rsize(12, 16);
+    sprite.setTextureRect(sf::IntRect(rpos, rsize));
+}
+
 void Projectile::update(float deltaTime)
 {
-    sprite.move(velocity * deltaTime);
+    sf::Vector2f offset = velocity * deltaTime;
+    sprite.move(offset);
+    distanceTraveled += scalarDistance(offset);
 }
 
 sf::FloatRect Projectile::getBounds()
@@ -57,13 +42,18 @@ void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-Projectile::Type Projectile::getType()
+Ability_Type Projectile::getType()
 {
     return type;
 }
 
 void Projectile::setTarget(sf::Vector2f t)
 {
+}
+
+bool Projectile::inRange()
+{
+    return (distanceTraveled < range);
 }
 
 bool Projectile::isPlayer()

@@ -5,7 +5,7 @@
 enum class Entity_State {
     IDLE,
     MOVING,
-    ATTACKING,
+    CASTING,
     DYING,
     DEAD
 };
@@ -17,8 +17,8 @@ inline std::string entityStateToString(Entity_State s)
         return "IDLE";
     case Entity_State::MOVING:
         return "MOVING";
-    case Entity_State::ATTACKING:
-        return "ATTACKING";
+    case Entity_State::CASTING:
+        return "CASTING";
     case Entity_State::DYING:
         return "DYING";
     case Entity_State::DEAD:

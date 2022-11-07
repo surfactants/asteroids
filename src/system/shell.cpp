@@ -45,8 +45,8 @@ void Shell::run()
     sf::Clock fpsClock;
 
     while (window.isOpen()) {
-        update();
         input.handle();
+        update();
         alignState();
         draw();
     }

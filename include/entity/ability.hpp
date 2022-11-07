@@ -4,27 +4,20 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
 #include <entity/projectile.hpp>
+#include "ability_type.hpp"
 
 class Ability {
 public:
-    Ability();
+    Ability(){}
 
-    enum Type {
-        DAMAGE,
-        UTILITY
-    };
+    Ability_Type type;
 
-    Type type;
-
-    size_t range;
     size_t magnitude;
     size_t radius;
 
     void startCooldown();
     bool isCooling();
-    void checkCooldown();
-
-    std::string name;
+    bool checkCooldown();
 
     size_t sheetIndex;
 
@@ -45,6 +38,9 @@ class Ability_Icon : public sf::Sprite {
 public:
     Ability_Icon(const Ability& ability);
     Ability_Icon(const Ability& ability, const sf::Texture& texture, const sf::IntRect& textureRect);
+
+    void update();
+
 private:
     const Ability& ability;
 };

@@ -3,6 +3,7 @@
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
+#include <iostream>
 
 const float Game::endThreshold = 3.f;
 
@@ -18,6 +19,8 @@ Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
     player.addAbility(abilities["KNIFE"]);
     player.addAbility(abilities["ROLL"]);
     player.addAbility(abilities["SNIPE"]);
+
+    player.setPlayerAbilities();
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -46,13 +49,10 @@ void Game::update(float deltaTime)
     player.update();
     view.move(player.move(world.getLocalWalls(player.getCoordinates(Tile::tileSize)), deltaTime));
 
-    if (player.isAttacking()) {
-        Projectile* p = player.attack(fMouse(window, view));
-        if (p != nullptr) {
-            Projectile pf = *p;
-            pf.setPlayer();
-            projectileManager.create(pf);
-        }
+    player.setTarget(fMouse(window, view));
+
+    if (player.getState() == Entity_State::CASTING && player.readyToCast()) {
+        projectileManager.create(player.cast());
     }
 
     projectileManager.update(deltaTime);
@@ -109,12 +109,12 @@ void Game::spawnEnemies()
 
 void Game::clickLeft()
 {
-    player.setAttacking(true);
+    //player.setAttacking(true);
 }
 
 void Game::releaseLeft()
 {
-    player.setAttacking(false);
+    //player.setAttacking(false);
 }
 
 std::vector<sf::Vector2f> Game::getRelativeEnemyPositions()
@@ -143,13 +143,14 @@ void Game::escape()
 {
     newMain(Main_State::MENU);
     player.stop();
-    player.setAttacking(false);
+    player.setState(Entity_State::CASTING);
+    player.uncast();
 }
 
 void Game::stopInput()
 {
     player.stop();
-    player.setAttacking(false);
+    player.uncast();
 }
 
 void Game::scroll(float delta)

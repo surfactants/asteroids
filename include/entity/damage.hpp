@@ -3,7 +3,7 @@
 #include <string>
 
 struct Damage {
-    int val {};
+    size_t val {};
 
     enum Type {
         SHARP,
@@ -21,7 +21,7 @@ struct Damage {
     Type type { NULL_TYPE };
 
     Damage() { }
-    Damage(int nval, Type ntype);
+    Damage(size_t val, Type type);
 };
 
 inline std::string damageTypeToString(Damage::Type t)

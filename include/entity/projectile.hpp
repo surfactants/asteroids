@@ -2,17 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <entity/damage.hpp>
+#include "ability_type.hpp"
 
 class Projectile : public sf::Drawable {
 public:
-    enum Type {
-        BULLET,
-        LASER
-    };
-
-    Projectile();
-    Projectile(sf::Vector2f pos, sf::Vector2f target, Type ntype, Damage ndmg);
-    Projectile(Type ntype, Damage ndmg);
+    Projectile(){}
+    Projectile(Ability_Type type, double speed, Damage dmg, size_t range);
 
     void setVelocity(sf::Vector2f pos, sf::Vector2f target);
 
@@ -20,7 +15,7 @@ public:
 
     sf::FloatRect getBounds();
 
-    Type getType();
+    Ability_Type getType();
 
     void setTarget(sf::Vector2f t);
 
@@ -31,16 +26,25 @@ public:
 
     Damage getDamage();
 
+    size_t range;
+
+    double distanceTraveled{ 0.f };
+
+    bool inRange();
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     sf::Sprite sprite;
     sf::Vector2f velocity;
-    float speed;
 
-    Type type;
+    Ability_Type type;
+
+    double speed;
 
     bool player = false;
 
     Damage dmg;
+
+    void loadTexture();
 };

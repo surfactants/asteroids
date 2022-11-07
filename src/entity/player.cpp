@@ -76,3 +76,10 @@ void Player::rightEnd()
         setVelocity();
     }
 }
+
+void Player::setPlayerAbilities()
+{
+    for(auto& a : abilities){
+        a.projectile.setPlayer();
+    }
+}

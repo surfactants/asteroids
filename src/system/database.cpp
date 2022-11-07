@@ -2,6 +2,7 @@
 #include <input/key_char.hpp>
 #include <iostream>
 #include <system/database.hpp>
+#include <entity/ability_type.hpp>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
@@ -219,7 +220,7 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement)
 
     d.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
     d.aCount[Entity_State::MOVING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
-    d.aCount[Entity_State::ATTACKING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
+    d.aCount[Entity_State::CASTING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
     d.aCount[Entity_State::DYING] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
 
     //animation thresholds
@@ -230,7 +231,7 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement)
 
     d.aThreshold[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
     d.aThreshold[Entity_State::MOVING] = sqlite3_column_int(statement, column++);
-    d.aThreshold[Entity_State::ATTACKING] = sqlite3_column_int(statement, column++);
+    d.aThreshold[Entity_State::CASTING] = sqlite3_column_int(statement, column++);
     d.aThreshold[Entity_State::DYING] = sqlite3_column_int(statement, column++);
 
     return d;
@@ -401,22 +402,23 @@ std::map<std::string, Ability> Database::getAbilities()
     while ((rc = sqlite3_step(statement)) == SQLITE_ROW) {
         unsigned int column = 0;
         std::string name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
-        std::string type = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
+        Ability_Type type = stringToAbilityType(name);
         size_t magnitude = sqlite3_column_int(statement, column++);
         size_t range = sqlite3_column_int(statement, column++);
         size_t radius = sqlite3_column_int(statement, column++);
         double cooldown = sqlite3_column_double(statement, column++);
         double duration = sqlite3_column_double(statement, column++);
+        double speed = sqlite3_column_double(statement, column++);
 
         Ability a;
-            a.name = name;
-            a.type = Ability::DAMAGE;
+            a.type = type;
             a.sheetIndex = index;
             a.magnitude = magnitude;
-            a.range = range;
             a.radius = radius;
             a.cooldown = cooldown;
             a.duration = duration;
+            Damage dmg(magnitude, Damage::LASER);
+            a.projectile = Projectile(type, speed, dmg, range);
         abilities[name] = a;
 
         index++;

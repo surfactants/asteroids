@@ -4,7 +4,6 @@
 #include <animation/animated_sprite.hpp>
 #include <entity/damage.hpp>
 #include <entity/entity_data.hpp>
-#include <entity/weapon.hpp>
 #include <vector>
 #include <world/direction.hpp>
 #include "ability.hpp"
@@ -55,18 +54,28 @@ public:
 
     void setLevel(unsigned int nlevel);
 
-    Projectile* attack(sf::Vector2f target);
+    Projectile cast();
 
-    bool isAttacking();
-    void setAttacking(bool n);
-
-    Weapon& getEquippedWeapon();
+    bool isCasting();
+    void setCasting();
 
     Entity_State getState();
 
     const std::vector<Ability>& getAbilities();
 
     void addAbility(Ability ability);
+
+    void loadAbilities(const std::map<std::string, Ability>& abilities);
+
+    void castAbility(const size_t a);
+
+    void setTarget(sf::Vector2f target);
+
+    void checkCast();
+
+    void uncast();
+
+    bool readyToCast();
 
 protected:
     Entity_Type type;
@@ -77,8 +86,12 @@ protected:
     sf::RectangleShape hpFrame;
     sf::RectangleShape hpBar;
 
+    int casting{ -1 };
+
     //sf::Text levelText;
     //sf::RectangleShape levelFrame;
+
+    sf::Vector2f target{ 0.f, 0.f };
 
     const static sf::Color color_hpGood;
     const static sf::Color color_hpBad;
@@ -93,9 +106,6 @@ protected:
     int hpMax;
 
     unsigned int level;
-
-    std::vector<Weapon> weapons;
-    unsigned int equippedWeapon;
 
     void animate();
 
@@ -119,8 +129,6 @@ protected:
 
     void setSpriteDirection();
 
-    bool attacking = false;
-
     void directCheck();
 
     bool up = false,
@@ -134,5 +142,5 @@ protected:
 
     std::map<Damage::Type, float> resistance;
 
-    bool attackFrame = false;
+    bool castFrame = false;
 };

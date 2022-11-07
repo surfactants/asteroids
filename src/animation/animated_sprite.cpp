@@ -86,7 +86,7 @@ void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times)
 
             animations[t.first][d] = Animation(start, aSize, t.second);
             if (t.first == Entity_State::DYING
-                || t.first == Entity_State::ATTACKING)
+                || t.first == Entity_State::CASTING)
                 animations[t.first][d].repeats = false;
         }
     }
@@ -108,13 +108,13 @@ Entity_State Animated_Sprite::getState()
 
 bool Animated_Sprite::done()
 {
-    return (animations[state][direction].lastFrame() && frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold);
+    return (animations[state][direction].lastFrame());
 }
 
 void Animated_Sprite::resetAttack()
 {
-    std::cout << "\nresetting attack!";
-    for (auto& a : animations[Entity_State::ATTACKING]) {
+    std::cout << "resetting attack!\n";
+    for (auto& a : animations[Entity_State::CASTING]) {
         a.second.reset();
     }
 }

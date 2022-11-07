@@ -29,6 +29,8 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
     std::map<std::string, sf::Keyboard::Key> actions = Database::getActions();
 
+    std::function<void()> uncast = std::bind(&Entity::uncast, player);
+
     for (const auto& action : actions) {
         std::function<void()> press;
         std::function<void()> release;
@@ -47,6 +49,22 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         else if (action.first == "Move East") {
             press = std::bind(&Player::rightStart, player);
             release = std::bind(&Player::rightEnd, player);
+        }
+        else if (action.first == "Ability 1") {
+            press = [player]() { player->castAbility(0); };
+            release = uncast;
+        }
+        else if (action.first == "Ability 2") {
+            press = [player]() { player->castAbility(1); };
+            release = uncast;
+        }
+        else if (action.first == "Ability 3") {
+            press = [player]() { player->castAbility(2); };
+            release = uncast;
+        }
+        else if (action.first == "Ability 4") {
+            press = [player]() { player->castAbility(3); };
+            release = uncast;
         }
         p_g.keyPressed[action.second] = std::make_pair(action.first, press);
         p_g.keyReleased[action.second] = release;

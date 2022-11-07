@@ -1,4 +1,3 @@
-#include <iostream>
 #include <system/collider.hpp>
 #include <system/collision.hpp>
 #include <ui/minimap.hpp>
@@ -90,10 +89,6 @@ void Minimap::update(std::vector<Enemy>& enemies, sf::Vector2f playerPos)
                     }
                     blips[e].setPosition(p);
                     blips[e].reset();
-                    std::cout << "\nenemy found at pos " << enemies[e].getPosition();
-                    std::cout << "\n\tchecking against player position " << playerPos;
-                    std::cout << "\n\tp = " << p;
-                    std::cout << "\n\tblip placed at " << blips[e].getPosition();
                 }
             }
         }

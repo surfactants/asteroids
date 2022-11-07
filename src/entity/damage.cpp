@@ -1,7 +1,7 @@
 #include <entity/damage.hpp>
 
-Damage::Damage(int nval, Type ntype)
-    : val { nval }
-    , type { ntype }
+Damage::Damage(size_t val, Type type)
+    : val { val }
+    , type { type }
 {
 }

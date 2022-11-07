@@ -9,6 +9,10 @@ UI::UI(Game& ngame)
 void UI::update()
 {
     minimap.update(game.getEnemies(), game.getPlayer().getPosition());
+
+    for(auto& icon : playerAbilities){
+        icon.update();
+    }
 }
 
 void UI::clickLeft()

@@ -1,6 +1,7 @@
 #include <entity/entity.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
+#include <iostream>
 
 #define SQRT2_INV 0.707106781
 
@@ -20,9 +21,6 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
     velocity = sf::Vector2f(0.f, 0.f);
     speed_orthogonal = data.speed;
     speed_diagonal = speed_orthogonal * SQRT2_INV;
-
-    weapons.push_back(Weapon("test", 8));
-    equippedWeapon = 0;
     prepUI();
 
     name = data.name;
@@ -52,25 +50,6 @@ void Entity::prepUI()
     hpBar.setPosition(64, 64);
 
     setLevel(prng::number(1u, 99u));
-    /*
-    levelText.setFont(Font_Manager::get(FONT_UI));
-    levelText.setFillColor(sf::Color::White);
-    levelText.setCharacterSize(26);
-    centerText(levelText);
-
-    levelFrame.setSize(sf::Vector2f(24.f, 24.f));
-    levelFrame.setOrigin(levelFrame.getSize() / 2.f);
-    levelFrame.setFillColor(sf::Color(125, 125, 125));
-    levelFrame.setOutlineColor(sf::Color(225, 225, 225));
-    levelFrame.setOutlineThickness(2);
-
-    sf::Vector2f levelOrigin = hpOrigin + levelText.getOrigin();
-    levelOrigin.x += levelOffset;
-    levelText.setOrigin(levelOrigin);
-    levelOrigin = hpOrigin + levelFrame.getOrigin();
-    levelOrigin.x += levelOffset;
-    levelFrame.setOrigin(levelOrigin);
-*/
 
     sf::Vector2f hpOrigin(hpSize.x / 2.f, (hpSize.y / 2.f) + (spriteSize.y / 1.5f));
     hpFrame.setOrigin(hpOrigin);
@@ -122,26 +101,18 @@ void Entity::heal(int val)
 void Entity::update()
 {
     if (state < Entity_State::DEAD) {
-        if (state == Entity_State::ATTACKING) {
-            if (sprite.done()) {
-                attackFrame = true;
-                setState(lastState);
-                weapons[equippedWeapon].startCooldown();
-            }
-        }
-        else {
-            if (attackFrame)
-                attackFrame = false;
-            if (attacking) {
-                if (weapons[equippedWeapon].ready()) {
-                    setState(Entity_State::ATTACKING);
-                }
-            }
-        }
-        sprite.update();
         if (state == Entity_State::DYING) {
             setState(sprite.getState());
         }
+        else if (state == Entity_State::CASTING) {
+            checkCast();
+        }
+        else if (isCasting() && !abilities[casting].isCooling()) {
+            std::cout << "\t\tsetting state to casting\n";
+            sprite.resetAttack();
+            setState(Entity_State::CASTING);
+        }
+        sprite.update();
     }
 }
 
@@ -239,8 +210,6 @@ void Entity::move(sf::Vector2f v)
     sprite.move(v);
     hpFrame.move(v);
     hpBar.move(v);
-    //levelFrame.move(v);
-    //levelText.move(v);
 }
 
 Animated_Sprite& Entity::getSprite()
@@ -251,7 +220,6 @@ Animated_Sprite& Entity::getSprite()
 void Entity::setLevel(unsigned int nlevel)
 {
     level = nlevel;
-    //levelText.setString(std::to_string(level));
 }
 
 void Entity::stop()
@@ -269,8 +237,6 @@ void Entity::setPosition(sf::Vector2f pos)
     sprite.setPosition(pos);
     hpFrame.setPosition(pos);
     hpBar.setPosition(pos);
-    //levelFrame.setPosition(pos);
-    //levelText.setPosition(pos);
 }
 
 sf::Vector2f Entity::getVelocity()
@@ -319,35 +285,19 @@ void Entity::setSpriteDirection()
     sprite.setDirection(d);
 }
 
-Weapon& Entity::getEquippedWeapon()
+Projectile Entity::cast()
 {
-    return weapons[equippedWeapon];
+    castFrame = false;
+    Projectile p = abilities[casting].projectile;
+    p.setVelocity(getPosition(), target);
+    setState(lastState);
+
+    return p;
 }
 
-Projectile* Entity::attack(sf::Vector2f target)
+bool Entity::isCasting()
 {
-    if (attackFrame) {
-        attackFrame = false;
-        Projectile* p = weapons[equippedWeapon].getProjectile();
-        p->setVelocity(getPosition(), target);
-        return p;
-    }
-    else
-        return nullptr;
-}
-
-bool Entity::isAttacking()
-{
-    return attacking;
-}
-
-void Entity::setAttacking(bool n)
-{
-    attacking = n;
-    if (!attacking && attackFrame) {
-        attackFrame = false;
-        sprite.resetAttack();
-    }
+    return (casting > -1);
 }
 
 void Entity::setVelocity()
@@ -388,7 +338,7 @@ void Entity::setVelocity()
         setState(Entity_State::IDLE);
     }
     else if (sprite.getAnimationState() != Entity_State::MOVING
-        && sprite.getAnimationState() != Entity_State::ATTACKING
+        && sprite.getAnimationState() != Entity_State::CASTING
         && (velocity.x != 0.f || velocity.y != 0.f)) {
         setState(Entity_State::MOVING);
     }
@@ -415,7 +365,50 @@ const std::vector<Ability>& Entity::getAbilities()
     return abilities;
 }
 
-void Entity::addAbility(Ability ability){
+void Entity::addAbility(Ability ability)
+{
     abilities.push_back(ability);
 }
 
+void Entity::loadAbilities(const std::map<std::string, Ability>& abilities)
+{
+}
+
+void Entity::setTarget(sf::Vector2f target)
+{
+    this->target = target;
+}
+
+void Entity::castAbility(const size_t a)
+{
+    if (!isCasting()) {
+        casting = a;
+        std::cout << "\ncasting ability: " << abilityTypeToString(abilities[a].type) << "\n";
+    }
+}
+
+void Entity::uncast()
+{
+    if(isCasting()){
+        std::cout << "uncasting...\n";
+        if(state == Entity_State::CASTING){
+            setState(lastState);
+        }
+        casting = -1;
+    }
+}
+
+void Entity::checkCast()
+{
+    if (sprite.done()) {
+        castFrame = true;
+        setState(lastState);
+        abilities[casting].startCooldown();
+        std::cout << "\tanimation finished, setting cast frame\n";
+    }
+}
+
+bool Entity::readyToCast()
+{
+    return castFrame;
+}
