@@ -1,4 +1,4 @@
-#include <entity/projectile.hpp>
+#include <abilities/projectile.hpp>
 #include <resources/texture_manager.hpp>
 #include <util/primordial.hpp>
 

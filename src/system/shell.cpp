@@ -1,4 +1,4 @@
-#include <entity/projectile.hpp>
+#include <abilities/projectile.hpp>
 #include <system/shell.hpp>
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>

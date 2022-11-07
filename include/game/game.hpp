@@ -6,7 +6,7 @@
 #include <entity/enemy_manager.hpp>
 #include <entity/faction.hpp>
 #include <entity/player.hpp>
-#include <entity/projectile_manager.hpp>
+#include <abilities/projectile_manager.hpp>
 #include <resources/texture_manager.hpp>
 #include <system/collider.hpp>
 #include <system/state_hook.hpp>

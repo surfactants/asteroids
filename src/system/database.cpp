@@ -1,7 +1,7 @@
 #include <animation/animation.hpp>
 #include <input/key_char.hpp>
 #include <system/database.hpp>
-#include <entity/ability_type.hpp>
+#include <abilities/ability_type.hpp>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();

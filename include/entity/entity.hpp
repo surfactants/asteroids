@@ -6,7 +6,7 @@
 #include <entity/entity_data.hpp>
 #include <vector>
 #include <world/direction.hpp>
-#include "ability.hpp"
+#include <abilities/ability.hpp>
 
 #define ABILITY_COUNT 4
 

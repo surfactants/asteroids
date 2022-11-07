@@ -3,7 +3,7 @@
 #include <string>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
-#include <entity/projectile.hpp>
+#include "projectile.hpp"
 #include "ability_type.hpp"
 
 class Ability {

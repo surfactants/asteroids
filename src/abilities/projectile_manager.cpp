@@ -1,4 +1,4 @@
-#include <entity/projectile_manager.hpp>
+#include <abilities/projectile_manager.hpp>
 
 Projectile_Manager::Projectile_Manager() { }
 

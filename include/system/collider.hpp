@@ -2,7 +2,7 @@
 
 #include <entity/enemy_manager.hpp>
 #include <entity/player.hpp>
-#include <entity/projectile_manager.hpp>
+#include <abilities/projectile_manager.hpp>
 #include <world/world.hpp>
 
 class Collider {
