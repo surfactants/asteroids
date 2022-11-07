@@ -1,5 +1,4 @@
 #include <animation/animated_sprite.hpp>
-#include <iostream>
 
 Animated_Sprite::Animated_Sprite(sf::Texture& ntexture,
     sf::Vector2i nsize,
@@ -111,9 +110,8 @@ bool Animated_Sprite::done()
     return (animations[state][direction].lastFrame());
 }
 
-void Animated_Sprite::resetAttack()
+void Animated_Sprite::resetCast()
 {
-    std::cout << "resetting attack!\n";
     for (auto& a : animations[Entity_State::CASTING]) {
         a.second.reset();
     }

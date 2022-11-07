@@ -1,6 +1,5 @@
 #include <animation/animation.hpp>
 #include <input/key_char.hpp>
-#include <iostream>
 #include <system/database.hpp>
 #include <entity/ability_type.hpp>
 
@@ -215,7 +214,7 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement)
     //animation counts
     //idle_count int
     //moving_count int
-    //attacking_count int
+    //casting_count int
     //dying_count int
 
     d.aCount[Entity_State::IDLE] = static_cast<unsigned int>(sqlite3_column_int(statement, column++));
@@ -226,7 +225,7 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement)
     //animation thresholds
     //idle_threshold int
     //moving_threshold int
-    //attacking_threshold int
+    //casting_threshold int
     //dying_threshold int
 
     d.aThreshold[Entity_State::IDLE] = sqlite3_column_int(statement, column++);
@@ -331,6 +330,7 @@ std::map<Faction, std::string> Database::getAutotileRules()
 void Database::errorCheck(std::string id)
 {
     //std::cout << id + ": " + sqlite3_errmsg(db) << '\n';
+    //log error message here
 }
 
 std::map<std::string, sf::Keyboard::Key> Database::getActions()
@@ -378,7 +378,6 @@ void Database::saveActions(std::vector<Action> actions)
 
     for (const auto& action : actions) {
         sql = "INSERT INTO COMMANDS(NAME, KEY) VALUES(\"" + action.name + "\", \"" + converter.toString(std::get<sf::Keyboard::Key>(action.key)) + "\");";
-        std::cout << "\texecuting sqlite command: " << sql << '\n';
         execute(sql);
     }
 

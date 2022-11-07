@@ -16,15 +16,17 @@ public:
     size_t radius;
 
     void startCooldown();
-    bool isCooling();
+    bool isCooling() const;
     bool checkCooldown();
 
     size_t sheetIndex;
 
     Projectile projectile;
 
-    float cooldown;
-    float duration;
+    double cooldown;
+    double duration;
+
+    double getCooldownFractionRemaining() const;
 
 protected:
     sf::Clock cooldownClock;

@@ -1,7 +1,6 @@
 #include <entity/entity.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
-#include <iostream>
 
 #define SQRT2_INV 0.707106781
 
@@ -108,11 +107,14 @@ void Entity::update()
             checkCast();
         }
         else if (isCasting() && !abilities[casting].isCooling()) {
-            std::cout << "\t\tsetting state to casting\n";
-            sprite.resetAttack();
+            sprite.resetCast();
             setState(Entity_State::CASTING);
         }
         sprite.update();
+
+        for(auto& a : abilities){
+            a.checkCooldown();
+        }
     }
 }
 
@@ -383,14 +385,12 @@ void Entity::castAbility(const size_t a)
 {
     if (!isCasting()) {
         casting = a;
-        std::cout << "\ncasting ability: " << abilityTypeToString(abilities[a].type) << "\n";
     }
 }
 
 void Entity::uncast()
 {
     if(isCasting()){
-        std::cout << "uncasting...\n";
         if(state == Entity_State::CASTING){
             setState(lastState);
         }
@@ -404,7 +404,6 @@ void Entity::checkCast()
         castFrame = true;
         setState(lastState);
         abilities[casting].startCooldown();
-        std::cout << "\tanimation finished, setting cast frame\n";
     }
 }
 

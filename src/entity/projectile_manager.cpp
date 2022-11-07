@@ -1,12 +1,10 @@
 #include <entity/projectile_manager.hpp>
-#include <iostream>
 
 Projectile_Manager::Projectile_Manager() { }
 
 void Projectile_Manager::create(Projectile p)
 {
     projectiles.push_back(p);
-    std::cout << "projectile added! current count is " << projectiles.size() << '\n';
 }
 
 void Projectile_Manager::update(float deltaTime)

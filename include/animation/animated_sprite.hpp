@@ -26,7 +26,7 @@ public:
 
     bool done();
 
-    void resetAttack();
+    void resetCast();
 
 private:
     void loadCounts(std::map<Entity_State, unsigned int> counts);

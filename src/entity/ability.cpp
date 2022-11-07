@@ -7,19 +7,24 @@ void Ability::startCooldown()
     cooldownClock.restart();
 }
 
-bool Ability::isCooling()
+bool Ability::isCooling() const
 {
-    return checkCooldown();
+    return cooling;
 }
 
 bool Ability::checkCooldown()
 {
-    if(cooldownClock.getElapsedTime().asSeconds() >= cooldown)
+    if(cooling && cooldownClock.getElapsedTime().asSeconds() >= cooldown)
     {
         cooling = false;
     }
 
     return cooling;
+}
+
+double Ability::getCooldownFractionRemaining() const
+{
+    return cooldownClock.getElapsedTime().asSeconds() / cooldown;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -38,9 +43,11 @@ Ability_Icon::Ability_Icon(const Ability& ability, const sf::Texture& texture, c
 void Ability_Icon::update()
 {
     if(ability.isCooling()){
-        //calculate overlay
+        double percent = ability.getCooldownFractionRemaining();
+        sf::Uint8 c(percent * 255);
+        setColor(sf::Color(c, c, c));
     }
     else{
-        //???
+        //?need some sort of visual feedback indicating it's ready
     }
 }

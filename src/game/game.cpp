@@ -3,7 +3,6 @@
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
-#include <iostream>
 
 const float Game::endThreshold = 3.f;
 
@@ -109,12 +108,10 @@ void Game::spawnEnemies()
 
 void Game::clickLeft()
 {
-    //player.setAttacking(true);
 }
 
 void Game::releaseLeft()
 {
-    //player.setAttacking(false);
 }
 
 std::vector<sf::Vector2f> Game::getRelativeEnemyPositions()
