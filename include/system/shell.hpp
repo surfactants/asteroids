@@ -29,10 +29,10 @@ private:
     Menu_Main menu_main;
     Menu_Pause menu_pause;
     Menu_Settings menu_settings;
-    Menu_Keymap menu_keymap;
+    Menu_Input menu_input;
 
     //Input_Handler input{ window, game, ui };
-    Input_Handler input { window, game, ui, Menu_Package(&menu_main, &menu_pause, &menu_settings, &menu_keymap) };
+    Input_Handler input { window, game, ui, Menu_Package(&menu_main, &menu_pause, &menu_settings, &menu_input) };
 
     void update();
     void draw();

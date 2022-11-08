@@ -11,6 +11,9 @@
 
 /* PUBLIC METHODS *****************************************************************
  *
+ * Input_Mapper()
+ *     This default constructor is empty, and is only there for utility (i.e. certain container contexts which require it)
+ *
  * void setActions(const sf::Font& font, const std::vector<Action>& actions
  *     Creates rows from action class (name/function/trigger)
  *
@@ -55,8 +58,8 @@
 
 /* EXAMPLE ************************************************************************
  *
- * Key_Mapper key_mapper();
- * key_mapper.setPosition(sf::Vector2f(128.f, 128.f));
+ * Input_Mapper input_mapper();
+ * input_mapper.setPosition(sf::Vector2f(128.f, 128.f));
  * std::vector<Action> actions;
  *     actions.push_back(Action("move north", std::function<void()>(), sf::Keyboard::W));
  *     actions.push_back(Action("move west", std::function<void()>(), sf::Keyboard::A));
@@ -65,14 +68,14 @@
  *
  * sf::font font;
  * font.loadFromFile(" ... ");
- * key_mapper.setActions(font, actions);
+ * input_mapper.setActions(font, actions);
  *
  **********************************************************************************/
 
 
-class Key_Mapper : public sf::Drawable {
+class Input_Mapper : public sf::Drawable {
 public:
-    Key_Mapper();
+    Input_Mapper(){}
 
     std::vector<Action> getActions();
 
@@ -121,7 +124,7 @@ protected:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Key_Mapper::Row : public sf::Drawable, public Action {
+class Input_Mapper::Row : public sf::Drawable, public Action {
 public:
     Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size);
 

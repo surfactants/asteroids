@@ -95,7 +95,7 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
         p.focus_lost = std::bind(&Menu::stopInput, m.second);
     }
 
-    context_menu[Menu_State::KEYS].special = std::bind(&Menu_Keymap::keyPressed, menu_package.m_keymap, std::placeholders::_1);
+    context_menu[Menu_State::KEYS].special = std::bind(&Menu_Input::keyPressed, menu_package.m_keymap, std::placeholders::_1);
 }
 
 void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigger>& action

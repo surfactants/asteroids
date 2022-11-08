@@ -69,9 +69,9 @@ private:
     void loadSettings();
 };
 
-class Menu_Keymap : public Menu, public Key_Mapper {
+class Menu_Input : public Menu, public Input_Mapper {
 public:
-    Menu_Keymap();
+    Menu_Input();
     virtual void back() override;
 
     virtual void update(sf::Vector2f mpos) override;
@@ -91,7 +91,7 @@ private:
 };
 
 struct Menu_Package {
-    Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s, Menu_Keymap* k)
+    Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s, Menu_Input* k)
         : m_main { m }
         , m_pause { p }
         , m_settings { s }
@@ -102,5 +102,5 @@ struct Menu_Package {
     Menu_Main* m_main;
     Menu_Pause* m_pause;
     Menu_Settings* m_settings;
-    Menu_Keymap* m_keymap;
+    Menu_Input* m_keymap;
 };

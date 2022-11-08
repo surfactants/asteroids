@@ -204,7 +204,7 @@ void Menu::stopInput()
     releaseLeft();
 }
 
-Menu_Keymap::Menu_Keymap()
+Menu_Input::Menu_Input()
 {
     sf::Vector2f spos(512.f, 192.f);
 
@@ -212,28 +212,28 @@ Menu_Keymap::Menu_Keymap()
 
     spos.x += 512.f + 128.f;
 
-    options.push_back(Option("save", font, std::bind(&Menu_Keymap::save, this)));
+    options.push_back(Option("save", font, std::bind(&Menu_Input::save, this)));
     options.back().setPosition(spos);
 
     spos.y += 128.f;
 
-    options.push_back(Option("reset", font, std::bind(&Key_Mapper::reset, this)));
+    options.push_back(Option("reset", font, std::bind(&Input_Mapper::reset, this)));
     options.back().setPosition(spos);
 
     spos.y += 128.f;
 
-    options.push_back(Option("cancel", font, std::bind(&Menu_Keymap::back, this)));
+    options.push_back(Option("cancel", font, std::bind(&Menu_Input::back, this)));
     options.back().setPosition(spos);
 }
 
-void Menu_Keymap::back()
+void Menu_Input::back()
 {
     reset();
     state_menu = Menu_State::SETTINGS;
     change_menu = true;
 }
 
-void Menu_Keymap::save()
+void Menu_Input::save()
 {
     confirm();
     saveActions(getActions());
@@ -241,33 +241,33 @@ void Menu_Keymap::save()
     back();
 }
 
-void Menu_Keymap::update(sf::Vector2f mpos)
+void Menu_Input::update(sf::Vector2f mpos)
 {
     Menu::update(mpos);
     checkMouse(mpos);
 }
 
-void Menu_Keymap::clickLeft()
+void Menu_Input::clickLeft()
 {
-    if (!Key_Mapper::clickLeft()) {
+    if (!Input_Mapper::clickLeft()) {
         Menu::clickLeft();
     }
 }
 
-void Menu_Keymap::clickRight()
+void Menu_Input::clickRight()
 {
-    if (!Key_Mapper::clickRight()) {
+    if (!Input_Mapper::clickRight()) {
         Menu::clickRight();
     }
 }
 
-void Menu_Keymap::setActions(const std::map<std::string, Action>& actions)
+void Menu_Input::setActions(const std::map<std::string, Action>& actions)
 {
-    Key_Mapper::setActions(font, actions);
+    Input_Mapper::setActions(font, actions);
 }
 
-void Menu_Keymap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Menu_Input::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     Menu::draw(target, states);
-    Key_Mapper::draw(target, states);
+    Input_Mapper::draw(target, states);
 }

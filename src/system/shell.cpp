@@ -30,9 +30,9 @@ Shell::Shell()
 
     //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
 
-    menu_keymap.saveActions = std::bind(&Input_Handler::setRemappableActions, &input, std::placeholders::_1);
+    menu_input.saveActions = std::bind(&Input_Handler::setRemappableActions, &input, std::placeholders::_1);
 
-    menu_keymap.setActions(input.getRemappableActions());
+    menu_input.setActions(input.getRemappableActions());
 
     ui.loadPlayerAbilities(game.getPlayer().getAbilities());
 
@@ -168,7 +168,7 @@ void Shell::alignState()
             menu = &menu_settings;
             break;
         case Menu_State::KEYS:
-            menu = &menu_keymap;
+            menu = &menu_input;
             break;
         default:
             break;
