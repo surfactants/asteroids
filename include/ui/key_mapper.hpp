@@ -176,7 +176,7 @@ private:
     std::pair<sf::RectangleShape, sf::RectangleShape> cells;
     std::pair<sf::Text, sf::Text> labels;
 
-    std::string keyCache; //for resets
+    std::string cache; //for resets
 
     sf::FloatRect bounds;
 

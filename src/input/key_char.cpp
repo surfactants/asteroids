@@ -10,16 +10,40 @@ Convert_Key::Convert_Key()
     }
 }
 
-std::string Convert_Key::toString(sf::Keyboard::Key key)
+std::string Convert_Key::toString(const Action_Trigger& key)
 {
-    return to_string[key];
+    if (std::holds_alternative<sf::Keyboard::Key>(key)) {
+        return to_string[std::get<sf::Keyboard::Key>(key)];
+    }
+    else if (std::holds_alternative<sf::Mouse::Button>(key)) {
+        sf::Mouse::Button b = std::get<sf::Mouse::Button>(key);
+        if (b == sf::Mouse::Left) {
+            return "LMouse";
+        }
+        else if (b == sf::Mouse::Right) {
+            return "RMouse";
+        }
+    }
+    else if(std::holds_alternative<std::string>(key)) {
+        return std::get<std::string>(key);
+    }
+    else return "huh?";
 }
 
-sf::Keyboard::Key Convert_Key::toKey(std::string str)
+Action_Trigger Convert_Key::toKey(const std::string& str)
 {
-    sf::Keyboard::Key key { sf::Keyboard::Unknown };
+    Action_Trigger key;
     if (to_key.contains(str)) {
-        key = to_key[str];
+        key.emplace<sf::Keyboard::Key>(to_key[str]);
+    }
+    else if(str == "LMouse") {
+            key.emplace<sf::Mouse::Button>(sf::Mouse::Left);
+    }
+    else if(str == "RMouse") {
+        key.emplace<sf::Mouse::Button>(sf::Mouse::Right);
+    }
+    else {
+        key.emplace<std::string>("failed to parse");
     }
     return key;
 }

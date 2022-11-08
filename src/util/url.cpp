@@ -1,7 +1,7 @@
-
-#include <windows.h> //MUST BE INCLUDED BEFORE <shellapi.h> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//clang-format off
+#include <windows.h>
 #include <shellapi.h>
-
+//clang-format on
 #include <util/url.hpp>
 
 void launchURL(std::string target)

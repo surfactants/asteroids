@@ -333,7 +333,7 @@ void Database::errorCheck(std::string id)
     //log error message here
 }
 
-std::map<std::string, sf::Keyboard::Key> Database::getActions()
+std::map<std::string, Action_Trigger> Database::getActions()
 {
     open();
 
@@ -343,7 +343,7 @@ std::map<std::string, sf::Keyboard::Key> Database::getActions()
 
     rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
 
-    std::map<std::string, sf::Keyboard::Key> actions;
+    std::map<std::string, Action_Trigger> actions;
 
     Convert_Key converter;
 
@@ -352,7 +352,9 @@ std::map<std::string, sf::Keyboard::Key> Database::getActions()
         std::string name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
         std::string key = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
 
-        actions[name] = converter.toKey(key);
+        Action_Trigger t = converter.toKey(key);
+
+        actions[name] = t;
     }
 
     sqlite3_finalize(statement);
@@ -370,14 +372,14 @@ void Database::saveActions(std::vector<Action> actions)
 
     execute(sql);
 
-    sql = "VACUUM";
+    sql = "VACUUM COMMANDS";
 
     execute(sql);
 
     Convert_Key converter;
 
     for (const auto& action : actions) {
-        sql = "INSERT INTO COMMANDS(NAME, KEY) VALUES(\"" + action.name + "\", \"" + converter.toString(std::get<sf::Keyboard::Key>(action.key)) + "\");";
+        sql = "INSERT INTO COMMANDS(NAME, KEY) VALUES(\"" + action.name + "\", \"" + converter.toString(action.trigger) + "\");";
         execute(sql);
     }
 

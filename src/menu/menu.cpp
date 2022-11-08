@@ -141,7 +141,7 @@ Menu_Settings::Menu_Settings()
     spos.x += 32.f;
     spos.y += 256.f;
 
-    options.push_back(Option("input", font, [=]() { state_menu = Menu_State::KEYS; change_menu = true; }));
+    options.push_back(Option("input", font, [&]() { state_menu = Menu_State::KEYS; change_menu = true; }));
     options.back().setPosition(spos);
 
     spos.y += 128.f;

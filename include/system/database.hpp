@@ -33,7 +33,7 @@ public:
 
     static std::map<Faction, std::string> getAutotileRules();
 
-    static std::map<std::string, sf::Keyboard::Key> getActions();
+    static std::map<std::string, Action_Trigger> getActions();
 
     static void saveActions(std::vector<Action> actions);
 

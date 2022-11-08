@@ -9,7 +9,7 @@ std::map<Key_Mapper::Row::State, sf::Color> Key_Mapper::Row::colors = { { Row::N
 Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int characterSize, sf::Vector2f size)
     : Action(action)
 {
-    keyCache = std::get<std::string>(action.key);
+    cache = std::get<std::string>(action.trigger);
     labels.first.setFont(font);
     labels.first.setCharacterSize(characterSize);
     labels.first.setString(name);
@@ -19,7 +19,7 @@ Key_Mapper::Row::Row(const Action& action, const sf::Font& font, unsigned int ch
 
     labels.second.setFont(font);
     labels.second.setCharacterSize(characterSize);
-    labels.second.setString(std::get<std::string>(action.key));
+    labels.second.setString(std::get<std::string>(action.trigger));
     centerText(labels.second);
 
     cells.second.setSize(sf::Vector2f(2.f * size.y, size.y));
@@ -75,25 +75,25 @@ const sf::Vector2f Key_Mapper::Row::getSize() const
 
 void Key_Mapper::Row::setKey(std::string key)
 {
-    keyCache = key;
+    cache = key;
     labels.second.setString(key);
     centerText(labels.second);
 }
 
 std::string Key_Mapper::Row::getKey()
 {
-    return std::get<std::string>(key);
+    return cache;
 }
 
 void Key_Mapper::Row::reset()
 {
-    setKey(std::get<std::string>(key));
+    setKey(std::get<std::string>(trigger));
     setState(Row::NONE);
 }
 
 void Key_Mapper::Row::confirm()
 {
-    key = keyCache;
+    trigger.emplace<std::string>(cache);
     setState(Row::NONE);
 }
 
@@ -275,8 +275,10 @@ void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& act
     rows.clear();
     sf::Vector2f rpos = pos;
 
+    //sort here
+
     for (auto action : actions) {
-        action.key = converter.toString(std::get<sf::Keyboard::Key>(action.key));
+        action.trigger = converter.toString(action.trigger);
         rows.push_back(Row(action, font, characterSize, rowSize));
         rows.back().press = action.press;
         rows.back().release = action.release;
@@ -291,7 +293,7 @@ std::vector<Action> Key_Mapper::getActions()
 
     for (const auto& row : rows) {
         actions.push_back(row);
-        actions.back().key = converter.toKey(std::get<std::string>(actions.back().key));
+        actions.back().trigger = converter.toKey(std::get<std::string>(actions.back().trigger));
     }
 
     return actions;

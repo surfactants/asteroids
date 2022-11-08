@@ -1,6 +1,9 @@
 #include <input/input_handler.hpp>
 #include <system/database.hpp>
 
+//TODO clean this up
+    //extract a function for placing a remappable variant (note 1)
+
 Input_Package::Input_Package()
 {
     clear();
@@ -27,13 +30,14 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
 
     p_g.keyReleased[sf::Keyboard::Escape] = std::bind(&Game::escape, &game);
 
-    std::map<std::string, sf::Keyboard::Key> actions = Database::getActions();
+    std::map<std::string, Action_Trigger> actions = Database::getActions();
 
     std::function<void()> uncast = std::bind(&Entity::uncast, player);
 
     for (const auto& action : actions) {
-        std::function<void()> press;
-        std::function<void()> release;
+        std::function<void()> press = [](){};
+        std::function<void()> release = [](){};
+
         if (action.first == "Move North") {
             press = std::bind(&Player::upStart, player);
             release = std::bind(&Player::upEnd, player);
@@ -66,12 +70,9 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
             press = [player]() { player->castAbility(3); };
             release = uncast;
         }
-        p_g.keyPressed[action.second] = std::make_pair(action.first, press);
-        p_g.keyReleased[action.second] = release;
-    }
 
-    p_g.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&UI::clickLeft, &ui);
-    p_g.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&UI::releaseLeft, &ui);
+        placeActionTrigger(action, press, release);
+    }
 
     p_g.scroll = std::bind(&Game::scroll, &game, std::placeholders::_1);
 
@@ -89,13 +90,45 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     for (const auto& m : menus) {
         Input_Package& p = context_menu[m.first];
         p.keyReleased[sf::Keyboard::Escape] = std::bind(&Menu::back, m.second);
-        p.mouse[Mouse_Event::LEFT_CLICK] = std::bind(&Menu::clickLeft, m.second);
-        p.mouse[Mouse_Event::LEFT_RELEASE] = std::bind(&Menu::releaseLeft, m.second);
+        p.mouse[Mouse_Event::LEFT_CLICK].second = std::bind(&Menu::clickLeft, m.second);
+        p.mouse[Mouse_Event::LEFT_RELEASE].second = std::bind(&Menu::releaseLeft, m.second);
+        p.mouse[Mouse_Event::RIGHT_CLICK].second = std::bind(&Menu::clickRight, m.second);
+        p.mouse[Mouse_Event::RIGHT_RELEASE].second = std::bind(&Menu::releaseRight, m.second);
         p.scroll = std::bind(&Menu::scroll, m.second, std::placeholders::_1);
         p.focus_lost = std::bind(&Menu::stopInput, m.second);
     }
 
     context_menu[Menu_State::KEYS].special = std::bind(&Menu_Keymap::keyPressed, menu_package.m_keymap, std::placeholders::_1);
+}
+
+void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigger>& action
+                                     , std::function<void()> press
+                                     , std::function<void()> release)
+{
+    Input_Package& p_g = context[Main_State::GAME];
+
+    if(std::holds_alternative<sf::Keyboard::Key>(action.second)) {
+        sf::Keyboard::Key k = std::get<sf::Keyboard::Key>(action.second);
+        p_g.keyPressed[k].first = action.first;
+        p_g.keyPressed[k].second = press;
+        p_g.keyReleased[k] = release;
+    }
+    else if(std::holds_alternative<sf::Mouse::Button>(action.second)) {
+        sf::Mouse::Button b = std::get<sf::Mouse::Button>(action.second);
+        Mouse_Event p{ Mouse_Event::NULLEVENT };
+        Mouse_Event r{ Mouse_Event::NULLEVENT };
+        if (b == sf::Mouse::Left) {
+            p = Mouse_Event::LEFT_CLICK;
+            r = Mouse_Event::LEFT_RELEASE;
+        }
+        else if(b == sf::Mouse::Right) {
+            p = Mouse_Event::RIGHT_CLICK;
+            r = Mouse_Event::RIGHT_RELEASE;
+        }
+        p_g.mouse[p].first = action.first;
+        p_g.mouse[p].second = press;
+        p_g.mouse[r].second = release;
+    }
 }
 
 const std::vector<Action> Input_Handler::getRemappableActions()
@@ -109,6 +142,22 @@ const std::vector<Action> Input_Handler::getRemappableActions()
         if (p_g.keyPressed.contains(key)) {
             actions.push_back(Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]));
         }
+    }
+
+    Mouse_Event c = Mouse_Event::LEFT_CLICK;
+    Mouse_Event r = Mouse_Event::LEFT_RELEASE;
+    sf::Mouse::Button b = sf::Mouse::Left;
+
+    if (p_g.mouse.contains(c)) {
+        actions.push_back(Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second));
+    }
+
+    c = Mouse_Event::RIGHT_CLICK;
+    r = Mouse_Event::RIGHT_RELEASE;
+    b = sf::Mouse::Right;
+
+    if (p_g.mouse.contains(c)) {
+        actions.push_back(Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second));
     }
 
     return actions;
@@ -129,11 +178,13 @@ void Input_Handler::setRemappableActions(const std::vector<Action>& actions)
 
     p_g.keyPressed.clear();
 
+    p_g.mouse.erase(Mouse_Event::LEFT_CLICK);
+    p_g.mouse.erase(Mouse_Event::LEFT_RELEASE);
+    p_g.mouse.erase(Mouse_Event::RIGHT_CLICK);
+    p_g.mouse.erase(Mouse_Event::RIGHT_RELEASE);
+
     for (const auto& action : actions) {
-        sf::Keyboard::Key k = std::get<sf::Keyboard::Key>(action.key);
-        p_g.keyPressed[k].first = action.name;
-        p_g.keyPressed[k].second = action.press;
-        p_g.keyReleased[k] = action.release;
+        placeActionTrigger(std::make_pair(action.name, action.trigger), action.press, action.release);
     }
 }
 
@@ -165,21 +216,21 @@ void Input_Handler::handle()
             }
             else if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left && context[state_main].mouse.count(Mouse_Event::LEFT_CLICK)) {
-                    context[state_main].mouse[Mouse_Event::LEFT_CLICK]();
+                    context[state_main].mouse[Mouse_Event::LEFT_CLICK].second();
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right && context[state_main].mouse.count(Mouse_Event::RIGHT_CLICK)) {
-                    context[state_main].mouse[Mouse_Event::RIGHT_CLICK]();
+                    context[state_main].mouse[Mouse_Event::RIGHT_CLICK].second();
                 }
             }
             else if (event.type == sf::Event::MouseButtonReleased) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (context[state_main].mouse.count(Mouse_Event::LEFT_RELEASE)) {
-                        context[state_main].mouse[Mouse_Event::LEFT_RELEASE]();
+                        context[state_main].mouse[Mouse_Event::LEFT_RELEASE].second();
                     }
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right) {
                     if (context[state_main].mouse.count(Mouse_Event::RIGHT_RELEASE)) {
-                        context[state_main].mouse[Mouse_Event::RIGHT_RELEASE]();
+                        context[state_main].mouse[Mouse_Event::RIGHT_RELEASE].second();
                     }
                 }
             }

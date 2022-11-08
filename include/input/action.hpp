@@ -4,23 +4,22 @@
 #include <SFML/Window/Event.hpp>
 
 #include <string>
-#include <variant>
 
-using Action_Trigger = std::variant<sf::Keyboard::Key, sf::Mouse::Button, std::string>;
+#include "action_trigger.hpp"
 
 class Action {
 public:
-    Action(const std::string& name, const Action_Trigger& key,
+    Action(const std::string& name, const Action_Trigger& trigger,
         std::function<void()> press,
         std::function<void()> release)
         : name { name }
-        , key { key }
+        , trigger { trigger }
         , press { press }
         , release { release }
     {}
 
     const std::string name;
-    Action_Trigger key;
+    Action_Trigger trigger;
     std::function<void()> press;
     std::function<void()> release;
 };
