@@ -1,5 +1,5 @@
 #include <animation/animation.hpp>
-#include <input/key_char.hpp>
+#include <input/convert_action_trigger.hpp>
 #include <system/database.hpp>
 #include <abilities/ability_type.hpp>
 
@@ -345,7 +345,7 @@ std::map<std::string, Action_Trigger> Database::getActions()
 
     std::map<std::string, Action_Trigger> actions;
 
-    Convert_Key converter;
+    Convert_Action_Trigger converter;
 
     while ((rc = sqlite3_step(statement)) == SQLITE_ROW) {
         unsigned int column = 0;
@@ -376,7 +376,7 @@ void Database::saveActions(std::vector<Action> actions)
 
     execute(sql);
 
-    Convert_Key converter;
+    Convert_Action_Trigger converter;
 
     for (const auto& action : actions) {
         sql = "INSERT INTO COMMANDS(NAME, KEY) VALUES(\"" + action.name + "\", \"" + converter.toString(action.trigger) + "\");";

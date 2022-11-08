@@ -4,7 +4,7 @@
 
 #include <input/action.hpp>
 #include <input/input_package.hpp>
-#include <input/key_char.hpp>
+#include <input/convert_action_trigger.hpp>
 #include <input/mouse_event.hpp>
 
 //recommend running checkMouse() every frame, for post-selection hovers
@@ -15,7 +15,7 @@
  *     Creates rows from action class (name/function/trigger)
  *
  * std::vector<Action> getActions()
- * 
+ *
  *
  * void reset()
  *     unhovers, unselects, and reverts changes
@@ -31,7 +31,7 @@
  *
  * bool clickLeft()
  *     for selecting rows and setting input. returns true if parsed.
- * 
+ *
  * bool clickRight()
  *     for setting input. returns true if parsed
  *
@@ -62,7 +62,7 @@
  *     actions.push_back(Action("move west", std::function<void()>(), sf::Keyboard::A));
  *     actions.push_back(Action("move south", std::function<void()>(), sf::Keyboard::S));
  *     actions.push_back(Action("move east", std::function<void()>(), sf::Keyboard::D));
- * 
+ *
  * sf::font font;
  * font.loadFromFile(" ... ");
  * key_mapper.setActions(font, actions);
@@ -99,7 +99,7 @@ public:
 protected:
     class Row;
 
-    Convert_Key converter;
+    Convert_Action_Trigger converter;
 
     sf::Vector2f pos { 0.f, 0.f };
     sf::Vector2f rowSize { 512.f, 72.f };

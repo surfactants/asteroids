@@ -164,7 +164,7 @@ void Input_Handler::setRemappableActions(const std::vector<Action>& actions)
 {
     Input_Package& p_g = context[Main_State::GAME];
 
-    Convert_Key converter;
+    Convert_Action_Trigger converter;
 
     for (auto k = p_g.keyReleased.begin(); k != p_g.keyReleased.end();) {
         if (k->first != sf::Keyboard::Escape)
