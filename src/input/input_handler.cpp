@@ -1,9 +1,6 @@
 #include <input/input_handler.hpp>
 #include <system/database.hpp>
 
-//TODO clean this up
-    //extract a function for placing a remappable variant (note 1)
-
 Input_Package::Input_Package()
 {
     clear();
