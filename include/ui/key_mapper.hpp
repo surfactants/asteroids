@@ -80,7 +80,7 @@ public:
 
     void reset();
 
-    void setActions(const sf::Font& font, const std::vector<Action>& actions);
+    void setActions(const sf::Font& font, const std::map<std::string, Action>& actions);
 
     void confirm();
 
@@ -115,6 +115,8 @@ protected:
 
     void undoHover();
     void undoSelect();
+
+    void addAction(const sf::Font& font, Action action, sf::Vector2f& rpos);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

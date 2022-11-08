@@ -261,7 +261,7 @@ void Menu_Keymap::clickRight()
     }
 }
 
-void Menu_Keymap::setActions(const std::vector<Action>& actions)
+void Menu_Keymap::setActions(const std::map<std::string, Action>& actions)
 {
     Key_Mapper::setActions(font, actions);
 }

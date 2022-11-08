@@ -270,21 +270,35 @@ void Key_Mapper::setTextColor(const sf::Color& color)
     }
 }
 
-void Key_Mapper::setActions(const sf::Font& font, const std::vector<Action>& actions)
+void Key_Mapper::setActions(const sf::Font& font, const std::map<std::string, Action>& actions)
 {
     rows.clear();
     sf::Vector2f rpos = pos;
 
-    //sort here
+    static std::vector<std::string> order = { "Move North"
+                                            , "Move West"
+                                            , "Move South"
+                                            , "Move East"
+                                            , "Ability 1"
+                                            , "Ability 2"
+                                            , "Ability 3"
+                                            , "Ability 4" };
 
-    for (auto action : actions) {
+    size_t n = order.size();
+
+    for (size_t i = 0; i < n; ++i) {
+        addAction(font, actions.at(order[i]), rpos);
+    }
+}
+
+void Key_Mapper::addAction(const sf::Font& font, Action action, sf::Vector2f& rpos)
+{
         action.trigger = converter.toString(action.trigger);
         rows.push_back(Row(action, font, characterSize, rowSize));
         rows.back().press = action.press;
         rows.back().release = action.release;
         rows.back().setPosition(rpos);
         rpos.y += rows.back().getSize().y + Row::padding;
-    }
 }
 
 std::vector<Action> Key_Mapper::getActions()

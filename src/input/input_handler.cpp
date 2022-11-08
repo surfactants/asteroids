@@ -128,16 +128,17 @@ void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigg
     }
 }
 
-const std::vector<Action> Input_Handler::getRemappableActions()
+const std::map<std::string, Action> Input_Handler::getRemappableActions()
 {
     Input_Package& p_g = context[Main_State::GAME];
 
-    std::vector<Action> actions;
+    std::map<std::string, Action> actions;
 
     for (size_t k = 0; k < sf::Keyboard::KeyCount; k++) {
         sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(k);
         if (p_g.keyPressed.contains(key)) {
-            actions.push_back(Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]));
+            actions[p_g.keyPressed[key].first] =
+                Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]);
         }
     }
 
@@ -146,7 +147,8 @@ const std::vector<Action> Input_Handler::getRemappableActions()
     sf::Mouse::Button b = sf::Mouse::Left;
 
     if (p_g.mouse.contains(c)) {
-        actions.push_back(Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second));
+            actions[p_g.mouse[c].first] =
+                Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
     }
 
     c = Mouse_Event::RIGHT_CLICK;
@@ -154,7 +156,8 @@ const std::vector<Action> Input_Handler::getRemappableActions()
     b = sf::Mouse::Right;
 
     if (p_g.mouse.contains(c)) {
-        actions.push_back(Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second));
+        actions[p_g.mouse[c].first] =
+            Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
     }
 
     return actions;

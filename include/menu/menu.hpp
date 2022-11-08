@@ -79,7 +79,7 @@ public:
     virtual void clickLeft() override;
     virtual void clickRight() override;
 
-    void setActions(const std::vector<Action>& actions);
+    void setActions(const std::map<std::string, Action>& actions);
 
     void save();
     void cancel();

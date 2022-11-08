@@ -21,7 +21,7 @@ public:
 
     void menuChange();
 
-    const std::vector<Action> getRemappableActions();
+    const std::map<std::string, Action> getRemappableActions();
 
     void setRemappableActions(const std::vector<Action>& actions);
 

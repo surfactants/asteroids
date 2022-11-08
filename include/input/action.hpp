@@ -9,6 +9,7 @@
 
 class Action {
 public:
+    Action(){}
     Action(const std::string& name, const Action_Trigger& trigger,
         std::function<void()> press,
         std::function<void()> release)
@@ -18,7 +19,7 @@ public:
         , release { release }
     {}
 
-    const std::string name;
+    std::string name;
     Action_Trigger trigger;
     std::function<void()> press;
     std::function<void()> release;
