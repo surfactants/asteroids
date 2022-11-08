@@ -6,9 +6,11 @@
 #include <string>
 #include <variant>
 
+using Action_Trigger = std::variant<sf::Keyboard::Key, sf::Mouse::Button, std::string>;
+
 class Action {
 public:
-    Action(const std::string& name, const sf::Keyboard::Key& key,
+    Action(const std::string& name, const Action_Trigger& key,
         std::function<void()> press,
         std::function<void()> release)
         : name { name }
@@ -18,7 +20,7 @@ public:
     {}
 
     const std::string name;
-    std::variant<sf::Keyboard::Key, sf::Mouse::Button, std::string> key;
+    Action_Trigger key;
     std::function<void()> press;
     std::function<void()> release;
 };

@@ -108,6 +108,7 @@ protected:
     bool checkMouse(sf::Vector2f mpos);
 
     bool clickLeft();
+    bool clickRight();
 
     void setTextColor(const sf::Color& color);
     void setBackgroundColor(const sf::Color& color);
@@ -123,6 +124,8 @@ protected:
 
     size_t hoverIndex { SIZE_MAX };
     size_t selectIndex { SIZE_MAX };
+
+    void checkPrev(const std::string& k);
 
     std::vector<Row> rows;
 

@@ -176,7 +176,10 @@ bool Key_Mapper::clickLeft()
 {
     if (selectIndex != SIZE_MAX) {
         //set selection as left click
-
+        std::string k = "LMouse";
+        checkPrev(k);
+        rows[selectIndex].setKey(k);
+        undoSelect();
         return true;
     }
 
@@ -186,6 +189,20 @@ bool Key_Mapper::clickLeft()
         undoSelect();
         selectIndex = hoverIndex;
         rows[selectIndex].setState(Row::SELECT);
+    }
+
+    return parsed;
+}
+
+bool Key_Mapper::clickRight()
+{
+    bool parsed = (selectIndex != SIZE_MAX);
+
+    if (parsed) {
+        std::string k = "RMouse";
+        checkPrev(k);
+        rows[selectIndex].setKey(k);
+        undoSelect();
     }
 
     return parsed;
@@ -205,12 +222,7 @@ bool Key_Mapper::keyPressed(sf::Keyboard::Key key)
     if (parsed) {
         if (key != sf::Keyboard::Escape) {
             std::string k = converter.toString(key);
-            auto isPrev = [k](Row r) { return r.getKey() == k; };
-            auto prevIt = std::find_if(rows.begin(), rows.end(), isPrev);
-            if (prevIt != rows.end()) {
-                std::string prev = rows[selectIndex].getKey();
-                prevIt->setKey(prev);
-            }
+            checkPrev(k);
             rows[selectIndex].setKey(k);
         }
 
@@ -218,6 +230,16 @@ bool Key_Mapper::keyPressed(sf::Keyboard::Key key)
     }
 
     return parsed;
+}
+
+void Key_Mapper::checkPrev(const std::string& k)
+{
+    auto isPrev = [k](Row r) { return r.getKey() == k; };
+    auto prevIt = std::find_if(rows.begin(), rows.end(), isPrev);
+    if (prevIt != rows.end()) {
+        std::string prev = rows[selectIndex].getKey();
+        prevIt->setKey(prev);
+    }
 }
 
 void Key_Mapper::setBackgroundColor(const sf::Color& color)

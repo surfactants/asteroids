@@ -254,6 +254,13 @@ void Menu_Keymap::clickLeft()
     }
 }
 
+void Menu_Keymap::clickRight()
+{
+    if (!Key_Mapper::clickRight()) {
+        Menu::clickRight();
+    }
+}
+
 void Menu_Keymap::setActions(const std::vector<Action>& actions)
 {
     Key_Mapper::setActions(font, actions);

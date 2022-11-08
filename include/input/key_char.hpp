@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-//this class handles conversions between sf::Keyboard::Key
+//this class handles conversions between sf::Keyboard::Key and std::string
 //it is a bimap-less modification of Bromeon's solution in Thor
 
 class Convert_Key {
