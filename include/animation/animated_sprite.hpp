@@ -28,6 +28,8 @@ public:
 
     void resetCast();
 
+    bool lastFrame();
+
 private:
     void loadCounts(std::map<Entity_State, unsigned int> counts);
     void loadThresholds(std::map<Entity_State, int> thresholds);

@@ -104,11 +104,17 @@ void Entity::update()
             setState(sprite.getState());
         }
         else if (state == Entity_State::CASTING) {
-            checkCast();
+            if (castLock && sprite.done()) {
+                setState(lastState);
+                setSpriteDirection();
+                castLock = false;
+            }
+            else checkCast();
         }
         else if (isCasting() && !abilities[casting].isCooling()) {
             sprite.resetCast();
             setState(Entity_State::CASTING);
+            calculateCastDirection();
         }
         sprite.update();
 
@@ -251,6 +257,40 @@ sf::Vector2i Entity::getCoordinates(float tileSize)
     return sf::Vector2i(getPosition() / tileSize);
 }
 
+void Entity::calculateCastDirection()
+{
+    Direction d{ Direction::NULLDIRECTION };
+
+    double t = calculateOrientation(getPosition(), target);
+
+    if (t <= 22.5d || t > 337.5d) {
+        d = Direction::N;
+    }
+    else if (t > 22.5d && t <= 67.5d) {
+        d = Direction::NE;
+    }
+    else if (t > 67.5d && t <= 112.5d) {
+        d = Direction::E;
+    }
+    else if (t > 112.5d && t <= 157.5d) {
+        d = Direction::SE;
+    }
+    else if (t > 157.5d && t <= 202.5d) {
+        d = Direction::S;
+    }
+    else if (t > 202.5d && t <= 247.5d) {
+        d = Direction::SW;
+    }
+    else if(t > 247.5d && t <= 292.5d) {
+        d = Direction::W;
+    }
+    else if (t > 292.5d && t <= 337.5d) {
+        d = Direction::NW;
+    }
+
+    sprite.setDirection(d);
+}
+
 void Entity::setSpriteDirection()
 {
     Direction d = sprite.getDirection();
@@ -292,7 +332,7 @@ Projectile Entity::cast()
     castFrame = false;
     Projectile p = abilities[casting].projectile;
     p.setVelocity(getPosition(), target);
-    setState(lastState);
+    abilities[casting].startCooldown();
 
     return p;
 }
@@ -304,12 +344,6 @@ bool Entity::isCasting()
 
 void Entity::setVelocity()
 {
-    if (velocity.x == 0.f && velocity.y == 0.f
-        && !up && !down && !left && !right) {
-        velocity = sf::Vector2f(0.f, 0.f);
-        return;
-    }
-
     float speed = speed_orthogonal;
     if ((up && left) || (up && right) || (down && left) || (down && right)) {
         speed = speed_diagonal;
@@ -335,17 +369,29 @@ void Entity::setVelocity()
         velocity.y = speed;
     }
 
-    if (sprite.getAnimationState() != Entity_State::IDLE
-        && velocity.x == 0.f && velocity.y == 0.f) {
-        setState(Entity_State::IDLE);
+    if (velocity.x == 0.f && velocity.y == 0.f
+        && !up && !down && !left && !right) {
+        velocity = sf::Vector2f(0.f, 0.f);
+        if (state == Entity_State::CASTING) {
+            lastState = Entity_State::IDLE;
+        }
+        else {
+            setState(Entity_State::IDLE);
+        }
     }
     else if (sprite.getAnimationState() != Entity_State::MOVING
-        && sprite.getAnimationState() != Entity_State::CASTING
         && (velocity.x != 0.f || velocity.y != 0.f)) {
-        setState(Entity_State::MOVING);
+        if(sprite.getAnimationState() != Entity_State::CASTING) {
+            setState(Entity_State::MOVING);
+            setSpriteDirection();
+        }
+        else {
+            lastState = Entity_State::MOVING;
+        }
     }
-
-    setSpriteDirection();
+    else {
+        setSpriteDirection();
+    }
 }
 
 void Entity::setState(Entity_State nstate)
@@ -379,6 +425,9 @@ void Entity::loadAbilities(const std::map<std::string, Ability>& abilities)
 void Entity::setTarget(sf::Vector2f target)
 {
     this->target = target;
+    if (state == Entity_State::CASTING) {
+        calculateCastDirection();
+    }
 }
 
 void Entity::castAbility(const size_t a)
@@ -392,7 +441,11 @@ void Entity::uncast()
 {
     if(isCasting()){
         if(state == Entity_State::CASTING){
+            sprite.resetCast();
             setState(lastState);
+            if (state == Entity_State::MOVING) {
+                setSpriteDirection();
+            }
         }
         casting = -1;
     }
@@ -400,10 +453,9 @@ void Entity::uncast()
 
 void Entity::checkCast()
 {
-    if (sprite.done()) {
+    if (!castLock && sprite.lastFrame()) {
         castFrame = true;
-        setState(lastState);
-        abilities[casting].startCooldown();
+        castLock = true;
     }
 }
 

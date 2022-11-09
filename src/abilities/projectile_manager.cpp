@@ -11,7 +11,9 @@ void Projectile_Manager::update(float deltaTime)
 {
     for (auto p = projectiles.begin(); p != projectiles.end();) {
         p->update(deltaTime);
-        if(!p->inRange()) projectiles.erase(p);
+        if(!p->inRange()) {
+            projectiles.erase(p);
+        }
         else p++;
     }
 }

@@ -26,4 +26,7 @@ public:
     void update() override;
 
     void setPlayerAbilities();
+
+private:
+    bool moveInCast(bool starting);
 };

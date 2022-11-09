@@ -78,10 +78,8 @@ double calculateOrientation(sf::Vector2<T> v)
 
     t *= 180.d / PI;
 
-    if (v.x > 0)
-        t += 90;
-    else if (v.y < 0)
-        t += 270;
+    if (v.x >= 0) t += 90;
+    else if (v.x < 0) t += 270;
 
     return t;
 }

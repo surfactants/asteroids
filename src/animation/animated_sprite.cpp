@@ -107,7 +107,12 @@ Entity_State Animated_Sprite::getState()
 
 bool Animated_Sprite::done()
 {
-    return (animations[state][direction].lastFrame());
+    return (lastFrame() && frameTimer.getElapsedTime().asMilliseconds() >= frameThreshold);
+}
+
+bool Animated_Sprite::lastFrame()
+{
+    return animations[state][direction].lastFrame();
 }
 
 void Animated_Sprite::resetCast()

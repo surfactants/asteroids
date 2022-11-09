@@ -405,7 +405,7 @@ std::map<std::string, Ability> Database::getAbilities()
         std::string name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
         Ability_Type type = stringToAbilityType(name);
         size_t magnitude = sqlite3_column_int(statement, column++);
-        size_t range = sqlite3_column_int(statement, column++);
+        double range = sqlite3_column_double(statement, column++);
         size_t radius = sqlite3_column_int(statement, column++);
         double cooldown = sqlite3_column_double(statement, column++);
         double duration = sqlite3_column_double(statement, column++);

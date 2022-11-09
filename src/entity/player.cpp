@@ -83,3 +83,6 @@ void Player::setPlayerAbilities()
         a.projectile.setPlayer();
     }
 }
+
+bool Player::moveInCast(bool starting)
+{}

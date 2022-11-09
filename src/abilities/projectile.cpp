@@ -2,8 +2,8 @@
 #include <resources/texture_manager.hpp>
 #include <util/primordial.hpp>
 
-Projectile::Projectile(Ability_Type type, double speed, Damage dmg, size_t range) :
-    type{ type }, speed{ speed }, dmg{ dmg }
+Projectile::Projectile(Ability_Type type, double speed, Damage dmg, double range) :
+    type{ type }, speed{ speed }, dmg{ dmg }, range{ range }
 {
     loadTexture();
 }

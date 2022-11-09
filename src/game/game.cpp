@@ -50,7 +50,7 @@ void Game::update(float deltaTime)
 
     player.setTarget(fMouse(window, view));
 
-    if (player.getState() == Entity_State::CASTING && player.readyToCast()) {
+    if (player.readyToCast()) {
         projectileManager.create(player.cast());
     }
 

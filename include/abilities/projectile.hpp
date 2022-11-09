@@ -7,7 +7,7 @@
 class Projectile : public sf::Drawable {
 public:
     Projectile(){}
-    Projectile(Ability_Type type, double speed, Damage dmg, size_t range);
+    Projectile(Ability_Type type, double speed, Damage dmg, double range);
 
     void setVelocity(sf::Vector2f pos, sf::Vector2f target);
 
@@ -26,8 +26,6 @@ public:
 
     Damage getDamage();
 
-    size_t range;
-
     double distanceTraveled{ 0.f };
 
     bool inRange();
@@ -45,6 +43,8 @@ private:
     bool player = false;
 
     Damage dmg;
+
+    double range;
 
     void loadTexture();
 };
