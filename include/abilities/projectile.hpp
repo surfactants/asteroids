@@ -1,12 +1,12 @@
 #pragma once
 
+#include "ability_type.hpp"
 #include <SFML/Graphics.hpp>
 #include <entity/damage.hpp>
-#include "ability_type.hpp"
 
 class Projectile : public sf::Drawable {
 public:
-    Projectile(){}
+    Projectile() { }
     Projectile(Ability_Type type, double speed, Damage dmg, double range);
 
     void setVelocity(sf::Vector2f pos, sf::Vector2f target);
@@ -26,7 +26,7 @@ public:
 
     Damage getDamage();
 
-    double distanceTraveled{ 0.f };
+    double distanceTraveled { 0.f };
 
     bool inRange();
 

@@ -8,9 +8,9 @@
 #include "action_trigger.hpp"
 
 //this class handles conversions between
-    //sf::Keyboard::Key/sf::Mouse::Button and std::string
+//sf::Keyboard::Key/sf::Mouse::Button and std::string
 //it is a bimap-less modification of Bromeon's solution in Thor
-    //(with a hacky workaround for mouse buttons)
+//(with a hacky workaround for mouse buttons)
 
 class Convert_Action_Trigger {
 public:

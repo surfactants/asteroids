@@ -32,8 +32,8 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     std::function<void()> uncast = std::bind(&Entity::uncast, player);
 
     for (const auto& action : actions) {
-        std::function<void()> press = [](){};
-        std::function<void()> release = [](){};
+        std::function<void()> press = []() {};
+        std::function<void()> release = []() {};
 
         if (action.first == "Move North") {
             press = std::bind(&Player::upStart, player);
@@ -98,27 +98,25 @@ Input_Handler::Input_Handler(sf::RenderWindow& nwindow, Game& game, UI& ui, Menu
     context_menu[Menu_State::KEYS].special = std::bind(&Menu_Input::keyPressed, menu_package.m_keymap, std::placeholders::_1);
 }
 
-void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigger>& action
-                                     , std::function<void()> press
-                                     , std::function<void()> release)
+void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigger>& action, std::function<void()> press, std::function<void()> release)
 {
     Input_Package& p_g = context[Main_State::GAME];
 
-    if(std::holds_alternative<sf::Keyboard::Key>(action.second)) {
+    if (std::holds_alternative<sf::Keyboard::Key>(action.second)) {
         sf::Keyboard::Key k = std::get<sf::Keyboard::Key>(action.second);
         p_g.keyPressed[k].first = action.first;
         p_g.keyPressed[k].second = press;
         p_g.keyReleased[k] = release;
     }
-    else if(std::holds_alternative<sf::Mouse::Button>(action.second)) {
+    else if (std::holds_alternative<sf::Mouse::Button>(action.second)) {
         sf::Mouse::Button b = std::get<sf::Mouse::Button>(action.second);
-        Mouse_Event p{ Mouse_Event::NULLEVENT };
-        Mouse_Event r{ Mouse_Event::NULLEVENT };
+        Mouse_Event p { Mouse_Event::NULLEVENT };
+        Mouse_Event r { Mouse_Event::NULLEVENT };
         if (b == sf::Mouse::Left) {
             p = Mouse_Event::LEFT_CLICK;
             r = Mouse_Event::LEFT_RELEASE;
         }
-        else if(b == sf::Mouse::Right) {
+        else if (b == sf::Mouse::Right) {
             p = Mouse_Event::RIGHT_CLICK;
             r = Mouse_Event::RIGHT_RELEASE;
         }
@@ -137,8 +135,7 @@ const std::map<std::string, Action> Input_Handler::getRemappableActions()
     for (size_t k = 0; k < sf::Keyboard::KeyCount; k++) {
         sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(k);
         if (p_g.keyPressed.contains(key)) {
-            actions[p_g.keyPressed[key].first] =
-                Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]);
+            actions[p_g.keyPressed[key].first] = Action(p_g.keyPressed[key].first, key, p_g.keyPressed[key].second, p_g.keyReleased[key]);
         }
     }
 
@@ -147,8 +144,7 @@ const std::map<std::string, Action> Input_Handler::getRemappableActions()
     sf::Mouse::Button b = sf::Mouse::Left;
 
     if (p_g.mouse.contains(c)) {
-            actions[p_g.mouse[c].first] =
-                Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
+        actions[p_g.mouse[c].first] = Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
     }
 
     c = Mouse_Event::RIGHT_CLICK;
@@ -156,8 +152,7 @@ const std::map<std::string, Action> Input_Handler::getRemappableActions()
     b = sf::Mouse::Right;
 
     if (p_g.mouse.contains(c)) {
-        actions[p_g.mouse[c].first] =
-            Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
+        actions[p_g.mouse[c].first] = Action(p_g.mouse[c].first, b, p_g.mouse[c].second, p_g.mouse[r].second);
     }
 
     return actions;

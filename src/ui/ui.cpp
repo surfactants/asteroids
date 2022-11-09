@@ -1,5 +1,5 @@
-#include <ui/ui.hpp>
 #include <resources/texture_manager.hpp>
+#include <ui/ui.hpp>
 
 UI::UI(Game& ngame)
     : game { ngame }
@@ -10,7 +10,7 @@ void UI::update()
 {
     minimap.update(game.getEnemies(), game.getPlayer().getPosition());
 
-    for(auto& icon : playerAbilities){
+    for (auto& icon : playerAbilities) {
         icon.update();
     }
 }
@@ -30,7 +30,7 @@ void UI::releaseLeft()
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for(const auto& icon : playerAbilities){
+    for (const auto& icon : playerAbilities) {
         target.draw(icon, states);
     }
 
@@ -52,7 +52,7 @@ void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
 {
     playerAbilities.clear();
     sf::Vector2f pos(8.f, 8.f);
-    for(const auto& a : abilities){
+    for (const auto& a : abilities) {
         playerAbilities.push_back(Ability_Icon(a));
         playerAbilities.back().setTexture(Texture_Manager::get("ABILITIES"));
 

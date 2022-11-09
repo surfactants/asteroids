@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 
 #include <input/action.hpp>
-#include <input/input_package.hpp>
 #include <input/convert_action_trigger.hpp>
+#include <input/input_package.hpp>
 #include <input/mouse_event.hpp>
 
 //recommend running checkMouse() every frame, for post-selection hovers
@@ -55,7 +55,6 @@
  *
  **********************************************************************************/
 
-
 /* EXAMPLE ************************************************************************
  *
  * Input_Mapper input_mapper();
@@ -72,10 +71,9 @@
  *
  **********************************************************************************/
 
-
 class Input_Mapper : public sf::Drawable {
 public:
-    Input_Mapper(){}
+    Input_Mapper() { }
 
     std::vector<Action> getActions();
 

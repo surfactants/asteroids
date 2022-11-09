@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>
+#include "ability_type.hpp"
+#include "projectile.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
-#include "projectile.hpp"
-#include "ability_type.hpp"
+#include <string>
 
 class Ability {
 public:
-    Ability(){}
+    Ability() { }
 
     Ability_Type type;
 
@@ -28,12 +28,15 @@ public:
 
     double getCooldownFractionRemaining() const;
 
+    bool fresh { false };
+
 protected:
     sf::Clock cooldownClock;
 
-    bool cooling{ false };
+    bool cooling { false };
 
 private:
+    double freshThreshold { 0.1d };
 };
 
 class Ability_Icon : public sf::Sprite {

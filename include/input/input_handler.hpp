@@ -33,7 +33,5 @@ private:
     std::map<Main_State, Input_Package> context;
     std::map<Menu_State, Input_Package> context_menu;
 
-    void placeActionTrigger(const std::pair<std::string, Action_Trigger>& action
-                          , std::function<void()> press
-                          , std::function<void()> release);
+    void placeActionTrigger(const std::pair<std::string, Action_Trigger>& action, std::function<void()> press, std::function<void()> release);
 };

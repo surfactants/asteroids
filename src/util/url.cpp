@@ -1,7 +1,7 @@
-//clang-format off
+// clang-format off
 #include <windows.h>
 #include <shellapi.h>
-//clang-format on
+// clang-format on
 #include <util/url.hpp>
 
 void launchURL(std::string target)

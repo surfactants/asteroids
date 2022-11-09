@@ -109,7 +109,8 @@ void Entity::update()
                 setSpriteDirection();
                 castLock = false;
             }
-            else checkCast();
+            else
+                checkCast();
         }
         else if (isCasting() && !abilities[casting].isCooling()) {
             sprite.resetCast();
@@ -118,7 +119,7 @@ void Entity::update()
         }
         sprite.update();
 
-        for(auto& a : abilities){
+        for (auto& a : abilities) {
             a.checkCooldown();
         }
     }
@@ -259,7 +260,7 @@ sf::Vector2i Entity::getCoordinates(float tileSize)
 
 void Entity::calculateCastDirection()
 {
-    Direction d{ Direction::NULLDIRECTION };
+    Direction d { Direction::NULLDIRECTION };
 
     double t = calculateOrientation(getPosition(), target);
 
@@ -281,7 +282,7 @@ void Entity::calculateCastDirection()
     else if (t > 202.5d && t <= 247.5d) {
         d = Direction::SW;
     }
-    else if(t > 247.5d && t <= 292.5d) {
+    else if (t > 247.5d && t <= 292.5d) {
         d = Direction::W;
     }
     else if (t > 292.5d && t <= 337.5d) {
@@ -381,7 +382,7 @@ void Entity::setVelocity()
     }
     else if (sprite.getAnimationState() != Entity_State::MOVING
         && (velocity.x != 0.f || velocity.y != 0.f)) {
-        if(sprite.getAnimationState() != Entity_State::CASTING) {
+        if (sprite.getAnimationState() != Entity_State::CASTING) {
             setState(Entity_State::MOVING);
             setSpriteDirection();
         }
@@ -439,8 +440,8 @@ void Entity::castAbility(const size_t a)
 
 void Entity::uncast()
 {
-    if(isCasting()){
-        if(state == Entity_State::CASTING){
+    if (isCasting()) {
+        if (state == Entity_State::CASTING) {
             sprite.resetCast();
             setState(lastState);
             if (state == Entity_State::MOVING) {

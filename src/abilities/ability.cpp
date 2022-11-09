@@ -14,8 +14,7 @@ bool Ability::isCooling() const
 
 bool Ability::checkCooldown()
 {
-    if(cooling && cooldownClock.getElapsedTime().asSeconds() >= cooldown)
-    {
+    if (cooling && cooldownClock.getElapsedTime().asSeconds() >= cooldown) {
         cooling = false;
     }
 
@@ -28,13 +27,13 @@ double Ability::getCooldownFractionRemaining() const
 }
 
 ////////////////////////////////////////////////////////////////////////////
-Ability_Icon::Ability_Icon(const Ability& ability) :
-    ability{ ability }
+Ability_Icon::Ability_Icon(const Ability& ability)
+    : ability { ability }
 {
 }
 
-Ability_Icon::Ability_Icon(const Ability& ability, const sf::Texture& texture, const sf::IntRect& textureRect) :
-    ability{ ability }
+Ability_Icon::Ability_Icon(const Ability& ability, const sf::Texture& texture, const sf::IntRect& textureRect)
+    : ability { ability }
 {
     setTexture(texture);
     setTextureRect(textureRect);
@@ -42,12 +41,12 @@ Ability_Icon::Ability_Icon(const Ability& ability, const sf::Texture& texture, c
 
 void Ability_Icon::update()
 {
-    if(ability.isCooling()){
+    if (ability.isCooling()) {
         double percent = ability.getCooldownFractionRemaining();
         sf::Uint8 c(percent * 255);
         setColor(sf::Color(c, c, c));
     }
-    else{
+    else if (ability.fresh) {
         //?need some sort of visual feedback indicating it's ready
     }
 }

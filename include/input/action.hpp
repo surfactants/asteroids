@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 #include <string>
 
@@ -9,7 +9,7 @@
 
 class Action {
 public:
-    Action(){}
+    Action() { }
     Action(const std::string& name, const Action_Trigger& trigger,
         std::function<void()> press,
         std::function<void()> release)
@@ -17,7 +17,8 @@ public:
         , trigger { trigger }
         , press { press }
         , release { release }
-    {}
+    {
+    }
 
     std::string name;
     Action_Trigger trigger;

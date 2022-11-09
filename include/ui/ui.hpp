@@ -1,10 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <abilities/ability.hpp>
 #include <audio/audio_manager.hpp>
 #include <game/game.hpp>
 #include <ui/ui_elements.hpp>
-#include <abilities/ability.hpp>
 
 class UI : public sf::Drawable {
 public:

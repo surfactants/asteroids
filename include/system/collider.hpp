@@ -1,8 +1,8 @@
 #pragma once
 
+#include <abilities/projectile_manager.hpp>
 #include <entity/enemy_manager.hpp>
 #include <entity/player.hpp>
-#include <abilities/projectile_manager.hpp>
 #include <world/world.hpp>
 
 class Collider {

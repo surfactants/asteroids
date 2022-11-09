@@ -1,8 +1,8 @@
 #pragma once
 
+#include <input/input_mapper.hpp>
 #include <system/state.hpp>
 #include <ui/button.hpp>
-#include <input/input_mapper.hpp>
 #include <ui/slider.hpp>
 
 struct Nav : public Button {

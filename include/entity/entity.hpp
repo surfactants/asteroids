@@ -1,12 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <abilities/ability.hpp>
 #include <animation/animated_sprite.hpp>
 #include <entity/damage.hpp>
 #include <entity/entity_data.hpp>
 #include <vector>
 #include <world/direction.hpp>
-#include <abilities/ability.hpp>
 
 #define ABILITY_COUNT 4
 
@@ -86,12 +86,12 @@ protected:
     sf::RectangleShape hpFrame;
     sf::RectangleShape hpBar;
 
-    int casting{ -1 };
+    int casting { -1 };
 
     //sf::Text levelText;
     //sf::RectangleShape levelFrame;
 
-    sf::Vector2f target{ 0.f, 0.f };
+    sf::Vector2f target { 0.f, 0.f };
 
     const static sf::Color color_hpGood;
     const static sf::Color color_hpBad;
@@ -146,5 +146,5 @@ protected:
 
     void calculateCastDirection();
 
-    bool castLock{ false };
+    bool castLock { false };
 };

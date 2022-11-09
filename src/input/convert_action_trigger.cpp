@@ -15,7 +15,7 @@ Convert_Action_Trigger::Convert_Action_Trigger()
 
 std::string Convert_Action_Trigger::toString(const Action_Trigger& trigger)
 {
-    std::string str{ "huh?" };
+    std::string str { "huh?" };
 
     if (std::holds_alternative<sf::Keyboard::Key>(trigger)) {
         str = key_to_string[std::get<sf::Keyboard::Key>(trigger)];
@@ -23,7 +23,7 @@ std::string Convert_Action_Trigger::toString(const Action_Trigger& trigger)
     else if (std::holds_alternative<sf::Mouse::Button>(trigger)) {
         str = button_to_string[std::get<sf::Mouse::Button>(trigger)];
     }
-    else if(std::holds_alternative<std::string>(trigger)) {
+    else if (std::holds_alternative<std::string>(trigger)) {
         str = std::get<std::string>(trigger);
     }
 
@@ -54,7 +54,7 @@ void Convert_Action_Trigger::init()
     string_to_button["LMouse"] = sf::Mouse::Left;
     string_to_button["RMouse"] = sf::Mouse::Right;
 
-#define KEY_INSERT(x)                                       \
+#define KEY_INSERT(x)                                           \
     key_to_string.insert({ sf::Keyboard::x, std::string(#x) }); \
     string_to_key.insert({ std::string(#x), sf::Keyboard::x });
 

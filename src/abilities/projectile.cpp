@@ -2,8 +2,11 @@
 #include <resources/texture_manager.hpp>
 #include <util/primordial.hpp>
 
-Projectile::Projectile(Ability_Type type, double speed, Damage dmg, double range) :
-    type{ type }, speed{ speed }, dmg{ dmg }, range{ range }
+Projectile::Projectile(Ability_Type type, double speed, Damage dmg, double range)
+    : type { type }
+    , speed { speed }
+    , dmg { dmg }
+    , range { range }
 {
     loadTexture();
 }
@@ -20,7 +23,7 @@ void Projectile::loadTexture()
 {
     sprite.setTexture(Texture_Manager::get("PROJECTILES"));
     sf::Vector2i rpos(0, 0);
-        rpos.x += 12 * static_cast<unsigned int>(type);
+    rpos.x += 12 * static_cast<unsigned int>(type);
     sf::Vector2i rsize(12, 16);
     sprite.setTextureRect(sf::IntRect(rpos, rsize));
 }

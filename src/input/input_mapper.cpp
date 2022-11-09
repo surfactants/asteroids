@@ -165,14 +165,7 @@ void Input_Mapper::setActions(const sf::Font& font, const std::map<std::string, 
     rows.clear();
     sf::Vector2f rpos = pos;
 
-    static std::vector<std::string> order = { "Move North"
-                                            , "Move West"
-                                            , "Move South"
-                                            , "Move East"
-                                            , "Ability 1"
-                                            , "Ability 2"
-                                            , "Ability 3"
-                                            , "Ability 4" };
+    static std::vector<std::string> order = { "Move North", "Move West", "Move South", "Move East", "Ability 1", "Ability 2", "Ability 3", "Ability 4" };
 
     size_t n = order.size();
 
@@ -183,12 +176,12 @@ void Input_Mapper::setActions(const sf::Font& font, const std::map<std::string, 
 
 void Input_Mapper::addAction(const sf::Font& font, Action action, sf::Vector2f& rpos)
 {
-        action.trigger = converter.toString(action.trigger);
-        rows.push_back(Row(action, font, characterSize, rowSize));
-        rows.back().press = action.press;
-        rows.back().release = action.release;
-        rows.back().setPosition(rpos);
-        rpos.y += rows.back().getSize().y + Row::padding;
+    action.trigger = converter.toString(action.trigger);
+    rows.push_back(Row(action, font, characterSize, rowSize));
+    rows.back().press = action.press;
+    rows.back().release = action.release;
+    rows.back().setPosition(rpos);
+    rpos.y += rows.back().getSize().y + Row::padding;
 }
 
 std::vector<Action> Input_Mapper::getActions()

@@ -79,10 +79,11 @@ void Player::rightEnd()
 
 void Player::setPlayerAbilities()
 {
-    for(auto& a : abilities){
+    for (auto& a : abilities) {
         a.projectile.setPlayer();
     }
 }
 
 bool Player::moveInCast(bool starting)
-{}
+{
+}

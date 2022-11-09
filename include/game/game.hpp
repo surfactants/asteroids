@@ -1,12 +1,12 @@
 #pragma once
 
+#include <abilities/projectile_manager.hpp>
 #include <ai/ai.hpp>
 #include <audio/audio_manager.hpp>
 #include <entity/enemy.hpp>
 #include <entity/enemy_manager.hpp>
 #include <entity/faction.hpp>
 #include <entity/player.hpp>
-#include <abilities/projectile_manager.hpp>
 #include <resources/texture_manager.hpp>
 #include <system/collider.hpp>
 #include <system/state_hook.hpp>

@@ -1,7 +1,7 @@
+#include <abilities/ability_type.hpp>
 #include <animation/animation.hpp>
 #include <input/convert_action_trigger.hpp>
 #include <system/database.hpp>
-#include <abilities/ability_type.hpp>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
@@ -412,14 +412,14 @@ std::map<std::string, Ability> Database::getAbilities()
         double speed = sqlite3_column_double(statement, column++);
 
         Ability a;
-            a.type = type;
-            a.sheetIndex = index;
-            a.magnitude = magnitude;
-            a.radius = radius;
-            a.cooldown = cooldown;
-            a.duration = duration;
-            Damage dmg(magnitude, Damage::LASER);
-            a.projectile = Projectile(type, speed, dmg, range);
+        a.type = type;
+        a.sheetIndex = index;
+        a.magnitude = magnitude;
+        a.radius = radius;
+        a.cooldown = cooldown;
+        a.duration = duration;
+        Damage dmg(magnitude, Damage::LASER);
+        a.projectile = Projectile(type, speed, dmg, range);
         abilities[name] = a;
 
         index++;
