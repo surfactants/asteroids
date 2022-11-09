@@ -143,4 +143,8 @@ protected:
     std::map<Damage::Type, float> resistance;
 
     bool castFrame = false;
+
+    void calculateCastDirection();
+
+    bool castLock{ false };
 };

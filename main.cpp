@@ -4,9 +4,6 @@
 
 int main()
 {
-    Tests tests;
-    tests.run();
-
     Shell shell;
     shell.run();
     return 0;
