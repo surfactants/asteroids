@@ -63,7 +63,7 @@ Entity_State Animated_Sprite::getAnimationState()
 
 void Animated_Sprite::loadCounts(std::map<Entity_State, unsigned int> times)
 {
-    const int dlimit = static_cast<int>(Direction::NULLDIRECTION);
+    const int dlimit = static_cast<int>(Direction::NULL_DIRECTION);
     for (auto& t : times) {
         for (unsigned int i = 0; i < dlimit; ++i) {
             sf::Vector2i start(0, static_cast<int>(t.first) * (size.y * 5));

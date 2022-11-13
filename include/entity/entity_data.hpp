@@ -14,7 +14,7 @@ enum class Entity_Type {
     TURRET,
     BOSS,
     PLAYER,
-    NULLTYPE
+    NULL_TYPE
 };
 
 std::string entityTypeToString(Entity_Type e);

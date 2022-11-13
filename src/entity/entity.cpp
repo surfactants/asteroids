@@ -260,7 +260,7 @@ sf::Vector2i Entity::getCoordinates(float tileSize)
 
 void Entity::calculateCastDirection()
 {
-    Direction d { Direction::NULLDIRECTION };
+    Direction d { Direction::NULL_DIRECTION };
 
     double t = calculateOrientation(getPosition(), target);
 

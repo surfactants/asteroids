@@ -154,7 +154,7 @@ Direction normalizeDirection(const Direction ref, const Direction d)
             r = Direction::N;
         break;
     default:
-        r = Direction::NULLDIRECTION;
+        r = Direction::NULL_DIRECTION;
         break;
     } //case NORTH is excluded because Direction is already normalized to it
 

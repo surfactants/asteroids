@@ -6,7 +6,7 @@ enum class Main_State {
     GAME,
     LOADING,
     QUIT,
-    NULLSTATE
+    NULL_STATE
 };
 
 enum class Menu_State {
@@ -14,5 +14,5 @@ enum class Menu_State {
     PAUSE,
     SETTINGS,
     KEYS,
-    NULLSTATE
+    NULL_STATE
 };

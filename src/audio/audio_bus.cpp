@@ -1,37 +1,38 @@
 #include <audio/audio_bus.hpp>
 
-std::string Audio_Bus::next_song;
-std::queue<std::string> Audio_Bus::next_sounds;
+Song Audio_Bus::next_song;
 
-bool Audio_Bus::song_change = false;
+std::queue<Sound> Audio_Bus::next_sound;
 
-void Audio_Bus::addSound(std::string id)
+void Audio_Bus::addSound(Sound sound)
 {
-    next_sounds.push(id);
+    //next_game_sounds.push(sounds_game[sound]);
 }
-
-void Audio_Bus::addMusic(std::string id)
+void Audio_Bus::addSong(Song song)
 {
-    if (next_song != id) {
-        next_song = "soundtrack/" + id + ".wav";
-        song_change = true;
+    if (next_song != song) {
+        //std::string fname = songToString(song);
+        //next_song = "soundtrack/" + fname + ".wav";
+        next_song = song;
     }
 }
 
-std::string Audio_Bus::nextSound()
+Sound Audio_Bus::nextSound()
 {
-    std::string s = next_sounds.front();
-    next_sounds.pop();
-    return s;
+    if(!next_sound.empty()) {
+        Sound s = next_sound.front();
+        next_sound.pop();
+        return s;
+    }
+    else return Sound::NULL_SOUND;
 }
 
-std::string Audio_Bus::nextSong()
+Song Audio_Bus::nextSong()
 {
-    song_change = false;
-    return next_song;
-}
-
-bool Audio_Bus::songChanging()
-{
-    return song_change;
+    if (next_song != Song::NULL_SONG) {
+        Song s = next_song;
+        next_song = Song::NULL_SONG;
+        return s;
+    }
+    else return next_song;
 }

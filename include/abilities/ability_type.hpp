@@ -11,7 +11,7 @@ enum class Ability_Type {
     SNIPE,
     SLAM,
     CLAWS,
-    NULLTYPE
+    NULL_TYPE
 };
 
 inline std::string abilityTypeToString(Ability_Type t)
@@ -34,7 +34,7 @@ inline std::string abilityTypeToString(Ability_Type t)
     case Ability_Type::CLAWS:
         return "CLAWS";
     default:
-        return "NULLTYPE";
+        return "NULL_TYPE";
     }
 }
 
@@ -57,5 +57,5 @@ inline Ability_Type stringToAbilityType(std::string s)
     else if (s == "CLAWS")
         return Ability_Type::CLAWS;
     else
-        return Ability_Type::NULLTYPE;
+        return Ability_Type::NULL_TYPE;
 }

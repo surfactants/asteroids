@@ -3,7 +3,7 @@
 enum class Font {
     MENU,
     UI,
-    NULLFONT
+    NULL_FONT
 };
 
 inline std::string fontToString(Font f)
@@ -27,5 +27,5 @@ inline Font stringToFont(std::string s)
         return Font::UI;
     }
     else
-        return Font::NULLFONT;
+        return Font::NULL_FONT;
 }

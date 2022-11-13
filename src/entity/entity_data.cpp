@@ -33,5 +33,5 @@ Entity_Type stringToEntityType(std::string s)
     else if (s == "BOSS")
         return Entity_Type::BOSS;
     else
-        return Entity_Type::NULLTYPE;
+        return Entity_Type::NULL_TYPE;
 }

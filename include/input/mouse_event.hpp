@@ -7,5 +7,5 @@ enum class Mouse_Event {
     LEFT_RELEASE,
     RIGHT_CLICK,
     RIGHT_RELEASE,
-    NULLEVENT
+    NULL_EVENT
 };

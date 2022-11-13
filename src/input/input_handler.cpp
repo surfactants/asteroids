@@ -110,8 +110,8 @@ void Input_Handler::placeActionTrigger(const std::pair<std::string, Action_Trigg
     }
     else if (std::holds_alternative<sf::Mouse::Button>(action.second)) {
         sf::Mouse::Button b = std::get<sf::Mouse::Button>(action.second);
-        Mouse_Event p { Mouse_Event::NULLEVENT };
-        Mouse_Event r { Mouse_Event::NULLEVENT };
+        Mouse_Event p { Mouse_Event::NULL_EVENT };
+        Mouse_Event r { Mouse_Event::NULL_EVENT };
         if (b == sf::Mouse::Left) {
             p = Mouse_Event::LEFT_CLICK;
             r = Mouse_Event::LEFT_RELEASE;
@@ -191,7 +191,7 @@ void Input_Handler::handle()
         else {
             if (state_main == Main_State::LOADING
                 || state_main == Main_State::NEWGAME
-                || state_main == Main_State::NULLSTATE
+                || state_main == Main_State::NULL_STATE
                 || state_main == Main_State::QUIT) {
                 continue;
             }

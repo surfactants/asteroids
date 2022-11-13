@@ -36,7 +36,7 @@ Faction stringToFaction(std::string s)
     else if (s == "PLAYER_FACTION")
         return Faction::PLAYER;
     else
-        return Faction::NULLFACTION;
+        return Faction::NULL_FACTION;
 }
 
 Faction randomEnemyFaction()

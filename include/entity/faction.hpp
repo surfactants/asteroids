@@ -9,7 +9,7 @@ enum class Faction {
     LITHOBIOMORPHS,
     ROBOTS,
     PLAYER,
-    NULLFACTION
+    NULL_FACTION
 };
 
 std::string factionToString(Faction f);

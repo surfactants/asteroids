@@ -6,7 +6,7 @@ enum class Volume_Type {
     MUSIC,
     GAME,
     UI,
-    NULLTYPE
+    NULL_TYPE
 };
 
 inline std::string volumeTypeToString(Volume_Type t)
@@ -35,6 +35,6 @@ inline Volume_Type stringToVolumeType(std::string s)
         return Volume_Type::UI;
     }
     else {
-        return Volume_Type::NULLTYPE;
+        return Volume_Type::NULL_TYPE;
     }
 }

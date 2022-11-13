@@ -11,7 +11,7 @@ enum class Direction {
     SW,
     W,
     NW,
-    NULLDIRECTION
+    NULL_DIRECTION
 };
 
 std::string directionToString(Direction d);

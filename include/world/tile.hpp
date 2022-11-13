@@ -10,7 +10,7 @@ enum class Wall_Type {
     CORNER_INNER,
     PENINSULA,
     ISLAND,
-    NULLTYPE
+    NULL_TYPE
 };
 
 class Tile : public sf::Sprite {

@@ -13,7 +13,7 @@ struct Room {
         END,
         REGULAR,
         SIDE,
-        NULLTYPE
+        NULL_TYPE
     };
 
     /////////////////////////////////////////////////////////////

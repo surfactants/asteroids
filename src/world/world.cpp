@@ -387,5 +387,5 @@ World::Autotile_Rules World::autotileRulesToString(std::string rule)
     else if (rule == "SNAKE")
         return SNAKE;
     else
-        return NULLRULE;
+        return NULL_RULE;
 }

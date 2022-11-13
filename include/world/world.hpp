@@ -46,7 +46,7 @@ private:
     enum Autotile_Rules {
         AUTOMATON,
         SNAKE,
-        NULLRULE
+        NULL_RULE
     };
 
     std::map<Faction, Autotile_Rules> autotile_rules;

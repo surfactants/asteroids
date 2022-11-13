@@ -18,7 +18,7 @@ Menu::Menu()
     nav.back().setPosition(pos);
     pos.y += 128.f;
 
-    nav.push_back(Nav("quit", font, Main_State::QUIT, Menu_State::NULLSTATE));
+    nav.push_back(Nav("quit", font, Main_State::QUIT, Menu_State::NULL_STATE));
     nav.back().setPosition(pos);
 
     logos.push_back(Logo("https://github.com/surfactants/", sf::Vector2f(1100.f, 900.f), "SURFACTANT"));
@@ -30,10 +30,10 @@ void Menu::clickLeft()
 {
     for (auto& button : nav) {
         if (button.isHighlighted()) {
-            if (button.target_main != Main_State::NULLSTATE) {
+            if (button.target_main != Main_State::NULL_STATE) {
                 newMain(button.target_main);
             }
-            if (button.target_menu != Menu_State::NULLSTATE) {
+            if (button.target_menu != Menu_State::NULL_STATE) {
                 newMenu(button.target_menu);
             }
             return;
@@ -96,7 +96,7 @@ void Menu::update(sf::Vector2f mpos)
 
 void Menu::back()
 {
-    if (escape != Main_State::NULLSTATE) {
+    if (escape != Main_State::NULL_STATE) {
         newMain(escape);
     }
 }

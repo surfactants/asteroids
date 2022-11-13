@@ -7,7 +7,7 @@
 #include <system/state_hook.hpp>
 #include <vector>
 
-class Menu : public sf::Drawable, public State_Hook, public Audio_Manager {
+class Menu : public sf::Drawable, public State_Hook {
 public:
     Menu();
     virtual void update(sf::Vector2f mpos);
@@ -24,7 +24,7 @@ protected:
     std::vector<Option> options;
     std::map<Volume_Type, Slider> sliders;
 
-    Main_State escape = Main_State::NULLSTATE;
+    Main_State escape = Main_State::NULL_STATE;
     static sf::Font& font;
 
     std::vector<Logo> logos;
