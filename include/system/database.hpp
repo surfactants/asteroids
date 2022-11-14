@@ -42,7 +42,7 @@ public:
     static std::map<std::string, Ability> getAbilities();
 
     static void loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
-                           std::map<Sound_UI, sf::SoundBuffer>& ui_sounds);
+        std::map<Sound_UI, sf::SoundBuffer>& ui_sounds);
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

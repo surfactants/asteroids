@@ -434,7 +434,7 @@ std::map<std::string, Ability> Database::getAbilities()
 }
 
 void Database::loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
-                          std::map<Sound_UI, sf::SoundBuffer>& ui_sounds)
+    std::map<Sound_UI, sf::SoundBuffer>& ui_sounds)
 {
     open();
 
@@ -443,13 +443,12 @@ void Database::loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
     sqlite3_stmt* stmt;
 
     int rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, NULL);
-    if(rc == SQLITE_OK){
+    if (rc == SQLITE_OK) {
         int row = 0;
-        while((rc = sqlite3_step(stmt)) == SQLITE_ROW){
+        while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
             int column = 0;
             std::string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, column++));
             std::string tag = reinterpret_cast<const char*>(sqlite3_column_text(stmt, column++));
-
 
             sqlite3_blob* blob;
             rc = sqlite3_blob_open(db, "main", "SOUNDS", "DATA", ++row, 0, &blob);

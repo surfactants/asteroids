@@ -15,20 +15,22 @@ void Sound_Bus::addSound(Sound_UI sound)
 
 Sound_Game Sound_Bus::nextGameSound()
 {
-    if(!next_game_sound.empty()) {
+    if (!next_game_sound.empty()) {
         Sound_Game s = next_game_sound.front();
         next_game_sound.pop();
         return s;
     }
-    else return Sound_Game::NULL_SOUND;
+    else
+        return Sound_Game::NULL_SOUND;
 }
 
 Sound_UI Sound_Bus::nextUISound()
 {
-    if(!next_ui_sound.empty()) {
+    if (!next_ui_sound.empty()) {
         Sound_UI s = next_ui_sound.front();
         next_ui_sound.pop();
         return s;
     }
-    else return Sound_UI::NULL_SOUND;
+    else
+        return Sound_UI::NULL_SOUND;
 }
