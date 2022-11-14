@@ -422,6 +422,7 @@ std::map<std::string, Ability> Database::getAbilities()
         a.duration = duration;
         Damage dmg(magnitude, Damage::LASER);
         a.projectile = Projectile(type, speed, dmg, range);
+        a.sound = stringToGameSound(name);
         abilities[name] = a;
 
         index++;

@@ -1,6 +1,7 @@
 #include <entity/entity.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
+#include <audio/sound_bus.hpp>
 
 #define SQRT2_INV 0.707106781
 
@@ -334,6 +335,7 @@ Projectile Entity::cast()
     Projectile p = abilities[casting].projectile;
     p.setVelocity(getPosition(), target);
     abilities[casting].startCooldown();
+    Sound_Bus::addSound(abilities[casting].sound);
 
     return p;
 }

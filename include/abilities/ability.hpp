@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
 #include <string>
+#include <audio/sound.hpp>
 
 class Ability {
 public:
@@ -29,6 +30,8 @@ public:
     double getCooldownFractionRemaining() const;
 
     bool fresh { false };
+
+    Sound_Game sound;
 
 protected:
     sf::Clock cooldownClock;
