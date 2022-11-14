@@ -1,5 +1,6 @@
 #include <ui/slider.hpp>
 #include <util/fmouse.hpp>
+#include <audio/sound_bus.hpp>
 
 const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 48.f);
 
@@ -60,17 +61,22 @@ void Slider::setFill(float f)
         f = 100.f;
     fill.setSize(sf::Vector2f((f / 100.f) * (container.getSize().x - (offset * 2.f)), fill.getSize().y));
     label.setString(std::to_string((int)(f)));
+
+    Sound_Bus::addSound(Sound_UI::MOVE_SLIDER);
 }
 
 void Slider::findFill(int mX)
 {
     static float f;
-    if (mX <= container.getPosition().x + offset)
+    if (mX <= container.getPosition().x + offset) {
         f = 0.f;
-    else if (mX >= container.getPosition().x + container.getSize().x - offset)
+    }
+    else if (mX >= container.getPosition().x + container.getSize().x - offset) {
         f = 1.f;
-    else
+    }
+    else {
         f = (mX - container.getPosition().x) / container.getSize().x;
+    }
 
     f *= 100.f;
 
@@ -84,10 +90,13 @@ float Slider::getFill() const
 
 void Slider::scroll(float delta)
 {
-    if (delta < 0)
+    if (delta < 0) {
         setFill(getFill() - scrollFactor);
-    else if (delta > 0)
+    }
+    else if (delta > 0) {
         setFill(getFill() + scrollFactor);
+    }
+
 }
 
 bool Slider::checkMouse()

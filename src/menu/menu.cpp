@@ -72,6 +72,7 @@ void Menu::releaseLeft()
 {
     for (auto& slider : sliders) {
         if (slider.second.unclick()) {
+            Sound_Bus::addSound(Sound_UI::TRIGGER_BUTTON);
             return;
         }
     }
@@ -91,14 +92,18 @@ void Menu::releaseRight() { }
 
 void Menu::update(sf::Vector2f mpos)
 {
-    for (auto& button : nav)
+    for (auto& button : nav) {
         button.update(mpos);
-    for (auto& option : options)
+    }
+    for (auto& option : options) {
         option.update(mpos);
-    for (auto& slider : sliders)
+    }
+    for (auto& slider : sliders) {
         slider.second.update();
-    for (auto& logo : logos)
+    }
+    for (auto& logo : logos) {
         logo.update(mpos);
+    }
 }
 
 void Menu::back()
@@ -110,14 +115,18 @@ void Menu::back()
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (const auto& button : nav)
+    for (const auto& button : nav) {
         target.draw(button, states);
-    for (const auto& option : options)
+    }
+    for (const auto& option : options) {
         target.draw(option, states);
-    for (const auto& slider : sliders)
+    }
+    for (const auto& slider : sliders) {
         target.draw(slider.second, states);
-    for (const auto& logo : logos)
+    }
+    for (const auto& logo : logos) {
         target.draw(logo);
+    }
 }
 
 Menu_Main::Menu_Main()

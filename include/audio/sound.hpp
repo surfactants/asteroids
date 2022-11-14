@@ -9,6 +9,7 @@ enum class Sound_Game {
 
 enum class Sound_UI {
     TRIGGER_BUTTON,
+    MOVE_SLIDER,
     NULL_SOUND
 };
 
@@ -41,8 +42,13 @@ inline Sound_Game stringToGameSound(std::string s)
 
 inline Sound_UI stringToUISound(std::string s)
 {
-    if (s == "TRIGGER_BUTTON")
+    if (s == "TRIGGER_BUTTON") {
         return Sound_UI::TRIGGER_BUTTON;
-    else
+    }
+    else if (s == "MOVE_SLIDER") {
+        return Sound_UI::MOVE_SLIDER;
+    }
+    else {
         return Sound_UI::NULL_SOUND;
+    }
 }

@@ -13,6 +13,7 @@
 #include <system/settings_package.hpp>
 #include <world/tile.hpp>
 #include <audio/sound.hpp>
+#include <audio/sound_context.hpp>
 
 class Database {
 public:
@@ -41,8 +42,8 @@ public:
 
     static std::map<std::string, Ability> getAbilities();
 
-    static void loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
-        std::map<Sound_UI, sf::SoundBuffer>& ui_sounds);
+    static void loadSounds(std::map<Sound_Game, Sound_Context>& game_sounds,
+        std::map<Sound_UI, Sound_Context>& ui_sounds);
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

@@ -9,12 +9,14 @@ Sound_Bus_Reader::Sound_Bus_Reader()
 void Sound_Bus_Reader::read(Sound_Player& player)
 {
     Sound_Game gsound;
-    while ((gsound = bus.nextGameSound()) != Sound_Game::NULL_SOUND) {
-        player.addGameSound(game_sounds[gsound]);
+    while ((gsound = bus.nextGameSound()) != Sound_Game::NULL_SOUND
+        && game_sounds[gsound].ready()) {
+        player.addGameSound(game_sounds[gsound].buffer);
     }
 
     Sound_UI uisound;
-    while ((uisound = bus.nextUISound()) != Sound_UI::NULL_SOUND) {
-        player.addUISound(ui_sounds[uisound]);
+    while ((uisound = bus.nextUISound()) != Sound_UI::NULL_SOUND
+        && ui_sounds[uisound].ready()) {
+        player.addUISound(ui_sounds[uisound].buffer);
     }
 }
