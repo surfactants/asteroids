@@ -55,14 +55,22 @@ void Slider::set(sf::Vector2f pos, sf::Font& font)
 
 void Slider::setFill(float f)
 {
-    if (f < 0.f)
+    int lastFill = static_cast<int>(getFill());
+    if (f < 0.f) {
         f = 0.f;
-    if (f > 100.f)
+    }
+    else if (f > 100.f) {
         f = 100.f;
-    fill.setSize(sf::Vector2f((f / 100.f) * (container.getSize().x - (offset * 2.f)), fill.getSize().y));
-    label.setString(std::to_string((int)(f)));
+    }
+    int newFill = static_cast<int>(f);
 
-    Sound_Bus::addSound(Sound_UI::MOVE_SLIDER);
+    if (newFill != lastFill) {
+        Sound_Bus::addSound(Sound_UI::MOVE_SLIDER);
+    }
+
+    fill.setSize(sf::Vector2f((f / 100.f) * (container.getSize().x - (offset * 2.f)), fill.getSize().y));
+    label.setString(std::to_string(newFill));
+
 }
 
 void Slider::findFill(int mX)
@@ -96,7 +104,6 @@ void Slider::scroll(float delta)
     else if (delta > 0) {
         setFill(getFill() + scrollFactor);
     }
-
 }
 
 bool Slider::checkMouse()
@@ -122,7 +129,8 @@ bool Slider::unclick()
 
 bool Slider::click()
 {
-    if (!changing && checkMouse())
+    if (!changing && checkMouse()) {
         changing = true;
+    }
     return changing;
 }
