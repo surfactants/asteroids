@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <abilities/ability.hpp>
-#include <audio/audio_manager.hpp>
 #include <game/game.hpp>
 #include <ui/ui_elements.hpp>
 
@@ -28,8 +27,6 @@ private:
     Minimap minimap;
 
     std::vector<Ability_Icon> playerAbilities;
-
-    Audio_UI audio;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

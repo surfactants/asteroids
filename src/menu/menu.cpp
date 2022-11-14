@@ -2,6 +2,9 @@
 #include <resources/font_manager.hpp>
 #include <system/database.hpp>
 
+#include <audio/sound_bus.hpp>
+#include <audio/sound.hpp>
+
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 
 sf::Font& Menu::font = Font_Manager::get(Font::MENU);
@@ -30,6 +33,7 @@ void Menu::clickLeft()
 {
     for (auto& button : nav) {
         if (button.isHighlighted()) {
+            Sound_Bus::addSound(Sound_UI::TRIGGER_BUTTON);
             if (button.target_main != Main_State::NULL_STATE) {
                 newMain(button.target_main);
             }
@@ -41,17 +45,20 @@ void Menu::clickLeft()
     }
     for (auto& option : options) {
         if (option.isHighlighted()) {
+            Sound_Bus::addSound(Sound_UI::TRIGGER_BUTTON);
             option.target();
             return;
         }
     }
     for (auto& slider : sliders) {
         if (slider.second.click()) {
+            Sound_Bus::addSound(Sound_UI::TRIGGER_BUTTON);
             return;
         }
     }
     for (auto& logo : logos) {
         if (logo.click()) {
+            Sound_Bus::addSound(Sound_UI::TRIGGER_BUTTON);
             return;
         }
     }

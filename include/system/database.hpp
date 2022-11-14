@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <animation/animation.hpp>
 #include <entity/enemy.hpp>
 #include <entity/faction.hpp>
@@ -11,6 +12,7 @@
 #include <string>
 #include <system/settings_package.hpp>
 #include <world/tile.hpp>
+#include <audio/sound.hpp>
 
 class Database {
 public:
@@ -38,6 +40,9 @@ public:
     static void saveActions(std::vector<Action> actions);
 
     static std::map<std::string, Ability> getAbilities();
+
+    static void loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
+                           std::map<Sound_UI, sf::SoundBuffer>& ui_sounds);
 
 private:
     static int callback(void* notUsed, int argc, char** argv, char** azColName);

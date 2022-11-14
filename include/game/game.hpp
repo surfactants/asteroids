@@ -2,7 +2,6 @@
 
 #include <abilities/projectile_manager.hpp>
 #include <ai/ai.hpp>
-#include <audio/audio_manager.hpp>
 #include <entity/enemy.hpp>
 #include <entity/enemy_manager.hpp>
 #include <entity/faction.hpp>
@@ -72,8 +71,6 @@ private:
     void playerShoot();
 
     Collider collider;
-
-    Audio_Game audio;
 
     bool levelEnding = false;
 

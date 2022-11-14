@@ -2,6 +2,7 @@
 #include <animation/animation.hpp>
 #include <input/convert_action_trigger.hpp>
 #include <system/database.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();
@@ -430,4 +431,46 @@ std::map<std::string, Ability> Database::getAbilities()
     close();
 
     return abilities;
+}
+
+void Database::loadSounds(std::map<Sound_Game, sf::SoundBuffer>& game_sounds,
+                          std::map<Sound_UI, sf::SoundBuffer>& ui_sounds)
+{
+    open();
+
+    std::string sql = "SELECT * FROM 'SOUNDS';";
+
+    sqlite3_stmt* stmt;
+
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, NULL);
+    if(rc == SQLITE_OK){
+        int row = 0;
+        while((rc = sqlite3_step(stmt)) == SQLITE_ROW){
+            int column = 0;
+            std::string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, column++));
+            std::string tag = reinterpret_cast<const char*>(sqlite3_column_text(stmt, column++));
+
+
+            sqlite3_blob* blob;
+            rc = sqlite3_blob_open(db, "main", "SOUNDS", "DATA", ++row, 0, &blob);
+            int bsize = sqlite3_blob_bytes(blob);
+            char* buffer = new char[bsize];
+            rc = sqlite3_blob_read(blob, buffer, bsize, 0);
+            sf::SoundBuffer sound;
+            sound.loadFromMemory(buffer, bsize);
+            delete[] buffer;
+            sqlite3_blob_close(blob);
+
+            if (tag == "GAME") {
+                game_sounds[stringToGameSound(name)] = sound;
+            }
+            else if (tag == "UI") {
+                ui_sounds[stringToUISound(name)] = sound;
+            }
+        }
+    }
+
+    sqlite3_finalize(stmt);
+
+    close();
 }

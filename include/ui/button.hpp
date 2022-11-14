@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <resources/palette.hpp>
 
 ////////////////////////////////////////////////////////////
 /// \brief Button class for mouse navigation.

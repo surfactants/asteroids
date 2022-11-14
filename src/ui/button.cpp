@@ -1,4 +1,6 @@
 #include <ui/button.hpp>
+
+#include <resources/palette.hpp>
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>
 

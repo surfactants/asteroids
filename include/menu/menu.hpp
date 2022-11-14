@@ -1,11 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <audio/audio_manager.hpp>
+
+#include <vector>
+
+#include <audio/audio_settings.hpp>
 #include <menu/menu_elements.hpp>
 #include <system/settings_package.hpp>
 #include <system/state_hook.hpp>
-#include <vector>
 
 class Menu : public sf::Drawable, public State_Hook {
 public:

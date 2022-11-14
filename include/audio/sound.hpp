@@ -1,0 +1,42 @@
+#pragma once
+
+enum class Sound_Game {
+    FOOTSTEP,
+    SHOOT,
+    SNIPE,
+    NULL_SOUND
+};
+
+enum class Sound_UI {
+    TRIGGER_BUTTON,
+    NULL_SOUND
+};
+
+enum class Song {
+    MENU,
+    NULL_SONG
+};
+
+inline std::string songToString(Song song)
+{
+    switch(song) {
+    case Song::MENU:
+        return "MENU";
+    default:
+        return "";
+    }
+}
+
+inline Sound_Game stringToGameSound(std::string s)
+{
+    if (s == "FOOTSTEP") return Sound_Game::FOOTSTEP;
+    else if(s == "SHOOT") return Sound_Game::SHOOT;
+    else if(s == "SNIPE") return Sound_Game::SNIPE;
+    else return Sound_Game::NULL_SOUND;
+}
+
+inline Sound_UI stringToUISound(std::string s)
+{
+    if (s == "TRIGGER_BUTTON") return Sound_UI::TRIGGER_BUTTON;
+    else return Sound_UI::NULL_SOUND;
+}

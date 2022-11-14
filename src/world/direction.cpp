@@ -103,11 +103,11 @@ Direction randomPerpendicularDirection(Direction odirect)
         odirect = Direction::NE;
         break;
     default:
-        odirect = Direction::NULLDIRECTION;
+        odirect = Direction::NULL_DIRECTION;
         break;
     }
 
-    if (odirect != Direction::NULLDIRECTION) {
+    if (odirect != Direction::NULL_DIRECTION) {
         if (prng::boolean())
             odirect = invertDirection(odirect);
     }

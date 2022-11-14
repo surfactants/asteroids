@@ -1,6 +1,6 @@
 #pragma once
 
-#include <audio/audio_manager.hpp>
+#include <audio/sound_interface.hpp>
 #include <game/game.hpp>
 #include <game/loading.hpp>
 #include <input/input_handler.hpp>
@@ -51,6 +51,5 @@ private:
     sf::Clock fpsClock;
     sf::Text fpsText;
 
-    Sound_Interface sound_player;
-    Music_Interface music_player;
+    Sound_Interface sound;
 };

@@ -54,8 +54,7 @@ void Shell::run()
 
 void Shell::update()
 {
-    music_player.update();
-    sound_player.update();
+    sound.update();
 
     frameTime = timestepClock.getElapsedTime().asSeconds();
     timestepClock.restart();
