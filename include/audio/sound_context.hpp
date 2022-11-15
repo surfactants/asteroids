@@ -8,8 +8,11 @@
 
 struct Sound_Context {
     Sound_Context() = default;
-    Sound_Context(sf::SoundBuffer buffer, float threshold) :
-        buffer{ buffer }, threshold{ threshold }{}
+    Sound_Context(sf::SoundBuffer buffer, float threshold)
+        : buffer { buffer }
+        , threshold { threshold }
+    {
+    }
 
     sf::SoundBuffer buffer;
     sf::Clock clock;

@@ -17,24 +17,24 @@ enum class Ability_Type {
 inline std::string abilityTypeToString(Ability_Type t)
 {
     switch (t) {
-    case Ability_Type::SHOOT:
-        return "SHOOT";
-    case Ability_Type::KNIFE:
-        return "KNIFE";
-    case Ability_Type::ROLL:
-        return "ROLL";
-    case Ability_Type::BLINK:
-        return "BLINK";
-    case Ability_Type::GRENADE:
-        return "GRENADE";
-    case Ability_Type::SNIPE:
-        return "SNIPE";
-    case Ability_Type::SLAM:
-        return "SLAM";
-    case Ability_Type::CLAWS:
-        return "CLAWS";
-    default:
-        return "NULL_TYPE";
+        case Ability_Type::SHOOT:
+            return "SHOOT";
+        case Ability_Type::KNIFE:
+            return "KNIFE";
+        case Ability_Type::ROLL:
+            return "ROLL";
+        case Ability_Type::BLINK:
+            return "BLINK";
+        case Ability_Type::GRENADE:
+            return "GRENADE";
+        case Ability_Type::SNIPE:
+            return "SNIPE";
+        case Ability_Type::SLAM:
+            return "SLAM";
+        case Ability_Type::CLAWS:
+            return "CLAWS";
+        default:
+            return "NULL_TYPE";
     }
 }
 

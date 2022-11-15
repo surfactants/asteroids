@@ -49,6 +49,7 @@ bool Enemy::decideReady()
         decideTimer.restart();
         return true;
     }
-    else
+    else {
         return false;
+    }
 }

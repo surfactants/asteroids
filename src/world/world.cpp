@@ -67,10 +67,12 @@ void World::makeFloor()
         for (const auto& x : room.floor) {
             std::cout << '\n';
             for (const auto& y : x.second) {
-                if (y.second)
+                if (y.second) {
                     std::cout << "0";
-                else
+                }
+                else {
                     std::cout << " ";
+                }
             }
         }
     }
@@ -102,8 +104,9 @@ void World::makeWalls()
 
                     walls[x][y]->setTextureRect(sf::IntRect(tpos, tsize));
                 }
-                else
+                else {
                     walls[x][y] = nullptr;
+                }
             }
         }
     }
@@ -142,14 +145,14 @@ void World::makeDetails()
     }
 
     switch (autotile_rules[enemyFaction]) {
-    case AUTOMATON:
-        tileAutomata();
-        break;
-    case SNAKE:
-        tileSnake();
-        break;
-    default:
-        break;
+        case AUTOMATON:
+            tileAutomata();
+            break;
+        case SNAKE:
+            tileSnake();
+            break;
+        default:
+            break;
     }
 }
 
@@ -164,28 +167,28 @@ void World::tileAutomata()
     std::function<float(float)> a = [](float x) { return x; };
 
     switch (enemyFaction) {
-    case Faction::BUGS:
-        iterations = 0;
+        case Faction::BUGS:
+            iterations = 0;
 
-        t = [](float x) {
-            return 0.95f - sqrt(0.08f * x);
-        };
+            t = [](float x) {
+                return 0.95f - sqrt(0.08f * x);
+            };
 
-        a = [](int x) {
-            return sqrt(0.03f * x) + 0.01f;
-        };
+            a = [](int x) {
+                return sqrt(0.03f * x) + 0.01f;
+            };
 
-        break;
-    case Faction::PIRATES:
-        break;
-    case Faction::GHOSTS:
-        break;
-    case Faction::LITHOBIOMORPHS:
-        break;
-    case Faction::ROBOTS:
-        break;
-    default:
-        break;
+            break;
+        case Faction::PIRATES:
+            break;
+        case Faction::GHOSTS:
+            break;
+        case Faction::LITHOBIOMORPHS:
+            break;
+        case Faction::ROBOTS:
+            break;
+        default:
+            break;
     }
 
     for (int x = worldMin.x; x <= worldMax.x; ++x) {
@@ -361,14 +364,18 @@ int World::getFloorX()
 int World::autotileX(bool n, bool s, bool w, bool e)
 {
     int sum = 0;
-    if (n)
+    if (n) {
         sum += 1;
-    if (w)
+    }
+    if (w) {
         sum += 2;
-    if (s)
+    }
+    if (s) {
         sum += 4;
-    if (e)
+    }
+    if (e) {
         sum += 8;
+    }
     return (sum * roundFloat(Tile::tileSize));
 }
 
@@ -382,10 +389,13 @@ void World::loadAutotileRules()
 
 World::Autotile_Rules World::autotileRulesToString(std::string rule)
 {
-    if (rule == "AUTOMATON")
+    if (rule == "AUTOMATON") {
         return AUTOMATON;
-    else if (rule == "SNAKE")
+    }
+    else if (rule == "SNAKE") {
         return SNAKE;
-    else
+    }
+    else {
         return NULL_RULE;
+    }
 }

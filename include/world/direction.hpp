@@ -44,20 +44,20 @@ template <typename T>
 void moveDirection(sf::Vector2<T>& v, const Direction direction, const T distance)
 {
     switch (direction) {
-    case Direction::N:
-        v.y -= distance;
-        break;
-    case Direction::S:
-        v.y += distance;
-        break;
-    case Direction::E:
-        v.x += distance;
-        break;
-    case Direction::W:
-        v.x -= distance;
-        break;
-    default:
-        break;
+        case Direction::N:
+            v.y -= distance;
+            break;
+        case Direction::S:
+            v.y += distance;
+            break;
+        case Direction::E:
+            v.x += distance;
+            break;
+        case Direction::W:
+            v.x -= distance;
+            break;
+        default:
+            break;
     }
 }
 

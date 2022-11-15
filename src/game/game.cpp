@@ -89,10 +89,12 @@ void Game::newLevel()
     view.setCenter(player.getPosition());
     world.reset();
     enemyFaction = randomEnemyFaction();
-    if (prng::boolean())
+    if (prng::boolean()) {
         enemyFaction = Faction::BUGS; /* DEBUG / TESTING */
-    else
+    }
+    else {
         enemyFaction = Faction::ROBOTS;
+    }
     state = PEACE;
 }
 
@@ -158,4 +160,9 @@ void Game::scroll(float delta)
     else if (delta > 0.f) {
         view.zoom(0.5f);
     }
+}
+
+Game_State Game::getState()
+{
+    return state;
 }

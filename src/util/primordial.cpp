@@ -61,10 +61,12 @@ float calculateAngle(sf::Vector2f pos1, sf::Vector2f pos2)
     theta *= 180 / PI;
 
     //converts theta for use with SFML
-    if (adj > 0)
+    if (adj > 0) {
         theta += 90;
-    else if (adj < 0)
+    }
+    else if (adj < 0) {
         theta += 270;
+    }
 
     return theta;
 }

@@ -12,6 +12,8 @@
 #include <vector>
 #include <world/world.hpp>
 
+#include "game_state.hpp"
+
 class Game : public sf::Drawable, public State_Hook {
 public:
     Game(sf::RenderWindow& nwindow, sf::View& nview);
@@ -35,15 +37,7 @@ public:
 
     void scroll(float delta);
 
-    enum State {
-        PEACE,
-        COMBAT,
-        BOSS,
-        WIN,
-        LOSE
-    };
-
-    State state { PEACE };
+    Game_State getState();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -82,4 +76,6 @@ private:
     std::map<std::string, Ability> abilities;
 
     AI ai;
+
+    Game_State state { Game_State::PEACE };
 };

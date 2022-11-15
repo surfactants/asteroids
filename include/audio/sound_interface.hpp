@@ -3,7 +3,7 @@
 #include "sound_player.hpp"
 #include "sound_bus_reader.hpp"
 
-class Sound_Interface : private Sound_Player {
+class Sound_Interface {
 public:
     Sound_Interface() = default;
 

@@ -1,15 +1,16 @@
 #pragma once
 
+#include "music_player.hpp"
 #include "sound_player.hpp"
 
-class Audio_Settings : private Sound_Player {
+class Audio_Settings : private Sound_Player, private Music_Player {
 public:
-    static void setVolumeMusic(float nv);
-    static float getVolumeMusic();
+    void setVolumeMusic(float volume);
+    float getVolumeMusic();
 
-    static void setVolumeGame(float nv);
-    static float getVolumeGame();
+    void setVolumeGame(float volume);
+    float getVolumeGame();
 
-    static void setVolumeUI(float nv);
-    static float getVolumeUI();
+    void setVolumeUI(float volume);
+    float getVolumeUI();
 };

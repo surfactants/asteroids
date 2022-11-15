@@ -3,18 +3,18 @@
 std::string entityTypeToString(Entity_Type e)
 {
     switch (e) {
-    case Entity_Type::MELEE_LIGHT:
-        return "MELEE_LIGHT";
-    case Entity_Type::MELEE_HEAVY:
-        return "MELEE_HEAVY";
-    case Entity_Type::RANGED:
-        return "RANGED";
-    case Entity_Type::TURRET:
-        return "TURRET";
-    case Entity_Type::BOSS:
-        return "BOSS";
-    default:
-        return std::string();
+        case Entity_Type::MELEE_LIGHT:
+            return "MELEE_LIGHT";
+        case Entity_Type::MELEE_HEAVY:
+            return "MELEE_HEAVY";
+        case Entity_Type::RANGED:
+            return "RANGED";
+        case Entity_Type::TURRET:
+            return "TURRET";
+        case Entity_Type::BOSS:
+            return "BOSS";
+        default:
+            return std::string();
     }
 
     return std::string();

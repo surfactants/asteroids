@@ -20,8 +20,9 @@ Sound_Game Sound_Bus::nextGameSound()
         next_game_sound.pop();
         return s;
     }
-    else
+    else {
         return Sound_Game::NULL_SOUND;
+    }
 }
 
 Sound_UI Sound_Bus::nextUISound()
@@ -31,6 +32,7 @@ Sound_UI Sound_Bus::nextUISound()
         next_ui_sound.pop();
         return s;
     }
-    else
+    else {
         return Sound_UI::NULL_SOUND;
+    }
 }

@@ -70,7 +70,6 @@ void Slider::setFill(float f)
 
     fill.setSize(sf::Vector2f((f / 100.f) * (container.getSize().x - (offset * 2.f)), fill.getSize().y));
     label.setString(std::to_string(newFill));
-
 }
 
 void Slider::findFill(int mX)

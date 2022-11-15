@@ -1,19 +1,20 @@
 #include <audio/audio_settings.hpp>
 
-void Audio_Settings::setVolumeMusic(float nv)
+void Audio_Settings::setVolumeMusic(float volume)
 {
-    volume_music = nv;
-    music.setVolume(volume_music);
+    Music_Player::volume = volume;
+    Music_Player::volume_tracker = volume;
+    Music_Player::music.setVolume(volume);
 }
 
 float Audio_Settings::getVolumeMusic()
 {
-    return volume_music;
+    return Music_Player::volume;
 }
 
-void Audio_Settings::setVolumeGame(float nv)
+void Audio_Settings::setVolumeGame(float volume)
 {
-    volume_game = nv;
+    volume_game = volume;
     for (auto& it : sounds_game) {
         it.setVolume(volume_game);
     }
@@ -24,9 +25,9 @@ float Audio_Settings::getVolumeGame()
     return volume_game;
 }
 
-void Audio_Settings::setVolumeUI(float nv)
+void Audio_Settings::setVolumeUI(float volume)
 {
-    volume_ui = nv;
+    volume_ui = volume;
     for (auto& it : sounds_ui) {
         it.setVolume(volume_ui);
     }

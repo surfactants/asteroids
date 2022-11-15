@@ -17,10 +17,12 @@ Automaton::Automaton(Cells ncells,
     max.y = INT_MIN;
 
     for (auto& c : cells) {
-        if (c.second.begin()->first < min.y)
+        if (c.second.begin()->first < min.y) {
             min.y = c.second.begin()->first;
-        if (c.second.rbegin()->first > max.y)
+        }
+        if (c.second.rbegin()->first > max.y) {
             max.y = c.second.rbegin()->first;
+        }
     }
 }
 
@@ -33,10 +35,12 @@ Cells Automaton::iterate()
             for (int y = min.y; y <= max.y; ++y) {
                 if (defined(x, y)) {
                     int count = countAdjacentActiveCells(x, y);
-                    if (cells[x][y] && prng::boolean(adj_take[count]))
+                    if (cells[x][y] && prng::boolean(adj_take[count])) {
                         newCells[x][y] = false;
-                    else if (!cells[x][y] && prng::boolean(adj_add[count]))
+                    }
+                    else if (!cells[x][y] && prng::boolean(adj_add[count])) {
                         newCells[x][y] = true;
+                    }
                 }
             }
         }
@@ -51,8 +55,9 @@ unsigned int Automaton::countAdjacentActiveCells(int x, int y)
     unsigned int count { 0 };
     for (int ix = x - 1; ix <= x + 1; ++ix) {
         for (int iy = y - 1; iy <= y + 1; ++iy) {
-            if (ix == x && iy == y)
+            if (ix == x && iy == y) {
                 continue;
+            }
 
             if (defined(ix, iy) && cells[ix][iy]) {
                 count++;

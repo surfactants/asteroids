@@ -48,10 +48,12 @@ void Minimap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
     target.draw(backdrop, states);
 
-    for (const auto& blip : dyingBlips)
+    for (const auto& blip : dyingBlips) {
         target.draw(blip, states);
-    for (const auto& blip : blips)
+    }
+    for (const auto& blip : blips) {
         target.draw(blip.second, states);
+    }
 
     target.draw(line, states);
 

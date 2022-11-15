@@ -60,8 +60,6 @@ void Floor_Generator::reset()
             else if (direction == Direction::N || direction == Direction::S) {
                 coordinates.x += prng::number(-rooms.back().size.x / 2, rooms.back().size.y / 2);
             }
-            else {
-            }
 
             std::cout << "\n\tcreating tunnel...";
 
@@ -74,29 +72,32 @@ void Floor_Generator::reset()
 
             sf::Vector2i roomSize;
 
-            if (i == steps)
+            if (i == steps) {
                 roomSize = sf::Vector2i(64, 64);
-            else
+            }
+            else {
                 roomSize = sf::Vector2i(prng::number(roomMin, roomMax), prng::number(roomMin, roomMax));
+            }
 
             int offset;
             switch (direction) {
-            case Direction::N:
-            case Direction::S:
-                offset = roomSize.y / 2;
-                break;
-            case Direction::E:
-            case Direction::W:
-                offset = roomSize.x / 2;
-                break;
-            default:
-                break;
+                case Direction::N:
+                case Direction::S:
+                    offset = roomSize.y / 2;
+                    break;
+                case Direction::E:
+                case Direction::W:
+                    offset = roomSize.x / 2;
+                    break;
+                default:
+                    break;
             }
             moveDirection(coordinates, direction, offset);
 
             rooms.push_back(Room(Node(coordinates), roomSize));
-            if (i < steps)
+            if (i < steps) {
                 rooms.back().type = Room::REGULAR;
+            }
         }
 
         endRoom = &rooms.back();
@@ -113,35 +114,38 @@ void Floor_Generator::reset()
             unsigned int end = rooms.size() - 1;
             std::map<int, Direction> directions;
             for (unsigned int i = 1; i < rooms.size(); ++i) {
-                if (i == end)
+                if (i == end) {
                     continue;
+                }
                 else if (prng::boolean(1.d / (double)(stepCeil - stepBase - 2))) {
                     coordinates = rooms[i].coordinates;
                     Direction side;
-                    if (i > end)
+                    if (i > end) {
                         side = directions[i];
-                    else
+                    }
+                    else {
                         side = randomPerpendicularDirection(direction);
+                    }
 
-                    while (rooms[i].contains(coordinates))
+                    while (rooms[i].contains(coordinates)) {
                         moveDirection(coordinates, side, distance);
+                    }
 
                     tunnels.push_back(Tunnel(coordinates, side));
-                    //moveDirection(coordinates, side, distance);
 
                     sf::Vector2i roomSize(prng::number(28, 56), prng::number(28, 56));
                     int offset;
                     switch (side) {
-                    case Direction::N:
-                    case Direction::S:
-                        offset = roomSize.y / 2;
-                        break;
-                    case Direction::E:
-                    case Direction::W:
-                        offset = roomSize.x / 2;
-                        break;
-                    default:
-                        break;
+                        case Direction::N:
+                        case Direction::S:
+                            offset = roomSize.y / 2;
+                            break;
+                        case Direction::E:
+                        case Direction::W:
+                            offset = roomSize.x / 2;
+                            break;
+                        default:
+                            break;
                     }
                     moveDirection(coordinates, side, offset);
                     rooms.push_back(Room(Node(coordinates), roomSize));
@@ -156,14 +160,18 @@ void Floor_Generator::reset()
 
         for (const auto& room : rooms) {
             sf::Vector2i c = room.coordinates;
-            if (c.x < worldMin.x)
+            if (c.x < worldMin.x) {
                 worldMin.x = c.x;
-            if (c.y < worldMin.y)
+            }
+            if (c.y < worldMin.y) {
                 worldMin.y = c.y;
-            if (c.x > worldMax.x)
+            }
+            if (c.x > worldMax.x) {
                 worldMax.x = c.x;
-            if (c.y > worldMax.y)
+            }
+            if (c.y > worldMax.y) {
                 worldMax.y = c.y;
+            }
         }
 
         worldMin -= sf::Vector2i(128, 128);
@@ -172,8 +180,9 @@ void Floor_Generator::reset()
         carveRooms();
         readRooms();
         readTunnels();
-        for (unsigned int a = 0; a < 3; ++a)
+        for (unsigned int a = 0; a < 3; ++a) {
             automata();
+        }
 
         floodCheck();
     } while (!checkRooms());
@@ -223,7 +232,6 @@ void Floor_Generator::readRooms()
         for (const auto& x : room.floor) {
             for (const auto& y : x.second) {
                 floorMap[x.first][y.first] = y.second;
-                //tiles.push_back(Tile(sf::Vector2i(x.first, y.first), false));
             }
         }
     }
@@ -233,8 +241,9 @@ void Floor_Generator::readRooms()
 bool Floor_Generator::checkRooms()
 {
     for (const auto& room : rooms) {
-        if (!floorMap[room.coordinates.x][room.coordinates.y])
+        if (!floorMap[room.coordinates.x][room.coordinates.y]) {
             return false;
+        }
     }
 
     return true;
@@ -246,7 +255,6 @@ void Floor_Generator::readTunnels()
     for (const auto& tunnel : tunnels) {
         for (const auto& node : tunnel.nodes) {
             addTunnelFloor(node.coordinates, prng::number(1, 3));
-            //addTunnelFloor(node.coordinates, 1);
         }
     }
 }
@@ -273,10 +281,12 @@ void Floor_Generator::automata()
         for (int x = c.x - s.x / 2 - 1; x <= c.x + s.x / 2 + 1; ++x) {
             for (int y = c.y - s.y / 2 - 1; y <= c.y + s.y / 2 + 1; ++y) {
                 int count = countAdjacentWalls(x, y);
-                if (floorMap[x][y] && count >= 4 - prng::boolean(0.4f))
+                if (floorMap[x][y] && count >= 4 - prng::boolean(0.4f)) {
                     newFloor_Generator[x][y] = false;
-                else if (!floorMap[x][y] && count <= 1)
+                }
+                else if (!floorMap[x][y] && count <= 1) {
                     newFloor_Generator[x][y] = true;
+                }
             }
         }
     }
@@ -305,14 +315,18 @@ void Floor_Generator::floodFill(int x, int y, std::map<int, std::map<int, bool>>
 {
     floodMap[x][y] = true;
 
-    if (!floodMap[x - 1][y] && floorMap[x - 1][y])
+    if (!floodMap[x - 1][y] && floorMap[x - 1][y]) {
         floodFill(x - 1, y, floodMap);
-    if (!floodMap[x + 1][y] && floorMap[x + 1][y])
+    }
+    if (!floodMap[x + 1][y] && floorMap[x + 1][y]) {
         floodFill(x + 1, y, floodMap);
-    if (!floodMap[x][y - 1] && floorMap[x][y - 1])
+    }
+    if (!floodMap[x][y - 1] && floorMap[x][y - 1]) {
         floodFill(x, y - 1, floodMap);
-    if (!floodMap[x][y + 1] && floorMap[x][y + 1])
+    }
+    if (!floodMap[x][y + 1] && floorMap[x][y + 1]) {
         floodFill(x, y + 1, floodMap);
+    }
 }
 
 /////////////////////////////////////////////////////////////
@@ -321,24 +335,32 @@ unsigned int Floor_Generator::countAdjacentWalls(int x, int y)
     unsigned int count = 0;
 
     //orthogonal count
-    if (!floorMap[x - 1][y])
+    if (!floorMap[x - 1][y]) {
         count++;
-    if (!floorMap[x + 1][y])
+    }
+    if (!floorMap[x + 1][y]) {
         count++;
-    if (!floorMap[x][y - 1])
+    }
+    if (!floorMap[x][y - 1]) {
         count++;
-    if (!floorMap[x][y + 1])
+    }
+    if (!floorMap[x][y + 1]) {
         count++;
+    }
 
     //diagonal count
-    if (!floorMap[x - 1][y - 1])
+    if (!floorMap[x - 1][y - 1]) {
         count++;
-    if (!floorMap[x + 1][y - 1])
+    }
+    if (!floorMap[x + 1][y - 1]) {
         count++;
-    if (!floorMap[x - 1][y + 1])
+    }
+    if (!floorMap[x - 1][y + 1]) {
         count++;
-    if (!floorMap[x + 1][y + 1])
+    }
+    if (!floorMap[x + 1][y + 1]) {
         count++;
+    }
 
     return count;
 }

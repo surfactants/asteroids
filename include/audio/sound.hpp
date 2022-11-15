@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum class Sound_Game {
     FOOTSTEP,
     SHOOT,
@@ -12,21 +14,6 @@ enum class Sound_UI {
     MOVE_SLIDER,
     NULL_SOUND
 };
-
-enum class Song {
-    MENU,
-    NULL_SONG
-};
-
-inline std::string songToString(Song song)
-{
-    switch (song) {
-    case Song::MENU:
-        return "MENU";
-    default:
-        return "";
-    }
-}
 
 inline Sound_Game stringToGameSound(std::string s)
 {

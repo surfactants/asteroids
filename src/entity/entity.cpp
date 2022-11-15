@@ -92,8 +92,9 @@ void Entity::takeDamage(Damage dmg)
 void Entity::heal(int val)
 {
     hpCurrent += val;
-    if (hpCurrent > hpMax)
+    if (hpCurrent > hpMax) {
         hpCurrent = hpMax;
+    }
 
     updateHP();
 }
@@ -151,8 +152,9 @@ void Entity::move()
 sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls, float deltaTime)
 {
     sf::Vector2f offset(0.f, 0.f);
-    if (offset == velocity)
+    if (offset == velocity) {
         return offset;
+    }
 
     sf::Vector2f v = velocity * deltaTime;
 
@@ -304,26 +306,34 @@ void Entity::setSpriteDirection()
          w = (velocity.x < -threshold);
 
     if (n) {
-        if (e)
+        if (e) {
             d = Direction::NE;
-        else if (w)
+        }
+        else if (w) {
             d = Direction::NW;
-        else
+        }
+        else {
             d = Direction::N;
+        }
     }
     else if (s) {
-        if (e)
+        if (e) {
             d = Direction::SE;
-        else if (w)
+        }
+        else if (w) {
             d = Direction::SW;
-        else
+        }
+        else {
             d = Direction::S;
+        }
     }
     else {
-        if (e)
+        if (e) {
             d = Direction::E;
-        else if (w)
+        }
+        else if (w) {
             d = Direction::W;
+        }
     }
 
     sprite.setDirection(d);

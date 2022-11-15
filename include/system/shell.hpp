@@ -1,5 +1,6 @@
 #pragma once
 
+#include <audio/music_interface.hpp>
 #include <audio/sound_interface.hpp>
 #include <game/game.hpp>
 #include <game/loading.hpp>
@@ -52,4 +53,5 @@ private:
     sf::Text fpsText;
 
     Sound_Interface sound;
+    Music_Interface music;
 };

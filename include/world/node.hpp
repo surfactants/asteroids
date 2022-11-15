@@ -12,7 +12,10 @@ struct Node {
     /// \param ncoord Coordinate vector
     /// \param tileSize the size of the individual tiles
     ///
-    Node(sf::Vector2i ncoord);
+    Node(sf::Vector2i ncoord)
+        : coordinates { ncoord }
+    {
+    }
 
     /////////////////////////////////////////////////////////////
     /// \brief Position in world coordinates.

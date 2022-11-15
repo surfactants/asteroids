@@ -27,10 +27,12 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Button::update(sf::Vector2f& mpos)
 {
     bool contains = container.getGlobalBounds().contains(mpos);
-    if (!highlighted && contains)
+    if (!highlighted && contains) {
         highlight();
-    else if (highlighted && !contains)
+    }
+    else if (highlighted && !contains) {
         unhighlight();
+    }
 }
 
 bool Button::isHighlighted()

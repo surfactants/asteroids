@@ -165,10 +165,12 @@ void Input_Handler::setRemappableActions(const std::vector<Action>& actions)
     Convert_Action_Trigger converter;
 
     for (auto k = p_g.keyReleased.begin(); k != p_g.keyReleased.end();) {
-        if (k->first != sf::Keyboard::Escape)
+        if (k->first != sf::Keyboard::Escape) {
             k = p_g.keyReleased.erase(k);
-        else
+        }
+        else {
             ++k;
+        }
     }
 
     p_g.keyPressed.clear();
@@ -186,8 +188,9 @@ void Input_Handler::setRemappableActions(const std::vector<Action>& actions)
 void Input_Handler::handle()
 {
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed) {
             window.close();
+        }
         else {
             if (state_main == Main_State::LOADING
                 || state_main == Main_State::NEWGAME

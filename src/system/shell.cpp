@@ -6,7 +6,6 @@
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "asteroids", sf::Style::Fullscreen }
 {
-    //window.setKeyRepeatEnabled(false);
     sf::Cursor cursor;
     cursor.loadFromSystem(sf::Cursor::Cross);
     window.setMouseCursor(cursor);
@@ -27,8 +26,6 @@ Shell::Shell()
     fpsText.setPosition(sf::Vector2f(window.getSize().x - 64.f, window.getSize().y - 96.f));
 
     ui.scale(window);
-
-    //input.loadMenus(Menu_Package(&menu_main, &menu_pause, &menu_settings));
 
     menu_input.saveActions = std::bind(&Input_Handler::setRemappableActions, &input, std::placeholders::_1);
 
@@ -55,28 +52,29 @@ void Shell::run()
 void Shell::update()
 {
     sound.update();
+    music.update(state_main, state_menu, game.getState());
 
     frameTime = timestepClock.getElapsedTime().asSeconds();
     timestepClock.restart();
     deltaTime = frameTime / targetTime;
 
     switch (state_main) {
-    case Main_State::MENU:
-        menu->update(fMouse(window, viewUI));
-        break;
-    case Main_State::LOADING:
-        if (loadingScreen.update()) {
-            state_main = Main_State::GAME;
-        }
-        break;
-    case Main_State::GAME:
-        game.update(deltaTime);
-        ui.update();
-        fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
-        fpsClock.restart();
-        break;
-    default:
-        break;
+        case Main_State::MENU:
+            menu->update(fMouse(window, viewUI));
+            break;
+        case Main_State::LOADING:
+            if (loadingScreen.update()) {
+                state_main = Main_State::GAME;
+            }
+            break;
+        case Main_State::GAME:
+            game.update(deltaTime);
+            ui.update();
+            fpsText.setString(std::to_string((int)(1.f / fpsClock.getElapsedTime().asSeconds())));
+            fpsClock.restart();
+            break;
+        default:
+            break;
     }
 }
 
@@ -84,23 +82,23 @@ void Shell::draw()
 {
     window.clear();
     switch (state_main) {
-    case Main_State::MENU:
-        window.setView(viewUI);
-        window.draw(*menu);
-        break;
-    case Main_State::GAME:
-        window.setView(viewGame);
-        window.draw(game);
-        window.setView(viewUI);
-        window.draw(fpsText);
-        window.draw(ui);
-        break;
-    case Main_State::LOADING:
-        window.setView(viewUI);
-        window.draw(loadingScreen);
-        break;
-    default:
-        break;
+        case Main_State::MENU:
+            window.setView(viewUI);
+            window.draw(*menu);
+            break;
+        case Main_State::GAME:
+            window.setView(viewGame);
+            window.draw(game);
+            window.setView(viewUI);
+            window.draw(fpsText);
+            window.draw(ui);
+            break;
+        case Main_State::LOADING:
+            window.setView(viewUI);
+            window.draw(loadingScreen);
+            break;
+        default:
+            break;
     }
     window.display();
 }
@@ -108,6 +106,8 @@ void Shell::draw()
 void Shell::loadNewLevel()
 {
     state_main = Main_State::LOADING;
+    //TODO pass the game to the loader's constructor and do all this there
+
     std::vector<std::function<void()>> loads;
     std::vector<std::string> messages;
 
@@ -144,33 +144,33 @@ void Shell::alignState()
     if (change_main) {
         change_main = false;
         switch (state_main) {
-        case Main_State::QUIT:
-            window.close();
-            break;
-        case Main_State::NEWGAME:
-            loadNewLevel();
-            break;
-        default:
-            break;
+            case Main_State::QUIT:
+                window.close();
+                break;
+            case Main_State::NEWGAME:
+                loadNewLevel();
+                break;
+            default:
+                break;
         }
     }
     if (change_menu) {
         change_menu = false;
         switch (state_menu) {
-        case Menu_State::MAIN:
-            menu = &menu_main;
-            break;
-        case Menu_State::PAUSE:
-            menu = &menu_pause;
-            break;
-        case Menu_State::SETTINGS:
-            menu = &menu_settings;
-            break;
-        case Menu_State::KEYS:
-            menu = &menu_input;
-            break;
-        default:
-            break;
+            case Menu_State::MAIN:
+                menu = &menu_main;
+                break;
+            case Menu_State::PAUSE:
+                menu = &menu_pause;
+                break;
+            case Menu_State::SETTINGS:
+                menu = &menu_settings;
+                break;
+            case Menu_State::KEYS:
+                menu = &menu_input;
+                break;
+            default:
+                break;
         }
         input.menuChange();
     }

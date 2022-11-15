@@ -9,12 +9,12 @@ enum class Font {
 inline std::string fontToString(Font f)
 {
     switch (f) {
-    case Font::MENU:
-        return "MENU";
-    case Font::UI:
-        return "UI";
-    default:
-        return "";
+        case Font::MENU:
+            return "MENU";
+        case Font::UI:
+            return "UI";
+        default:
+            return "";
     }
 }
 

@@ -12,14 +12,14 @@ enum class Volume_Type {
 inline std::string volumeTypeToString(Volume_Type t)
 {
     switch (t) {
-    case Volume_Type::MUSIC:
-        return "MUSIC";
-    case Volume_Type::GAME:
-        return "GAME";
-    case Volume_Type::UI:
-        return "UI";
-    default:
-        return std::string();
+        case Volume_Type::MUSIC:
+            return "MUSIC";
+        case Volume_Type::GAME:
+            return "GAME";
+        case Volume_Type::UI:
+            return "UI";
+        default:
+            return std::string();
     }
 }
 
