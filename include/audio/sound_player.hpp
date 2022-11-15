@@ -6,6 +6,9 @@
 
 //sounds by kenney.nl
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Sound_Player {
 public:
     Sound_Player() = default;

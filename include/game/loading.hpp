@@ -1,11 +1,16 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include <future>
 #include <map>
 #include <thread>
+
 #include <world/world.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 //loading screen should:
 //display stats from previous level, and stats for the entire run (except the first loading screen!)
 //have a "continue" button/hotkey which can be activated when loading is done

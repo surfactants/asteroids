@@ -1,5 +1,8 @@
 #include <entity/faction.hpp>
+
 #include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
 
 std::string factionToString(Faction f)
 {

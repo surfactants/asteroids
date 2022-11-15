@@ -1,20 +1,33 @@
 #pragma once
 
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-#include <animation/animation.hpp>
-#include <entity/enemy.hpp>
-#include <entity/faction.hpp>
-#include <input/action.hpp>
+
+#include <SFML/Graphics.hpp>
+
 #include <map>
-#include <resources/font.hpp>
-#include <sqlite3.h>
 #include <string>
-#include <system/settings_package.hpp>
-#include <world/tile.hpp>
+
+#include <animation/animation.hpp>
+
 #include <audio/sound.hpp>
 #include <audio/sound_context.hpp>
 
+#include <entity/enemy.hpp>
+#include <entity/faction.hpp>
+
+#include <input/action.hpp>
+
+#include <resources/font.hpp>
+
+#include <sqlite3.h>
+
+#include <world/tile.hpp>
+
+#include "settings_package.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Database {
 public:
     ~Database();

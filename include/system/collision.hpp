@@ -1,9 +1,16 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+
+#include <SFML/System/Vector2.hpp>
+
 #include <math.h>
+
 #include <util/primordial.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 namespace collide {
 inline bool pointRect(sf::Vector2f point, sf::RectangleShape rect)
 {

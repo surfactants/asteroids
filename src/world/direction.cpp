@@ -1,5 +1,8 @@
-#include <util/prng.hpp>
 #include <world/direction.hpp>
+
+#include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
 
 std::string directionToString(Direction d)
 {
@@ -86,7 +89,8 @@ Direction randomDiagonal()
     return static_cast<Direction>((2 * prng::number(0, 3)) + 1);
 }
 
-/////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 Direction randomPerpendicularDirection(Direction odirect)
 {
     switch (odirect) {

@@ -1,9 +1,16 @@
-#include <abilities/ability_type.hpp>
-#include <animation/animation.hpp>
-#include <input/convert_action_trigger.hpp>
 #include <system/database.hpp>
+
 #include <SFML/Audio/Sound.hpp>
+
+#include <abilities/ability_type.hpp>
+
+#include <animation/animation.hpp>
+
+#include <input/convert_action_trigger.hpp>
+
 #include <audio/sound_context.hpp>
+
+//////////////////////////////////////////////////////////////
 
 sqlite3* Database::db = nullptr;
 std::vector<char*> Database::font_buffers = std::vector<char*>();

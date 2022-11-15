@@ -1,5 +1,8 @@
 #include <resources/font_manager.hpp>
+
 #include <system/database.hpp>
+
+//////////////////////////////////////////////////////////////
 
 std::map<Font, sf::Font> Font_Manager::fonts = std::map<Font, sf::Font>();
 

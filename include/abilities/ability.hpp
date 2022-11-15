@@ -1,12 +1,19 @@
 #pragma once
 
-#include "ability_type.hpp"
-#include "projectile.hpp"
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
+
 #include <SFML/System/Clock.hpp>
+
 #include <string>
+
 #include <audio/sound.hpp>
 
+#include "ability_type.hpp"
+#include "projectile.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Ability {
 public:
     Ability() { }

@@ -1,22 +1,23 @@
+#include <world/floor.hpp>
+
 #include <iostream>
+
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
 #include <util/vector2_stream.hpp>
-#include <world/floor.hpp>
 
-/////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 Floor_Generator::Floor_Generator()
 {
     reset();
 }
 
-/////////////////////////////////////////////////////////////
 std::map<int, std::map<int, bool>> Floor_Generator::getFloorMap()
 {
     return floorMap;
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::reset()
 {
     do {
@@ -198,7 +199,6 @@ void Floor_Generator::reset()
     }
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::carveRooms()
 {
     bool first = true;
@@ -225,7 +225,6 @@ void Floor_Generator::carveRooms()
     }
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::readRooms()
 {
     for (const auto& room : rooms) {
@@ -237,7 +236,6 @@ void Floor_Generator::readRooms()
     }
 }
 
-/////////////////////////////////////////////////////////////
 bool Floor_Generator::checkRooms()
 {
     for (const auto& room : rooms) {
@@ -249,7 +247,6 @@ bool Floor_Generator::checkRooms()
     return true;
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::readTunnels()
 {
     for (const auto& tunnel : tunnels) {
@@ -259,7 +256,6 @@ void Floor_Generator::readTunnels()
     }
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::addTunnelFloor(sf::Vector2i v, int distance)
 {
     floorMap[v.x][v.y] = true;
@@ -270,7 +266,6 @@ void Floor_Generator::addTunnelFloor(sf::Vector2i v, int distance)
     }
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::automata()
 {
     std::map<int, std::map<int, bool>> newFloor_Generator = floorMap;
@@ -294,7 +289,6 @@ void Floor_Generator::automata()
     floorMap = newFloor_Generator;
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::floodCheck()
 {
     std::map<int, std::map<int, bool>> floodMap;
@@ -310,7 +304,6 @@ void Floor_Generator::floodCheck()
     floorMap = floodMap;
 }
 
-/////////////////////////////////////////////////////////////
 void Floor_Generator::floodFill(int x, int y, std::map<int, std::map<int, bool>>& floodMap)
 {
     floodMap[x][y] = true;
@@ -329,7 +322,6 @@ void Floor_Generator::floodFill(int x, int y, std::map<int, std::map<int, bool>>
     }
 }
 
-/////////////////////////////////////////////////////////////
 unsigned int Floor_Generator::countAdjacentWalls(int x, int y)
 {
     unsigned int count = 0;
@@ -365,7 +357,6 @@ unsigned int Floor_Generator::countAdjacentWalls(int x, int y)
     return count;
 }
 
-/////////////////////////////////////////////////////////////
 float Floor_Generator::calculateDistanceFactor(int distance, int size)
 {
     float d = distance;
@@ -376,19 +367,16 @@ float Floor_Generator::calculateDistanceFactor(int distance, int size)
     return f;
 }
 
-/////////////////////////////////////////////////////////////
 sf::Vector2i Floor_Generator::getWorldMin()
 {
     return worldMin;
 }
 
-/////////////////////////////////////////////////////////////
 sf::Vector2i Floor_Generator::getWorldMax()
 {
     return worldMax;
 }
 
-/////////////////////////////////////////////////////////////
 std::vector<Room> Floor_Generator::getRooms()
 {
     return rooms;

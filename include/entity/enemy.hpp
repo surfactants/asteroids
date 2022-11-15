@@ -1,7 +1,10 @@
 #pragma once
 
-#include <entity/entity.hpp>
+#include "entity.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Enemy : public Entity {
 public:
     Enemy() { }

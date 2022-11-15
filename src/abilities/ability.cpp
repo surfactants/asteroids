@@ -1,5 +1,8 @@
 #include <abilities/ability.hpp>
+
 #include <system/database.hpp>
+
+//////////////////////////////////////////////////////////////
 
 void Ability::startCooldown()
 {

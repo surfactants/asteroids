@@ -2,6 +2,9 @@
 
 #include <string>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Entity_State {
     IDLE,
     MOVING,

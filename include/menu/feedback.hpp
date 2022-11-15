@@ -2,6 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
+
 //REQUIREMENTS:
 //one drop-down menu for type selection
 //two textboxes (subject, message)

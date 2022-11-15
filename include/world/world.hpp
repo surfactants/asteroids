@@ -1,11 +1,18 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <entity/faction.hpp>
-#include <map>
-#include <world/room.hpp>
-#include <world/tile.hpp>
 
+#include <map>
+#include <memory>
+
+#include <entity/faction.hpp>
+
+#include "room.hpp"
+#include "tile.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class World : public sf::Drawable {
 public:
     World(Faction& f);

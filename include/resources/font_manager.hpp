@@ -1,8 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics/Font.hpp>
+
 #include <resources/font.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Font_Manager {
 public:
     ~Font_Manager();

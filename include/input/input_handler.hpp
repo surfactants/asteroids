@@ -1,18 +1,25 @@
 #pragma once
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include <functional>
 #include <map>
 
+#include <game/game.hpp>
+
+#include <menu/menu.hpp>
+
+#include <system/state_hook.hpp>
+
+#include <ui/ui.hpp>
+
 #include "action.hpp"
 #include "input_package.hpp"
 #include "mouse_event.hpp"
-#include <game/game.hpp>
-#include <menu/menu.hpp>
-#include <system/state_hook.hpp>
-#include <ui/ui.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Input_Handler : public State_Hook {
 public:
     Input_Handler(sf::RenderWindow& nwindow, Game& ngame, UI& nui, Menu_Package m);

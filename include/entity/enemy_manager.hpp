@@ -1,9 +1,16 @@
 #pragma once
 
-#include <entity/enemy.hpp>
+#include <SFML/Graphics.hpp>
+
 #include <vector>
+
 #include <world/room.hpp>
 
+#include "entity/enemy.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Enemy_Manager : public sf::Drawable {
 public:
     Enemy_Manager(Faction& f);

@@ -1,7 +1,12 @@
-#include <ai/ai.hpp>
 #include <entity/enemy.hpp>
+
+#include <ai/ai.hpp>
+
 #include <util/primordial.hpp>
+
 #include <world/tile.hpp>
+
+//////////////////////////////////////////////////////////////
 
 const float Enemy::decideThreshold = 1.f;
 

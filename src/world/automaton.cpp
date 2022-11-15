@@ -1,5 +1,8 @@
-#include <util/prng.hpp>
 #include <world/automaton.hpp>
+
+#include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Automaton::Automaton(Cells ncells,
     unsigned int niterations,

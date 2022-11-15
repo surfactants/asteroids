@@ -1,8 +1,12 @@
 #include <game/game.hpp>
+
 #include <system/database.hpp>
+
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
 
 const float Game::endThreshold = 3.f;
 

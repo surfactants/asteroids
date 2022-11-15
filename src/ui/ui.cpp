@@ -1,5 +1,8 @@
-#include <resources/texture_manager.hpp>
 #include <ui/ui.hpp>
+
+#include <resources/texture_manager.hpp>
+
+//////////////////////////////////////////////////////////////
 
 UI::UI(Game& ngame)
     : game { ngame }

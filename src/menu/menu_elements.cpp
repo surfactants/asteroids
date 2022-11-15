@@ -1,7 +1,10 @@
-#include <memory>
 #include <menu/menu_elements.hpp>
+
 #include <resources/texture_manager.hpp>
+
 #include <util/url.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu)
     : Button { nlabel, font }
@@ -12,14 +15,12 @@ Nav::Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmen
 
 Target::Target(std::function<void()> nt)
     : target { nt }
-{
-}
+{}
 
 Option::Option(std::string nlabel, sf::Font& font, std::function<void()> nt)
     : Button { nlabel, font }
     , Target(nt)
-{
-}
+{}
 
 Logo::Logo(std::string nurl, sf::Vector2f pos, std::string key)
     : url { nurl }
@@ -44,7 +45,6 @@ Logo::Logo(std::string nurl, sf::Vector2f pos, std::string key)
 
 void Logo::update(sf::Vector2f& mpos)
 {
-    //bool contains = shadow.getGlobalBounds().contains(mpos);
     bool contains = logo.getGlobalBounds().contains(mpos);
     if (!highlighted && contains) {
         highlight();
@@ -65,8 +65,6 @@ bool Logo::click()
 
 void Logo::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    //if(highlighted) target.draw(shadow, states);
-
     if (highlighted) {
         target.draw(dropShadow, shadow.get());
     }

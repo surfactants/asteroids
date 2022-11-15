@@ -1,10 +1,17 @@
 #pragma once
 
+#include <memory>
+
 #include <input/input_mapper.hpp>
+
 #include <system/state.hpp>
+
 #include <ui/button.hpp>
 #include <ui/slider.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 struct Nav : public Button {
     Nav(std::string nlabel, sf::Font& font, Main_State ntmain, Menu_State ntmenu);
     Main_State target_main;
@@ -24,7 +31,7 @@ struct Option : public Button, public Target {
 
 class Logo : public sf::Drawable {
 public:
-    Logo() { }
+    Logo() = default;
     Logo(std::string nurl, sf::Vector2f pos, std::string key);
 
     bool isHighlighted();
@@ -46,5 +53,5 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    std::unique_ptr<sf::Shader> shadow;
+    std::unique_ptr<sf::Shader> shadow{ nullptr };
 };

@@ -7,6 +7,9 @@
 
 #include "action_trigger.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Action {
 public:
     Action() { }

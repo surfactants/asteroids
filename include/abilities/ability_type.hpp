@@ -2,6 +2,9 @@
 
 #include <string>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Ability_Type {
     SHOOT,
     KNIFE,

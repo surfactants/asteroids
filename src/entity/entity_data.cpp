@@ -1,5 +1,7 @@
 #include <entity/entity_data.hpp>
 
+//////////////////////////////////////////////////////////////
+
 std::string entityTypeToString(Entity_Type e)
 {
     switch (e) {

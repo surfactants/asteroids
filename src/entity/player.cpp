@@ -1,5 +1,8 @@
 #include <entity/player.hpp>
+
 #include <resources/texture_manager.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Player::Player() { }
 

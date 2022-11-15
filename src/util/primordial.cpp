@@ -22,6 +22,8 @@
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
 
+//////////////////////////////////////////////////////////////
+
 sf::Color randomColor(unsigned int alpha)
 {
     unsigned int r = prng::number(0, 255);

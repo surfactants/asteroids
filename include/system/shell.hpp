@@ -2,15 +2,24 @@
 
 #include <audio/music_interface.hpp>
 #include <audio/sound_interface.hpp>
+
 #include <game/game.hpp>
 #include <game/loading.hpp>
+
 #include <input/input_handler.hpp>
+
 #include <menu/feedback.hpp>
 #include <menu/menu.hpp>
+
 #include <resources/font_manager.hpp>
+
 #include <ui/ui.hpp>
+
 #include <util/primordial.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Shell : public State_Hook {
 public:
     Shell();

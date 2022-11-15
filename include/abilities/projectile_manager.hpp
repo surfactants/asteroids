@@ -1,7 +1,12 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include "projectile.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Projectile_Manager : public sf::Drawable {
 public:
     Projectile_Manager();

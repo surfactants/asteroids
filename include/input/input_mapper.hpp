@@ -2,10 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <input/action.hpp>
-#include <input/convert_action_trigger.hpp>
-#include <input/input_package.hpp>
-#include <input/mouse_event.hpp>
+#include "action.hpp"
+#include "convert_action_trigger.hpp"
+#include "input_package.hpp"
+#include "mouse_event.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief A visual interface for remapping controls.
+///
 
 //recommend running checkMouse() every frame, for post-selection hovers
 

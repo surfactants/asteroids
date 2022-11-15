@@ -1,6 +1,10 @@
 #include <abilities/projectile.hpp>
+
 #include <resources/texture_manager.hpp>
+
 #include <util/primordial.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Projectile::Projectile(Ability_Type type, double speed, Damage dmg, double range)
     : type { type }

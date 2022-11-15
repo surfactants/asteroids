@@ -1,9 +1,13 @@
 #include <menu/menu.hpp>
-#include <resources/font_manager.hpp>
-#include <system/database.hpp>
 
 #include <audio/sound_bus.hpp>
 #include <audio/sound.hpp>
+
+#include <resources/font_manager.hpp>
+
+#include <system/database.hpp>
+
+//////////////////////////////////////////////////////////////
 
 std::vector<Nav> Menu::nav = std::vector<Nav>();
 

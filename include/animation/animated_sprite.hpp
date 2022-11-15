@@ -1,11 +1,20 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <animation/animation.hpp>
-#include <entity/entity_state.hpp>
+
+#include <SFML/System/Clock.hpp>
+
 #include <map>
+
+#include <entity/entity_state.hpp>
+
 #include <world/direction.hpp>
 
+#include "animation/animation.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Animated_Sprite : public sf::Sprite {
 public:
     Animated_Sprite() { }

@@ -1,7 +1,9 @@
-#include <util/prng.hpp>
 #include <world/tunnel.hpp>
 
-/////////////////////////////////////////////////////////////
+#include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
+
 Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect)
 {
     nodes.push_back(Node(pos));

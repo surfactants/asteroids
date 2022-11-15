@@ -1,8 +1,12 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+
 #include <map>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 using Adjacency_Rules = std::map<unsigned int, float>;
 using Cells = std::map<int, std::map<int, bool>>;
 

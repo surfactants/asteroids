@@ -11,7 +11,7 @@ void Music_Interface::update(Main_State state_main, Menu_State state_menu, Game_
         if (state_main == Main_State::MENU && state_menu == Menu_State::MAIN) {
             player.setSong(getFilename("MENU"));
         }
-        else if (state_main == Main_State::GAME && this->state_main == Main_State::MENU && this->state_menu == Menu_State::MAIN) {
+        else if (state_main == Main_State::GAME) {
             processGameState(state_game);
         }
         else if (state_main == Main_State::LOADING) {
@@ -21,6 +21,10 @@ void Music_Interface::update(Main_State state_main, Menu_State state_menu, Game_
     else if (state_game != this->state_game) {
         processGameState(state_game);
     }
+
+    this->state_main = state_main;
+    this->state_menu = state_menu;
+    this->state_game = state_game;
 
     player.update();
 }

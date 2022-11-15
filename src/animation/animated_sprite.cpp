@@ -1,5 +1,7 @@
 #include <animation/animated_sprite.hpp>
 
+//////////////////////////////////////////////////////////////
+
 Animated_Sprite::Animated_Sprite(sf::Texture& ntexture,
     sf::Vector2i nsize,
     std::map<Entity_State, unsigned int> counts,

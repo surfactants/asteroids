@@ -6,6 +6,10 @@
 
 #include "sound.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief Converts Sound_Game and Sound_UI types into sf::SoundBuffer objects,
+/// which are then passed to Sound_Player to be constructed as sf::Sound
+///
 struct Sound_Context {
     Sound_Context() = default;
     Sound_Context(sf::SoundBuffer buffer, float threshold)

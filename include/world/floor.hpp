@@ -1,10 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <world/direction.hpp>
-#include <world/room.hpp>
-#include <world/tile.hpp>
-#include <world/tunnel.hpp>
+#include <SFML/System/Vector2.hpp>
+
+#include "direction.hpp"
+#include "room.hpp"
+#include "tile.hpp"
+#include "tunnel.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief Procedural generation of tile-based levels, consisting of rooms connected by snaking tunnels.

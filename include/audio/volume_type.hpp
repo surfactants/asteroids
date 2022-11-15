@@ -2,6 +2,9 @@
 
 #include <string>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Volume_Type {
     MUSIC,
     GAME,

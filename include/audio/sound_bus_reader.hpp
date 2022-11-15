@@ -9,13 +9,10 @@
 #include "sound.hpp"
 #include "sound_context.hpp"
 
-/************************************************************************************
-*
-*   converts Sound_Game and Sound_UI types into sf::SoundBuffer objects,
-*   which are then passed to Sound_Player to be constructed as sf::Sound
-*
-************************************************************************************/
-
+/////////////////////////////////////////////////////////////
+/// \brief Converts Sound_Game and Sound_UI types into sf::SoundBuffer objects,
+/// which are then passed to Sound_Player to be constructed as sf::Sound
+///
 class Sound_Bus_Reader : private Sound_Player {
 public:
     Sound_Bus_Reader();

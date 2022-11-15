@@ -2,6 +2,8 @@
 
 #include <SFML/Window/Mouse.hpp>
 
+/////////////////////////////////////////////////////////////
+
 inline sf::Vector2f fMouse()
 {
     return sf::Vector2f(sf::Mouse::getPosition());

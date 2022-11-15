@@ -1,7 +1,11 @@
+#include <game/loading.hpp>
+
 #include <chrono>
 #include <functional>
-#include <game/loading.hpp>
+
 #include <resources/font_manager.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Loading_Screen::Loading_Screen()
 {

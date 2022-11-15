@@ -1,8 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include <entity/damage.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Wall_Type {
     BLANK,
     STRAIGHT,

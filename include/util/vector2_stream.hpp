@@ -1,7 +1,13 @@
+#pragma once
+
 #include <SFML/System/Vector2.hpp>
+
 #include <iostream>
 #include <string>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 template <typename T>
 std::ostream& operator<<(std::ostream& os, sf::Vector2<T> v)
 {

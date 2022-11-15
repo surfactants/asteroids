@@ -1,10 +1,16 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <abilities/ability.hpp>
-#include <game/game.hpp>
-#include <ui/ui_elements.hpp>
 
+#include <abilities/ability.hpp>
+
+#include <game/game.hpp>
+
+#include "ui_elements.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class UI : public sf::Drawable {
 public:
     UI(Game& ngame);

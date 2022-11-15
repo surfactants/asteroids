@@ -1,5 +1,8 @@
 #pragma once
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Main_State {
     MENU,
     NEWGAME,
@@ -9,6 +12,9 @@ enum class Main_State {
     NULL_STATE
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Menu_State {
     MAIN,
     PAUSE,

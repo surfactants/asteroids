@@ -1,6 +1,10 @@
 #include <ui/slider.hpp>
-#include <util/fmouse.hpp>
+
 #include <audio/sound_bus.hpp>
+
+#include <util/fmouse.hpp>
+
+//////////////////////////////////////////////////////////////
 
 const sf::Vector2f Slider::containerSize = sf::Vector2f(384.f, 48.f);
 

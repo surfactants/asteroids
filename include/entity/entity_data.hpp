@@ -1,12 +1,17 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-#include <entity/damage.hpp>
-#include <entity/entity_state.hpp>
-#include <entity/faction.hpp>
+
 #include <map>
 #include <string>
 
+#include "damage.hpp"
+#include "entity_state.hpp"
+#include "faction.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 enum class Entity_Type {
     MELEE_LIGHT,
     MELEE_HEAVY,

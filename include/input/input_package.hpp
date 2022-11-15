@@ -7,6 +7,9 @@
 
 #include "mouse_event.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 struct Input_Package {
     Input_Package();
 

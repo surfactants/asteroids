@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Animation {
 public:
     Animation() { }

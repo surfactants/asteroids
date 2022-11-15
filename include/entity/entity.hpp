@@ -1,12 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <abilities/ability.hpp>
-#include <animation/animated_sprite.hpp>
-#include <entity/damage.hpp>
-#include <entity/entity_data.hpp>
+
 #include <vector>
+
+#include <abilities/ability.hpp>
+
+#include <animation/animated_sprite.hpp>
+
 #include <world/direction.hpp>
+
+#include "damage.hpp"
+#include "entity_data.hpp"
 
 #define ABILITY_COUNT 4
 
@@ -15,9 +20,8 @@
 ///
 class Entity : public sf::Drawable {
 public:
-    Entity() { }
+    Entity() = default;
     Entity(Entity_Data& e, sf::Texture& texture);
-    //Entity(const Entity& e);
 
     sf::Vector2f getPosition();
 

@@ -5,10 +5,15 @@
 #include <vector>
 
 #include <audio/audio_settings.hpp>
-#include <menu/menu_elements.hpp>
+
 #include <system/settings_package.hpp>
 #include <system/state_hook.hpp>
 
+#include "menu_elements.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Menu : public sf::Drawable, public State_Hook {
 public:
     Menu();
@@ -36,6 +41,9 @@ private:
     static std::vector<Nav> nav;
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Menu_Main : public Menu {
 public:
     Menu_Main();
@@ -44,6 +52,9 @@ protected:
 private:
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Menu_Pause : public Menu {
 public:
     Menu_Pause();
@@ -52,6 +63,9 @@ protected:
 private:
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Menu_Settings : public Menu, public Audio_Settings {
 public:
     Menu_Settings();
@@ -71,6 +85,9 @@ private:
     void loadSettings();
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Menu_Input : public Menu, public Input_Mapper {
 public:
     Menu_Input();
@@ -92,6 +109,9 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 struct Menu_Package {
     Menu_Package(Menu_Main* m, Menu_Pause* p, Menu_Settings* s, Menu_Input* k)
         : m_main { m }

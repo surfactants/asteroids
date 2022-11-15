@@ -1,5 +1,8 @@
 #include <ai/ai.hpp>
+
 #include <util/primordial.hpp>
+
+//////////////////////////////////////////////////////////////
 
 void AI::decide(Enemy& enemy, Player& player)
 {

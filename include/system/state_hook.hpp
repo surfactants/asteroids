@@ -2,6 +2,9 @@
 
 #include <system/state.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class State_Hook {
 protected:
     static Main_State state_main; //main state

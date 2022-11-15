@@ -1,7 +1,11 @@
-#include <abilities/projectile.hpp>
 #include <system/shell.hpp>
+
+#include <abilities/projectile.hpp>
+
 #include <util/fmouse.hpp>
 #include <util/primordial.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "asteroids", sf::Style::Fullscreen }

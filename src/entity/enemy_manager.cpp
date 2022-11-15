@@ -1,7 +1,12 @@
 #include <entity/enemy_manager.hpp>
+
 #include <resources/texture_manager.hpp>
+
 #include <system/database.hpp>
+
 #include <util/prng.hpp>
+
+//////////////////////////////////////////////////////////////
 
 Enemy_Manager::Enemy_Manager(Faction& f)
     : enemyFaction { f }

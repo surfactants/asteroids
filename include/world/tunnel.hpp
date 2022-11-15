@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <world/direction.hpp>
-#include <world/node.hpp>
+#include <vector>
+
+#include "direction.hpp"
+#include "node.hpp"
 
 /////////////////////////////////////////////////////////////
 /// \brief Node-based tunnels for connecting rooms.

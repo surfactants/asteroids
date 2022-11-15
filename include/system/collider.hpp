@@ -1,10 +1,15 @@
 #pragma once
 
 #include <abilities/projectile_manager.hpp>
+
 #include <entity/enemy_manager.hpp>
 #include <entity/player.hpp>
+
 #include <world/world.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Collider {
 public:
     Collider();

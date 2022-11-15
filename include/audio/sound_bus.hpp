@@ -5,6 +5,9 @@
 
 #include "sound.hpp"
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Sound_Bus {
 public:
     static void addSound(Sound_Game sound);

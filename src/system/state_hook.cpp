@@ -1,5 +1,7 @@
 #include <system/state_hook.hpp>
 
+//////////////////////////////////////////////////////////////
+
 Main_State State_Hook::state_main = Main_State::MENU;
 Menu_State State_Hook::state_menu = Menu_State::MAIN;
 bool State_Hook::change_main = true;

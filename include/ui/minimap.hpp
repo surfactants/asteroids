@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
+#include <SFML/System/Clock.hpp>
+
 #include <entity/enemy.hpp>
 
 class Minimap : public sf::Drawable {

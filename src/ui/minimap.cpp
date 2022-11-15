@@ -1,8 +1,12 @@
+#include <ui/minimap.hpp>
+
 #include <system/collider.hpp>
 #include <system/collision.hpp>
-#include <ui/minimap.hpp>
+
 #include <util/prng.hpp>
 #include <util/vector2_stream.hpp>
+
+//////////////////////////////////////////////////////////////
 
 const float Minimap::Blip::timeThreshold = 0.5f;
 const float Minimap::rotateThreshold = 0.001f;

@@ -1,13 +1,19 @@
+#include <world/world.hpp>
+#include <world/automaton.hpp>
+#include <world/floor.hpp>
+
 #include <cmath>
 #include <iostream>
+
 #include <resources/texture_manager.hpp>
+
 #include <system/database.hpp>
+
 #include <util/primordial.hpp>
 #include <util/prng.hpp>
 #include <util/vector2_stream.hpp>
-#include <world/automaton.hpp>
-#include <world/floor.hpp>
-#include <world/world.hpp>
+
+//////////////////////////////////////////////////////////////
 
 const sf::Vector2i World::renderDistance { 16, 10 };
 

@@ -1,5 +1,7 @@
 #include <abilities/projectile_manager.hpp>
 
+//////////////////////////////////////////////////////////////
+
 Projectile_Manager::Projectile_Manager() { }
 
 void Projectile_Manager::create(Projectile p)

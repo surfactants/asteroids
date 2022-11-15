@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics/Color.hpp>
 
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 namespace palette {
 
 //neutral

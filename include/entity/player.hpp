@@ -1,8 +1,12 @@
 #pragma once
 
-#include <entity/entity.hpp>
 #include <world/direction.hpp>
 
+#include "entity.hpp"
+
+/////////////////////////////////////////////////////////////
+/// \brief
+///
 class Player : public Entity {
 public:
     Player();

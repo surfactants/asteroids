@@ -21,7 +21,13 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/View.hpp>
+
+#include <SFML/System/Vector2.hpp>
+
 #include <math.h>
 
 #define PI 3.14159265359

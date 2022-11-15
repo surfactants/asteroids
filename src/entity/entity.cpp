@@ -1,9 +1,13 @@
 #include <entity/entity.hpp>
-#include <util/primordial.hpp>
-#include <util/prng.hpp>
+
 #include <audio/sound_bus.hpp>
 
+#include <util/primordial.hpp>
+#include <util/prng.hpp>
+
 #define SQRT2_INV 0.707106781
+
+//////////////////////////////////////////////////////////////
 
 const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
 const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);

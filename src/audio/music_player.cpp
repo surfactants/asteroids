@@ -1,5 +1,7 @@
 #include <audio/music_player.hpp>
 
+#include <iostream>
+
 float Music_Player::volume { 100.f };
 float Music_Player::volume_tracker { 0.f };
 
@@ -13,6 +15,7 @@ Music_Player::Music_Player()
 void Music_Player::setSong(const std::string filename)
 {
     if (filename != this->filename) {
+            std::cout << "now playing " << filename << '\n';
         this->filename = filename;
         state = FADING_OUT;
         fadeClock.restart();

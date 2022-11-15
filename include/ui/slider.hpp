@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include <audio/volume_type.hpp>
+
 #include <resources/palette.hpp>
 
 ////////////////////////////////////////////////////////////
