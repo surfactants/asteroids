@@ -74,3 +74,9 @@ todo.hpp
 
 # music
 /soundtrack/
+
+# deprecated code
+node.cpp
+weapon.hpp
+weapon.cpp
+song.hpp

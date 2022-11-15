@@ -124,6 +124,7 @@ Direction randomPerpendicularDirection(Direction odirect)
 }
 
 /////////////////////////////////////////////////////////////
+
 Direction normalizeDirection(const Direction ref, const Direction d)
 {
     Direction r;
