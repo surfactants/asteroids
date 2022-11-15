@@ -9,4 +9,3 @@ features:
   *  animated sprites
   *  data-driven design (using [json-to-sqlite](https://github.com/surfactants/json-to-sqlite))
   *  key remapping
-  *  a minimap (radar-style)
