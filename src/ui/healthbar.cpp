@@ -6,6 +6,12 @@ Healthbar::Healthbar()
 {
     frame.setOutlineThickness(1.f);
     frame.setOutlineColor(sf::Color(222, 222, 222));
+
+    sf::Color frameColor(0, 0, 0, 110);
+    sf::Color fillColor(130, 16, 16);
+
+    frame.setFillColor(frameColor);
+    fill.setFillColor(fillColor);
 }
 
 void Healthbar::setSize(sf::Vector2f size)
@@ -36,12 +42,6 @@ void Healthbar::update(int hpCurrent, int hpMax)
     setFill();
 }
 
-void Healthbar::setColors(sf::Color frameColor, sf::Color fillColor)
-{
-    frame.setFillColor(frameColor);
-    fill.setFillColor(fillColor);
-}
-
 void Healthbar::setHidden(bool hidden)
 {
     this->hidden = hidden;
@@ -49,8 +49,14 @@ void Healthbar::setHidden(bool hidden)
 
 void Healthbar::setFill()
 {
-    sf::Vector2f fillSize(size.x * hpPercent, size.y);
+    sf::Vector2f fillSize(frame.getSize().x * hpPercent, frame.getSize().y);
     fill.setSize(fillSize);
+}
+
+void Healthbar::center()
+{
+    frame.setOrigin(frame.getSize() / 2.f);
+    fill.setOrigin(frame.getSize() / 2.f);
 }
 
 void Healthbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -82,9 +88,7 @@ void UI_Healthbar::setLevelText(std::string str)
 
 void UI_Healthbar::center()
 {
-    frame.setOrigin(size / 2.f);
-    fill.setOrigin(size / 2.f);
-
+    Healthbar::center();
     nameText.setPosition(frame.getPosition() - sf::Vector2f(256.f, 0.f));
     centerText(nameText);
 }

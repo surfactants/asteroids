@@ -11,15 +11,13 @@ public:
 
     void update(int hpCurrent, int hpMax);
 
-    void setColors(sf::Color frameColor, sf::Color fillColor);
-
     void setHidden(bool hidden);
+
+    virtual void center();
 
 protected:
     sf::RectangleShape frame;
     sf::RectangleShape fill;
-
-    const sf::Vector2f& size{ frame.getSize() };
 
     bool hidden{ false };
 
@@ -42,7 +40,7 @@ public:
     void setNameText(std::string str);
     void setLevelText(std::string str);
 
-    void center();
+    virtual void center() override;
 
 private:
     sf::Text nameText;

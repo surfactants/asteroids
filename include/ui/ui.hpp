@@ -28,7 +28,8 @@ public:
 
     void loadPlayerAbilities(const std::vector<Ability>& abilities);
 
-protected:
+    void resize(sf::Vector2u windowSize);
+
 private:
     Game& game;
     sf::Font& font;
@@ -40,6 +41,7 @@ private:
     UI_Healthbar player_health;
     UI_Healthbar boss_health;
 
+    void defineHealthbars();
     void updateHealthbars();
 
     //enemyInfo (mouseover)

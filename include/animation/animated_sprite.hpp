@@ -39,6 +39,8 @@ public:
 
     bool lastFrame();
 
+    sf::Vector2f getSize();
+
 private:
     void loadCounts(std::map<Entity_State, unsigned int> counts);
     void loadThresholds(std::map<Entity_State, int> thresholds);

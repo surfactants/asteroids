@@ -123,3 +123,11 @@ void Animated_Sprite::resetCast()
         a.second.reset();
     }
 }
+
+sf::Vector2f Animated_Sprite::getSize()
+{
+    sf::Vector2f size;
+    size.x = getGlobalBounds().width;
+    size.y = getGlobalBounds().height;
+    return size;
+}

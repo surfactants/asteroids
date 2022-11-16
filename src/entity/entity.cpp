@@ -9,15 +9,6 @@
 
 //////////////////////////////////////////////////////////////
 
-const sf::Color Entity::color_hpGood = sf::Color(10, 230, 10);
-const sf::Color Entity::color_hpBad = sf::Color(230, 10, 10);
-const sf::Vector2f Entity::hpSize = sf::Vector2f(80, 8);
-
-const float Entity::hpOffset = 14.f;
-const float Entity::levelOffset = 20.f;
-
-const sf::Vector2f Entity::spriteSize = sf::Vector2f(64.f, 64.f);
-
 Entity::Entity(Entity_Data& data, sf::Texture& texture)
 {
     name = data.name;
@@ -25,7 +16,6 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
     velocity = sf::Vector2f(0.f, 0.f);
     speed_orthogonal = data.speed;
     speed_diagonal = speed_orthogonal * SQRT2_INV;
-    prepUI();
 
     name = data.name;
     faction = data.faction;
@@ -33,31 +23,21 @@ Entity::Entity(Entity_Data& data, sf::Texture& texture)
     sf::Vector2i size = data.size;
     sprite = Animated_Sprite(texture, size, data.aCount, data.aThreshold);
 
-    resistance = data.resistance;
-}
+    if(type == Entity_Type::BOSS) {
+        healthbar.setHidden(true);
+    }
 
-void Entity::prepUI()
-{
+    resistance = data.resistance;
+
     hpMax = 100;
     hpCurrent = hpMax;
 
-    hpFrame.setSize(hpSize);
-    hpFrame.setFillColor(color_hpBad);
+    healthbar.setSize(sf::Vector2f(50.f, 6.f));
+    healthbar.center();
 
-    hpFrame.setOutlineColor(sf::Color(225, 225, 225));
-    hpFrame.setOutlineThickness(1);
-
-    hpFrame.setPosition(64, 64);
-
-    hpBar.setSize(hpSize);
-    hpBar.setFillColor(color_hpGood);
-    hpBar.setPosition(64, 64);
+    healthbar.update(hpCurrent, hpMax);
 
     setLevel(prng::number(1u, 99u));
-
-    sf::Vector2f hpOrigin(hpSize.x / 2.f, (hpSize.y / 2.f) + (spriteSize.y / 1.5f));
-    hpFrame.setOrigin(hpOrigin);
-    hpBar.setOrigin(hpOrigin);
 }
 
 sf::Vector2f Entity::getPosition()
@@ -90,7 +70,7 @@ void Entity::takeDamage(Damage dmg)
         setState(Entity_State::DYING);
     }
 
-    updateHP();
+    healthbar.update(hpCurrent, hpMax);
 }
 
 void Entity::heal(int val)
@@ -100,7 +80,7 @@ void Entity::heal(int val)
         hpCurrent = hpMax;
     }
 
-    updateHP();
+    healthbar.update(hpCurrent, hpMax);
 }
 
 void Entity::update()
@@ -134,16 +114,9 @@ void Entity::update()
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(sprite, states);
-    if (state < Entity_State::DYING) {
-        target.draw(hpFrame, states);
-        target.draw(hpBar, states);
+    if (state < Entity_State::DEAD) {
+        target.draw(healthbar, states);
     }
-}
-
-void Entity::updateHP()
-{
-    double factor = (double)hpCurrent / hpMax;
-    hpBar.setSize(sf::Vector2f(hpSize.x * factor, hpSize.y));
 }
 
 void Entity::move()
@@ -173,12 +146,12 @@ sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls, float deltaTime)
         }
 
         if (good) {
-            hpFrame.move(v.x, 0.f);
-            hpBar.move(v.x, 0.f);
             offset.x = v.x;
         }
-        else
-            good = true;
+        else {
+            good = true; //prep good for y movement
+        }
+
         sprite.move(0.f, v.y);
         for (const auto& wall : walls) {
             if (wall.intersects(sprite.getGlobalBounds())) {
@@ -187,10 +160,12 @@ sf::Vector2f Entity::move(std::vector<sf::FloatRect> walls, float deltaTime)
             }
         }
         if (good) {
-            hpFrame.move(0.f, v.y);
-            hpBar.move(0.f, v.y);
             offset.y = v.y;
         }
+    }
+
+    if(offset.x != 0.f || offset.y != 0.f) {
+        placeHealthbar();
     }
 
     return offset;
@@ -224,8 +199,7 @@ void Entity::unmoveY()
 void Entity::move(sf::Vector2f v)
 {
     sprite.move(v);
-    hpFrame.move(v);
-    hpBar.move(v);
+    placeHealthbar();
 }
 
 Animated_Sprite& Entity::getSprite()
@@ -251,8 +225,7 @@ void Entity::stop()
 void Entity::setPosition(sf::Vector2f pos)
 {
     sprite.setPosition(pos);
-    hpFrame.setPosition(pos);
-    hpBar.setPosition(pos);
+    placeHealthbar();
 }
 
 sf::Vector2f Entity::getVelocity()
@@ -484,4 +457,11 @@ bool Entity::readyToCast()
 const std::string& Entity::getName() const
 {
     return name;
+}
+
+void Entity::placeHealthbar()
+{
+    sf::Vector2f pos = getPosition();
+    pos.y -= sprite.getSize().y * .6;
+    healthbar.setPosition(pos);
 }

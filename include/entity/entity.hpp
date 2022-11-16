@@ -8,6 +8,8 @@
 
 #include <animation/animated_sprite.hpp>
 
+#include <ui/healthbar.hpp>
+
 #include <world/direction.hpp>
 
 #include "damage.hpp"
@@ -89,20 +91,10 @@ protected:
     Entity_State lastState = Entity_State::IDLE;
 
     Animated_Sprite sprite;
-    sf::RectangleShape hpFrame;
-    sf::RectangleShape hpBar;
 
     int casting { -1 };
 
-    //sf::Text levelText;
-    //sf::RectangleShape levelFrame;
-
     sf::Vector2f target { 0.f, 0.f };
-
-    const static sf::Color color_hpGood;
-    const static sf::Color color_hpBad;
-
-    const static sf::Vector2f hpSize;
 
     std::string name;
 
@@ -117,8 +109,6 @@ protected:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void updateHP();
-
     float speed_orthogonal;
     float speed_diagonal;
 
@@ -127,11 +117,6 @@ protected:
     sf::Vector2f velocity;
 
     void setVelocity();
-
-    const static sf::Vector2f spriteSize;
-
-    const static float hpOffset;
-    const static float levelOffset;
 
     void setSpriteDirection();
 
@@ -144,8 +129,6 @@ protected:
 
     Faction faction;
 
-    void prepUI();
-
     std::map<Damage::Type, float> resistance;
 
     bool castFrame = false;
@@ -153,4 +136,8 @@ protected:
     void calculateCastDirection();
 
     bool castLock { false };
+
+    Healthbar healthbar;
+
+    void placeHealthbar();
 };

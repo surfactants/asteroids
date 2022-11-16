@@ -9,6 +9,7 @@ Player::Player() { }
 Player::Player(Entity_Data e, sf::Texture& texture)
     : Entity(e, texture)
 {
+    healthbar.setHidden(true);
 }
 
 void Player::update()

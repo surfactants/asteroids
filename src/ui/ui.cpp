@@ -9,14 +9,15 @@
 UI::UI(Game& game)
     : game { game }, font{ Font_Manager::get(Font::UI) }
 {
-    sf::Color frameColor(0, 0, 0, 110);
-    sf::Color fillColor(130, 16, 16);
+    defineHealthbars();
+}
 
+void UI::defineHealthbars()
+{
     sf::Vector2f pos(16.f, 16.f);
     sf::Vector2f size(256.f, 28.f);
     player_health.setPosition(pos);
     player_health.setSize(size);
-    player_health.setColors(frameColor, fillColor);
 
     pos = sf::Vector2f((1920.f / 2.f), 1000.f);
     size = sf::Vector2f(590.f, 62.f);
@@ -24,7 +25,6 @@ UI::UI(Game& game)
     boss_health.setSize(size);
     boss_health.setFont(font);
     boss_health.setNameText("boss");
-    boss_health.setColors(frameColor, fillColor);
     boss_health.center();
 }
 
@@ -35,6 +35,8 @@ void UI::update()
     for (auto& icon : playerAbilities) {
         icon.update();
     }
+
+    updateHealthbars();
 }
 
 void UI::clickLeft()
@@ -50,19 +52,6 @@ void UI::releaseLeft()
     game.releaseLeft();
 }
 
-void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    for (const auto& icon : playerAbilities) {
-        target.draw(icon, states);
-    }
-
-    target.draw(player_health, states);
-    target.draw(boss_health, states);
-
-    //minimap MUST be drawn last, as it defines its own view
-    target.draw(minimap, states);
-}
-
 void UI::scale(sf::RenderWindow& window)
 {
     minimap.set(sf::Vector2f(window.getSize()));
@@ -71,6 +60,12 @@ void UI::scale(sf::RenderWindow& window)
 void UI::stopInput()
 {
     game.stopInput();
+}
+
+void UI::newLevel()
+{
+    boss_health.setHidden(true);
+    updateHealthbars();
 }
 
 void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
@@ -91,10 +86,8 @@ void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
     }
 }
 
-void UI::newLevel()
-{
-    updateHealthbars();
-}
+void UI::resize(sf::Vector2u windowSize)
+{}
 
 void UI::updateHealthbars()
 {
@@ -104,4 +97,17 @@ void UI::updateHealthbars()
 
     const Player& player = game.getPlayer();
     player_health.update(player.getHPCurrent(), player.getHPMax());
+}
+
+void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    for (const auto& icon : playerAbilities) {
+        target.draw(icon, states);
+    }
+
+    target.draw(player_health, states);
+    target.draw(boss_health, states);
+
+    //minimap MUST be drawn last, as it defines its own view
+    target.draw(minimap, states);
 }
