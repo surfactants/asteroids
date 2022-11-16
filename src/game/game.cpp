@@ -170,3 +170,8 @@ Game_State Game::getState()
 {
     return state;
 }
+
+const Enemy& Game::getBoss()
+{
+    return enemyManager.getBoss();
+}

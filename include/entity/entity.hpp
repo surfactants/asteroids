@@ -25,8 +25,8 @@ public:
 
     sf::Vector2f getPosition();
 
-    int getHPCurrent();
-    int getHPMax();
+    int getHPCurrent() const;
+    int getHPMax() const;
 
     unsigned int getLevel();
 
@@ -80,6 +80,8 @@ public:
     void uncast();
 
     bool readyToCast();
+
+    const std::string& getName() const;
 
 protected:
     Entity_Type type;

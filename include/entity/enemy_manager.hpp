@@ -24,6 +24,8 @@ public:
 
     bool checkFinalBoss();
 
+    const Enemy& getBoss();
+
 private:
     std::vector<Enemy> enemies;
 

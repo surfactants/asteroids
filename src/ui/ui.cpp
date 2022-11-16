@@ -2,11 +2,30 @@
 
 #include <resources/texture_manager.hpp>
 
+#include <resources/font_manager.hpp>
+
 //////////////////////////////////////////////////////////////
 
-UI::UI(Game& ngame)
-    : game { ngame }
+UI::UI(Game& game)
+    : game { game }, font{ Font_Manager::get(Font::UI) }
 {
+    sf::Color frameColor(0, 0, 0, 110);
+    sf::Color fillColor(130, 16, 16);
+
+    sf::Vector2f pos(16.f, 16.f);
+    sf::Vector2f size(256.f, 28.f);
+    player_health.setPosition(pos);
+    player_health.setSize(size);
+    player_health.setColors(frameColor, fillColor);
+
+    pos = sf::Vector2f((1920.f / 2.f), 1000.f);
+    size = sf::Vector2f(590.f, 62.f);
+    boss_health.setPosition(pos);
+    boss_health.setSize(size);
+    boss_health.setFont(font);
+    boss_health.setNameText("boss");
+    boss_health.setColors(frameColor, fillColor);
+    boss_health.center();
 }
 
 void UI::update()
@@ -37,7 +56,10 @@ void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(icon, states);
     }
 
-    //minimap defines its own view, so it must be drawn after anything that uses the main UI view
+    target.draw(player_health, states);
+    target.draw(boss_health, states);
+
+    //minimap MUST be drawn last, as it defines its own view
     target.draw(minimap, states);
 }
 
@@ -54,7 +76,7 @@ void UI::stopInput()
 void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
 {
     playerAbilities.clear();
-    sf::Vector2f pos(8.f, 8.f);
+    sf::Vector2f pos(16.f, 64.f);
     for (const auto& a : abilities) {
         playerAbilities.push_back(Ability_Icon(a));
         playerAbilities.back().setTexture(Texture_Manager::get("ABILITIES"));
@@ -67,4 +89,19 @@ void UI::loadPlayerAbilities(const std::vector<Ability>& abilities)
         playerAbilities.back().setPosition(pos);
         pos.y += 72.f;
     }
+}
+
+void UI::newLevel()
+{
+    updateHealthbars();
+}
+
+void UI::updateHealthbars()
+{
+    const Enemy& boss = game.getBoss();
+    boss_health.setNameText(boss.getName());
+    boss_health.update(boss.getHPCurrent(), boss.getHPMax());
+
+    const Player& player = game.getPlayer();
+    player_health.update(player.getHPCurrent(), player.getHPMax());
 }

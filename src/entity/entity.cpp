@@ -65,12 +65,12 @@ sf::Vector2f Entity::getPosition()
     return sprite.getPosition();
 }
 
-int Entity::getHPCurrent()
+int Entity::getHPCurrent() const
 {
     return hpCurrent;
 }
 
-int Entity::getHPMax()
+int Entity::getHPMax() const
 {
     return hpMax;
 }
@@ -479,4 +479,9 @@ void Entity::checkCast()
 bool Entity::readyToCast()
 {
     return castFrame;
+}
+
+const std::string& Entity::getName() const
+{
+    return name;
 }

@@ -13,7 +13,7 @@
 ///
 class UI : public sf::Drawable {
 public:
-    UI(Game& ngame);
+    UI(Game& game);
 
     void scale(sf::RenderWindow& window);
 
@@ -24,15 +24,25 @@ public:
 
     void stopInput();
 
+    void newLevel();
+
     void loadPlayerAbilities(const std::vector<Ability>& abilities);
 
 protected:
 private:
     Game& game;
+    sf::Font& font;
 
     Minimap minimap;
 
     std::vector<Ability_Icon> playerAbilities;
+
+    UI_Healthbar player_health;
+    UI_Healthbar boss_health;
+
+    void updateHealthbars();
+
+    //enemyInfo (mouseover)
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

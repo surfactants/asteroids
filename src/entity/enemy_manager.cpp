@@ -94,3 +94,8 @@ bool Enemy_Manager::checkFinalBoss()
 {
     return (enemies.back().getState() == Entity_State::DEAD);
 }
+
+const Enemy& Enemy_Manager::getBoss()
+{
+    return enemies.back();
+}

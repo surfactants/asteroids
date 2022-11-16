@@ -47,6 +47,8 @@ public:
 
     Game_State getState();
 
+    const Enemy& getBoss();
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

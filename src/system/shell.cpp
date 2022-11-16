@@ -116,7 +116,7 @@ void Shell::loadNewLevel()
     std::vector<std::string> messages;
 
     //SKIPPING THE FIRST STEP ALLOWS THE RENDERING TO SWAP OVER TO LOADING BEFORE IT BEGINS
-    loads.push_back(std::function<void()>([] { return; }));
+    loads.push_back(std::function<void()>([] {}));
     messages.push_back("...");
 
     loads.push_back(std::bind(&Game::newLevel, &game));
@@ -139,6 +139,9 @@ void Shell::loadNewLevel()
 
     loads.push_back(std::bind(&Game::spawnEnemies, &game));
     messages.push_back("populating...");
+
+    loads.push_back(std::bind(&UI::newLevel, &ui));
+    messages.push_back("prepping ui");
 
     loadingScreen.prepare(loads, messages);
 }
