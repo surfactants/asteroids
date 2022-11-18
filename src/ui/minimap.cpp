@@ -163,3 +163,13 @@ void Minimap::set(sf::Vector2f size)
     line.setOrigin(sf::Vector2f(4.f, lineLength));
     line.setPosition(0.f, 0.f);
 }
+
+sf::Vector2f Minimap::getPosition()
+{
+    return sf::Vector2f(view.getViewport().left, view.getViewport().top);
+}
+
+sf::Vector2f Minimap::getSize()
+{
+    return view.getSize();
+}

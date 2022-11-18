@@ -60,3 +60,23 @@ Tunnel::Tunnel(sf::Vector2i& pos, Direction ndirect)
         nodes.push_back(Node(pos));
     }
 }
+
+Node* Tunnel::startNode()
+{
+    if(nodes.size() == 0) {
+        return nullptr;
+    }
+    else {
+        return &nodes.front();
+    }
+}
+
+Node* Tunnel::endNode()
+{
+    if(nodes.size() == 0) {
+        return nullptr;
+    }
+    else {
+        return &nodes.back();
+    }
+}

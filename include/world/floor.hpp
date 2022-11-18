@@ -32,6 +32,8 @@ public:
 
     std::vector<Room> getRooms();
 
+    std::vector<Door> getDoors();
+
 private:
     /////////////////////////////////////////////////////////////
     /// \brief Tracks the direction of the primary tunnel.
@@ -131,4 +133,6 @@ private:
     float calculateDistanceFactor(int distance, int size);
 
     void updateRooms();
+
+    std::vector<Door> doors;
 };

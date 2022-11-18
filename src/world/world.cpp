@@ -68,6 +68,12 @@ void World::makeFloor()
 
     rooms = floorGen.getRooms();
 
+    std::vector<Door> doors_ = floorGen.getDoors();
+
+    for (const auto& door : doors_) {
+        doors[door.coordinates.x][door.coordinates.y] = std::make_unique<Door>(door);
+    }
+
     for (const auto& room : rooms) {
         std::cout << '\n';
         for (const auto& x : room.floor) {
@@ -290,12 +296,12 @@ bool World::hasDiagonalFloor(sf::Vector2i v)
         || floorMap[v.x + 1][v.y + 1]);
 }
 
-std::map<int, std::map<int, std::unique_ptr<Floor>>>& World::getFloor()
+Map_Tile<Floor>& World::getFloor()
 {
     return floor;
 }
 
-std::map<int, std::map<int, std::unique_ptr<Wall>>>& World::getWalls()
+Map_Tile<Wall>& World::getWalls()
 {
     return walls;
 }
@@ -324,7 +330,15 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 Tile* World::getWall(int x, int y)
 {
-    return walls[x][y].get();
+    if (walls.contains(x) && walls[x].contains(y)) {
+        return walls[x][y].get();
+    }
+    else if (doors.contains(x) && doors[x].contains(y)) {
+        return doors[x][y].get();
+    }
+    else {
+        return nullptr;
+    }
 }
 
 void World::erase()
@@ -332,6 +346,10 @@ void World::erase()
     rooms.clear();
     floor.clear();
     walls.clear();
+    details.clear();
+    hazards.clear();
+    cover.clear();
+    doors.clear();
 }
 
 std::vector<Room>& World::getRooms()

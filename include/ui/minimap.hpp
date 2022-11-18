@@ -14,6 +14,9 @@ public:
     void readBlip(sf::Vector2f pos);
     void set(sf::Vector2f size);
 
+    sf::Vector2f getPosition();
+    sf::Vector2f getSize();
+
 protected:
 private:
     sf::View view;

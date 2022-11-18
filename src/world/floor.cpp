@@ -392,3 +392,8 @@ void Floor_Generator::updateRooms()
         }
     }
 }
+
+std::vector<Door> Floor_Generator::getDoors()
+{
+    return doors;
+}

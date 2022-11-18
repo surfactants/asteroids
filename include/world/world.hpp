@@ -10,6 +10,11 @@
 #include "room.hpp"
 #include "tile.hpp"
 
+template <class T>
+using Map_Tile = std::map<int, std::map<int, std::unique_ptr<T>>>;
+
+//#define Map_Tile(x) std::map<int, std::map<int, std::unique_ptr<x>>>
+
 /////////////////////////////////////////////////////////////
 /// \brief
 ///
@@ -19,8 +24,8 @@ public:
 
     void newLevel();
 
-    std::map<int, std::map<int, std::unique_ptr<Floor>>>& getFloor();
-    std::map<int, std::map<int, std::unique_ptr<Wall>>>& getWalls();
+    Map_Tile<Floor>& getFloor();
+    Map_Tile<Wall>& getWalls();
     Tile* getWall(int x, int y);
 
     void erase();
@@ -40,13 +45,15 @@ public:
     void reset();
 
 private:
-    std::map<int, std::map<int, std::unique_ptr<Wall>>> walls;
-    std::map<int, std::map<int, std::unique_ptr<Floor>>> floor;
+    Map_Tile<Wall> walls;
+    Map_Tile<Floor> floor;
 
-    std::map<int, std::map<int, std::unique_ptr<Detail>>> details;
-    std::map<int, std::map<int, std::unique_ptr<Hazard>>> hazards;
+    Map_Tile<Detail> details;
+    Map_Tile<Hazard> hazards;
 
-    std::map<int, std::map<int, std::unique_ptr<Cover>>> cover;
+    Map_Tile<Cover> cover;
+
+    Map_Tile<Door> doors;
 
     std::map<Faction, Hazard_Data> hazard_data;
 

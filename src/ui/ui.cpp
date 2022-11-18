@@ -4,10 +4,14 @@
 
 #include <resources/font_manager.hpp>
 
+#include <util/vector2_stream.hpp>
+
 //////////////////////////////////////////////////////////////
 
 UI::UI(Game& game)
-    : game { game }, font{ Font_Manager::get(Font::UI) }
+    : game { game }
+    , font{ Font_Manager::get(Font::UI) }
+    , entityInfo{ Font_Manager::get(Font::UI) }
 {
     defineHealthbars();
 }
@@ -39,6 +43,11 @@ void UI::update()
     updateHealthbars();
 }
 
+void UI::setMouseover(Entity* entity)
+{
+    entityInfo.update(entity);
+}
+
 void UI::clickLeft()
 {
     //if ui parses the click then return
@@ -55,6 +64,15 @@ void UI::releaseLeft()
 void UI::scale(sf::RenderWindow& window)
 {
     minimap.set(sf::Vector2f(window.getSize()));
+
+    sf::Vector2f pos = minimap.getPosition();
+    pos.x *= window.getSize().x;
+    pos.y *= window.getSize().y;
+    sf::Vector2f size = minimap.getSize();
+        pos.y += size.y + 8.f;
+    //size.y = 320.f;
+
+    entityInfo.set(pos, size);
 }
 
 void UI::stopInput()
@@ -107,6 +125,8 @@ void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
     target.draw(player_health, states);
     target.draw(boss_health, states);
+
+    target.draw(entityInfo, states);
 
     //minimap MUST be drawn last, as it defines its own view
     target.draw(minimap, states);

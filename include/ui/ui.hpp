@@ -30,6 +30,8 @@ public:
 
     void resize(sf::Vector2u windowSize);
 
+    void setMouseover(Entity* entity);
+
 private:
     Game& game;
     sf::Font& font;
@@ -41,10 +43,10 @@ private:
     UI_Healthbar player_health;
     UI_Healthbar boss_health;
 
+    Entity_Mouseover entityInfo;
+
     void defineHealthbars();
     void updateHealthbars();
-
-    //enemyInfo (mouseover)
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

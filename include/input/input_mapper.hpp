@@ -7,12 +7,9 @@
 #include "input_package.hpp"
 #include "mouse_event.hpp"
 
-/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 /// \brief A visual interface for remapping controls.
-///
-
-//recommend running checkMouse() every frame, for post-selection hovers
-
+//
 /* PUBLIC METHODS *****************************************************************
  *
  * Input_Mapper()
@@ -57,9 +54,8 @@
  * void setSelectColor(const sf::Color& color)
  *     for selected rows
  *
- **********************************************************************************/
-
-/* EXAMPLE ************************************************************************
+ *
+ * EXAMPLE ************************************************************************
  *
  * Input_Mapper input_mapper();
  * input_mapper.setPosition(sf::Vector2f(128.f, 128.f));
@@ -91,6 +87,7 @@ public:
 
     void setPosition(sf::Vector2f pos);
 
+    //recommend running checkMouse() every frame, for post-selection hovers
     bool checkMouse(sf::Vector2f mpos);
 
     bool clickLeft();

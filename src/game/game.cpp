@@ -10,6 +10,8 @@
 
 const float Game::endThreshold = 3.f;
 
+const float Game::interactThreshold = 64.f;
+
 Game::Game(sf::RenderWindow& nwindow, sf::View& nview)
     : window { nwindow }
     , view { nview }
@@ -174,4 +176,22 @@ Game_State Game::getState()
 const Enemy& Game::getBoss()
 {
     return enemyManager.getBoss();
+}
+
+Entity* Game::mousedEntity(sf::Vector2f mpos)
+{
+    if(player.getSprite().getGlobalBounds().contains(mpos)) {
+        return &player;
+    }
+    else {
+        std::vector<Enemy>& enemies = enemyManager.getEnemies();
+        size_t n = enemies.size();
+        for (size_t e = 0; e < n; e++) {
+            if(enemies[e].getSprite().getGlobalBounds().contains(mpos)) {
+                return &enemies[e];
+            }
+        }
+    }
+
+    return nullptr;
 }

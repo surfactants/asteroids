@@ -182,11 +182,13 @@ Entity_Data Database::readEntity(sqlite3_stmt* statement)
     Entity_Data d;
     //base data
     //name text
+    //description text
     //faction text
     //type text
     //speed double
 
     d.name = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
+    d.description = reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
     d.faction = stringToFaction(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
     d.type = stringToEntityType(reinterpret_cast<const char*>(sqlite3_column_text(statement, column++)));
     d.speed = sqlite3_column_double(statement, column++);

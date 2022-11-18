@@ -12,6 +12,7 @@
 Entity::Entity(Entity_Data& data, sf::Texture& texture)
 {
     name = data.name;
+    description = data.description;
 
     velocity = sf::Vector2f(0.f, 0.f);
     speed_orthogonal = data.speed;
@@ -457,6 +458,11 @@ bool Entity::readyToCast()
 const std::string& Entity::getName() const
 {
     return name;
+}
+
+const std::string& Entity::getDescription() const
+{
+    return description;
 }
 
 void Entity::placeHealthbar()

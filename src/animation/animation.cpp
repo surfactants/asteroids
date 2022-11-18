@@ -55,5 +55,6 @@ unsigned int Animation::transitionFrom()
 sf::IntRect Animation::transitionTo(unsigned int frame)
 {
     currentFrame = frame;
+    //if it's crashing here, double check the database...
     return frames[currentFrame];
 }

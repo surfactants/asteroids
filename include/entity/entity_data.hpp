@@ -27,7 +27,8 @@ std::string entityTypeToString(Entity_Type e);
 Entity_Type stringToEntityType(std::string s);
 
 struct Entity_Data {
-    std::string name {};
+    std::string name;
+    std::string description;
     Faction faction;
     float speed;
     Entity_Type type;

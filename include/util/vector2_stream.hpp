@@ -15,7 +15,8 @@ std::ostream& operator<<(std::ostream& os, sf::Vector2<T> v)
     return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, sf::IntRect r)
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, sf::Rect<T> r)
 {
     os << r.left << ", " << r.top << "; " << r.width << ", " << r.height;
     return os;

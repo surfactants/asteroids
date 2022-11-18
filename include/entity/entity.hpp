@@ -84,6 +84,7 @@ public:
     bool readyToCast();
 
     const std::string& getName() const;
+    const std::string& getDescription() const;
 
 protected:
     Entity_Type type;
@@ -97,6 +98,7 @@ protected:
     sf::Vector2f target { 0.f, 0.f };
 
     std::string name;
+    std::string description;
 
     std::vector<Ability> abilities;
 

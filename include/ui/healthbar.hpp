@@ -33,7 +33,7 @@ private:
 
 class UI_Healthbar : public Healthbar {
 public:
-    UI_Healthbar() : Healthbar() {}
+    UI_Healthbar();
 
     void setFont(const sf::Font& font);
 
@@ -45,7 +45,6 @@ public:
 private:
     sf::Text nameText;
     sf::Text levelText;
-    sf::Text healthText;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

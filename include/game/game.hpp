@@ -49,6 +49,8 @@ public:
 
     const Enemy& getBoss();
 
+    Entity* mousedEntity(sf::Vector2f mpos);
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -88,4 +90,6 @@ private:
     AI ai;
 
     Game_State state { Game_State::PEACE };
+
+    const static float interactThreshold; //distance at which a player can interact with something
 };

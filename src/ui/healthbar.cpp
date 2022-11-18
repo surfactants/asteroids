@@ -1,5 +1,7 @@
 #include <ui/healthbar.hpp>
 
+#include <resources/palette.hpp>
+
 #include <util/primordial.hpp>
 
 Healthbar::Healthbar()
@@ -69,11 +71,17 @@ void Healthbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 //////////////////////////////////////////////////////////////////////////
 
+UI_Healthbar::UI_Healthbar() :
+    Healthbar()
+{
+    nameText.setFillColor(palette::white);
+    levelText.setFillColor(palette::white);
+}
+
 void UI_Healthbar::setFont(const sf::Font& font)
 {
     nameText.setFont(font);
     levelText.setFont(font);
-    healthText.setFont(font);
 }
 
 void UI_Healthbar::setNameText(std::string str)
@@ -101,6 +109,5 @@ void UI_Healthbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
         target.draw(nameText, states);
         target.draw(levelText, states);
-        target.draw(healthText, states);
     }
 }

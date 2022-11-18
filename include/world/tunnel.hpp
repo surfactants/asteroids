@@ -22,6 +22,9 @@ struct Tunnel {
     ///
     std::vector<Node> nodes;
 
+    Node* startNode();
+    Node* endNode();
+
     /////////////////////////////////////////////////////////////
     /// \brief The primary direction of the tunnel.
     ///
