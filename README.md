@@ -9,3 +9,5 @@ features:
   *  animated sprites
   *  data-driven design (using [json-to-sqlite](https://github.com/surfactants/json-to-sqlite))
   *  key remapping
+
+this project is no longer active. it was forked, gutted, and turned into [farmsim](https://github.com/surfactants/json-to-sqlite)
